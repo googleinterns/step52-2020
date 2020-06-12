@@ -50,8 +50,7 @@
         <artifactId>appengine-maven-plugin</artifactId>
         <version>2.2.0</version>
         <configuration>
-          <deploy.projectId>covid-catchers-fixed-gcp
-</deploy.projectId>
+          <deploy.projectId>covid-catchin-code</deploy.projectId>
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
