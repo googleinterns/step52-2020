@@ -1,13 +1,53 @@
-h1 {  
-  color: rgba(43, 141, 190, 1);
-  text-align: center;
+body, html {
+  height: 100%;
+  margin: 0;
+  color: #fefff2;
 }
-p {
-  color: rgba(43, 142, 190, 1);
-  text-align: center;
+
+h1, p, a {
+  margin: 0;
 }
-a {
-  color: rgba(43, 142, 190, 1);
+
+div {
+ /* center text */
+  position: fixed;
+  width: 100%;
   text-align: center;
 }
 
+#wrapper {
+  /* Display image as background */
+  background-image: url("images/world.png");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#title {
+  top: 20%;
+  font-size: 5rem;
+}
+
+#intro {
+  top: 40%;
+  font-size: 4rem;
+}
+
+#buttons {
+  top: 55%;
+  font-size: 4rem;
+}
+
+#buttons a {
+  /* Make blue button */
+  background: #116dff;
+  padding: 2rem;
+  border-radius: 5rem;
+
+  /* spacing between buttons */
+  margin: 1rem;
+
+  /* define anchor color and remove underline */
+  color: #fefff2;
+  text-decoration:none;
+}
