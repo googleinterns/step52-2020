@@ -24,17 +24,19 @@ div {
   background-size: cover;
 }
 #title {
-  top: 20%;
+  top: 10%;
   font-size: 5rem;
 }
 
 #intro {
-  top: 40%;
-  font-size: 4rem;
+  top: 30%;
+  right: 20%;
+  width: 60%;
+  font-size: 3rem;
 }
 
 #buttons {
-  top: 55%;
+  top: 65%;
   font-size: 4rem;
 }
 
@@ -44,7 +46,7 @@ div {
   padding: 2rem;
   border-radius: 5rem;
   /* spacing between buttons */
-  margin: 1rem;
+  margin: 2rem;
   /* define anchor color and remove underline */
   color: #fefff2;
   text-decoration:none;
