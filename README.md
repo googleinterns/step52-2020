@@ -1,8 +1,9 @@
-This directory is where you'll write all of your code!
+This project is designed to assist with contact tracing.
 
-By default it contains a barebones web app. To run a local server, execute this
-command:
+To run a local server, execute this command:
 
 ```bash
 mvn package appengine:run
 ```
+
+https://covid-catchin-code.wm.r.appspot.com
