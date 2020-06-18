@@ -43,10 +43,8 @@ div {
   background: #116dff;
   padding: 2rem;
   border-radius: 5rem;
-
   /* spacing between buttons */
   margin: 1rem;
-
   /* define anchor color and remove underline */
   color: #fefff2;
   text-decoration:none;
