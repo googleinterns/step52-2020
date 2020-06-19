@@ -6,4 +6,5 @@ To run a local server, execute this command:
 mvn package appengine:run
 ```
 
+You can find the current version of this project at:
 https://covid-catchin-code.wm.r.appspot.com
