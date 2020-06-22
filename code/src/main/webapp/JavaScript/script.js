@@ -4,7 +4,7 @@ class LandingPage {
   }
 
   show() {
-    // do nothing for now
+    this.background.classList.add("landing-background");
   }
 
   hide() {
@@ -22,7 +22,7 @@ class LoginPage {
   }
 
   hide() {
-    // do nothing for now
+    this.background.classList.remove("login-background");
   }
 }
 
@@ -30,11 +30,11 @@ class PageController {
   constructor () {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
-    this.currentlyShown = "none";
+    this.currentlyShown = undefined;
   }
 
   hideCurrentPage() {
-    if (this.currentlyShown != "none") {
+    if (this.currentlyShown != undefined) {
       this.currentlyShown.hide()
     }
   }
