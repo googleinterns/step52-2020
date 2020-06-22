@@ -5,7 +5,7 @@
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="stylesheet" href="./CSS/style.css">
    <script src="JavaScript/script.js"></script>
-   <title>Online Contact Tracing</title>
+   <title></title>
 </head>
 <body>
   <div id="wrapper-background" class="landing-background">
@@ -25,9 +25,13 @@
       </p>
     </div>
     <div id="blue-buttons-to-procede">
-      <button id="button-left-or-top" onClick="TransitionFromLandingToLogin()"> I’ve tested positive </button>
+      <button id="button-left-or-top" onClick="PAGE_CONTROLLER.show('login')"> I’ve tested positive </button>
       <button id="button-right-or-bot"> I’d like to be alerted </button>
     </div>
   </div>
+  <script>
+    const PAGE_CONTROLLER = new PageController();
+    PAGE_CONTROLLER.show('landing');
+  </script>
 </body>
 </html>
