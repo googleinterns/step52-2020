@@ -32,6 +32,9 @@
   <script>
     const PAGE_CONTROLLER = new PageController();
     PAGE_CONTROLLER.show('landing');
+    window.onpopstate = function(event) {
+      PAGE_CONTROLLER.show(event.state.page);
+    }
   </script>
 </body>
 </html>

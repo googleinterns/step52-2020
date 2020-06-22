@@ -44,17 +44,15 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        history.pushState('', 'Online Contact Tracing', pageToShow);
+        history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
         this.landingPage.show();
         this.currentlyShown = this.landingPage;
         break;
       case "login":
-        history.pushState('', 'Login', pageToShow);
+        history.pushState({page: pageToShow}, 'Login', pageToShow);
         this.loginPage.show();
         this.currentlyShown = this.loginPage;
         break;
     }
   }
 }
-
-
