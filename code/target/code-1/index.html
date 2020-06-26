@@ -4,11 +4,37 @@
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="stylesheet" href="./CSS/style.css">
-   <title>First JSP</title>
+   <script src="JavaScript/script.js"></script>
+   <title></title>
 </head>
 <body>
-   <h1>Well, life goes on ... </h1>
-   <p>(0.16450910536318764)</p>
-   <a href="./JSP/test.jsp"><h3>Try Again</h3></a>
+  <div id="wrapper-background" class="landing-background">
+    <div id="line-vertical-left" class="line line-vertical"></div>
+    <div id="line-vertical-right" class="line line-vertical"></div>
+    <div id="line-horizontal-top" class="line line-horizontal"></div>
+    <div id="line-horizontal-bottom" class="line line-horizontal"></div>
+    <div id="title">
+      <h1> Welcome </h1>
+    </div>
+    <div id="mision-statement">
+      <p> We are here to help with contact tracing!
+          If you have tested positive, we can help identify people
+          and places that you could have come in contact with.
+          We can also help if you are here to be notified of any possible contact
+          we someone who has tested positive.
+      </p>
+    </div>
+    <div id="blue-buttons-to-procede">
+      <button id="button-left-or-top" onClick="PAGE_CONTROLLER.show('login')"> I’ve tested positive </button>
+      <button id="button-right-or-bot"> I’d like to be alerted </button>
+    </div>
+  </div>
+  <script>
+    const PAGE_CONTROLLER = new PageController();
+    PAGE_CONTROLLER.show('landing');
+    window.onpopstate = function(event) {
+      PAGE_CONTROLLER.show(event.state.page);
+    }
+  </script>
 </body>
 </html>

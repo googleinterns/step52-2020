@@ -4,8 +4,16 @@ body, html {
   color: #222;
 }
 
-h1, p, a {
+h1{
   margin: 0;
+  color:#02afdb;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
+}
+
+p, a {
+  margin: 0;
+  color:#02afdb;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
 }
 
 div {
@@ -18,12 +26,12 @@ div {
   height:100%;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 120% 100%;
+  background-size: 100% 100%;
   transition: 1s background linear;
 }
 
 .landing-background {
-  background-image: url("images/background-landing.svg");
+  background-image: url("images/landing-bg-med-blue.svg");
 }
 
 .landing-background .line {
@@ -95,18 +103,18 @@ div {
 }
 
 #blue-buttons-to-procede button {
-  background: #116dff;
+  background: #E5FFFF;
   padding: 2rem;
   border-radius: 5rem;
   margin: 2rem;
-  color: #f1f1f1;
+  color: #02afdb;
   text-decoration: none;
   border: none;
   font-size: 3vw;
 }
 
 #blue-buttons-to-procede button:hover {
-  box-shadow: 0 0 2rem #116dff88;
+  box-shadow: 0 0 2rem #02afdb;
 }
 
 @media only screen and (max-width: 1000px){
