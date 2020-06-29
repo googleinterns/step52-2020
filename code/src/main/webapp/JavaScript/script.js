@@ -30,13 +30,11 @@ class PageController {
   constructor () {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
-    this.currentlyShown = undefined;
+    this.currentlyShown = this.landingPage;
   }
 
   hideCurrentPage() {
-    if (this.currentlyShown != undefined) {
-      this.currentlyShown.hide()
-    }
+    this.currentlyShown.hide();
   }
 
   show(pageToShow) {
@@ -54,5 +52,18 @@ class PageController {
         this.currentlyShown = this.loginPage;
         break;
     }
+  }
+}
+
+function LoadPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const page = urlParams.get('page');
+  if (page == null) {
+    PAGE_CONTROLLER.show('landing');
+  } else {
+    PAGE_CONTROLLER.show(page);
+  }
+  window.onpopstate = function(event) {
+    PAGE_CONTROLLER.show(event.state.page);
   }
 }
