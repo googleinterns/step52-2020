@@ -4,18 +4,11 @@ body, html {
   color: #222;
 }
 
-h1{
+h1, p, a {
   margin: 0;
   color:#3293d3;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
-  font-size: 8vw;
-}
-
-p, a {
-  margin: 0;
-  color:#3293d3;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
-  font-size: 2vw;
+  /* font-size: 8vw; */
 }
 
 div {
@@ -33,7 +26,7 @@ div {
 }
 
 .landing-background {
-  background-image: url("images/landing-bg-med-blue.svg");
+  background-image: url("images/background-landing-blue.svg");
 }
 
 .landing-background .line {
@@ -42,11 +35,11 @@ div {
 }
 
 .login-background {
-  background-image: url("images/background-login.svg");
+  background-image: url("images/background-login-blue.svg");
 }
 
 .line {
-  background: #8bccf4;
+  background: #3293d3;
 }
 
 .line-vertical {
@@ -93,11 +86,12 @@ div {
   font-size: 2.5rem;
 }
 
-/* @media only screen and (max-width: 1200px) and (min-width: 900px) {
+@media only screen and (max-width: 2500px) and (min-width: 900px) {
   #mission-statement {
-   font-size: 2rem;
+   /* font-size: 2rem; */
+   font-size: 3vw;
   }
-} */
+}
 
 #blue-buttons-to-procede {
   top: 60%;
