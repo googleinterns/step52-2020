@@ -56,3 +56,16 @@ class PageController {
     }
   }
 }
+
+function LoadPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const page = urlParams.get('page');
+  if (page == null) {
+    PAGE_CONTROLLER.show('landing');
+  } else {
+    PAGE_CONTROLLER.show(page);
+  }
+  window.onpopstate = function(event) {
+    PAGE_CONTROLLER.show(event.state.page);
+  }
+}
