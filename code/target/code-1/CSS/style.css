@@ -5,17 +5,17 @@ body, html {
 }
 
 h1{
-  font-size: 8vw;
   margin: 0;
-  color:#02afdb;
+  color:#3293d3;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
+  font-size: 8vw;
 }
 
 p, a {
-  font-size: 3vw;
   margin: 0;
-  color:#02afdb;
+  color:#3293d3;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
+  font-size: 2vw;
 }
 
 div {
@@ -46,7 +46,7 @@ div {
 }
 
 .line {
-  background: #a3c4f7;
+  background: #8bccf4;
 }
 
 .line-vertical {
@@ -81,42 +81,41 @@ div {
   transition-delay: 1.2s
 }
 
-
 #title {
   top: 10%;
   font-size: 5rem;
 }
 
-#mision-statement {
+#mission-statement {
   top: 30%;
   left: 20%;
   width: 60%;
   font-size: 2.5rem;
 }
 
-@media only screen and (max-width: 1200px) and (min-width: 900px) {
-  #mision-statement {
+/* @media only screen and (max-width: 1200px) and (min-width: 900px) {
+  #mission-statement {
    font-size: 2rem;
   }
-}
+} */
 
 #blue-buttons-to-procede {
   top: 60%;
 }
 
 #blue-buttons-to-procede button {
-  background: #E5FFFF;
+  background: #ffffff;
   padding: 2rem;
   border-radius: 5rem;
   margin: 2rem;
-  color: #02afdb;
+  color: #55a8db;
   text-decoration: none;
   border: none;
   font-size: 3vw;
 }
 
 #blue-buttons-to-procede button:hover {
-  box-shadow: 0 0 2rem #02afdb;
+  box-shadow: 0 0 2rem #8bccf4;
 }
 
 @media only screen and (max-width: 1000px){
