@@ -30,11 +30,13 @@ class PageController {
   constructor () {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
-    this.currentlyShown = this.landingPage;
+    this.currentlyShown = undefined;
   }
 
   hideCurrentPage() {
-    this.currentlyShown.hide();
+    if (this.currentlyShown != undefined) {
+      this.currentlyShown.hide()
+    }
   }
 
   show(pageToShow) {
