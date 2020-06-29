@@ -47,11 +47,25 @@ class PageController {
         history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
         this.landingPage.show();
         this.currentlyShown = this.landingPage;
+
+        var numLandingElements = document.getElementsByClassName("landing").length
+        var landingElements = document.getElementsByClassName("landing");
+        for (var index = 0; index < numLandingElements; index++) {
+          landingElements[index].classList.remove("hidden");
+        }
+
         break;
       case "login":
         history.pushState({page: pageToShow}, 'Login', pageToShow);
         this.loginPage.show();
         this.currentlyShown = this.loginPage;
+
+        var numLandingElements = document.getElementsByClassName("landing").length
+        var landingElements = document.getElementsByClassName("landing");
+        for (var index = 0; index < numLandingElements; index++) {
+          landingElements[index].classList.add("hidden");
+        }
+
         break;
     }
   }

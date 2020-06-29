@@ -4,18 +4,10 @@ body, html {
   color: #222;
 }
 
-h1 {
+h1, p, a {
   margin: 0;
   color:#3293d3;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
-  font-size: 12vmin;
-}
-
-p, a {
-  margin: 0;
-  color:#3293d3;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
-  font-size: 4vmin;
 }
 
 div {
@@ -81,13 +73,14 @@ div {
   transition-delay: 1.2s
 }
 
-#title {
-  top: 15%;
-  font-size: 5rem;
+#welcome {
+  top: 10%;
+  font-size: 7vmin;
 }
 
 #mission-statement {
-  top: 35%;
+  top: 30%;
+  font-size: 4vmin;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -114,7 +107,7 @@ div {
 } 
 
 #blue-buttons-to-procede {
-  top: 65%;
+  top: 60%;
 }
 
 #blue-buttons-to-procede button {
@@ -144,4 +137,8 @@ div {
     top: 71%;
     right: 30%;
   }
+}
+
+.hidden {
+  display: none;
 }
