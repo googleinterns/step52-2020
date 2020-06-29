@@ -82,21 +82,15 @@ div {
 }
 
 #title {
-  top: 10%;
+  top: 15%;
   font-size: 5rem;
 }
 
 #mission-statement {
-  top: 30%;
-  /* left: 10%; */
-  /*right: 20%; */
-  /* text-align: center; */
-  /*Why does text-align not work?*/
-  /* width: 80%; */
-  /* font-size: 2.5rem; */
+  top: 35%;
 }
 
-@media only screen and (max-width: 2512px) and (min-width: 1200px) {
+@media only screen and (min-width: 1200px) {
   #mission-statement {
    left: 15%;
    width: 70%;
@@ -112,16 +106,15 @@ div {
   }
 }
 
-@media only screen and (max-width: 900px) and (min-width: 0px) {
+@media only screen and (max-width: 900px) {
   #mission-statement {
-   left: 5%;
-   width: 90%;
-   
+   left: 2.5%;
+   width: 95%; 
   }
 } 
 
 #blue-buttons-to-procede {
-  top: 60%;
+  top: 65%;
 }
 
 #blue-buttons-to-procede button {
@@ -142,13 +135,13 @@ div {
 @media only screen and (max-width: 1000px){
   #button-left-or-top {
     position:fixed;
-    top: 52%;
+    top: 60%;
     right: 30%;
   }
 
   #button-right-or-bot {
     position:fixed;
-    top: 63%;
+    top: 71%;
     right: 30%;
   }
 }
