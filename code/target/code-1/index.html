@@ -8,7 +8,7 @@
    <title></title>
 </head>
 <body>
-  <div id="wrapper-background" class="landing-background">
+  <div id="wrapper-background">
     <div id="line-vertical-left" class="line line-vertical"></div>
     <div id="line-vertical-right" class="line line-vertical"></div>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
@@ -31,10 +31,7 @@
   </div>
   <script>
     const PAGE_CONTROLLER = new PageController();
-    PAGE_CONTROLLER.show('landing');
-    window.onpopstate = function(event) {
-      PAGE_CONTROLLER.show(event.state.page);
-    }
+    LoadPage();
   </script>
   
 </body>
