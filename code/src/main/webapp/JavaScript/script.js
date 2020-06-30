@@ -98,3 +98,10 @@ function LoadPage() {
   }
 }
 
+function googleLogIn() {
+  window.location = "../html/tested-positive.html";
+}
+
+function backToLogin() {
+  window.location = "/landing";
+}

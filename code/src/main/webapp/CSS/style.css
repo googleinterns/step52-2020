@@ -89,11 +89,11 @@ div {
 }
 
 #mission-statement {
-  top: 30%;
+  top: 29%;
   font-size: 4vmin;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1900px) {
   #mission-statement {
    left: 15%;
    width: 70%;
@@ -101,7 +101,16 @@ div {
   }
 }
 
-@media only screen and (max-width: 1200px) and (min-width: 900px) {
+
+@media only screen and (max-width: 1900px) and (min-width: 1400px) {
+  #mission-statement {
+   left: 10%;
+   width: 80%;
+   /*want a better solution than this "hardcoding"*/
+  }
+}
+
+@media only screen and (max-width: 1400px) and (min-width: 900px) {
   #mission-statement {
    left: 7.5%;
    width: 85%;
