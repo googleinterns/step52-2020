@@ -48,8 +48,8 @@ class PageController {
         this.landingPage.show();
         this.currentlyShown = this.landingPage;
 
-        var dict = {"landing" : true, "login" : false};
-        this.changeHiddenStatus(dict);
+        var listOfClassesHiddenStatus = {"landing" : false, "login" : true};
+        this.setHiddenStatus(listOfClassesHiddenStatus);
 
         break;
       case "login":
@@ -57,34 +57,30 @@ class PageController {
         this.loginPage.show();
         this.currentlyShown = this.loginPage;
 
-        var dict = {"landing" : false, "login" : true};
-        this.changeHiddenStatus(dict);
+        var listOfClassesHiddenStatus = {"landing" : true, "login" : false};
+        this.setHiddenStatus(listOfClassesHiddenStatus);
 
         break;
     }
   }
 
-  changeHiddenStatus(dict) {
+  setHiddenStatus(listOfClassesHiddenStatus) {
     var numElements;
     var elements;
-    var shouldRemoveHidden;
+    var isHidden;
 
-    for (const [k, v] of Object.entries(dict)) {
-      numElements = document.getElementsByClassName(k).length
-      elements = document.getElementsByClassName(k);
-      shouldRemoveHidden = dict[k];
-      // alert(k);
-      // alert(dict[k]);
+    for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
+      numElements = document.getElementsByClassName(key).length
+      elements = document.getElementsByClassName(key);
+      isHidden = value;
       for (var index = 0; index < numElements; index++) {
-        if (shouldRemoveHidden) {
-          elements[index].classList.remove("hidden");
-        } else {
+        if (isHidden) {
           elements[index].classList.add("hidden");
+        } else {
+          elements[index].classList.remove("hidden");
         }
       }
     }
-
-
   }
 
 }
