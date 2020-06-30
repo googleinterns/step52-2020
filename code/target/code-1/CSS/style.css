@@ -8,6 +8,7 @@ h1, p, a {
   margin: 0;
   color:#3293d3;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
+  font-family: Muli;
 }
 
 div {
@@ -35,6 +36,10 @@ div {
 
 .login-background {
   background-image: url("images/background-login-blue.svg");
+}
+
+.login {
+  top: 30%;
 }
 
 .line {
@@ -106,7 +111,7 @@ div {
   }
 } 
 
-#blue-buttons-to-procede {
+.landing-background #blue-buttons-to-procede {
   top: 60%;
 }
 
@@ -138,6 +143,7 @@ div {
     right: 30%;
   }
 }
+
 
 .hidden {
   display: none;

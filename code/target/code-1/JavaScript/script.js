@@ -48,11 +48,8 @@ class PageController {
         this.landingPage.show();
         this.currentlyShown = this.landingPage;
 
-        var numLandingElements = document.getElementsByClassName("landing").length
-        var landingElements = document.getElementsByClassName("landing");
-        for (var index = 0; index < numLandingElements; index++) {
-          landingElements[index].classList.remove("hidden");
-        }
+        var dict = {"landing" : true, "login" : false};
+        this.changeHiddenStatus(dict);
 
         break;
       case "login":
@@ -60,16 +57,39 @@ class PageController {
         this.loginPage.show();
         this.currentlyShown = this.loginPage;
 
-        var numLandingElements = document.getElementsByClassName("landing").length
-        var landingElements = document.getElementsByClassName("landing");
-        for (var index = 0; index < numLandingElements; index++) {
-          landingElements[index].classList.add("hidden");
-        }
+        var dict = {"landing" : false, "login" : true};
+        this.changeHiddenStatus(dict);
 
         break;
     }
   }
+
+  changeHiddenStatus(dict) {
+    var numElements;
+    var elements;
+    var shouldRemoveHidden;
+
+    for (const [k, v] of Object.entries(dict)) {
+      numElements = document.getElementsByClassName(k).length
+      elements = document.getElementsByClassName(k);
+      shouldRemoveHidden = dict[k];
+      // alert(k);
+      // alert(dict[k]);
+      for (var index = 0; index < numElements; index++) {
+        if (shouldRemoveHidden) {
+          elements[index].classList.remove("hidden");
+        } else {
+          elements[index].classList.add("hidden");
+        }
+      }
+    }
+
+
+  }
+
 }
+
+
 
 function LoadPage() {
   const urlParams = new URLSearchParams(window.location.search);
