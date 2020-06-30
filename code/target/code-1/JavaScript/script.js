@@ -85,8 +85,6 @@ class PageController {
 
 }
 
-
-
 function LoadPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get('page');
@@ -100,3 +98,10 @@ function LoadPage() {
   }
 }
 
+function googleLogIn() {
+  window.location = "../html/tested-positive.html";
+}
+
+function backToLogin() {
+  window.location = "/landing";
+}

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Muli;
+  src: url(./fonts/Muli-VariableFont_wght.ttf);
+}
+
 body, html {
   height: 100%;
   margin: 0;
@@ -8,6 +13,7 @@ h1, p, a {
   margin: 0;
   color:#3293d3;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
+  font-family: Muli;
 }
 
 div {
@@ -123,6 +129,7 @@ div {
   text-decoration: none;
   border: none;
   font-size: 3vw;
+  font-family: Muli;
 }
 
 #blue-buttons-to-procede button:hover {
@@ -141,6 +148,20 @@ div {
     top: 71%;
     right: 30%;
   }
+}
+
+#back {
+  
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 2rem;
+  margin: 1rem;
+  color: #55a8db;
+  text-decoration: none;
+  border: none;
+  font-size: 1vw;
+  position: fixed;
+  
 }
 
 .hidden {
