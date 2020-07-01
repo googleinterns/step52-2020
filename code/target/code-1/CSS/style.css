@@ -177,10 +177,26 @@ div {
   background-size: 100% 100%;
   transition: 1s background linear;
   background-image: url("images/background-login-blue.svg");
+  /* text-align:center; */
 }
 
-#faq {
-  top: 20%;
+.faq {
+  width:80%;
+  text-align:center;
+  background-color: #dceef7
+}
+
+#faq-q1 {
+  top: 10%;
+  text-align:center;
+}
+.faq-answers {
+  font-size: 1vw;
+  width: 60%;
+}
+.faq-questions {
+  font-size: 2vw;
+  width: 50%;
 }
 
 .hidden {
