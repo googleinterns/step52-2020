@@ -17,18 +17,17 @@ div {
   width: 100%;
 }
 
-.faq {
-  text-align: center;
+.FAQ {
   background-color: #dceef7;
   width: 80%;
 }
 
-.faq-answers {
+.FAQ-answers {
   font-size: 1vw;
   width: 60%;
 }
 
-.faq-questions {
+.FAQ-questions {
   font-size: 2vw;
   width: 50%;
 }
@@ -38,7 +37,7 @@ div {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  height:100%;
+  height: 100%;
   transition: 1s background linear;
 }
 
@@ -99,6 +98,21 @@ div {
   box-shadow: 0 0 2rem #8bccf4;
 }
 
+#FAQ-button {
+  background: #ffffff;
+  border-color: #025696;
+  border-radius: 3rem;
+  color: #55a8db;
+  font-size: 1vw;
+  margin: 1rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+#FAQ-q1 {
+  top: 10%;
+}
+
 #line-horizontal-bottom {
   top: 84%;
   transition-delay: 1.2s
@@ -137,22 +151,6 @@ div {
   transition: 1s background linear;
 }
 
-#faq-button {
-  background: #ffffff;
-  border: none;
-  border-radius: 3rem;
-  color: #55a8db;
-  font-size: 1vw;
-  margin: 1rem;
-  padding: 1rem;
-  text-decoration: none;
-}
-
-#faq-q1 {
-  text-align: center;
-  top: 10%;
-}
-
 @font-face {
   font-family: Muli;
   src: url(./fonts/Muli-VariableFont_wght.ttf);
@@ -182,7 +180,6 @@ div {
   #mission-statement {
    left: 7.5%;
    width: 85%;
-   /*want a better solution than this "hardcoding"*/
   }
 }
 
@@ -191,7 +188,6 @@ div {
   #mission-statement {
    left: 10%;
    width: 80%;
-   /*want a better solution than this "hardcoding"*/
   }
 }
 
@@ -200,6 +196,5 @@ div {
   #mission-statement {
    left: 15%;
    width: 70%;
-   /*want a better solution than this "hardcoding"*/
   }
 }
