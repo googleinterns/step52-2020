@@ -84,7 +84,7 @@ div {
 
 #blue-buttons-to-procede button {
   background: #ffffff;
-  border: none;
+  border: 8px solid #025696;
   border-radius: 5rem;
   color: #55a8db;
   font-family: Muli;
@@ -100,7 +100,7 @@ div {
 
 #FAQ-button {
   background: #ffffff;
-  border-color: #025696;
+  border: none;
   border-radius: 3rem;
   color: #55a8db;
   font-size: 1vw;
