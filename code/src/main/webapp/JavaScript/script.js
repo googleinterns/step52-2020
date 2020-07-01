@@ -44,24 +44,26 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
-        this.landingPage.show();
-        this.currentlyShown = this.landingPage;
-
         var listOfClassesHiddenStatus = {"landing" : false, "login" : true};
-        this.setHiddenStatus(listOfClassesHiddenStatus);
-
+        this.setPageState("landing", this.landingPage, pageToShow, listOfClassesHiddenStatus)
         break;
       case "login":
-        history.pushState({page: pageToShow}, 'Login', pageToShow);
-        this.loginPage.show();
-        this.currentlyShown = this.loginPage;
-
         var listOfClassesHiddenStatus = {"landing" : true, "login" : false};
-        this.setHiddenStatus(listOfClassesHiddenStatus);
-
+        this.setPageState("login", this.loginPage, pageToShow, listOfClassesHiddenStatus)
         break;
     }
+  }
+
+  setPageState(whichPage, thisPage, pageToShow,  listOfClassesHiddenStatus){
+    if(whichPage === "landing") {
+      history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
+    }
+    else if(whichPage === "login") {
+        history.pushState({page: pageToShow}, 'Login', pageToShow);
+    }
+    thisPage.show();
+    this.currentlyShown = thisPage;
+    this.setHiddenStatus(listOfClassesHiddenStatus);
   }
 
   setHiddenStatus(listOfClassesHiddenStatus) {
