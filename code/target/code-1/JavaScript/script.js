@@ -105,3 +105,7 @@ function googleLogIn() {
 function backToLogin() {
   window.location = "/landing";
 }
+
+function getFAQ() {
+  window.location = "../html/faq.html";
+}

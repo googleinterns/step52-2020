@@ -159,18 +159,28 @@ div {
   }
 }
 
-#back {
-  
+#faq-button {
   background: #ffffff;
   padding: 1rem;
-  border-radius: 2rem;
+  border-radius: 3rem;
   margin: 1rem;
   color: #55a8db;
   text-decoration: none;
   border: none;
   font-size: 1vw;
-  position: fixed;
-  
+}
+
+.general-background {
+  height:100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition: 1s background linear;
+  background-image: url("images/background-login-blue.svg");
+}
+
+#faq {
+  top: 20%;
 }
 
 .hidden {
