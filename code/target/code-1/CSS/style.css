@@ -1,8 +1,3 @@
-@font-face {
-  font-family: Muli;
-  src: url(./fonts/Muli-VariableFont_wght.ttf);
-}
-
 body, html {
   height: 100%;
   margin: 0;
@@ -22,16 +17,42 @@ div {
   text-align: center;
 }
 
-#wrapper-background {
+.faq {
+  width:80%;
+  text-align:center;
+  background-color: #dceef7
+}
+
+.faq-answers {
+  font-size: 1vw;
+  width: 60%;
+}
+
+.faq-questions {
+  font-size: 2vw;
+  width: 50%;
+}
+
+.general-background {
   height:100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   transition: 1s background linear;
+  background-image: url("images/background-login-blue.svg");
+  /* text-align:center; */
+}
+
+.hidden {
+  display: none;
 }
 
 .landing-background {
   background-image: url("images/background-landing-blue.svg");
+}
+
+.landing-background #blue-buttons-to-procede {
+  top: 60%;
 }
 
 .landing-background .line {
@@ -39,22 +60,8 @@ div {
   width: 0;
 }
 
-.login-background {
-  background-image: url("images/background-login-blue.svg");
-}
-
-.login {
-  top: 30%;
-}
-
 .line {
   background: #3293d3;
-}
-
-.line-vertical {
-  width: 1rem;
-  height: 100%;
-  transition: 1s height linear;
 }
 
 .line-horizontal {
@@ -63,70 +70,18 @@ div {
   transition: 1s width linear;
 }
 
-#line-vertical-right {
-  left: 12%;
-  transition-delay: 1s
+.line-vertical {
+  width: 1rem;
+  height: 100%;
+  transition: 1s height linear;
 }
 
-#line-vertical-left {
-  left: 8%;
-  transition-delay: 1.2s
+.login {
+  top: 30%;
 }
 
-#line-horizontal-top {
-  top: 80%;
-  transition-delay: 1s
-}
-
-#line-horizontal-bottom {
-  top: 84%;
-  transition-delay: 1.2s
-}
-
-#welcome {
-  top: 10%;
-  font-size: 7vmin;
-}
-
-#mission-statement {
-  top: 29%;
-  font-size: 4vmin;
-}
-
-@media only screen and (min-width: 1900px) {
-  #mission-statement {
-   left: 15%;
-   width: 70%;
-   /*want a better solution than this "hardcoding"*/
-  }
-}
-
-
-@media only screen and (max-width: 1900px) and (min-width: 1400px) {
-  #mission-statement {
-   left: 10%;
-   width: 80%;
-   /*want a better solution than this "hardcoding"*/
-  }
-}
-
-@media only screen and (max-width: 1400px) and (min-width: 900px) {
-  #mission-statement {
-   left: 7.5%;
-   width: 85%;
-   /*want a better solution than this "hardcoding"*/
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  #mission-statement {
-   left: 2.5%;
-   width: 95%; 
-  }
-} 
-
-.landing-background #blue-buttons-to-procede {
-  top: 60%;
+.login-background {
+  background-image: url("images/background-login-blue.svg");
 }
 
 #blue-buttons-to-procede button {
@@ -145,18 +100,42 @@ div {
   box-shadow: 0 0 2rem #8bccf4;
 }
 
-@media only screen and (max-width: 1000px){
-  #button-left-or-top {
-    position:fixed;
-    top: 60%;
-    right: 30%;
-  }
+#line-horizontal-bottom {
+  top: 84%;
+  transition-delay: 1.2s
+}
 
-  #button-right-or-bot {
-    position:fixed;
-    top: 71%;
-    right: 30%;
-  }
+#line-horizontal-top {
+  top: 80%;
+  transition-delay: 1s
+}
+
+#line-vertical-left {
+  left: 8%;
+  transition-delay: 1.2s
+}
+
+#line-vertical-right {
+  left: 12%;
+  transition-delay: 1s
+}
+
+#mission-statement {
+  top: 29%;
+  font-size: 4vmin;
+}
+
+#welcome {
+  top: 10%;
+  font-size: 7vmin;
+}
+
+#wrapper-background {
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition: 1s background linear;
 }
 
 #faq-button {
@@ -170,35 +149,58 @@ div {
   font-size: 1vw;
 }
 
-.general-background {
-  height:100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  transition: 1s background linear;
-  background-image: url("images/background-login-blue.svg");
-  /* text-align:center; */
-}
-
-.faq {
-  width:80%;
-  text-align:center;
-  background-color: #dceef7
-}
-
 #faq-q1 {
   top: 10%;
-  text-align:center;
-}
-.faq-answers {
-  font-size: 1vw;
-  width: 60%;
-}
-.faq-questions {
-  font-size: 2vw;
-  width: 50%;
+  text-align: center;
 }
 
-.hidden {
-  display: none;
+@font-face {
+  font-family: Muli;
+  src: url(./fonts/Muli-VariableFont_wght.ttf);
+}
+
+@media only screen and (max-width: 1000px){
+  #button-left-or-top {
+    position: fixed;
+    top: 60%;
+    right: 30%;
+  }
+
+  #button-right-or-bot {
+    position: fixed;
+    top: 71%;
+    right: 30%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #mission-statement {
+   left: 2.5%;
+   width: 95%; 
+  }
+} 
+@media only screen and (max-width: 1400px) and (min-width: 900px) {
+  #mission-statement {
+   left: 7.5%;
+   width: 85%;
+   /*want a better solution than this "hardcoding"*/
+  }
+}
+
+
+@media only screen and (max-width: 1900px) and (min-width: 1400px) {
+  #mission-statement {
+   left: 10%;
+   width: 80%;
+   /*want a better solution than this "hardcoding"*/
+  }
+}
+
+
+@media only screen and (min-width: 1900px) {
+  #mission-statement {
+   left: 15%;
+   width: 70%;
+   /*want a better solution than this "hardcoding"*/
+  }
 }

@@ -1,37 +1,57 @@
-@font-face {
-  font-family: Muli;
-  src: url(./fonts/Muli-VariableFont_wght.ttf);
-}
-
 body, html {
+  color: #222;
   height: 100%;
   margin: 0;
-  color: #222;
 }
 
 h1, p, a {
-  margin: 0;
   color:#3293d3;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
   font-family: Muli;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
+  margin: 0;
 }
 
 div {
   position: fixed;
-  width: 100%;
   text-align: center;
+  width: 100%;
 }
 
-#wrapper-background {
-  height:100%;
+.faq {
+  text-align: center;
+  background-color: #dceef7;
+  width: 80%;
+}
+
+.faq-answers {
+  font-size: 1vw;
+  width: 60%;
+}
+
+.faq-questions {
+  font-size: 2vw;
+  width: 50%;
+}
+
+.general-background {
+  background-image: url("images/background-login-blue.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  height:100%;
   transition: 1s background linear;
+}
+
+.hidden {
+  display: none;
 }
 
 .landing-background {
   background-image: url("images/background-landing-blue.svg");
+}
+
+.landing-background #blue-buttons-to-procede {
+  top: 60%;
 }
 
 .landing-background .line {
@@ -39,37 +59,48 @@ div {
   width: 0;
 }
 
-.login-background {
-  background-image: url("images/background-login-blue.svg");
+.line {
+  background: #3293d3;
+}
+
+.line-horizontal {
+  height: 1rem;
+  transition: 1s width linear;
+  width: 100%;
+}
+
+.line-vertical {
+  height: 100%;
+  transition: 1s height linear;
+  width: 1rem;
 }
 
 .login {
   top: 30%;
 }
 
-.line {
-  background: #3293d3;
+.login-background {
+  background-image: url("images/background-login-blue.svg");
 }
 
-.line-vertical {
-  width: 1rem;
-  height: 100%;
-  transition: 1s height linear;
+#blue-buttons-to-procede button {
+  background: #ffffff;
+  border: none;
+  border-radius: 5rem;
+  color: #55a8db;
+  font-family: Muli;
+  font-size: 3vw;
+  margin: 2rem;
+  padding: 2rem;
+  text-decoration: none;
 }
 
-.line-horizontal {
-  height: 1rem;
-  width: 100%;
-  transition: 1s width linear;
+#blue-buttons-to-procede button:hover {
+  box-shadow: 0 0 2rem #8bccf4;
 }
 
-#line-vertical-right {
-  left: 12%;
-  transition-delay: 1s
-}
-
-#line-vertical-left {
-  left: 8%;
+#line-horizontal-bottom {
+  top: 84%;
   transition-delay: 1.2s
 }
 
@@ -78,25 +109,79 @@ div {
   transition-delay: 1s
 }
 
-#line-horizontal-bottom {
-  top: 84%;
+#line-vertical-left {
+  left: 8%;
   transition-delay: 1.2s
 }
 
-#welcome {
-  top: 10%;
-  font-size: 7vmin;
+#line-vertical-right {
+  left: 12%;
+  transition-delay: 1s
 }
 
 #mission-statement {
-  top: 29%;
   font-size: 4vmin;
+  top: 29%;
 }
 
-@media only screen and (min-width: 1900px) {
+#welcome {
+  font-size: 7vmin;
+  top: 10%;
+}
+
+#wrapper-background {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  transition: 1s background linear;
+}
+
+#faq-button {
+  background: #ffffff;
+  border: none;
+  border-radius: 3rem;
+  color: #55a8db;
+  font-size: 1vw;
+  margin: 1rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+#faq-q1 {
+  text-align: center;
+  top: 10%;
+}
+
+@font-face {
+  font-family: Muli;
+  src: url(./fonts/Muli-VariableFont_wght.ttf);
+}
+
+@media only screen and (max-width: 1000px){
+  #button-left-or-top {
+    position: fixed;
+    right: 30%;
+    top: 60%;
+  }
+
+  #button-right-or-bot {
+    position: fixed;
+    right: 30%;
+    top: 71%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
   #mission-statement {
-   left: 15%;
-   width: 70%;
+   left: 2.5%;
+   width: 95%; 
+  }
+} 
+@media only screen and (max-width: 1400px) and (min-width: 900px) {
+  #mission-statement {
+   left: 7.5%;
+   width: 85%;
    /*want a better solution than this "hardcoding"*/
   }
 }
@@ -110,95 +195,11 @@ div {
   }
 }
 
-@media only screen and (max-width: 1400px) and (min-width: 900px) {
+
+@media only screen and (min-width: 1900px) {
   #mission-statement {
-   left: 7.5%;
-   width: 85%;
+   left: 15%;
+   width: 70%;
    /*want a better solution than this "hardcoding"*/
   }
-}
-
-@media only screen and (max-width: 900px) {
-  #mission-statement {
-   left: 2.5%;
-   width: 95%; 
-  }
-} 
-
-.landing-background #blue-buttons-to-procede {
-  top: 60%;
-}
-
-#blue-buttons-to-procede button {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 5rem;
-  margin: 2rem;
-  color: #55a8db;
-  text-decoration: none;
-  border: none;
-  font-size: 3vw;
-  font-family: Muli;
-}
-
-#blue-buttons-to-procede button:hover {
-  box-shadow: 0 0 2rem #8bccf4;
-}
-
-@media only screen and (max-width: 1000px){
-  #button-left-or-top {
-    position:fixed;
-    top: 60%;
-    right: 30%;
-  }
-
-  #button-right-or-bot {
-    position:fixed;
-    top: 71%;
-    right: 30%;
-  }
-}
-
-#faq-button {
-  background: #ffffff;
-  padding: 1rem;
-  border-radius: 3rem;
-  margin: 1rem;
-  color: #55a8db;
-  text-decoration: none;
-  border: none;
-  font-size: 1vw;
-}
-
-.general-background {
-  height:100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  transition: 1s background linear;
-  background-image: url("images/background-login-blue.svg");
-  /* text-align:center; */
-}
-
-.faq {
-  width:80%;
-  text-align:center;
-  background-color: #dceef7
-}
-
-#faq-q1 {
-  top: 10%;
-  text-align:center;
-}
-.faq-answers {
-  font-size: 1vw;
-  width: 60%;
-}
-.faq-questions {
-  font-size: 2vw;
-  width: 50%;
-}
-
-.hidden {
-  display: none;
 }
