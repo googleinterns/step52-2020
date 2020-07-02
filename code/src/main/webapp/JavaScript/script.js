@@ -77,6 +77,31 @@ class PageController {
       isHidden = value;
       for (var index = 0; index < numElements; index++) {
         if (isHidden) {
+          elements[index].classList.add("fade-out");
+          elements[index].classList.remove("fade-in");
+        } else {
+          elements[index].classList.remove("fade-out");
+          elements[index].classList.add("fade-in");
+        }
+      }
+      
+    }
+    setTimeout(this.setHiddenStatus2, 900, listOfClassesHiddenStatus);
+  }
+  setHiddenStatus2(listOfClassesHiddenStatus) {
+    // alert("hi");
+    
+    // alert("hi2");
+    var numElements;
+    var elements;
+    var isHidden;
+
+    for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
+      numElements = document.getElementsByClassName(key).length
+      elements = document.getElementsByClassName(key);
+      isHidden = value;
+      for (var index = 0; index < numElements; index++) {
+        if (isHidden) {
           elements[index].classList.add("hidden");
         } else {
           elements[index].classList.remove("hidden");
