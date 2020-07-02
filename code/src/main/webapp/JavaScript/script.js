@@ -83,15 +83,11 @@ class PageController {
           elements[index].classList.remove("fade-out");
           elements[index].classList.add("fade-in");
         }
-      }
-      
+      } 
     }
     setTimeout(this.setHiddenStatus2, 900, listOfClassesHiddenStatus);
   }
   setHiddenStatus2(listOfClassesHiddenStatus) {
-    // alert("hi");
-    
-    // alert("hi2");
     var numElements;
     var elements;
     var isHidden;

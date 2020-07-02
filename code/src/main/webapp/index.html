@@ -21,7 +21,7 @@
           If you have tested positive, we can help identify people
           and places that you could have come in contact with.
           We can also help if you are here to be notified of any possible contact
-          we someone who has tested positive.
+          with someone who has tested positive.
       </p>
     </div>
     <div class="landing" id="blue-buttons-to-procede">
@@ -29,9 +29,18 @@
       <button id="button-right-or-bot"> I’d like to be alerted </button>
       
     </div>
+    <div class="login hidden" id="welcome">
+      <h1> Log In </h1>
+    </div>
+    <div class="login hidden" id="mission-statement">
+      <p> In order for us to perform contact tracing, we'll need some data! You can provide that data by signing in with Google
+        or by proceeding as a guest. 
+        Please choose below
+      </p>
+    </div>
     <div class="login hidden" id="blue-buttons-to-procede">
-      <button id="button-left-or-top" onClick="googleLogIn()"> Sign-in with Google </button>
-      <button id="button-right-or-bot"> Guest Sign-in </button>
+      <button id="button-left-or-top" onClick="googleLogIn()"> Google Sign-In </button>
+      <button id="button-right-or-bot"> Guest </button>
     </div>
     <div style="text-align: right">
       <button id="FAQ-button" onclick=getFAQ() > FAQ </button>
