@@ -5,7 +5,7 @@ body, html {
 }
 
 h1, p, a {
-  color:#3293d3;
+  color:#025696;
   font-family: Muli;
   text-shadow: 0 0 18px rgba(255, 255, 255, 1);
   margin: 0;
@@ -83,10 +83,10 @@ div {
 }
 
 #blue-buttons-to-procede button {
-  background: #ffffff;
+  background: #025696;
   border: 8px solid #025696;
   border-radius: 5rem;
-  color: #55a8db;
+  color: #ffffff;
   font-family: Muli;
   font-size: 3vw;
   margin: 2rem;
