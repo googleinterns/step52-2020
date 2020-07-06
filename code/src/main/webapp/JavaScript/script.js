@@ -56,7 +56,7 @@ class PageController {
     }
   }
 
-  setPageState(pageID, pageName, thisPage, pageToShow,  listOfClassesHiddenStatus){
+  setPageState(pageID, pageName, thisPage, pageToShow,  listOfClassesHiddenStatus) {
     history.pushState({page: pageToShow}, pageName, pageToShow);
     thisPage.show();
     this.currentlyShown = thisPage;
@@ -84,11 +84,11 @@ class PageController {
       for (var index = 0; index < numElements; index++) {
         if (isHidden) {
           elements[index].classList.add(wantedProperty);
-          if(discardedProperty!=""){
+          if (discardedProperty!="") {
           elements[index].classList.remove(discardedProperty);}
         } else {
           elements[index].classList.remove(wantedProperty);
-          if(discardedProperty!=""){
+          if (discardedProperty!="") {
           elements[index].classList.add(discardedProperty);}
         }
       } 
@@ -116,7 +116,7 @@ function startupGoogleLogin() {
 }
   
 var startApp = function() {
-  gapi.load('auth2', function(){
+  gapi.load('auth2', function() {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
