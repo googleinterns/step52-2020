@@ -32,17 +32,17 @@ div {
   -ms-animation: fadeOut ease 1s;
 }
 
-.FAQ {
+.faq {
   width: 80%;
 }
 
-.FAQ-answers {
+.faq-answers {
   display: inline-block;
   font-size: 1vw;
   width: 60%;
 }
 
-.FAQ-questions {
+.faq-questions {
   display: inline-block;
   font-size: 2vw;
   width: 50%;
@@ -118,7 +118,7 @@ div {
   box-shadow: 0 0 2rem #C6C6C6;
 }
 
-#FAQ-button {
+#faq-button {
   background: #ffffff;
   border: none;
   border-radius: 3rem;
@@ -129,7 +129,7 @@ div {
   text-decoration: none;
 }
 
-#FAQ-q1 {
+#faq-q1 {
   top: 10%;
 }
 
