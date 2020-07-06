@@ -58,10 +58,6 @@ div {
   display: none;
 }
 
-/* .landing {
-  transition: 1s background linear;
-} */
-
 .landing-background {
   background-image: url("images/background-landing-blue.svg");
 }
@@ -217,6 +213,7 @@ div {
    width: 70%;
   }
 }
+
 /* For fade-out */
 @keyframes fadeOut {
   0% {
@@ -264,7 +261,6 @@ div {
 }
 
 /*For fade in*/
-
 @keyframes fadeIn {
   0% {
     opacity:0;
@@ -307,4 +303,5 @@ div {
   }
   100% {
     opacity:1;
+  }
 }

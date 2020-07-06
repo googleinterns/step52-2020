@@ -1,5 +1,5 @@
 class LandingPage {
-  constructor(){
+  constructor() {
     this.background = document.getElementById("wrapper-background");
   }
 
@@ -13,7 +13,7 @@ class LandingPage {
 }
 
 class LoginPage {
-  constructor(){
+  constructor() {
     this.background = document.getElementById("wrapper-background");
   }
 
@@ -27,7 +27,7 @@ class LoginPage {
 }
 
 class PageController {
-  constructor () {
+  constructor() {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
     this.currentlyShown = undefined;
@@ -57,8 +57,7 @@ class PageController {
   setPageState(whichPage, thisPage, pageToShow,  listOfClassesHiddenStatus){
     if(whichPage === "landing") {
       history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
-    }
-    else if(whichPage === "login") {
+    } else if(whichPage === "login") {
         history.pushState({page: pageToShow}, 'Login', pageToShow);
     }
     thisPage.show();
