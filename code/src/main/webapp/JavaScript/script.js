@@ -26,6 +26,8 @@ class LoginPage {
   }
 }
 
+var listOfClassesHiddenStatus = {"landing" : true, "login" : true};
+
 class PageController {
   constructor() {
     this.landingPage = new LandingPage();
@@ -44,26 +46,24 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        var listOfClassesHiddenStatus = {"landing" : false, "login" : true};
-        this.setPageState("landing", this.landingPage, pageToShow, listOfClassesHiddenStatus)
+        this.setPageState("landing", 'Online Contact Tracing', this.landingPage, pageToShow, listOfClassesHiddenStatus)
         break;
       case "login":
-        var listOfClassesHiddenStatus = {"landing" : true, "login" : false};
-        this.setPageState("login", this.loginPage, pageToShow, listOfClassesHiddenStatus)
+        this.setPageState("login", 'Login', this.loginPage, pageToShow, listOfClassesHiddenStatus)
         startupGoogleLogin() 
         startApp();
         break;
     }
   }
 
-  setPageState(whichPage, thisPage, pageToShow,  listOfClassesHiddenStatus){
-    if(whichPage === "landing") {
-      history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
-    } else if(whichPage === "login") {
-        history.pushState({page: pageToShow}, 'Login', pageToShow);
-    }
+  setPageState(pageID, pageName, thisPage, pageToShow,  listOfClassesHiddenStatus){
+    history.pushState({page: pageToShow}, pageName, pageToShow);
     thisPage.show();
     this.currentlyShown = thisPage;
+    for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
+      listOfClassesHiddenStatus[key] = true;
+    }
+    listOfClassesHiddenStatus[pageID] = false;
     this.setFadeoutStatus(listOfClassesHiddenStatus);
   }
 
