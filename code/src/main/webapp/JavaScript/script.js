@@ -50,6 +50,8 @@ class PageController {
       case "login":
         var listOfClassesHiddenStatus = {"landing" : true, "login" : false};
         this.setPageState("login", this.loginPage, pageToShow, listOfClassesHiddenStatus)
+        startupGoogleLogin() 
+        startApp();
         break;
     }
   }
@@ -62,10 +64,10 @@ class PageController {
     }
     thisPage.show();
     this.currentlyShown = thisPage;
-    this.setHiddenStatus(listOfClassesHiddenStatus);
+    this.setFadeoutStatus(listOfClassesHiddenStatus);
   }
 
-  setHiddenStatus(listOfClassesHiddenStatus) {
+  setFadeoutStatus(listOfClassesHiddenStatus) {
     var numElements;
     var elements;
     var isHidden;
@@ -84,9 +86,9 @@ class PageController {
         }
       } 
     }
-    setTimeout(this.setHiddenStatus2, 900, listOfClassesHiddenStatus);
+    setTimeout(this.setHiddenStatus, 900, listOfClassesHiddenStatus);
   }
-  setHiddenStatus2(listOfClassesHiddenStatus) {
+  setHiddenStatus(listOfClassesHiddenStatus) {
     var numElements;
     var elements;
     var isHidden;
@@ -120,9 +122,34 @@ function LoadPage() {
   }
 }
 
-function googleLogIn() {
-  window.location = "../html/tested-positive.html";
+function startupGoogleLogin() {
+  var googleUser = {};
+  startApp;
 }
+  
+var startApp = function() {
+  gapi.load('auth2', function(){
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+      client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
+      cookiepolicy: 'single_host_origin',
+      // Request scopes in addition to 'profile' and 'email'
+      //scope: 'additional_scope'
+    });
+    attachSignin(document.getElementById('login-button-left-or-top'));
+  });
+};
+
+function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          document.getElementById('name').innerText = "Signed in: " +
+              googleUser.getBasicProfile().getName();
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
 
 function backToLogin() {
   window.location = "/landing";

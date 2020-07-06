@@ -37,11 +37,13 @@ div {
 }
 
 .FAQ-answers {
+  display: inline-block;
   font-size: 1vw;
   width: 60%;
 }
 
 .FAQ-questions {
+  display: inline-block;
   font-size: 2vw;
   width: 50%;
 }
@@ -174,14 +176,22 @@ div {
 }
 
 @media only screen and (max-width: 1000px){
-  #button-left-or-top {
-    position: fixed;
+  #landing-button-left-or-top {
     right: 30%;
     top: 55%;
   }
 
-  #button-right-or-bot {
-    position: fixed;
+  #landing-button-right-or-bot {
+    right: 30%;
+    top: 75%;
+  }
+
+  #login-button-left-or-top {
+    right: 30%;
+    top: 55%;
+  }
+
+  #login-button-right-or-bot {
     right: 30%;
     top: 75%;
   }

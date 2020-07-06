@@ -6,6 +6,7 @@
    <link rel="stylesheet" href="./CSS/style.css">
    <script src="JavaScript/script.js"></script>
    <title></title>
+   <script src="https://apis.google.com/js/api:client.js"></script>
 </head>
 <body>
   <div id="wrapper-background">
@@ -25,8 +26,8 @@
       </p>
     </div>
     <div class="landing hidden" id="blue-buttons-to-procede">
-      <button id="button-left-or-top" onClick="PAGE_CONTROLLER.show('login')"> I’ve tested positive </button>
-      <button id="button-right-or-bot"> I’d like to be alerted </button>
+      <button id="landing-button-left-or-top" onClick="PAGE_CONTROLLER.show('login')"> I’ve tested positive </button>
+      <button id="landing-button-right-or-bot"> I’d like to be alerted </button>
       
     </div>
     <div class="login hidden" id="welcome">
@@ -39,8 +40,10 @@
       </p>
     </div>
     <div class="login hidden" id="blue-buttons-to-procede">
-      <button id="button-left-or-top" onClick="googleLogIn()"> Google Sign-In </button>
-      <button id="button-right-or-bot"> Guest </button>
+      <button id="login-button-left-or-top" onclick="startApp()"> Google Sign-In </button>
+      <button id="login-button-right-or-bot"> Guest </button>
+      <!-- The next div is temporary and serves to show how we can use the returned info from sign-in. -->
+      <div id="name"></div>
     </div>
     <div style="text-align: right">
       <button id="FAQ-button" onclick=getFAQ() > FAQ </button>
