@@ -64,10 +64,15 @@ class PageController {
       listOfClassesHiddenStatus[key] = true;
     }
     listOfClassesHiddenStatus[pageID] = false;
-    this.setFadeoutStatus(listOfClassesHiddenStatus);
+    this.setFadeoutAndHiddenStatus(listOfClassesHiddenStatus);
   }
 
-  setFadeoutStatus(listOfClassesHiddenStatus) {
+  setFadeoutAndHiddenStatus(listOfClassesHiddenStatus) {
+    this.setStatus(listOfClassesHiddenStatus, "fade-out", "fade-in");
+    setTimeout(this.setStatus, 900, listOfClassesHiddenStatus, "hidden", "");
+  }
+
+  setStatus(listOfClassesHiddenStatus, wantedProperty, discardedProperty) {
     var numElements;
     var elements;
     var isHidden;
@@ -78,32 +83,15 @@ class PageController {
       isHidden = value;
       for (var index = 0; index < numElements; index++) {
         if (isHidden) {
-          elements[index].classList.add("fade-out");
-          elements[index].classList.remove("fade-in");
+          elements[index].classList.add(wantedProperty);
+          if(discardedProperty!=""){
+          elements[index].classList.remove(discardedProperty);}
         } else {
-          elements[index].classList.remove("fade-out");
-          elements[index].classList.add("fade-in");
+          elements[index].classList.remove(wantedProperty);
+          if(discardedProperty!=""){
+          elements[index].classList.add(discardedProperty);}
         }
       } 
-    }
-    setTimeout(this.setHiddenStatus, 900, listOfClassesHiddenStatus);
-  }
-  setHiddenStatus(listOfClassesHiddenStatus) {
-    var numElements;
-    var elements;
-    var isHidden;
-
-    for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
-      numElements = document.getElementsByClassName(key).length
-      elements = document.getElementsByClassName(key);
-      isHidden = value;
-      for (var index = 0; index < numElements; index++) {
-        if (isHidden) {
-          elements[index].classList.add("hidden");
-        } else {
-          elements[index].classList.remove("hidden");
-        }
-      }
     }
   }
 
