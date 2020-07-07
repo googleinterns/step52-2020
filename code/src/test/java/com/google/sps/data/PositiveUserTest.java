@@ -12,7 +12,7 @@ public final class PositiveUserTest {
   @Test
   public void createUser() {
     PositiveUser user = new PositiveUser("Test");
-    Assert.assertTrue(user.getFirstLogin() == user.getLastLogin());
+    Assert.assertTrue(user.getFirstLoginInUnixTimeSeconds() == user.getLastLoginInUnixTimeSeconds());
   }
 
   @Test
@@ -23,7 +23,7 @@ public final class PositiveUserTest {
       //Wait two seconds
     }
     user.setLastLogin();
-    Assert.assertTrue(user.getFirstLogin() != user.getLastLogin());
+    Assert.assertTrue(user.getFirstLoginInUnixTimeSeconds() != user.getLastLoginInUnixTimeSeconds());
 
   }
 

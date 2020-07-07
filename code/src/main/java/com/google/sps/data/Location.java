@@ -5,16 +5,16 @@ package com.google.sps.data;
  */
 public class Location {
 
-  long lng;
-  long lat;
-  long intervalStart;
-  long intervalEnd;
+  long longitudeE7;
+  long latitudeE7;
+  long intervalStartUnixTimeSeconds;
+  long intervalEndUnixTimeSeconds;
 
   public Location(long lng, long lat, long intervalStart, long intervalEnd) {
-    this.lng = lng;
-    this.lat = lat;
-    this.intervalStart = intervalStart;
-    this.intervalEnd = intervalEnd;
+    longitudeE7 = lng;
+    latitudeE7 = lat;
+    intervalStartUnixTimeSeconds = intervalStart;
+    intervalEndUnixTimeSeconds = intervalEnd;
   }
   
 }

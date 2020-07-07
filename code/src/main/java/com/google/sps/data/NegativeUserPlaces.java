@@ -6,15 +6,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 @Entity
-public class PositiveUserPlaces {
+public class NegativeUserPlaces {
 
   @Id String userId;
   ArrayList<Place> places;
   long timeCreatedUnixTimeSeconds;
 
-  private PositiveUserPlaces() {}
+  private NegativeUserPlaces() {}
 
-  public PositiveUserPlaces(String userId, ArrayList<Place> places) {
+  public NegativeUserPlaces(String userId, ArrayList<Place> places) {
     this.userId = userId;
     this.places = places;
     timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();

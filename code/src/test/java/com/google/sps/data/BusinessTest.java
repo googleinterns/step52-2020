@@ -20,5 +20,4 @@ public final class BusinessTest {
     business.contact();
     Assert.assertTrue(business.contactedInLastWeek());
   }
-
 }

@@ -10,14 +10,14 @@ public class PositiveUserLocations {
 
   @Id String userId;
   ArrayList<Location> locations;
-  long timeCreated;
+  long timeCreatedUnixTimeSeconds;
 
   private PositiveUserLocations() {}
 
   public PositiveUserLocations(String userId, ArrayList<Location> locations) {
     this.userId = userId;
     this.locations = locations;
-    timeCreated = Instant.now().getEpochSecond();
+    timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();
   }
 
 }

@@ -14,6 +14,9 @@ public class Business {// This class is solely to check if a business was contac
   
   public Business(String placeId) {
     this.placeId = placeId;
+    
+    // Initialize time of last contacted to be over a week so contactedInLastWeek returns false
+    timeOfLastContactUnixTimeSeconds = Instant.now().getEpochSecond() - Constants.oneWeekInSeconds;
   }
 
   // Update timeOfContact to current time

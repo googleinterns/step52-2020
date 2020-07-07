@@ -9,33 +9,33 @@ public class PositiveUser {
 
   @Id String userId;
   private int emailsSent = 0;
-  private long firstLogin;
-  private long lastLogin;
+  private long firstLoginUnixTimeSeconds;
+  private long lastLoginUnixTimeSeconds;
 
   private PositiveUser() {}
   
   public PositiveUser(String userId) {
     this.userId = userId;
-    firstLogin = lastLogin = Instant.now().getEpochSecond();
+    firstLoginUnixTimeSeconds = lastLoginUnixTimeSeconds = Instant.now().getEpochSecond();
   }
 
   public void setLastLogin() {
-    firstLogin = Instant.now().getEpochSecond();
+    firstLoginUnixTimeSeconds = Instant.now().getEpochSecond();
   }
   
   public long getNumberOfEmailsSent() {
       return emailsSent;
   }
 
-  public long getFirstLogin() {
-    return firstLogin;
+  public long getFirstLoginInUnixTimeSeconds() {
+    return firstLoginUnixTimeSeconds;
   }
 
-  public long getLastLogin() {
-    return lastLogin;
+  public long getLastLoginInUnixTimeSeconds() {
+    return lastLoginUnixTimeSeconds;
   }
 
-  public void updateEmailsSent() {
+  public void incrementEmailsSent() {
     emailsSent++;
   }
 }

@@ -10,14 +10,14 @@ public class PositiveUserContacts {
 
   @Id String userId;
   ArrayList<PotentialContact> contacts;
-  long timeCreated;
+  long timeCreatedUnixTimeSeconds;
 
   private PositiveUserContacts() {}
 
   public PositiveUserContacts(String userId, ArrayList<PotentialContact> contacts) {
     this.userId = userId;
     this.contacts = contacts;
-    timeCreated = Instant.now().getEpochSecond();
+    timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();
   }
 
   //TODO

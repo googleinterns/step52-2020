@@ -5,10 +5,14 @@ public class Place {
 
   String name;
   String placeId;
+  long intervalStartUnixTimeSeconds;
+  long intervalEndUnixTimeSeconds;
   
-  public Place(String name, String placeId) {
+  public Place(String name, String placeId, long intervalStart, long intervalEnd) {
     this.name = name;
     this.placeId = placeId;
+    intervalStartUnixTimeSeconds = intervalStart;
+    intervalEndUnixTimeSeconds = intervalEnd;
   }
 
 }
