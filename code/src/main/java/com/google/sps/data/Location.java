@@ -1,5 +1,8 @@
 package com.google.sps.data;
 
+/* Store a location based on longitude/latitude coordinates and
+ * the time interval when the user was present
+ */
 public class Location {
 
   long lng;

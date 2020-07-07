@@ -10,10 +10,10 @@ import java.time.Instant;
 public class NotificationBatch {
 
   @Id String userId;
-  @Index int priority; // use index to prioritize which email are sent
+  @Index int priority; // use index to prioritize which emails are sent
+  long timeCreatedUnixTimeSeconds; // Delete after two weeks
   ArrayList<PersonEmail> personEmails;
   ArrayList<BusinessNumber> businessNumbers;
-  long timeCreated; // Delete after two weeks
 
   private NotificationBatch() {}
 
@@ -21,7 +21,7 @@ public class NotificationBatch {
     this.userId = userId;
     this.personEmails = personEmails;
     this.businessNumbers = businessNumbers;
-    timeCreated = Instant.now().getEpochSecond();
+    timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();
   }
   
 }

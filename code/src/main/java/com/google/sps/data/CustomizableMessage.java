@@ -4,7 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity
-public class CustomizableMessage {
+public class CustomizableMessage {// Save user's personal message
 
   @Id String userId;
   String message;

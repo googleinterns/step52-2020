@@ -7,7 +7,7 @@ public class PersonEmail implements ContactStatus{
   String nameOfSender;
   String email;
   long getTimeWhenEmailedUnixTimeSeconds;
-  boolean status;
+  boolean personHasBeenEmailed;
 
   public PersonEmail(String nameOfSender, String email) {
     this.nameOfSender = nameOfSender;
@@ -16,11 +16,11 @@ public class PersonEmail implements ContactStatus{
   
   public void setSuccess() {
     getTimeWhenEmailedUnixTimeSeconds = Instant.now().getEpochSecond();
-    status = true;
+    personHasBeenEmailed = true;
   }
 
   public boolean getStatus() {
-    return status;
+    return personHasBeenEmailed;
   }
 
   public long getTimeWhenContactedUnixTimeSeconds() {

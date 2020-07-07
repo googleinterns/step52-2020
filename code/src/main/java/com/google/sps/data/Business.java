@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Id;
 import java.time.Instant;
 
 @Entity
-public class Business {
+public class Business {// This class is solely to check if a business was contacted in the last week.
 
   @Id String placeId;
   private long timeOfLastContactUnixTimeSeconds;
