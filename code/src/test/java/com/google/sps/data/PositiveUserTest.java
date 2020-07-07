@@ -4,15 +4,30 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import java.time.Instant;
  
 @RunWith(JUnit4.class)
 public final class PositiveUserTest {
 
   @Test
   public void createUser() {
-    // Simple test for now
-    PositiveUser positiveUser1 = new PositiveUser("1");
-    Assert.assertTrue(positiveUser1.getFirstLogin() == positiveUser1.getLastLogin());
+    PositiveUser user = new PositiveUser("Test");
+    Assert.assertTrue(user.getFirstLogin() == user.getLastLogin());
+    long currentTime = Instant.now().getEpochSecond();
+    while (currentTime > Instant.now().getEpochSecond() - 2L) {
+      //Wait two seconds
+    }
+    user.setLastLogin();
+    Assert.assertTrue(user.getFirstLogin() != user.getLastLogin());
+
+  }
+
+  @Test
+  public void increaseEmailCount() {
+    PositiveUser user = new PositiveUser("Test");
+    Assert.assertTrue(user.getNumberOfEmailsSent() == 0);
+    user.incrementEmailsSent();
+    Assert.assertTrue(user.getNumberOfEmailsSent() == 1);
   }
 
 }
