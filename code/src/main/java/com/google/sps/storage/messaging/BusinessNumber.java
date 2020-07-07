@@ -6,13 +6,14 @@ import java.time.Instant;
 public class BusinessNumber implements ContactStatus{
 
   String nameOfBusiness;
-  long phoneNumber;
+  String phoneNumber;
   private long getTimeWhenCalledSeconds;
-  private boolean businessHasBeenCalled = false;
+  private boolean businessHasBeenCalled;
 
-  public BusinessNumber(String nameOfBusiness, long phoneNumber) {
+  public BusinessNumber(String nameOfBusiness, String phoneNumber) {
     this.nameOfBusiness = nameOfBusiness;
     this.phoneNumber = phoneNumber;
+    businessHasBeenCalled = false;
   }
 
   // Record time bussiness was contacted

@@ -10,13 +10,13 @@ public final class ContactStatusTest {
 
   @Test
   public void falseBusinessStatus() {
-    ContactStatus business = new BusinessNumber("Test", 9703456789L);
+    ContactStatus business = new BusinessNumber("Test", "9703456789");
     Assert.assertFalse(business.getStatus());
   }
 
   @Test
   public void trueBusinessStatus() {
-    ContactStatus business = new BusinessNumber("Test", 9703456789L);
+    ContactStatus business = new BusinessNumber("Test", "9703456789");
     business.setSuccess();
     Assert.assertTrue(business.getStatus());
   }
