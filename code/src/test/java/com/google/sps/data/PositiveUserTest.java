@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -12,7 +12,7 @@ public final class PositiveUserTest {
   @Test
   public void createUser() {
     PositiveUser user = new PositiveUser("Test");
-    Assert.assertTrue(user.getFirstLoginInUnixTimeSeconds() == user.getLastLoginInUnixTimeSeconds());
+    Assert.assertTrue(user.getFirstLoginInSeconds() == user.getLastLoginInSeconds());
   }
 
   @Test
@@ -23,7 +23,7 @@ public final class PositiveUserTest {
       //Wait two seconds
     }
     user.setLastLogin();
-    Assert.assertTrue(user.getFirstLoginInUnixTimeSeconds() != user.getLastLoginInUnixTimeSeconds());
+    Assert.assertTrue(user.getFirstLoginInSeconds() != user.getLastLoginInSeconds());
 
   }
 

@@ -1,7 +1,7 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 public interface ContactStatus {
   public void setSuccess();
   public boolean getStatus();
-  public long getTimeWhenContactedUnixTimeSeconds();
+  public long getTimeWhenContactedSeconds();
 }

@@ -1,18 +1,18 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 // Store a places name and id (could possibly be replaced by the business class)
 public class Place {
 
   String name;
   String placeId;
-  long intervalStartUnixTimeSeconds;
-  long intervalEndUnixTimeSeconds;
+  long intervalStartSeconds;
+  long intervalEndSeconds;
   
   public Place(String name, String placeId, long intervalStart, long intervalEnd) {
     this.name = name;
     this.placeId = placeId;
-    intervalStartUnixTimeSeconds = intervalStart;
-    intervalEndUnixTimeSeconds = intervalEnd;
+    intervalStartSeconds = intervalStart;
+    intervalEndSeconds = intervalEnd;
   }
 
 }

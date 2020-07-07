@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import java.time.Instant;
 
@@ -6,7 +6,7 @@ public class PersonEmail implements ContactStatus{
 
   String nameOfSender;
   String email;
-  long getTimeWhenEmailedUnixTimeSeconds;
+  long getTimeWhenEmailedSeconds;
   boolean personHasBeenEmailed;
 
   public PersonEmail(String nameOfSender, String email) {
@@ -16,7 +16,7 @@ public class PersonEmail implements ContactStatus{
   
   @Override
   public void setSuccess() {
-    getTimeWhenEmailedUnixTimeSeconds = Instant.now().getEpochSecond();
+    getTimeWhenEmailedSeconds = Instant.now().getEpochSecond();
     personHasBeenEmailed = true;
   }
 
@@ -26,7 +26,7 @@ public class PersonEmail implements ContactStatus{
   }
 
   @Override
-  public long getTimeWhenContactedUnixTimeSeconds() {
-    return getTimeWhenEmailedUnixTimeSeconds;
+  public long getTimeWhenContactedSeconds() {
+    return getTimeWhenEmailedSeconds;
   }
 }

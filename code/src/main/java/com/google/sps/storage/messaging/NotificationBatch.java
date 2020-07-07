@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -11,7 +11,7 @@ public class NotificationBatch {
 
   @Id String userId;
   @Index int priority; // use index to prioritize which emails are sent
-  long timeCreatedUnixTimeSeconds; // Delete after two weeks
+  long timeCreatedSeconds; // Delete after two weeks
   ArrayList<PersonEmail> personEmails;
   ArrayList<BusinessNumber> businessNumbers;
 
@@ -21,7 +21,7 @@ public class NotificationBatch {
     this.userId = userId;
     this.personEmails = personEmails;
     this.businessNumbers = businessNumbers;
-    timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();
+    timeCreatedSeconds = Instant.now().getEpochSecond();
   }
   
 }

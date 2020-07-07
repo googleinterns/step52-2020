@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -10,14 +10,14 @@ public class PositiveUserContacts {
 
   @Id String userId;
   ArrayList<PotentialContact> contacts;
-  long timeCreatedUnixTimeSeconds;
+  long timeCreatedSeconds;
 
   private PositiveUserContacts() {}
 
   public PositiveUserContacts(String userId, ArrayList<PotentialContact> contacts) {
     this.userId = userId;
     this.contacts = contacts;
-    timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();
+    timeCreatedSeconds = Instant.now().getEpochSecond();
   }
 
   //TODO

@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -9,30 +9,30 @@ public class PositiveUser {
 
   @Id String userId;
   private int emailsSent = 0;
-  private long firstLoginUnixTimeSeconds;
-  private long lastLoginUnixTimeSeconds;
+  private long firstLoginSeconds;
+  private long lastLoginSeconds;
 
   private PositiveUser() {}
   
   public PositiveUser(String userId) {
     this.userId = userId;
-    firstLoginUnixTimeSeconds = lastLoginUnixTimeSeconds = Instant.now().getEpochSecond();
+    firstLoginSeconds = lastLoginSeconds = Instant.now().getEpochSecond();
   }
 
   public void setLastLogin() {
-    firstLoginUnixTimeSeconds = Instant.now().getEpochSecond();
+    firstLoginSeconds = Instant.now().getEpochSecond();
   }
   
   public long getNumberOfEmailsSent() {
       return emailsSent;
   }
 
-  public long getFirstLoginInUnixTimeSeconds() {
-    return firstLoginUnixTimeSeconds;
+  public long getFirstLoginInSeconds() {
+    return firstLoginSeconds;
   }
 
-  public long getLastLoginInUnixTimeSeconds() {
-    return lastLoginUnixTimeSeconds;
+  public long getLastLoginInSeconds() {
+    return lastLoginSeconds;
   }
 
   public void incrementEmailsSent() {

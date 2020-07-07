@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import org.junit.Test;
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;

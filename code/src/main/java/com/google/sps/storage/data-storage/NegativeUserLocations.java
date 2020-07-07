@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -6,18 +6,18 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 @Entity
-public class PositiveUserLocations {
+public class NegativeUserLocations {
 
   @Id String userId;
   ArrayList<Location> locations;
-  long timeCreatedUnixTimeSeconds;
+  long timeCreatedSeconds;
 
-  private PositiveUserLocations() {}
+  private NegativeUserLocations() {}
 
-  public PositiveUserLocations(String userId, ArrayList<Location> locations) {
+  public NegativeUserLocations(String userId, ArrayList<Location> locations) {
     this.userId = userId;
     this.locations = locations;
-    timeCreatedUnixTimeSeconds = Instant.now().getEpochSecond();
+    timeCreatedSeconds = Instant.now().getEpochSecond();
   }
 
 }

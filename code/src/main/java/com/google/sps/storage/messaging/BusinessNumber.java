@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.storage;
 
 import java.time.Instant;
 
@@ -7,7 +7,7 @@ public class BusinessNumber implements ContactStatus{
 
   String nameOfBusiness;
   long phoneNumber;
-  private long getTimeWhenCalledUnixTimeSeconds;
+  private long getTimeWhenCalledSeconds;
   private boolean businessHasBeenCalled = false;
 
   public BusinessNumber(String nameOfBusiness, long phoneNumber) {
@@ -18,7 +18,7 @@ public class BusinessNumber implements ContactStatus{
   // Record time bussiness was contacted
   @Override
   public void setSuccess() {
-    getTimeWhenCalledUnixTimeSeconds = Instant.now().getEpochSecond();
+    getTimeWhenCalledSeconds = Instant.now().getEpochSecond();
     businessHasBeenCalled = true;
   }
 
@@ -29,8 +29,8 @@ public class BusinessNumber implements ContactStatus{
 
   // Return time bussiness was contacted to display to user
   @Override
-  public long getTimeWhenContactedUnixTimeSeconds() {
-    return getTimeWhenCalledUnixTimeSeconds;
+  public long getTimeWhenContactedSeconds() {
+    return getTimeWhenCalledSeconds;
   }
   
 }

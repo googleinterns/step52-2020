@@ -6,7 +6,7 @@
   metadata-complete="false">
   <listener>
     <listener-class>
-      com.google.sps.data.ObjectifyLoader
+      com.google.sps.storage.ObjectifyLoader
     </listener-class>
   </listener>
   <filter>
