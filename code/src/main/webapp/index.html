@@ -10,10 +10,14 @@
 </head>
 <body>
   <div id="wrapper-background">
+    
     <div id="line-vertical-left" class="line line-vertical"></div>
     <div id="line-vertical-right" class="line line-vertical"></div>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
     <div id="line-horizontal-bottom" class="line line-horizontal"></div>
+    <div>
+      <button id="faq-button" onclick=getFAQ() > FAQ </button>
+    </div>
     <div class="landing hidden" id="welcome">
       <h1> Welcome </h1>
     </div>
@@ -45,9 +49,7 @@
       <!-- The next div is temporary and serves to show how we can use the returned info from sign-in. -->
       <div id="name"></div>
     </div>
-    <div style="text-align: right">
-      <button id="faq-button" onclick=getFAQ() > FAQ </button>
-    </div>
+    
     
   </div>
   <script>
