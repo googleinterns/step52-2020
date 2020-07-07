@@ -17,7 +17,7 @@ public final class BusinessTest {
   @Test
   public void contactBusiness() {
     Business business = new Business("Test");
-    business.contact();
+    business.updateTimeOfContact();
     Assert.assertTrue(business.contactedInLastWeek());
   }
 }

@@ -20,7 +20,7 @@ public class Business {// This class is solely to check if a business was contac
   }
 
   // Update timeOfContact to current time
-  public void contact() {
+  public void updateTimeOfContact() {
     timeOfLastContactUnixTimeSeconds = Instant.now().getEpochSecond();
   }
 
