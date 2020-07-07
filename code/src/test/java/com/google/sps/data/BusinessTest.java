@@ -12,6 +12,11 @@ public final class BusinessTest {
   public void createBusiness() {
     Business business = new Business("Test");
     Assert.assertFalse(business.contactedInLastWeek());
+  }
+
+  @Test
+  public void contactBusiness() {
+    Business business = new Business("Test");
     business.contact();
     Assert.assertTrue(business.contactedInLastWeek());
   }

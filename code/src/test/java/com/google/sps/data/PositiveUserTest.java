@@ -13,6 +13,11 @@ public final class PositiveUserTest {
   public void createUser() {
     PositiveUser user = new PositiveUser("Test");
     Assert.assertTrue(user.getFirstLogin() == user.getLastLogin());
+  }
+
+  @Test
+  public void updateUserLogin() {
+    PositiveUser user = new PositiveUser("Test");
     long currentTime = Instant.now().getEpochSecond();
     while (currentTime > Instant.now().getEpochSecond() - 2L) {
       //Wait two seconds
@@ -23,9 +28,14 @@ public final class PositiveUserTest {
   }
 
   @Test
-  public void increaseEmailCount() {
+  public void emailCountInitializedToZero() {
     PositiveUser user = new PositiveUser("Test");
     Assert.assertTrue(user.getNumberOfEmailsSent() == 0);
+  }
+
+  @Test
+  public void increaseEmailCount() {
+    PositiveUser user = new PositiveUser("Test");
     user.incrementEmailsSent();
     Assert.assertTrue(user.getNumberOfEmailsSent() == 1);
   }

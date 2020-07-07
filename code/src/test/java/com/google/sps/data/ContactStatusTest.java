@@ -9,17 +9,27 @@ import org.junit.runners.JUnit4;
 public final class ContactStatusTest {
 
   @Test
-  public void testMethodsForCheckingBusinessStatus() {
+  public void falseBusinessStatus() {
     ContactStatus business = new BusinessNumber("Test", 9703456789L);
     Assert.assertFalse(business.getStatus());
+  }
+
+  @Test
+  public void trueBusinessStatus() {
+    ContactStatus business = new BusinessNumber("Test", 9703456789L);
     business.setSuccess();
     Assert.assertTrue(business.getStatus());
   }
 
   @Test
-  public void testMethodsForCheckingPersonStatus() {
+  public void falsePersonStatus() {
     PersonEmail person = new PersonEmail("Test", "test@google.com");
     Assert.assertFalse(person.getStatus());
+  }
+
+  @Test
+  public void truePersonStatus() {
+    PersonEmail person = new PersonEmail("Test", "test@google.com");
     person.setSuccess();
     Assert.assertTrue(person.getStatus());
   }
