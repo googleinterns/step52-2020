@@ -5,6 +5,9 @@ import com.googlecode.objectify.annotation.Id;
 import java.time.Instant;
 import java.util.ArrayList;
 
+/**
+* Store information needed to keep track of a list of a positive user's contacts from People and Calendar API
+*/
 @Entity
 public class PositiveUserContacts {
 
@@ -12,6 +15,7 @@ public class PositiveUserContacts {
   ArrayList<PotentialContact> contacts;
   long timeCreatedSeconds;
 
+  // Objecify requires one constructor with no parameters
   private PositiveUserContacts() {}
 
   public PositiveUserContacts(String userId, ArrayList<PotentialContact> contacts) {

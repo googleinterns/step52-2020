@@ -1,6 +1,8 @@
 package com.google.sps.storage;
 
-// Store a places name and id (could possibly be replaced by the business class)
+/**
+* Store a place's name and id
+*/
 public class Place {
 
   String name;

@@ -2,7 +2,9 @@ package com.google.sps.storage;
 
 import java.time.Instant;
 
-// Keep track of information needed to contact a business
+/**
+* Keep track of information needed to contact a business
+*/
 public class BusinessNumber implements ContactStatus{
 
   String nameOfBusiness;

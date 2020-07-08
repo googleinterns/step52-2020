@@ -2,6 +2,9 @@ package com.google.sps.storage;
 
 import java.time.Instant;
 
+/**
+* Keep track of information needed to contact a person
+*/
 public class PersonEmail implements ContactStatus{
 
   String nameOfSender;

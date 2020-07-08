@@ -6,6 +6,9 @@ import com.googlecode.objectify.annotation.Index;
 import java.util.ArrayList;
 import java.time.Instant;
 
+/**
+* A NotificationBatch is a collection of emails and phone numbers that need to be contacted.
+*/
 @Entity
 public class NotificationBatch {
 
@@ -15,6 +18,7 @@ public class NotificationBatch {
   ArrayList<PersonEmail> personEmails;
   ArrayList<BusinessNumber> businessNumbers;
 
+  // Objecify requires one constructor with no parameters
   private NotificationBatch() {}
 
   public NotificationBatch(String userId, ArrayList<PersonEmail> personEmails, ArrayList<BusinessNumber> businessNumbers) {

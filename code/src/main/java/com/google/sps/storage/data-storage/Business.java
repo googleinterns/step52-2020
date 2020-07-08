@@ -4,12 +4,16 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import java.time.Instant;
 
+/**
+* This class is used to check if a business was contacted in the last week.
+*/
 @Entity
-public class Business {// This class is solely to check if a business was contacted in the last week.
+public class Business {
 
   @Id String placeId;
   private long timeOfLastContactSeconds;
 
+  // Objecify requires one constructor with no parameters
   private Business() {}
   
   public Business(String placeId) {
