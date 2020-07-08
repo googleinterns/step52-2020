@@ -10,22 +10,32 @@ import java.time.Instant;
 @Entity
 public class PositiveUser {
 
-  @Id String userId;
-  String userEmail;
-  private int emailsSent = 0;
+  @Id private String userId;
+  private String userEmail;
+  private int emailsSent;
   private long firstLoginSeconds;
   private long lastLoginSeconds;
 
   // Objecify requires one constructor with no parameters
   private PositiveUser() {}
   
-  public PositiveUser(String userId) {
-    this.userId = userId;
+  public PositiveUser(String id, String email) {
+    userId = id;
+    userEmail = email;
+    emailsSent = 0;
     firstLoginSeconds = lastLoginSeconds = Instant.now().getEpochSecond();
   }
 
   public void setLastLogin() {
     firstLoginSeconds = Instant.now().getEpochSecond();
+  }
+  
+  public String getUserId() {
+      return userId;
+  }
+
+  public String getUserEmail() {
+    return userEmail;
   }
   
   public long getNumberOfEmailsSent() {
@@ -42,5 +52,9 @@ public class PositiveUser {
 
   public void incrementEmailsSent() {
     emailsSent++;
+  }
+
+  public boolean emailLimitReached() {
+    return emailsSent < 201;
   }
 }

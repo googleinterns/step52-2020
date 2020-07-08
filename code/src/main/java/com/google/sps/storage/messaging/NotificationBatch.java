@@ -12,11 +12,10 @@ import java.time.Instant;
 @Entity
 public class NotificationBatch {
 
-  @Id String userId;
-  @Index int priority; // use index to prioritize which emails are sent
-  long timeCreatedSeconds; // Delete after two weeks
-  ArrayList<PersonEmail> personEmails;
-  ArrayList<BusinessNumber> businessNumbers;
+  @Id private String userId;
+  @Index private long timeCreatedSeconds; // Delete after two weeks
+  private ArrayList<PersonEmail> personEmails;
+  private ArrayList<BusinessNumber> businessNumbers;
 
   // Objecify requires one constructor with no parameters
   private NotificationBatch() {}
@@ -26,6 +25,22 @@ public class NotificationBatch {
     this.personEmails = personEmails;
     this.businessNumbers = businessNumbers;
     timeCreatedSeconds = Instant.now().getEpochSecond();
+  }
+
+  public String getUserId() {
+      return userId;
+  }
+
+  public long getUserTimeCreatedSeconds() {
+      return timeCreatedSeconds;
+  }
+
+  public ArrayList<PersonEmail> getPersonEmails() {
+      return personEmails;
+  }
+
+  public ArrayList<BusinessNumber> getBusinessNumbers() {
+      return businessNumbers;
   }
   
 }

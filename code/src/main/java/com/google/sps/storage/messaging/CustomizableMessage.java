@@ -9,8 +9,8 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class CustomizableMessage {
 
-  @Id String userId;
-  String message;
+  @Id private String userId;
+  private String message;
 
   // Objecify requires one constructor with no parameters
   private CustomizableMessage() {}
@@ -18,6 +18,14 @@ public class CustomizableMessage {
   public CustomizableMessage(String userId, String message) {
     this.userId = userId;
     this.message = message;
+  }
+
+  public String getUserId() {
+      return userId;
+  }
+
+  public String getMessage() {
+      return message;
   }
   
 }

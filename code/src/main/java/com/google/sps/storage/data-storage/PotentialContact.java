@@ -1,13 +1,24 @@
 package com.google.sps.storage;
 
+/**
+* Store a contacts's name and email
+*/
 public class PotentialContact {
 
-  String name;
-  String email;
+  private String nameOfPerson;
+  private String email;
 
   public PotentialContact(String name, String email) {
-    this.name = name;
+    nameOfPerson = name;
     this.email = email;
+  }
+
+  public String getName() {
+    return nameOfPerson;
+  }
+
+  public String getEmail() {
+    return email;
   }
 
 }

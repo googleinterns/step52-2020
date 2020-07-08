@@ -2,6 +2,7 @@ package com.google.sps.storage;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 @Entity
 public class PositiveUserPlaces {
 
-  @Id String userId;
-  ArrayList<Place> places;
-  long timeCreatedSeconds;
+  @Id private String userId;
+  private ArrayList<Place> places;
+  @Index private long timeCreatedSeconds;
 
   // Objecify requires one constructor with no parameters
   private PositiveUserPlaces() {}
@@ -22,6 +23,18 @@ public class PositiveUserPlaces {
     this.userId = userId;
     this.places = places;
     timeCreatedSeconds = Instant.now().getEpochSecond();
+  }
+
+  public String getUserId() {
+      return userId;
+  }
+
+  public ArrayList<Place> getPlaces() {
+      return places;
+  }
+
+  public long getTimeCreatedSeconds() {
+      return timeCreatedSeconds;
   }
 
 }

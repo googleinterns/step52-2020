@@ -10,7 +10,7 @@ import java.time.Instant;
 @Entity
 public class Business {
 
-  @Id String placeId;
+  @Id private String placeId;
   private long timeOfLastContactSeconds;
 
   // Objecify requires one constructor with no parameters

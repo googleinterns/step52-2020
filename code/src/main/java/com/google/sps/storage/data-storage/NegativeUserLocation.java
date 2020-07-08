@@ -13,22 +13,42 @@ import java.util.ArrayList;
 @Entity
 public class NegativeUserLocation {
 
-  String userId;
-  @Index long longitudeE7;
-  @Index long latitudeE7;
-  @Index long intervalStartSeconds;
-  @Index long intervalEndSeconds;
-  @Id int key;
+  private String  userId;
+  @Index private long longitudeE7;
+  @Index private long latitudeE7;
+  @Index private long intervalStartSeconds;
+  @Index private long intervalEndSeconds;
+  @Id private Long key;
 
   // Objecify requires one constructor with no parameters
   private NegativeUserLocation() {}
 
-  public NegativeUserLocation(String userId, long lng, long lat, long intervalStart, long intervalEnd) {
-    this.userId = userId;
+  public NegativeUserLocation(String id, long lng, long lat, long intervalStart, long intervalEnd) {
+    userId = id;
     longitudeE7 = lng;
     latitudeE7 = lat;
     intervalStartSeconds = intervalStart;
     intervalEndSeconds = intervalEnd;
+  }
+
+  public String getUserId() {
+      return userId;
+  }
+
+  public long getLongitude() {
+    return longitudeE7;
+  }
+
+  public long getLatitude() {
+    return latitudeE7;
+  }
+
+  public long getIntervalStartSeconds() {
+    return intervalStartSeconds;
+  }
+
+  public long getIntervalEndSeconds() {
+    return intervalEndSeconds;
   }
 
 }

@@ -5,16 +5,32 @@ package com.google.sps.storage;
 */
 public class Place {
 
-  String name;
-  String placeId;
-  long intervalStartSeconds;
-  long intervalEndSeconds;
+  private String nameOfPlace;
+  private String placeId;
+  private long intervalStartSeconds;
+  private long intervalEndSeconds;
   
-  public Place(String name, String placeId, long intervalStart, long intervalEnd) {
-    this.name = name;
-    this.placeId = placeId;
+  public Place(String name, String id, long intervalStart, long intervalEnd) {
+    nameOfPlace = name;
+    placeId = id;
     intervalStartSeconds = intervalStart;
     intervalEndSeconds = intervalEnd;
+  }
+
+  public String getName() {
+    return nameOfPlace;
+  }
+
+  public String getPlaceId() {
+    return placeId;
+  }
+
+  public long getIntervalStartSeconds() {
+    return intervalStartSeconds;
+  }
+
+  public long getIntervalEndSeconds() {
+    return intervalEndSeconds;
   }
 
 }
