@@ -7,8 +7,8 @@ package com.google.sps.storage;
 public class Location extends TimeInterval {
 
   // Location History provides geographic coordinates multiplied by 10^7 for more accuracy
-  private long longitudeE7;
-  private long latitudeE7;
+  private final long longitudeE7;
+  private final long latitudeE7;
 
   public Location(long lng, long lat, long intervalStart, long intervalEnd) {
     super(intervalStart, intervalEnd);

@@ -5,8 +5,8 @@ package com.google.sps.storage;
 */
 public class Place extends TimeInterval {
 
-  private String nameOfPlace;
-  private String placeId;
+  private final String nameOfPlace;
+  private final String placeId;
   
   public Place(String name, String id, long intervalStart, long intervalEnd) {
     super(intervalStart, intervalEnd);

@@ -5,8 +5,8 @@ package com.google.sps.storage;
 */
 public class PotentialContact {
 
-  private String nameOfPerson;
-  private String email;
+  private final String nameOfPerson;
+  private final String email;
 
   public PotentialContact(String name, String email) {
     nameOfPerson = name;

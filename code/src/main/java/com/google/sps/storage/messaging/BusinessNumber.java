@@ -8,8 +8,8 @@ import java.util.Optional;
 */
 public class BusinessNumber implements ContactStatus{
 
-  private String nameOfBusiness;
-  private String phoneNumber;
+  private final String nameOfBusiness;
+  private final String phoneNumber;
   private Optional<Long> getTimeWhenCalledSeconds;
   private boolean businessHasBeenCalled;
 

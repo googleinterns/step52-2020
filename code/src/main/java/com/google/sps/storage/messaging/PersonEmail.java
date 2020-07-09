@@ -8,8 +8,8 @@ import java.util.Optional;
 */
 public class PersonEmail implements ContactStatus{
 
-  private String nameOfSender;
-  private String email;
+  private final String nameOfSender;
+  private final String email;
   private Optional<Long> getTimeWhenEmailedSeconds;
   private boolean personHasBeenEmailed;
 

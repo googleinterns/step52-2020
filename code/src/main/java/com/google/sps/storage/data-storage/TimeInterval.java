@@ -5,8 +5,8 @@ package com.google.sps.storage;
 */
 public class TimeInterval {
 
-  private long intervalStartSeconds;
-  private long intervalEndSeconds;
+  private final long intervalStartSeconds;
+  private final long intervalEndSeconds;
 
   public TimeInterval(long intervalStart, long intervalEnd) {
     intervalStartSeconds = intervalStart;
