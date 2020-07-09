@@ -13,12 +13,13 @@ import java.util.ArrayList;
 @Entity
 public class NegativeUserPlace {
 
-  private String userId;
+  // The Id is needed for objectify but not the implementation of this class
+  @Id private Long key;
   @Index private String placeId;
   @Index private long intervalStartSeconds;
   @Index private long intervalEndSeconds;
   private String nameOfPlace;
-  @Id private Long key;
+  private String userId;
 
   // Objecify requires one constructor with no parameters
   private NegativeUserPlace() {}

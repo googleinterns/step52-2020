@@ -12,14 +12,15 @@ import java.util.ArrayList;
 */
 @Entity
 public class NegativeUserLocation {
-
-  private String  userId;
+    
+  // The Id is needed for objectify but not the implementation of this class
+  @Id private Long key;
   // Location History provides geographic coordinates multiplied by 10^7 for more accuracy
   @Index private long longitudeE7;
   @Index private long latitudeE7;
   @Index private long intervalStartSeconds;
   @Index private long intervalEndSeconds;
-  @Id private Long key;
+  private String  userId;
 
   // Objecify requires one constructor with no parameters
   private NegativeUserLocation() {}
