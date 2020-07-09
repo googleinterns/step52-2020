@@ -1,7 +1,8 @@
 package com.google.sps.storage;
 
 import org.junit.Test;
-import org.junit.Assert;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
  
@@ -11,13 +12,16 @@ public final class BusinessTest {
   @Test
   public void createBusiness() {
     Business business = new Business("Test");
-    Assert.assertFalse(business.contactedInLastWeek());
+
+    assertFalse(business.stillInCooldownPeriodFromLastContact());
   }
 
   @Test
   public void contactBusiness() {
     Business business = new Business("Test");
+
     business.updateTimeOfContact();
-    Assert.assertTrue(business.contactedInLastWeek());
+
+    assertTrue(business.stillInCooldownPeriodFromLastContact());
   }
 }

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 /**
-* Keep track of information needed to contact a business
+* This class keeps track of information needed to contact a business
 */
 public class BusinessNumber implements ContactStatus{
 
@@ -20,19 +20,23 @@ public class BusinessNumber implements ContactStatus{
     businessHasBeenCalled = false;
   }
 
-  // Record time bussiness was contacted
+  /**
+  * Record the time a bussiness was contacted.
+  */
   @Override
-  public void setSuccess() {
+  public void markContactedSuccessfully() {
     getTimeWhenCalledSeconds = Optional.of(Instant.now().getEpochSecond());
     businessHasBeenCalled = true;
   }
 
   @Override
-  public boolean getStatus() {
+  public boolean hasBeenContactedSuccessfully() {
     return businessHasBeenCalled;
   }
 
-  // Return time bussiness was contacted to display to user
+  /**
+  * Return time a bussiness was contacted to display to user.
+  */
   @Override
   public Optional<Long> getTimeWhenContactedSeconds() {
     return getTimeWhenCalledSeconds;

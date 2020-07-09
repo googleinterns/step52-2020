@@ -1,7 +1,7 @@
 package com.google.sps.storage;
 
 /**
-* Store a place's name and id
+* This class keeps track of a place's name and id
 */
 public class Place {
 

@@ -5,7 +5,8 @@ import com.googlecode.objectify.annotation.Id;
 import java.time.Instant;
 
 /**
-* Store the information associated with positive user.
+* This class stores the information required to identify a positive user 
+* and limit how many emails they have sent.
 */
 @Entity
 public class PositiveUser {
@@ -31,7 +32,7 @@ public class PositiveUser {
   }
   
   public String getUserId() {
-      return userId;
+    return userId;
   }
 
   public String getUserEmail() {
@@ -39,7 +40,7 @@ public class PositiveUser {
   }
   
   public long getNumberOfEmailsSent() {
-      return emailsSent;
+    return emailsSent;
   }
 
   public long getFirstLoginInSeconds() {
@@ -54,7 +55,7 @@ public class PositiveUser {
     emailsSent++;
   }
 
-  public boolean emailLimitReached() {
-    return emailsSent < 201;
+  public boolean userCanStillSendEmails() {
+    return emailsSent < Constants.EMAILING_THRESHOLD;
   }
 }

@@ -1,7 +1,8 @@
 package com.google.sps.storage;
 
 import org.junit.Test;
-import org.junit.Assert;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
  
@@ -11,27 +12,33 @@ public final class ContactStatusTest {
   @Test
   public void falseBusinessStatus() {
     ContactStatus business = new BusinessNumber("Test", "9703456789");
-    Assert.assertFalse(business.getStatus());
+
+    assertFalse(business.hasBeenContactedSuccessfully());
   }
 
   @Test
   public void trueBusinessStatus() {
     ContactStatus business = new BusinessNumber("Test", "9703456789");
-    business.setSuccess();
-    Assert.assertTrue(business.getStatus());
+
+    business.markContactedSuccessfully();
+
+    assertTrue(business.hasBeenContactedSuccessfully());
   }
 
   @Test
   public void falsePersonStatus() {
     PersonEmail person = new PersonEmail("Test", "test@google.com");
-    Assert.assertFalse(person.getStatus());
+
+    assertFalse(person.hasBeenContactedSuccessfully());
   }
 
   @Test
   public void truePersonStatus() {
     PersonEmail person = new PersonEmail("Test", "test@google.com");
-    person.setSuccess();
-    Assert.assertTrue(person.getStatus());
+
+    person.markContactedSuccessfully();
+
+    assertTrue(person.hasBeenContactedSuccessfully());
   }
 
 }

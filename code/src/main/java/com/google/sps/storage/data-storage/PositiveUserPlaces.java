@@ -7,34 +7,34 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 /**
-* Store information needed to keep track of a list of a positive user's contacts from People and Calendar API
+* This class keeps track of a positive user's list of contacts from People and Calendar API
 */
 @Entity
 public class PositiveUserPlaces {
 
   @Id private String userId;
-  private ArrayList<Place> places;
   @Index private long timeCreatedSeconds;
+  private ArrayList<Place> listOfPlaces;
 
   // Objecify requires one constructor with no parameters
   private PositiveUserPlaces() {}
 
-  public PositiveUserPlaces(String userId, ArrayList<Place> places) {
-    this.userId = userId;
-    this.places = places;
+  public PositiveUserPlaces(String id, ArrayList<Place> places) {
+    userId = id;
     timeCreatedSeconds = Instant.now().getEpochSecond();
+    listOfPlaces = places;
   }
 
   public String getUserId() {
-      return userId;
+    return userId;
   }
 
-  public ArrayList<Place> getPlaces() {
-      return places;
+  public ArrayList<Place> getListOfPlaces() {
+    return listOfPlaces;
   }
 
   public long getTimeCreatedSeconds() {
-      return timeCreatedSeconds;
+    return timeCreatedSeconds;
   }
 
 }

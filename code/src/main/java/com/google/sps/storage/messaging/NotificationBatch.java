@@ -28,19 +28,19 @@ public class NotificationBatch {
   }
 
   public String getUserId() {
-      return userId;
+    return userId;
   }
 
   public long getUserTimeCreatedSeconds() {
-      return timeCreatedSeconds;
+    return timeCreatedSeconds;
   }
 
   public ArrayList<PersonEmail> getPersonEmails() {
-      return personEmails;
+    return personEmails;
   }
 
   public ArrayList<BusinessNumber> getBusinessNumbers() {
-      return businessNumbers;
+    return businessNumbers;
   }
   
 }

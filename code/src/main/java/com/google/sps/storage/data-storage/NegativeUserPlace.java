@@ -15,20 +15,20 @@ public class NegativeUserPlace {
 
   private String userId;
   @Index private String placeId;
-  private String nameOfPlace;
   @Index private long intervalStartSeconds;
   @Index private long intervalEndSeconds;
+  private String nameOfPlace;
   @Id private Long key;
 
   // Objecify requires one constructor with no parameters
   private NegativeUserPlace() {}
 
-  public NegativeUserPlace(String userId, String name, String placeId, long intervalStart, long intervalEnd) {
+  public NegativeUserPlace(String userId, String placeId, long intervalStart, long intervalEnd, String name) {
     this.userId = userId;
     this.placeId = placeId;
-    nameOfPlace = name;
     intervalStartSeconds = intervalStart;
     intervalEndSeconds = intervalEnd;
+    nameOfPlace = name;
   }
 
   public String getUserId() {

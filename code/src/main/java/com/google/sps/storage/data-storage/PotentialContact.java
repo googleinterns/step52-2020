@@ -1,7 +1,7 @@
 package com.google.sps.storage;
 
 /**
-* Store a contacts's name and email
+* This class stores the information needed to contact a person
 */
 public class PotentialContact {
 

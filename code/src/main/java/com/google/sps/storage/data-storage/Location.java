@@ -1,11 +1,12 @@
 package com.google.sps.storage;
 
 /**
-* Store a location based on longitude/latitude coordinates and
+* This class stores a location based on geographic coordinates and
 * the time interval when the user was present
 */
 public class Location {
 
+  // Location History provides geographic coordinates multiplied by 10^7 for more accuracy
   private long longitudeE7;
   private long latitudeE7;
   private long intervalStartSeconds;
@@ -18,11 +19,11 @@ public class Location {
     intervalEndSeconds = intervalEnd;
   }
 
-  public long getLongitude() {
+  public long getLongitudeE7() {
     return longitudeE7;
   }
 
-  public long getLatitude() {
+  public long getLatitudeE7() {
     return latitudeE7;
   }
 

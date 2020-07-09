@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 /**
-* Keep track of information needed to contact a person
+* This class keeps track of information needed to contact people and businesses.
 */
 public class PersonEmail implements ContactStatus{
 
@@ -21,13 +21,13 @@ public class PersonEmail implements ContactStatus{
   }
   
   @Override
-  public void setSuccess() {
+  public void markContactedSuccessfully() {
     getTimeWhenEmailedSeconds = Optional.of(Instant.now().getEpochSecond());
     personHasBeenEmailed = true;
   }
 
   @Override
-  public boolean getStatus() {
+  public boolean hasBeenContactedSuccessfully() {
     return personHasBeenEmailed;
   }
 

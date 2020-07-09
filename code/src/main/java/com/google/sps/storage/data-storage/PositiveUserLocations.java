@@ -7,34 +7,34 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 /**
-* Store information needed to keep track of a list of a positive user's locations from location history
+* This class keeps track of a positive user's list of locations from location history
 */
 @Entity
 public class PositiveUserLocations {
 
   @Id private String userId;
-  private ArrayList<Location> locations;
   @Index private long timeCreatedSeconds;
+  private ArrayList<Location> listOfLocations;
 
   // Objecify requires one constructor with no parameters
   private PositiveUserLocations() {}
 
-  public PositiveUserLocations(String userId, ArrayList<Location> locations) {
-    this.userId = userId;
-    this.locations = locations;
+  public PositiveUserLocations(String id, ArrayList<Location> locations) {
+    userId = id;
     timeCreatedSeconds = Instant.now().getEpochSecond();
+    listOfLocations = locations;
   }
 
   public String getUserId() {
-      return userId;
+    return userId;
   }
 
-  public ArrayList<Location> getLocations() {
-      return locations;
+  public ArrayList<Location> getListOfLocations() {
+    return listOfLocations;
   }
 
   public long getTimeCreatedSeconds() {
-      return timeCreatedSeconds;
+    return timeCreatedSeconds;
   }
 
 }
