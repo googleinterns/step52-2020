@@ -13,8 +13,8 @@ import java.util.ArrayList;
 @Entity
 public class NegativeUserLocation {
 
-  // Location History provides geographic coordinates multiplied by 10^7 for more accuracy
   private String  userId;
+  // Location History provides geographic coordinates multiplied by 10^7 for more accuracy
   @Index private long longitudeE7;
   @Index private long latitudeE7;
   @Index private long intervalStartSeconds;

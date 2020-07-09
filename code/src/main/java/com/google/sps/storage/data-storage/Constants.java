@@ -6,6 +6,10 @@ package com.google.sps.storage;
 public class Constants {
   final static long BUSINESS_CONTACT_COOLDOWN_SECONDS = 604800L;
   final static long EMAILING_THRESHOLD = 200;
-  final static long INFECTION_RADIUS = 12; // TODO: we will need to convert this value from feet to degrees
-  final static long TIME_INTERVAL_ERROR_SECONDS = 600L; // 10 minutes?
+
+  // 12 feet in degrees:
+  final static long INFECTION_RADIUS_DEGREES = 330;
+
+  // 10 minutes?
+  final static long TIME_INTERVAL_ERROR_SECONDS = 600L;
 }
