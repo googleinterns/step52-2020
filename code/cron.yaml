@@ -1,0 +1,10 @@
+cron:
+- description: "Delete old negative user data"
+  url: /delete-old-negative-user-locations
+  schedule: every 1 mins
+- description: "Delete old negative user data"
+  url: /delete-old-negative-user-places
+  schedule: every 1 mins
+- description: "Delete old notification batches"
+  url: /delete-old-notification-batch
+  schedule: every 1 mins
