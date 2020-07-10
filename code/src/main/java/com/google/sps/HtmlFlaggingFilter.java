@@ -10,7 +10,7 @@ public class HtmlFlaggingFilter implements FlaggingFilter{
         add("/body");   
     }}; //e.g. "<html>"
 
-    public boolean passesFilter(User user, String message) {
+    public boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfHtmlIndicators = listOfHtmlIndicators.size();
       String htmlIndicator;
       for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {

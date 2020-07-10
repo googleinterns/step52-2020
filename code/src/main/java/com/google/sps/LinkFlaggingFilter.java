@@ -31,7 +31,7 @@ public class LinkFlaggingFilter implements FlaggingFilter{
     }};
   private int flagThreshold = 10;
   
-  public boolean passesFilter(User user, String message) {
+  public boolean passesFilter(PositiveUser positiveUser, String message) {
     int numOfLinkIndicators = listOfLinkIndicators.size();
     String linkIndicator;
     for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {

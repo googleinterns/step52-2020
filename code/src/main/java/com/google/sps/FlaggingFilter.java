@@ -6,6 +6,6 @@
 */
 
 public interface FlaggingFilter {
-  public boolean passesFilter(String userId, String message);
+  public boolean passesFilter(PositiveUser positiveUser, String message);
   public String errorMessageToUser();
 }

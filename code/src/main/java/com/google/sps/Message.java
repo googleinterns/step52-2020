@@ -2,7 +2,6 @@ public class Message {
   private SystemMessage systemMessage;
   private LocalityResource localityResource;
   private CustomizableMessage customizableMessage;
-  private String completeMessage;
 
   public Message(SystemMessage systemMessage, String LocalityResource, CustomizableMessage customizableMessage) {
     this.systemMessage = systemMessage;
@@ -19,6 +18,11 @@ public class Message {
             LinkFlaggingFilter.passesFilter(userId, userMessage) &&
             HtmlFlaggingFilter.passesFilter(userId, userMessage) &&
             LengthFlaggingFilter.passesFilter(userId, userMessage);
+  }
+
+  public String compileMessage(String messageLanguage) {
+    //need to adjust to change with getting different translations
+    return systemMessage.getEnglishTranslation().concat(customizableMessage.getMessage()).concat(localityResource.getEnglishTranslation());
   }
 
 
