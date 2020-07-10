@@ -22,9 +22,9 @@ public class NegativeUserLocation {
   // Objecify requires one constructor with no parameters
   private NegativeUserLocation() {}
 
-  public NegativeUserLocation(String id, long lng, long lat, long intervalStart, long intervalEnd) {
+  public NegativeUserLocation(String id, long lng, long lat, int accuracy, long intervalStart, long intervalEnd) {
     userId = id;
-    location = new Location(lng, lat, intervalStart, intervalEnd);
+    location = new Location(lng, lat, accuracy, intervalStart, intervalEnd);
   }
 
   public String getUserId() {
