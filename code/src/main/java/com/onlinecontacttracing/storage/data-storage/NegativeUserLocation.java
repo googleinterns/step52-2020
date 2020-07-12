@@ -4,7 +4,6 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import java.time.Instant;
-import java.util.ArrayList;
 
 /**
 * This class stores the information needed to identify a negative user
@@ -22,29 +21,29 @@ public class NegativeUserLocation {
   // Objecify requires one constructor with no parameters
   private NegativeUserLocation() {}
 
-  public NegativeUserLocation(String id, long lng, long lat, int accuracy, long intervalStart, long intervalEnd) {
+  public NegativeUserLocation(String id, long lat, long lng, int accuracy, long intervalStart, long intervalEnd) {
     userId = id;
-    location = new Location(lng, lat, accuracy, intervalStart, intervalEnd);
+    location = new Location(lat, lng, accuracy, intervalStart, intervalEnd);
   }
 
   public String getUserId() {
       return userId;
   }
 
-  public long getLongitudeE7() {
-    return location.longitudeE7;
-  }
-
   public long getLatitudeE7() {
     return location.latitudeE7;
   }
 
-  public double getLongitude() {
-    return location.longitudeE7/10^7;
+  public long getLongitudeE7() {
+    return location.longitudeE7;
   }
 
   public double getLatitude() {
     return location.latitudeE7/10^7;
+  }
+
+  public double getLongitude() {
+    return location.longitudeE7/10^7;
   }
 
   public long getIntervalStartSeconds() {
@@ -55,4 +54,10 @@ public class NegativeUserLocation {
     return location.timeInterval.intervalEndSeconds;
   }
 
+  @Override
+  public String toString() {
+    String person = "Negative User id: " + userId + "\n";
+    String locatedAtTime = "  " + location;
+    return person + locatedAtTime; 
+  } 
 }
