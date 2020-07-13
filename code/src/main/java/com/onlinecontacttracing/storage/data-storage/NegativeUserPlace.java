@@ -29,20 +29,16 @@ public class NegativeUserPlace {
       return userId;
   }
 
-  public String getName() {
-    return place.nameOfPlace;
-  }
-
   public String getPlaceId() {
-    return place.placeId;
+    return place.getPlaceId();
   }
 
   public long getIntervalStartSeconds() {
-    return place.timeInterval.intervalStartSeconds;
+    return place.getIntervalStartSeconds();
   }
 
   public long getIntervalEndSeconds() {
-    return place.timeInterval.intervalEndSeconds;
+    return place.getIntervalEndSeconds();
   }
 
   @Override

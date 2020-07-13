@@ -27,6 +27,18 @@ public class Place {
     return nameOfPlace;
   }
 
+  public String getPlaceId() {
+    return placeId;
+  }
+
+  public long getIntervalStartSeconds() {
+    return timeInterval.intervalStartSeconds;
+  }
+
+  public long getIntervalEndSeconds() {
+    return timeInterval.intervalEndSeconds;
+  }
+
   @Override  
   public String toString() {
     return nameOfPlace + " (" + placeId + ") at " + timeInterval;

@@ -25,6 +25,30 @@ public class Location {
     this.accuracy = accuracy;
     timeInterval = new TimeInterval(intervalStart, intervalEnd);
   }
+
+  public long getLatitudeE7() {
+    return latitudeE7;
+  }
+
+  public long getLongitudeE7() {
+    return longitudeE7;
+  }
+
+  public double getLatitude() {
+    return latitudeE7/10^7;
+  }
+
+  public double getLongitude() {
+    return longitudeE7/10^7;
+  }
+
+  public long getIntervalStartSeconds() {
+    return timeInterval.intervalStartSeconds;
+  }
+
+  public long getIntervalEndSeconds() {
+    return timeInterval.intervalEndSeconds;
+  }
   
   @Override  
   public String toString() {

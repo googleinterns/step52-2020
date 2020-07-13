@@ -31,27 +31,27 @@ public class NegativeUserLocation {
   }
 
   public long getLatitudeE7() {
-    return location.latitudeE7;
+    return location.getLatitudeE7();
   }
 
   public long getLongitudeE7() {
-    return location.longitudeE7;
+    return location.getLongitudeE7();
   }
 
   public double getLatitude() {
-    return location.latitudeE7/10^7;
+    return location.getLatitude();
   }
 
   public double getLongitude() {
-    return location.longitudeE7/10^7;
+    return location.getLongitude();
   }
 
   public long getIntervalStartSeconds() {
-    return location.timeInterval.intervalStartSeconds;
+    return location.getIntervalStartSeconds();
   }
 
   public long getIntervalEndSeconds() {
-    return location.timeInterval.intervalEndSeconds;
+    return location.getIntervalEndSeconds();
   }
 
   @Override
