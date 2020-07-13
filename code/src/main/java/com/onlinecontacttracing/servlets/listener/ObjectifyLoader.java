@@ -16,5 +16,6 @@ public class ObjectifyLoader implements ServletContextListener {
     ObjectifyService.register(PositiveUserPlaces.class);
     ObjectifyService.register(NegativeUserLocation.class);
     ObjectifyService.register(NegativeUserPlace.class);
+    ObjectifyService.register(NegativeUser.class);
   }
 }
