@@ -6,11 +6,11 @@ package com.onlinecontacttracing.storage;
 public class PotentialContact {
 
   private final String nameOfPerson;
-  private final String email;
+  private final String emailOfPerson;
 
   public PotentialContact(String name, String email) {
     nameOfPerson = name;
-    this.email = email;
+    emailOfPerson = email;
   }
 
   public String getName() {
@@ -18,7 +18,11 @@ public class PotentialContact {
   }
 
   public String getEmail() {
-    return email;
+    return emailOfPerson;
   }
 
+  @Override
+  public String toString() {
+    return nameOfPerson + " can be contacted at " + emailOfPerson;
+  }
 }

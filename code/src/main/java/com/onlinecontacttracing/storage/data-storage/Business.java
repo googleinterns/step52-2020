@@ -38,4 +38,14 @@ public class Business {
   public boolean stillInCooldownPeriodFromLastContact() {
     return timeOfLastContactSeconds.filter(timeOfLastContact -> (Instant.now().getEpochSecond() - timeOfLastContact) < Constants.BUSINESS_CONTACT_COOLDOWN_SECONDS).isPresent();
   }
+
+  @Override
+  public String toString() {
+    String business = "The business " + placeId + " ";
+    if (stillInCooldownPeriodFromLastContact()) {
+      return business + "is in cooldown";
+    } else {
+      return business + "is not in cooldown";
+    }
+  }
 }

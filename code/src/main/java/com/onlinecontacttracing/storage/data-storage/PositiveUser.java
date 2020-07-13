@@ -3,6 +3,7 @@ package com.onlinecontacttracing.storage;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import java.time.Instant;
+import java.util.Date;
 
 /**
 * This class stores the information required to identify a positive user 
@@ -68,5 +69,18 @@ public class PositiveUser {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public String toString() {
+    String person = "Negative User- ID:" + userId + ", email:" + userEmail + "\n";
+    String hasNumberOfAttemptsLeft = "  number of attempted drafts left: " + (Constants.NUMBER_OF_DRAFTS_ALLOWED - attemptedEmailDrafts) + "\n";
+    String hasSentThisManyEmails = "  number of emails sent: " + emailsSent + "\n";
+
+    Date firstLogin = new java.util.Date(firstLoginSeconds * 1000);
+    Date lastLogin = new java.util.Date(lastLoginSeconds * 1000);
+    String loginInformation = "  first login: " + firstLogin + ", last login: " + lastLogin;
+
+    return person + hasNumberOfAttemptsLeft + hasSentThisManyEmails + loginInformation;
   }
 }
