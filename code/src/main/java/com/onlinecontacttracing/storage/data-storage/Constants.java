@@ -9,6 +9,8 @@ public class Constants {
   final static long TWO_WEEKS_IN_SECONDS = 1209600L;
 
   public final static long BUSINESS_CONTACT_COOLDOWN_SECONDS = ONE_WEEK_IN_SECONDS;
+
+  public final static int NUMBER_OF_DRAFTS_ALLOWED = 3;
   public final static long EMAILING_THRESHOLD = 200;
 
   /***** Contact Tracing *****/

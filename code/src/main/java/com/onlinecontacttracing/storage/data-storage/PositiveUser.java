@@ -13,6 +13,7 @@ public class PositiveUser {
 
   @Id private String userId;
   private String userEmail;
+  private int attemptedEmailDrafts;
   private int emailsSent;
   private long firstLoginSeconds;
   private long lastLoginSeconds;
@@ -23,6 +24,7 @@ public class PositiveUser {
   public PositiveUser(String id, String email) {
     userId = id;
     userEmail = email;
+    attemptedEmailDrafts = Constants.NUMBER_OF_DRAFTS_ALLOWED;
     emailsSent = 0;
     firstLoginSeconds = lastLoginSeconds = Instant.now().getEpochSecond();
   }
@@ -57,5 +59,14 @@ public class PositiveUser {
 
   public boolean userCanStillSendEmails() {
     return emailsSent < Constants.EMAILING_THRESHOLD;
+  }
+
+  public boolean userCanMakeMoreDraftsAfterBeingFlagged() {
+    if (attemptedEmailDrafts > 0) {
+      attemptedEmailDrafts--;
+      return true;
+    } else {
+      return false;
+    }
   }
 }
