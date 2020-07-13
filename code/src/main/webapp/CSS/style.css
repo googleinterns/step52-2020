@@ -1,29 +1,81 @@
 body, html {
+  color: #222;
   height: 100%;
   margin: 0;
-  color: #222;
 }
 
 h1, p, a {
+  color:#025696;
+  font-family: Muli;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 1);
   margin: 0;
 }
 
 div {
-  position: fixed;
   width: 100%;
+}
+
+.fade-in {
+  animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  -ms-animation: fadeIn ease 1s;
+}
+.fade-out {
+  animation: fadeOut ease 1s;
+  -webkit-animation: fadeOut ease 1s;
+  -moz-animation: fadeOut ease 1s;
+  -o-animation: fadeOut ease 1s;
+  -ms-animation: fadeOut ease 1s;
+}
+
+.faq {
+    margin-left: 10%;
+    position: absolute;
+    top: 10%;
+    width: 80%;
+}
+
+.faq-answers {
+  display: inline-block;
+  font-size: 1vw;
+  width: 60%;
+}
+
+.faq-questions {
+  display: inline-block;
+  font-size: 2vw;
+  width: 50%;
+}
+
+.general-background {
+  background-image: url("images/background-login-blue.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.landing {
+  position: absolute;
   text-align: center;
 }
 
-#wrapper-background {
-  height:100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 120% 100%;
-  transition: 1s background linear;
+.landing-background {
+  background-image: url("images/background-landing-blue.svg");
 }
 
-.landing-background {
-  background-image: url("images/background-landing.svg");
+.landing-background #blue-buttons-to-procede {
+  top: 60%;
+}
+
+.login-background #blue-buttons-to-procede {
+  top: 60%;
 }
 
 .landing-background .line {
@@ -31,33 +83,71 @@ div {
   width: 0;
 }
 
-.login-background {
-  background-image: url("images/background-login.svg");
-}
-
 .line {
-  background: #a3c4f7;
-}
-
-.line-vertical {
-  width: 1rem;
-  height: 100%;
-  transition: 1s height linear;
+  background: #3293d3;
 }
 
 .line-horizontal {
   height: 1rem;
-  width: 100%;
+  position: fixed;
   transition: 1s width linear;
+  width: 100%;
 }
 
-#line-vertical-right {
-  left: 12%;
-  transition-delay: 1s
+.line-vertical {
+  height: 100%;
+  position: fixed;
+  transition: 1s height linear;
+  width: 1rem;
 }
 
-#line-vertical-left {
-  left: 8%;
+.login {
+  position: fixed;
+  top: 30%;
+}
+
+.login-background {
+  background-image: url("images/background-login-blue.svg");
+}
+
+#blue-buttons-to-procede button {
+  background: #025696;
+  border: 8px solid #025696;
+  border-radius: 5rem;
+  color: #ffffff;
+  font-family: Muli;
+  font-size: 3vw;
+  margin: 2rem;
+  padding: 2rem;
+  text-decoration: none;
+  top: 60%;
+}
+
+#blue-buttons-to-procede button:hover {
+  box-shadow: 0 0 2rem #C6C6C6;
+}
+
+#faq-button {
+  background: #ffffff;
+  border: none;
+  border-radius: 3rem;
+  color: #55a8db;
+  font-size: 1vw;
+  margin: 1rem;
+  margin-right: 2%;
+  padding: 1rem;
+  text-decoration: none;
+  margin-left: 95%;
+}
+
+#faq-q1 {
+  text-align:center;
+  display: inline-block;
+  top: 10%;
+}
+
+#line-horizontal-bottom {
+  top: 84%;
   transition-delay: 1.2s
 }
 
@@ -66,59 +156,179 @@ div {
   transition-delay: 1s
 }
 
-#line-horizontal-bottom {
-  top: 84%;
+#line-vertical-left {
+  left: 8%;
   transition-delay: 1.2s
 }
 
+#line-vertical-right {
+  left: 12%;
+  transition-delay: 1s
+}
 
-#title {
+#mission-statement {
+  font-size: 4vmin;
+  margin-left: auto;
+  margin-right: auto;
+  top: 29%;
+}
+
+#welcome {
+  font-size: 7vmin;
   top: 10%;
-  font-size: 5rem;
 }
 
-#mision-statement {
-  top: 30%;
-  left: 20%;
-  width: 60%;
-  font-size: 2.5rem;
+#wrapper-background {
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  text-align: center;
 }
 
-@media only screen and (max-width: 1200px) and (min-width: 900px) {
-  #mision-statement {
-   font-size: 2rem;
-  }
-}
-
-#blue-buttons-to-procede {
-  top: 60%;
-}
-
-#blue-buttons-to-procede button {
-  background: #116dff;
-  padding: 2rem;
-  border-radius: 5rem;
-  margin: 2rem;
-  color: #f1f1f1;
-  text-decoration: none;
-  border: none;
-  font-size: 3vw;
-}
-
-#blue-buttons-to-procede button:hover {
-  box-shadow: 0 0 2rem #116dff88;
+@font-face {
+  font-family: Muli;
+  src: url(./fonts/Muli-VariableFont_wght.ttf);
 }
 
 @media only screen and (max-width: 1000px){
-  #button-left-or-top {
-    position:fixed;
-    top: 52%;
+  #landing-button-left-or-top {
     right: 30%;
+    top: 55%;
   }
 
-  #button-right-or-bot {
-    position:fixed;
-    top: 63%;
+  #landing-button-right-or-bot {
     right: 30%;
+    top: 75%;
+  }
+
+  #login-button-left-or-top {
+    right: 30%;
+    top: 55%;
+  }
+
+  #login-button-right-or-bot {
+    right: 30%;
+    top: 75%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #mission-statement {
+   left: 2.5%;
+   width: 95%; 
+  }
+} 
+@media only screen and (max-width: 1400px) and (min-width: 900px) {
+  #mission-statement {
+   left: 7.5%;
+   width: 85%;
+  }
+}
+
+@media only screen and (max-width: 1900px) and (min-width: 1400px) {
+  #mission-statement {
+   left: 10%;
+   width: 80%;
+  }
+}
+
+@media only screen and (min-width: 1900px) {
+  #mission-statement {
+   left: 15%;
+   width: 70%;
+  }
+}
+
+/* For fade-out */
+@keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-moz-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-o-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-ms-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+/*For fade in*/
+@keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
   }
 }

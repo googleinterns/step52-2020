@@ -1,5 +1,5 @@
 class LandingPage {
-  constructor(){
+  constructor() {
     this.background = document.getElementById("wrapper-background");
   }
 
@@ -13,7 +13,7 @@ class LandingPage {
 }
 
 class LoginPage {
-  constructor(){
+  constructor() {
     this.background = document.getElementById("wrapper-background");
   }
 
@@ -26,8 +26,10 @@ class LoginPage {
   }
 }
 
+var listOfClassesHiddenStatus = {"landing" : true, "login" : true};
+
 class PageController {
-  constructor () {
+  constructor() {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
     this.currentlyShown = undefined;
@@ -44,17 +46,55 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        history.pushState({page: pageToShow}, 'Online Contact Tracing', pageToShow);
-        this.landingPage.show();
-        this.currentlyShown = this.landingPage;
+        this.setPageState("landing", 'Online Contact Tracing', this.landingPage, pageToShow, listOfClassesHiddenStatus)
         break;
       case "login":
-        history.pushState({page: pageToShow}, 'Login', pageToShow);
-        this.loginPage.show();
-        this.currentlyShown = this.loginPage;
+        this.setPageState("login", 'Login', this.loginPage, pageToShow, listOfClassesHiddenStatus)
+        startupGoogleLogin() 
+        startApp();
         break;
     }
   }
+
+  setPageState(pageID, pageName, thisPage, pageToShow,  listOfClassesHiddenStatus) {
+    history.pushState({page: pageToShow}, pageName, pageToShow);
+    thisPage.show();
+    this.currentlyShown = thisPage;
+    for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
+      listOfClassesHiddenStatus[key] = true;
+    }
+    listOfClassesHiddenStatus[pageID] = false;
+    this.setFadeoutAndHiddenStatus(listOfClassesHiddenStatus);
+  }
+
+  setFadeoutAndHiddenStatus(listOfClassesHiddenStatus) {
+    this.setStatus(listOfClassesHiddenStatus, "fade-out", "fade-in");
+    setTimeout(this.setStatus, 900, listOfClassesHiddenStatus, "hidden", "");
+  }
+
+  setStatus(listOfClassesHiddenStatus, wantedProperty, discardedProperty) {
+    var numElements;
+    var elements;
+    var isHidden;
+
+    for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
+      numElements = document.getElementsByClassName(key).length
+      elements = document.getElementsByClassName(key);
+      isHidden = value;
+      for (var index = 0; index < numElements; index++) {
+        if (isHidden) {
+          elements[index].classList.add(wantedProperty);
+          if (discardedProperty!="") {
+          elements[index].classList.remove(discardedProperty);}
+        } else {
+          elements[index].classList.remove(wantedProperty);
+          if (discardedProperty!="") {
+          elements[index].classList.add(discardedProperty);}
+        }
+      } 
+    }
+  }
+
 }
 
 function LoadPage() {
@@ -68,4 +108,41 @@ function LoadPage() {
   window.onpopstate = function(event) {
     PAGE_CONTROLLER.show(event.state.page);
   }
+}
+
+function startupGoogleLogin() {
+  var googleUser = {};
+  startApp;
+}
+  
+var startApp = function() {
+  gapi.load('auth2', function() {
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+      client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
+      cookiepolicy: 'single_host_origin',
+      // Request scopes in addition to 'profile' and 'email'
+      //scope: 'additional_scope'
+    });
+    attachSignin(document.getElementById('login-button-left-or-top'));
+  });
+};
+
+function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          document.getElementById('name').innerText = "Signed in: " +
+              googleUser.getBasicProfile().getName();
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
+
+function backToLogin() {
+  window.location = "/landing";
+}
+
+function getFAQ() {
+  window.location = "../html/faq.html";
 }
