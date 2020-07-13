@@ -1,9 +1,14 @@
+package com.onlinecontacttracing.messaging;
+
+import java.util.ArrayList;
+import com.onlinecontacttracing.messaging.FlaggingFilter;
+
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  ArrayList<String> listOfProfanity = new ArrayList<>() {{
+  private static ArrayList<String> listOfProfanity = new ArrayList<String> () {{
         
     }};
 
-  public boolean passesFilter(PositiveUser positiveUser, String message) {
+  public static boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfProfanityIndicators = listOfProfanityIndicators.size();
       String profanityIndicator;
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
@@ -14,7 +19,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       }
       return true;
     }
-  public String errorMessageToUser() {
+  public static String errorMessageToUser() {
     return "We believe that your message contains profanity. Please remove it and try again.";
   };
 }

@@ -1,5 +1,10 @@
+package com.onlinecontacttracing.messaging;
+
+import java.util.ArrayList;
+import com.onlinecontacttracing.messaging.FlaggingFilter;
+
 public class LinkFlaggingFilter implements FlaggingFilter{
-  private ArrayList<String> listOfLinkIndicators = new ArrayList<>() {{
+  private static ArrayList<String> listOfLinkIndicators = new ArrayList<String> () {{
         add("https://");
         add("http://");
         add(".com");
@@ -9,10 +14,10 @@ public class LinkFlaggingFilter implements FlaggingFilter{
         add(".co");
         add(".us");
         add("www.");
-    };
+    }};
   private int flagThreshold = 10;
   
-  public boolean passesFilter(PositiveUser positiveUser, String message) {
+  public static boolean passesFilter(PositiveUser positiveUser, String message) {
     int numOfLinkIndicators = listOfLinkIndicators.size();
     String linkIndicator;
     for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
@@ -24,7 +29,7 @@ public class LinkFlaggingFilter implements FlaggingFilter{
     return true;
   }
 
-  public String errorMessageToUser() {
+  public static String errorMessageToUser() {
     return "We think there might be a URL or link in your message. Please remove them and try again!";
   }
 

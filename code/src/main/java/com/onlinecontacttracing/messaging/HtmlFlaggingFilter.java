@@ -1,5 +1,10 @@
+package com.onlinecontacttracing.messaging;
+
+import java.util.ArrayList;
+import com.onlinecontacttracing.messaging.FlaggingFilter;
+
 public class HtmlFlaggingFilter implements FlaggingFilter{
-  ArrayList<String> listOfHtmlIndicators = new ArrayList<>() {{
+  private static ArrayList<String> listOfHtmlIndicators = new ArrayList<String> () {{
         add("<html>");
         add("</html>");
         add("<head>");
@@ -8,9 +13,9 @@ public class HtmlFlaggingFilter implements FlaggingFilter{
         add("</title>");
         add("body>");
         add("/body");   
-    }}; //e.g. "<html>"
+    }}; 
 
-    public boolean passesFilter(PositiveUser positiveUser, String message) {
+    public static boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfHtmlIndicators = listOfHtmlIndicators.size();
       String htmlIndicator;
       for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
@@ -21,7 +26,7 @@ public class HtmlFlaggingFilter implements FlaggingFilter{
       }
       return true;
     }
-    public String errorMessageToUser() {
+    public static String errorMessageToUser() {
       return "We think there might be some HTML code in your message. Please remove it and try again!";
     }
 }

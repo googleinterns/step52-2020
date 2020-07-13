@@ -5,7 +5,9 @@
   "ProfanityFlaggingFilter", etc.
 */
 
+package com.onlinecontacttracing.messaging;
+
 public interface FlaggingFilter {
-  public boolean passesFilter(PositiveUser positiveUser, String message);
-  public String errorMessageToUser();
+  public static boolean passesFilter(PositiveUser positiveUser, String message);
+  public static String errorMessageToUser();
 }

@@ -1,5 +1,7 @@
-public enum LocalityResources implements HasEnglishTranslation {
-  US("https://www.cdc.gov/coronavirus/2019-ncov/index.html")"),
+package com.onlinecontacttracing.messaging;
+
+public enum LocalityResource implements HasEnglishTranslation {
+  US("https://www.cdc.gov/coronavirus/2019-ncov/index.html"),
   ALABAMA("http://www.alabamapublichealth.gov/covid19/index.html"),
   ALASKA("https://covid19.alaska.gov/"),
   ARIZONA("https://www.azdhs.gov/preparedness/epidemiology-disease-control/infectious-disease-epidemiology/index.php#novel-coronavirus-home"),
@@ -49,10 +51,10 @@ public enum LocalityResources implements HasEnglishTranslation {
   WASHINGTON("https://www.doh.wa.gov/Emergencies/Coronavirus"),
   WEST_VIRGINIA("https://dhhr.wv.gov/COVID-19/Pages/default.aspx"),
   WISCONSIN("https://www.dhs.wisconsin.gov/covid-19/index.htm"),
-  WYOMING("https://health.wyo.gov/publichealth/infectious-disease-epidemiology-unit/disease/novel-coronavirus/")
+  WYOMING("https://health.wyo.gov/publichealth/infectious-disease-epidemiology-unit/disease/novel-coronavirus/");
   
   private String helpLink;
-  public LocalityResources(String helpLink) {
+  LocalityResource(String helpLink) {
     this.helpLink = helpLink;
   }
   public String getEnglishTranslation() {
