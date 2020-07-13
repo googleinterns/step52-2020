@@ -6,11 +6,13 @@ public class Message {
   private SystemMessage systemMessage;
   private LocalityResource localityResource;
   private CustomizableMessage customizableMessage;
+  private String userMessage;
 
   public Message(SystemMessage systemMessage, String LocalityResource, CustomizableMessage customizableMessage) {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
     this.customizableMessage = customizableMessage;
+    this.userMessage = customizableMessage.getMessage();
   }
 
   public boolean checkForFlags(CustomizableMessage customizableMessage) {
@@ -39,8 +41,16 @@ public class Message {
 
   public String compileMessage(String messageLanguage) {
     //need to adjust to change with getting different translations
+    String translatedResourceMessage;
+    String translatedSystemMessage;
+    
+
+
+
     if (messageLanguage.equals("EN")) {
-      return systemMessage.getEnglishTranslation().concat(customizableMessage.getMessage()).concat(localityResource.getEnglishTranslation());
+      translatedMessage = localityResource.getEnglishTranslation();
+      translatedSystemMessage = systemMessage.getEnglishTranslation();
+      return translatedSystemMessage.concat(userMessage).concat(translatedMessage);
     }
     return "";
   }
