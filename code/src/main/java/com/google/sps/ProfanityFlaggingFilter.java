@@ -1,12 +1,6 @@
 public class ProfanityFlaggingFilter implements FlaggingFilter{
   ArrayList<String> listOfProfanity = new ArrayList<>() {{
-        add("fuck");
-        add("shit");
-        add("bitch");
-        add("crap");
-        add("damn");
-        add("ass");
-        add("bastard");
+        
     }};
 
   public boolean passesFilter(PositiveUser positiveUser, String message) {
