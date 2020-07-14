@@ -33,6 +33,17 @@
         <artifactId>appengine-api-1.0-sdk</artifactId>
         <version>1.9.59</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-gmail</artifactId>
+      <version>v1-rev20200601-1.30.10</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>1.30.10</version>
+    </dependency>
+ 
   </dependencies>
 
   <build>
