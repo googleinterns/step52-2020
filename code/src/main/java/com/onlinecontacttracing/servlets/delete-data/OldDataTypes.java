@@ -9,19 +9,21 @@ import com.onlinecontacttracing.storage.PositiveUserContacts;
 import com.onlinecontacttracing.storage.Constants;
 
 public enum OldDataTypes {
-  NOTIFICATION_BATCH(NotificationBatch.class, Constants.NOTIFICATION_BATCH_MAX_TIME),
-  NEGATIVE_USER_PLACES(NegativeUserPlace.class, Constants.NEGATIVE_USER_DATA_MAX_TIME),
-  NEGATIVE_USER_LOCATIONS(NegativeUserLocation.class, Constants.NEGATIVE_USER_DATA_MAX_TIME),
-  POSITIVE_USER_PLACES(PositiveUserPlaces.class, Constants.POSITIVE_USER_DATA_MAX_TIME),
-  POSITIVE_USER_LOCATIONS(PositiveUserLocations.class, Constants.POSITIVE_USER_DATA_MAX_TIME),
-  POSITIVE_USER_CONTACTS(PositiveUserContacts.class, Constants.POSITIVE_USER_DATA_MAX_TIME);
+  NOTIFICATION_BATCH(NotificationBatch.class, Constants.NOTIFICATION_BATCH_MAX_TIME, "timeCreatedSeconds  <"),
+  NEGATIVE_USER_PLACES(NegativeUserPlace.class, Constants.NEGATIVE_USER_DATA_MAX_TIME, "place.timeInterval.intervalStartSeconds <"),
+  NEGATIVE_USER_LOCATIONS(NegativeUserLocation.class, Constants.NEGATIVE_USER_DATA_MAX_TIME, "location.timeInterval.intervalStartSeconds <"),
+  POSITIVE_USER_PLACES(PositiveUserPlaces.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <"),
+  POSITIVE_USER_LOCATIONS(PositiveUserLocations.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <"),
+  POSITIVE_USER_CONTACTS(PositiveUserContacts.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <");
 
   Class oldDataType;
   long maxTimeOfData;
+  String query;
 
-  OldDataTypes(Class oldDataType, long maxTimeOfData) {
+  OldDataTypes(Class oldDataType, long maxTimeOfData, String query) {
     this.oldDataType = oldDataType;
     this.maxTimeOfData = maxTimeOfData;
+    this.query = query;
   }
 
   public Class getOldDataClass() {
@@ -30,5 +32,9 @@ public enum OldDataTypes {
 
   public long getMaxTime() {
     return maxTimeOfData;
+  }
+
+  public String getQuery() {
+    return query;
   }
 }

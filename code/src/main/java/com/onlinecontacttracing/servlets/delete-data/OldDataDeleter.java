@@ -16,7 +16,7 @@ class OldDataDeleter {
     long timeStampOfOldData = Instant.now().getEpochSecond()-oldDataType.getMaxTime();
 
     // Fetch keys of old data
-    Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter("timeCreatedSeconds <", timeStampOfOldData).keys();
+    Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampOfOldData).keys();
     int numberOfKeysToDelete = Iterables.size(oldDataKeys);
 
     if (numberOfKeysToDelete != 0) {
@@ -24,7 +24,7 @@ class OldDataDeleter {
       ofy().delete().keys(oldDataKeys);
 
       // Check if any old data was not deleted and return percentage of successful deletions
-      oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter("timeCreatedSeconds <", timeStampOfOldData).keys();
+      oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampOfOldData).keys();
       int numberOfKeysLeft = Iterables.size(oldDataKeys);
     
       return 100 - (numberOfKeysLeft * 100) / numberOfKeysToDelete;
