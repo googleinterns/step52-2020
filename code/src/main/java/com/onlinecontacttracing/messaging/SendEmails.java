@@ -67,7 +67,7 @@ public class SendEmails {
     Message messageWithEmail;
 
     for(PotentialContact contact : contactsList) {
-      email = createEmail(PotentialContact.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody)
+      email = createEmail(PotentialContact.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody);
     }
   }
 
