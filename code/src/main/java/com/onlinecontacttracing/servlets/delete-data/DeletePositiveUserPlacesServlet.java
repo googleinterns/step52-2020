@@ -9,14 +9,14 @@ import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.util.logging.Logger;
 
-@WebServlet("/delete-old-negative-user-places")
-public class DeleteNegativeUserPlacesServlet extends HttpServlet {
+@WebServlet("/delete-old-positive-user-places")
+public class DeletePositiveUserPlacesServlet extends HttpServlet {
 
-  static final Logger log = Logger.getLogger(DeleteNegativeUserPlacesServlet.class.getName());
+  static final Logger log = Logger.getLogger(DeletePositiveUserPlacesServlet.class.getName());
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldNegativePlaces();
-    log.info("Percentage of successfully deleted negative places: " + percentageOfSuccessfulDeletions);
+    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldPositivePlaces();
+    log.info("Percentage of successfully deleted positive user places: " + percentageOfSuccessfulDeletions);
   }
 }
