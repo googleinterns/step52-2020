@@ -7,4 +7,4 @@ mvn package appengine:run
 ```
 
 You can find the current version of this project at:
-https://covid-catchin-code.wm.r.appspot.com
+https://covid-catchers-fixed-gcp.ue.r.appspot.com/landing

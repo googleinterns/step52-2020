@@ -5,7 +5,7 @@
          version="3.1">
   <listener>
     <listener-class>
-      com.google.sps.storage.ObjectifyLoader
+      com.onlinecontacttracing.storage.ObjectifyLoader
     </listener-class>
   </listener>
   <filter>
