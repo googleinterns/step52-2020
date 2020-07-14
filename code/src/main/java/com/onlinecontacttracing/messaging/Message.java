@@ -8,10 +8,10 @@ public class Message {
   private CustomizableMessage customizableMessage;
   private String userMessage;
 
-  public Message(SystemMessage systemMessage, String LocalityResource, CustomizableMessage customizableMessage) {
+  public Message(SystemMessage systemMessage, String localityResource, CustomizableMessage customizableMessage) {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
-    this.customizableMessage = customizableMessage;
+    this.customizableMessage =  customizableMessage;
     this.userMessage = customizableMessage.getMessage();
   }
 
@@ -21,32 +21,23 @@ public class Message {
     
     //to get error messages, store in hashmap in order with an associated number
     //store in alphabetical order
-    if(!NumberOfMessagesFlaggingFilter.passesFilter(userId, userMessage)) {
-      throw new Exception (NumberOfMessagesFlaggingFilter.errorMessageToUser);
+    try{
+      NumberOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
+      && ProfanityFlaggingFilter.passesFilter(userId, userMessage)
+      && LinkFlaggingFilter.passesFilter(userId, userMessage)
+      && HtmlOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
+      && LengthFlaggingFilter.passesFilter(userId, userMessage);
+      return true;
+    } catch (Exception e) {
+      
+      //can get exception message with toString();
     }
-    if(!ProfanityFlaggingFilter.passesFilter(userId, userMessage)) {
-      throw new Exception (NumberOfMessagesFlaggingFilter.errorMessageToUser);
-    }
-    if(!LinkFlaggingFilter.passesFilter(userId, userMessage)) {
-      throw new Exception (NumberOfMessagesFlaggingFilter.errorMessageToUser);
-    }
-    if(!HtmlOfMessagesFlaggingFilter.passesFilter(userId, userMessage)) {
-      throw new Exception (NumberOfMessagesFlaggingFilter.errorMessageToUser);
-    }
-    if(!LengthFlaggingFilter.passesFilter(userId, userMessage)) {
-      throw new Exception (NumberOfMessagesFlaggingFilter.errorMessageToUser);
-    }
-    return true;
   }
 
   public String compileMessage(String messageLanguage) {
     //need to adjust to change with getting different translations
     String translatedResourceMessage;
     String translatedSystemMessage;
-    
-
-
-
     if (messageLanguage.equals("EN")) {
       translatedMessage = localityResource.getEnglishTranslation();
       translatedSystemMessage = systemMessage.getEnglishTranslation();
