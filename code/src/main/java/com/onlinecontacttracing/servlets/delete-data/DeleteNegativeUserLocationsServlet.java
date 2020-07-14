@@ -23,7 +23,7 @@ public class DeleteNegativeUserLocationsServlet extends HttpServlet {
 
     try {
       FileWriter myWriter = new FileWriter("test.log");
-      myWriter.write("Deleted old locations at time: " + Iterables.size(allKeys));
+      myWriter.write("Number of deleted negative user locations: " + Iterables.size(allKeys));
       myWriter.close();
     } catch (IOException e) {
       System.out.println("An error occurred.");

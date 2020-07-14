@@ -1,8 +1,8 @@
 cron:
-- description: "Delete old negative user data"
+- description: "Delete old negative user locations"
   url: /delete-old-negative-user-locations
   schedule: every 1 mins
-- description: "Delete old negative user data"
+- description: "Delete old negative user places"
   url: /delete-old-negative-user-places
   schedule: every 1 mins
 - description: "Delete old notification batches"

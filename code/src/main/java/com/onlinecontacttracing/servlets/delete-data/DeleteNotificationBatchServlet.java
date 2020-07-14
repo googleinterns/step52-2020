@@ -23,7 +23,7 @@ public class DeleteNotificationBatchServlet extends HttpServlet {
 
     try {
       FileWriter myWriter = new FileWriter("test.log");
-      myWriter.write("Deleted old batches at time: " + Iterables.size(allKeys));
+      myWriter.write("Number of deleted notification batches: " + Iterables.size(allKeys));
       myWriter.close();
     } catch (IOException e) {
       System.out.println("An error occurred.");

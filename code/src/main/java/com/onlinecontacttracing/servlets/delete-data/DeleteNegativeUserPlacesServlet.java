@@ -23,7 +23,7 @@ public class DeleteNegativeUserPlacesServlet extends HttpServlet {
 
     try {
       FileWriter myWriter = new FileWriter("test.log");
-      myWriter.write("Deleted old places at time: " + Iterables.size(allKeys));
+      myWriter.write("Number of deleted negative user places: " + Iterables.size(allKeys));
       myWriter.close();
     } catch (IOException e) {
       System.out.println("An error occurred.");
