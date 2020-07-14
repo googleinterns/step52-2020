@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.google.sps</groupId>
+  <groupId>com.onlinecontacttracing</groupId>
   <artifactId>code</artifactId>
   <version>1</version>
   <packaging>war</packaging>
@@ -44,6 +44,15 @@
       <version>1.30.10</version>
     </dependency>
  
+      <groupId>com.googlecode.objectify</groupId>
+      <artifactId>objectify</artifactId>
+      <version>6.0.6</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+    </dependency>
   </dependencies>
 
   <build>
