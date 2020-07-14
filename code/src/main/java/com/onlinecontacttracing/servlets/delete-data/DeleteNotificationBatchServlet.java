@@ -5,31 +5,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
 import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
-import static com.googlecode.objectify.ObjectifyService.ofy;
-import com.googlecode.objectify.Key;
-import com.onlinecontacttracing.storage.NotificationBatch;
-import com.onlinecontacttracing.storage.Constants;
-import com.google.common.collect.Iterables;
+import java.util.logging.Logger;
 
 @WebServlet("/delete-old-notification-batch")
 public class DeleteNotificationBatchServlet extends HttpServlet {
 
+  static final Logger log = Logger.getLogger(DeleteNotificationBatchServlet.class.getName());
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Iterable<Key<NotificationBatch>> allKeys = ofy().load().type(NotificationBatch.class).filter("timeCreatedSeconds <", Instant.now().getEpochSecond()-Constants.NOTIFICATION_BATCH_MAX_TIME).keys();
-
-    try {
-      FileWriter myWriter = new FileWriter("test.log");
-      myWriter.write("Number of deleted notification batches: " + Iterables.size(allKeys));
-      myWriter.close();
-    } catch (IOException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
-    }
-
-    ofy().delete().keys(allKeys);
+    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldBatches();
+    log.info("Percentage of successfully deleted batches: " + percentageOfSuccessfulDeletions);
   }
 }
