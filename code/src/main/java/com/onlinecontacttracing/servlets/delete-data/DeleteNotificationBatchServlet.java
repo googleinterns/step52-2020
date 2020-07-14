@@ -16,7 +16,7 @@ public class DeleteNotificationBatchServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldBatches();
+    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldData(OldDataTypes.NOTIFICATION_BATCH);
     log.info("Percentage of successfully deleted batches: " + percentageOfSuccessfulDeletions);
   }
 }
