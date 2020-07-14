@@ -1,4 +1,4 @@
-package com.google.sps.servlets.redirects;
+package com.onlinecontacttracing.redirects;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,8 +10,8 @@ import java.io.FileWriter;   // Import the FileWriter class
 import java.io.IOException;  // Import the IOException class to handle errors
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.googlecode.objectify.Key;
-import com.google.sps.storage.NotificationBatch;
-import com.google.sps.storage.Constants;
+import com.onlinecontacttracing.storage.NotificationBatch;
+import com.onlinecontacttracing.storage.Constants;
 import com.google.common.collect.Iterables;
 
 @WebServlet("/delete-old-notification-batch")
