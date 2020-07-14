@@ -3,7 +3,7 @@ package com.onlinecontacttracing.messaging;
 import java.util.ArrayList;
 import com.onlinecontacttracing.messaging.FlaggingFilter;
 
-public class ProfanityFlaggingFilter implements FlaggingFilter{
+public class ProfanityFlaggingFilter implements FlaggingFilter throws Exception{
   private static ArrayList<String> listOfProfanity = new ArrayList<String> () {{
         
     }};
@@ -14,7 +14,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
         profanityIndicator = listOfProfanityIndicators.get(profanityIndicatorIndex);
         if (message.indexOf(profanityIndicator) > -1) {
-          return false;
+          throw Exception(errorMessageToUser());
         }
       }
       return true;

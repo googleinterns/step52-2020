@@ -15,13 +15,13 @@ public class HtmlFlaggingFilter implements FlaggingFilter{
         add("/body");   
     }}; 
 
-    public static boolean passesFilter(PositiveUser positiveUser, String message) {
+    public static boolean passesFilter(PositiveUser positiveUser, String message) throws Exception{
       int numOfHtmlIndicators = listOfHtmlIndicators.size();
       String htmlIndicator;
       for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
         htmlIndicator = listOfHtmlIndicators.get(htmlIndicatorIndex);
         if (message.indexOf(htmlIndicator) > -1) {
-          return false;
+          throw Exception(errorMessageToUser());
         }
       }
       return true;

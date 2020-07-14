@@ -2,13 +2,13 @@ package com.onlinecontacttracing.messaging;
 
 import com.onlinecontacttracing.messaging.FlaggingFilter;
 
-public class LengthFlaggingFilter implements FlaggingFilter{
+public class LengthFlaggingFilter implements FlaggingFilter throws Exception{
   private static int limitNumOfCharacters = 500;
   
 
   public static boolean passesFilter(PositiveUser positiveUser, String message) {
     if (message.length() > limitNumOfCharacters) {
-      return false;
+      throw Exception(errorMessageToUser());
     }
     return true;
   };

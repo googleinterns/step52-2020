@@ -3,7 +3,7 @@ package com.onlinecontacttracing.messaging;
 import java.util.ArrayList;
 import com.onlinecontacttracing.messaging.FlaggingFilter;
 
-public class LinkFlaggingFilter implements FlaggingFilter{
+public class LinkFlaggingFilter implements FlaggingFilter throws Exception{
   private static ArrayList<String> listOfLinkIndicators = new ArrayList<String> () {{
         add("https://");
         add("http://");
@@ -23,7 +23,7 @@ public class LinkFlaggingFilter implements FlaggingFilter{
     for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
       linkIndicator = listOfLinkIndicators.get(linkIndicatorIndex);
       if (message.indexOf(linkIndicator) > -1) {
-        return false;
+        throw Exception(errorMessageToUser());
       }
     }
     return true;
