@@ -5,6 +5,7 @@ import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.messaging.MessagingSetup;
 import javax.mail.internet.MimeMessage;
+import java.util.ArrayList;
 
 public class SendEmails {
 
@@ -24,10 +25,11 @@ public class SendEmails {
     this.contactsList = contactsList;
   }
 
-  public void sendEmailsOut ()
+  public void sendEmailsOut () {
     PotentialContact contact;
     for(PotentialContact contact : contactsList) {
       
     }
+  }
 
 }

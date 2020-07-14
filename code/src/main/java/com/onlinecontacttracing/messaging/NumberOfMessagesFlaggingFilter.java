@@ -2,10 +2,10 @@ package com.onlinecontacttracing.messaging;
 
 import com.onlinecontacttracing.messaging.FlaggingFilter;
 
-public class NumberOfMessagesFlaggingFilter implements FlaggingFilter throws Exception{
+public class NumberOfMessagesFlaggingFilter implements FlaggingFilter{
   private static int limitNumOfMessages = 100;
 
-  public static boolean passesFilter(PositiveUser positiveUser, String message){
+  public static boolean passesFilter(PositiveUser positiveUser, String message) throws Exception {
     if (positiveUser.getSentNumberOfMessages > limitNumOfMessages) {
       throw Exception(errorMessageToUser());
     }

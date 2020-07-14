@@ -24,12 +24,12 @@ public class Message {
     //to get error messages, store in hashmap in order with an associated number
     //store in alphabetical order
     try{
-      NumberOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
+      boolean check = NumberOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
       && ProfanityFlaggingFilter.passesFilter(userId, userMessage)
       && LinkFlaggingFilter.passesFilter(userId, userMessage)
       && HtmlOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
       && LengthFlaggingFilter.passesFilter(userId, userMessage);
-      return true;
+      return check;
     } catch (Exception e) {
       errorMessage = e.toString();
       return false;

@@ -3,7 +3,7 @@ package com.onlinecontacttracing.messaging;
 import java.util.ArrayList;
 import com.onlinecontacttracing.messaging.FlaggingFilter;
 
-public class LinkFlaggingFilter implements FlaggingFilter throws Exception{
+public class LinkFlaggingFilter implements FlaggingFilter{
   private static ArrayList<String> listOfLinkIndicators = new ArrayList<String> () {{
         add("https://");
         add("http://");
@@ -17,7 +17,7 @@ public class LinkFlaggingFilter implements FlaggingFilter throws Exception{
     }};
   private int flagThreshold = 10;
   
-  public static boolean passesFilter(PositiveUser positiveUser, String message) {
+  public static boolean passesFilter(PositiveUser positiveUser, String message) throws Exception {
     int numOfLinkIndicators = listOfLinkIndicators.size();
     String linkIndicator;
     for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
