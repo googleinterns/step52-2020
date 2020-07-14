@@ -7,12 +7,14 @@ public class Message {
   private LocalityResource localityResource;
   private CustomizableMessage customizableMessage;
   private String userMessage;
+  private String errorMessage;
 
   public Message(SystemMessage systemMessage, String localityResource, CustomizableMessage customizableMessage) {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
     this.customizableMessage =  customizableMessage;
     this.userMessage = customizableMessage.getMessage();
+    this.errorMessage = "";
   }
 
   public boolean checkForFlags(CustomizableMessage customizableMessage) {
@@ -29,8 +31,8 @@ public class Message {
       && LengthFlaggingFilter.passesFilter(userId, userMessage);
       return true;
     } catch (Exception e) {
-      
-      //can get exception message with toString();
+      errorMessage = e.toString();
+      return false;
     }
   }
 
@@ -38,12 +40,19 @@ public class Message {
     //need to adjust to change with getting different translations
     String translatedResourceMessage;
     String translatedSystemMessage;
-    if (messageLanguage.equals("EN")) {
+
+    if (checkForFlags) {//default should be english
+      if (messageLanguage.equals("EN")) {
       translatedMessage = localityResource.getEnglishTranslation();
       translatedSystemMessage = systemMessage.getEnglishTranslation();
       return translatedSystemMessage.concat(userMessage).concat(translatedMessage);
+      } else {
+        return "";
+      }
     }
-    return "";
+    else{
+      throw new Exception(errorMessage);
+    }
   }
 
 
