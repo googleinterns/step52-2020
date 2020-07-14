@@ -1,6 +1,6 @@
 package com.onlinecontacttracing.messaging;
-
-public enum LocalityResource implements HasEnglishTranslation {
+//want to include an intro statement? in the enum
+public enum LocalityResource implements HasEnglishTranslation, HasSpanishTranslation{
   US("https://www.cdc.gov/coronavirus/2019-ncov/index.html"),
   ALABAMA("http://www.alabamapublichealth.gov/covid19/index.html"),
   ALASKA("https://covid19.alaska.gov/"),
@@ -58,6 +58,10 @@ public enum LocalityResource implements HasEnglishTranslation {
     this.helpLink = helpLink;
   }
   public String getEnglishTranslation() {
+    return helpLink;
+  }
+
+  public String getSpanishTranslation() {
     return helpLink;
   }
 }
