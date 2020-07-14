@@ -8,13 +8,16 @@ public class Message {
   private CustomizableMessage customizableMessage;
   private String userMessage;
   private String errorMessage;
+  private PositiveUser user;
 
-  public Message(SystemMessage systemMessage, String localityResource, CustomizableMessage customizableMessage) {
+  public Message(SystemMessage systemMessage, String localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
     this.customizableMessage =  customizableMessage;
     this.userMessage = customizableMessage.getMessage();
     this.errorMessage = "";
+    this.user = user;
+
   }
 
   public boolean checkForFlags(CustomizableMessage customizableMessage) {
@@ -40,20 +43,19 @@ public class Message {
     //need to adjust to change with getting different translations
     String translatedResourceMessage;
     String translatedSystemMessage;
-
-    if (checkForFlags) {//default should be english
-      if (messageLanguage.equals("EN")) {
-      translatedMessage = localityResource.getEnglishTranslation();
-      translatedSystemMessage = systemMessage.getEnglishTranslation();
-      return translatedSystemMessage.concat(userMessage).concat(translatedMessage);
-      } else {
-        return "";
+    if (user.userCanMakeMoreDraftsAfterBeingFlagged()) {
+      if (checkForFlags) {//default should be english
+        if (messageLanguage.equals("EN")) {
+        translatedMessage = localityResource.getEnglishTranslation();
+        translatedSystemMessage = systemMessage.getEnglishTranslation();
+        return translatedSystemMessage.concat(userMessage).concat(translatedMessage);
+        }
+      } else{
+        throw new Exception(errorMessage);
       }
+    } else {
+      return "";
     }
-    else{
-      throw new Exception(errorMessage);
-    }
-  }
 
 
 }
