@@ -3,6 +3,9 @@ package com.onlinecontacttracing.messaging;
 import javax.mail.internet.MimeMessage;
 import javax.mail.MessagingException;
 
+//THIS CODE NEEDS TO BE REWRITTEN
+
+
 
 /** Source Code: https://developers.google.com/gmail/api/guides/sending*/
 public class MessagingSetup {
@@ -64,6 +67,7 @@ public class MessagingSetup {
                                       MimeMessage emailContent)
             throws MessagingException, IOException {
         Message message = createMessageWithEmail(emailContent);
+        //^^^THIS IS NOT THE SAME MESSAGECLASS WHO IS THIS
         message = service.users().messages().send(userId, message).execute();
 
         System.out.println("Message id: " + message.getId());
