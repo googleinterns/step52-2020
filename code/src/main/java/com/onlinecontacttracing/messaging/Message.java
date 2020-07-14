@@ -24,8 +24,6 @@ public class Message {
     String userMessage = customizableMessage.getMessage();
     String userId = customizableMessage.getUserId();
     
-    //to get error messages, store in hashmap in order with an associated number
-    //store in alphabetical order
     try{
       boolean check = NumberOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
       && ProfanityFlaggingFilter.passesFilter(userId, userMessage)
@@ -56,6 +54,7 @@ public class Message {
     } else {
       return "";
     }
+  }
 
 
 }
