@@ -1,4 +1,4 @@
-package com.onlinecontacttracing.redirects;
+package com.onlinecontacttracing.servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
