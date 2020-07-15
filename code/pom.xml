@@ -38,10 +38,15 @@
       <artifactId>google-api-services-gmail</artifactId>
       <version>v1-rev20200601-1.30.10</version>
     </dependency>
-    <dependency>
+    <!-- <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>
       <version>1.30.10</version>
+    </dependency> -->
+     <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>1.22.0</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.objectify</groupId>
@@ -59,12 +64,33 @@
         <artifactId>activation</artifactId>
         <version>1.1.1</version>
     </dependency>
-<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client -->
+    <!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client -->
     <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client</artifactId>
         <version>1.11.0-beta</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-java6 -->
+    <dependency>
+        <groupId>com.google.oauth-client</groupId>
+        <artifactId>google-oauth-client-java6</artifactId>
+        <version>1.11.0-beta</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
+    <dependency>
+        <groupId>com.google.oauth-client</groupId>
+        <artifactId>google-oauth-client-jetty</artifactId>
+        <version>1.31.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-util -->
+<dependency>
+    <groupId>com.google.api.client</groupId>
+    <artifactId>google-api-client-util</artifactId>
+    <version>1.2.3-alpha</version>
+</dependency>
+
+
+
 
   </dependencies>
 
