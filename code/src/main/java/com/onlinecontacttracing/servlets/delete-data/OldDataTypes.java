@@ -12,21 +12,21 @@ import com.onlinecontacttracing.storage.Constants;
 * This class stores the information needed to query old data from a given class.
 */
 public enum OldDataTypes {
-  NOTIFICATION_BATCH(NotificationBatch.class, Constants.NOTIFICATION_BATCH_MAX_TIME, "timeCreatedSeconds <"),
-  NEGATIVE_USER_PLACES(NegativeUserPlace.class, Constants.NEGATIVE_USER_DATA_MAX_TIME, "place.timeInterval.intervalStartSeconds <"),
-  NEGATIVE_USER_LOCATIONS(NegativeUserLocation.class, Constants.NEGATIVE_USER_DATA_MAX_TIME, "location.timeInterval.intervalStartSeconds <"),
-  POSITIVE_USER_PLACES(PositiveUserPlaces.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <"),
-  POSITIVE_USER_LOCATIONS(PositiveUserLocations.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <"),
-  POSITIVE_USER_CONTACTS(PositiveUserContacts.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <");
+  NOTIFICATION_BATCH(NotificationBatch.class, "timeCreatedSeconds <", Constants.NOTIFICATION_BATCH_MAX_TIME),
+  NEGATIVE_USER_PLACES(NegativeUserPlace.class, "place.timeInterval.intervalStartSeconds <", Constants.NEGATIVE_USER_DATA_MAX_TIME),
+  NEGATIVE_USER_LOCATIONS(NegativeUserLocation.class, "location.timeInterval.intervalStartSeconds <", Constants.NEGATIVE_USER_DATA_MAX_TIME),
+  POSITIVE_USER_PLACES(PositiveUserPlaces.class, "timeCreatedSeconds <", Constants.POSITIVE_USER_DATA_MAX_TIME),
+  POSITIVE_USER_LOCATIONS(PositiveUserLocations.class, "timeCreatedSeconds <", Constants.POSITIVE_USER_DATA_MAX_TIME),
+  POSITIVE_USER_CONTACTS(PositiveUserContacts.class, "timeCreatedSeconds <", Constants.POSITIVE_USER_DATA_MAX_TIME);
 
   Class oldDataType;
-  long maxTimeOfData;
   String query;
+  long maxTimeOfData;
 
-  OldDataTypes(Class oldDataType, long maxTimeOfData, String query) {
+  OldDataTypes(Class oldDataType, String query, long maxTimeOfData) {
     this.oldDataType = oldDataType;
-    this.maxTimeOfData = maxTimeOfData;
     this.query = query;
+    this.maxTimeOfData = maxTimeOfData;
   }
 
   public Class getOldDataClass() {
