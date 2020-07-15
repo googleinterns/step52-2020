@@ -64,13 +64,13 @@ public class MessagingSetup {
      * @throws MessagingException
      */
   public static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
-        Properties props = new Properties();// can't find this properties
-        Session session = Session.getDefaultInstance(props, null);//session?
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
 
         MimeMessage email = new MimeMessage(session);
 
         email.setFrom(new InternetAddress(from));
-        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));//InternetAddresS?
+        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(subject);
         email.setText(bodyText);
         return email;
