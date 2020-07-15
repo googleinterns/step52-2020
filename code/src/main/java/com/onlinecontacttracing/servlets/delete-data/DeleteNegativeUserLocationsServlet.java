@@ -16,7 +16,7 @@ public class DeleteNegativeUserLocationsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldData(OldDataTypes.NEGATIVE_USER_LOCATIONS);
-    log.info("Percentage of successfully deleted negative locations: " + percentageOfSuccessfulDeletions);
+    int numberOfDeletions = OldDataDeleter.deleteOldData(OldDataTypes.NEGATIVE_USER_LOCATIONS);
+    log.info("Number of deleted negative locations: " + numberOfDeletions);
   }
 }

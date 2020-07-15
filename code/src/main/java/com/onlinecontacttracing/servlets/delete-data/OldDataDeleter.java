@@ -13,24 +13,17 @@ class OldDataDeleter {
   */
   public static int deleteOldData(OldDataTypes oldDataType) {
     // Determine at what time old data exists
-    long timeStampOfOldData = Instant.now().getEpochSecond()-oldDataType.getMaxTime();
+    long timeStampToGetOldData = Instant.now().getEpochSecond()-oldDataType.getMaxTime();
 
     // Fetch keys of old data
-    Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampOfOldData).keys();
-    int numberOfKeysToDelete = Iterables.size(oldDataKeys);
+    Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampToGetOldData).keys();
+    int numberOfDataToDelete = Iterables.size(oldDataKeys);
 
-    if (numberOfKeysToDelete != 0) {
+    if (numberOfDataToDelete != 0) {
       // Delete old data
       ofy().delete().keys(oldDataKeys);
-
-      // Check if any old data was not deleted and return percentage of successful deletions
-      oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampOfOldData).keys();
-      int numberOfKeysLeft = Iterables.size(oldDataKeys);
-    
-      return 100 - (numberOfKeysLeft * 100) / numberOfKeysToDelete;
     }
     
-    // Nothing to delete
-    return 100;
+    return numberOfDataToDelete;
   }
 }

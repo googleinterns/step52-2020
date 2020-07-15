@@ -16,7 +16,7 @@ public class DeletePositiveUserContactsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int percentageOfSuccessfulDeletions = OldDataDeleter.deleteOldData(OldDataTypes.POSITIVE_USER_CONTACTS);
-    log.info("Percentage of successfully deleted positive user contacts: " + percentageOfSuccessfulDeletions);
+    int numberOfDeletions = OldDataDeleter.deleteOldData(OldDataTypes.POSITIVE_USER_CONTACTS);
+    log.info("Number of deleted positive user contacts: " + numberOfDeletions);
   }
 }
