@@ -23,8 +23,7 @@ public class Message {
 
   }
 
-  public boolean checkForFlags(CustomizableMessage customizableMessage) {
-    String userMessage = customizableMessage.getMessage();
+  public boolean checkForFlags(String userMessage) {
     String userId = customizableMessage.getUserId();
     
     try{
@@ -32,7 +31,7 @@ public class Message {
       && (new ProfanityFlaggingFilter()).passesFilter(user, userMessage)
       && (new LinkFlaggingFilter()).passesFilter(user, userMessage)
       && (new HtmlFlaggingFilter()).passesFilter(user, userMessage)
-      && (new LengthOfMessagesFlaggingFilter()).passesFilter(user, userMessage);
+      && (new LengthFlaggingFilter()).passesFilter(user, userMessage);
       return check;
     } catch (Exception e) {
       errorMessage = e.toString();
@@ -52,11 +51,13 @@ public class Message {
         return translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage);
         }
       } else{
-        throw new Exception(errorMessage);
+        // throw new Exception(errorMessage);
+        return errorMessage.toString();
       }
     } else {
       return "";
     }
+    return "";
   }
 
 

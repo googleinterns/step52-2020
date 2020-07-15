@@ -17,7 +17,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
+// import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
@@ -56,7 +56,7 @@ public class SendEmails {
     emailBody = messageObject.compileMessage(messageLanguage);
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
-    service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))//getCredentials()?
+    service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentiaggls(HTTP_TRANSPORT))//getCredentials()?
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     this.user = user;
@@ -67,7 +67,7 @@ public class SendEmails {
     MimeMessage email;
     Message messageWithEmail;
     for(PotentialContact contactName : contactsList) {
-      email = /*createEmail??*/createEmail(contactName.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody);
+      email = MessagingSetup.createEmail(contactName.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody);
     }
   }
 

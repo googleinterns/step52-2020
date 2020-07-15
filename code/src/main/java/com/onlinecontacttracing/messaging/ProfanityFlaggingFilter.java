@@ -11,7 +11,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
         add("badword");
     }};
 
-  public static boolean passesFilter(PositiveUser positiveUser, String message) throws Exception {
+  public boolean passesFilter(PositiveUser positiveUser, String message) throws Exception {
       int numOfProfanityIndicators = listOfProfanityIndicators.size();
       String profanityIndicator;
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
