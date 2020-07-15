@@ -3,7 +3,6 @@ package com.onlinecontacttracing.servlets;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.googlecode.objectify.Key;
 import com.google.common.collect.Iterables;
-import java.time.Instant;
 import java.util.logging.Logger;
 
 /**
@@ -18,7 +17,7 @@ class OldDataDeleter {
   */
   public static void deleteOldData(OldDataType oldDataType, Logger log) {
     // Determine at what time old data exists
-    long timeStampToGetOldData = Instant.now().getEpochSecond()-oldDataType.getMaxTime();
+    long timeStampToGetOldData = oldDataType.getMaxTimeAllowedInStorage();
 
     // Fetch keys of old data
     Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampToGetOldData).keys();

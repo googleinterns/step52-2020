@@ -7,6 +7,7 @@ import com.onlinecontacttracing.storage.PositiveUserPlaces;
 import com.onlinecontacttracing.storage.PositiveUserLocations;
 import com.onlinecontacttracing.storage.PositiveUserContacts;
 import com.onlinecontacttracing.storage.Constants;
+import java.time.Instant;
 
 /**
 * This class stores the information needed to query old data from a given class.
@@ -21,20 +22,24 @@ public enum OldDataType {
 
   Class oldDataType;
   String query;
-  long maxTimeOfData;
+  long maxTimeAllowedInStorage;
 
-  OldDataType(Class oldDataType, String query, long maxTimeOfData) {
+  OldDataType(Class oldDataType, String query, long maxTimeAllowedInStorage) {
     this.oldDataType = oldDataType;
     this.query = query;
-    this.maxTimeOfData = maxTimeOfData;
+    this.maxTimeAllowedInStorage = maxTimeAllowedInStorage;
   }
 
   public Class getOldDataClass() {
     return oldDataType;
   }
 
-  public long getMaxTime() {
-    return maxTimeOfData;
+  /**
+  * Subrtract the current time by the maximum time a class is allowed to persist in memory 
+  * so that the query will fetch old data.
+  */
+  public long getMaxTimeAllowedInStorage() {
+    return Instant.now().getEpochSecond()-maxTimeAllowedInStorage;
   }
 
   public String getQuery() {
