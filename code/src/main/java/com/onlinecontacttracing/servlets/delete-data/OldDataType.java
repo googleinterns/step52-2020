@@ -30,15 +30,16 @@ public enum OldDataType {
     this.maxTimeAllowedInStorage = maxTimeAllowedInStorage;
   }
 
-  public Class getOldDataClass() {
+  public Class getOldDataClassType() {
     return oldDataType;
   }
 
   /**
-  * Subrtract the current time by the maximum time a class is allowed to persist in memory 
-  * so that the query will fetch old data.
+  * To calculate the time for querying old data, this method
+  * subtracts maximum time a class is allowed to persist in memory
+  * from the current time by the 
   */
-  public long getMaxTimeAllowedInStorage() {
+  public long getTimeOfOldData() {
     return Instant.now().getEpochSecond()-maxTimeAllowedInStorage;
   }
 

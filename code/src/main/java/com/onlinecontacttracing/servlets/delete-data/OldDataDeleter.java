@@ -16,11 +16,9 @@ class OldDataDeleter {
   * Otherwise the exception is caught and logged.
   */
   public static void deleteOldData(OldDataType oldDataType, Logger log) {
-    // Determine at what time old data exists
-    long timeStampToGetOldData = oldDataType.getMaxTimeAllowedInStorage();
-
     // Fetch keys of old data
-    Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClass()).filter(oldDataType.getQuery(), timeStampToGetOldData).keys();
+    Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataType.getOldDataClassType())
+      .filter(oldDataType.getQuery(), oldDataType.getTimeOfOldData()).keys();
 
     // Save data type class name to report in log
     String oldDataTypeName = oldDataType.getNameOfDataType() + " class";
