@@ -8,8 +8,11 @@ import com.onlinecontacttracing.storage.PositiveUserLocations;
 import com.onlinecontacttracing.storage.PositiveUserContacts;
 import com.onlinecontacttracing.storage.Constants;
 
+/**
+* This class stores the information needed to query old data from a given class.
+*/
 public enum OldDataTypes {
-  NOTIFICATION_BATCH(NotificationBatch.class, Constants.NOTIFICATION_BATCH_MAX_TIME, "timeCreatedSeconds  <"),
+  NOTIFICATION_BATCH(NotificationBatch.class, Constants.NOTIFICATION_BATCH_MAX_TIME, "timeCreatedSeconds <"),
   NEGATIVE_USER_PLACES(NegativeUserPlace.class, Constants.NEGATIVE_USER_DATA_MAX_TIME, "place.timeInterval.intervalStartSeconds <"),
   NEGATIVE_USER_LOCATIONS(NegativeUserLocation.class, Constants.NEGATIVE_USER_DATA_MAX_TIME, "location.timeInterval.intervalStartSeconds <"),
   POSITIVE_USER_PLACES(PositiveUserPlaces.class, Constants.POSITIVE_USER_DATA_MAX_TIME, "timeCreatedSeconds <"),
@@ -36,5 +39,9 @@ public enum OldDataTypes {
 
   public String getQuery() {
     return query;
+  }
+
+  public String getNameOfDataType() {
+    return oldDataType.getSimpleName();
   }
 }

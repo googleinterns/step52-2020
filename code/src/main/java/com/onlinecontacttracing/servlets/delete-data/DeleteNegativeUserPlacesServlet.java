@@ -16,7 +16,6 @@ public class DeleteNegativeUserPlacesServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int numberOfDeletions = OldDataDeleter.deleteOldData(OldDataTypes.NEGATIVE_USER_PLACES);
-    log.info("Number of deleted negative places: " + numberOfDeletions);
+    OldDataDeleter.deleteOldData(OldDataTypes.NEGATIVE_USER_PLACES, log);
   }
 }
