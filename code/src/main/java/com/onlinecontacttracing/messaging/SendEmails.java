@@ -51,12 +51,12 @@ public class SendEmails {
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
   final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
-  public SendEmails (SystemMessage systemMessage, String localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
-    messageObject = new Message(systemMessage, localityResource, customizableMessage);
+  public SendEmails (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
+    messageObject = new Message(systemMessage, localityResource, customizableMessage, user);
     emailBody = messageObject.compileMessage(messageLanguage);
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
-    service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+    service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))//getCredentials()?
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     this.user = user;
@@ -66,8 +66,8 @@ public class SendEmails {
     PotentialContact contact;
     MimeMessage email;
     Message messageWithEmail;
-    for(PotentialContact contact : contactsList) {
-      email = createEmail(PotentialContact.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody);
+    for(PotentialContact contactName : contactsList) {
+      email = /*createEmail??*/createEmail(contactName.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody);
     }
   }
 

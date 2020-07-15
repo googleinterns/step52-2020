@@ -28,11 +28,11 @@ public class Message {
     String userId = customizableMessage.getUserId();
     
     try{
-      boolean check = NumberOfMessagesFlaggingFilter.passesFilter(user, userMessage)
-      && ProfanityFlaggingFilter.passesFilter(userId, userMessage)
-      && LinkFlaggingFilter.passesFilter(userId, userMessage)
-      && HtmlOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
-      && LengthFlaggingFilter.passesFilter(userId, userMessage);
+      boolean check = (new NumberOfMessagesFlaggingFilter()).passesFilter(user, userMessage)
+      && (new ProfanityFlaggingFilter()).passesFilter(user, userMessage)
+      && (new LinkFlaggingFilter()).passesFilter(user, userMessage)
+      && (new HtmlFlaggingFilter()).passesFilter(user, userMessage)
+      && (new LengthOfMessagesFlaggingFilter()).passesFilter(user, userMessage);
       return check;
     } catch (Exception e) {
       errorMessage = e.toString();
@@ -45,11 +45,11 @@ public class Message {
     String translatedResourceMessage;
     String translatedSystemMessage;
     if (user.userCanMakeMoreDraftsAfterBeingFlagged()) {
-      if (checkForFlags) {//default should be english
+      if (checkForFlags(userMessage)) {//default should be english
         if (messageLanguage.equals("EN")) {
-        translatedMessage = localityResource.getEnglishTranslation();
+        translatedResourceMessage = localityResource.getEnglishTranslation();
         translatedSystemMessage = systemMessage.getEnglishTranslation();
-        return translatedSystemMessage.concat(userMessage).concat(translatedMessage);
+        return translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage);
         }
       } else{
         throw new Exception(errorMessage);

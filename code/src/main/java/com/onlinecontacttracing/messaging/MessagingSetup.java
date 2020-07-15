@@ -42,13 +42,13 @@ public class MessagingSetup {
      * @throws MessagingException
      */
   public static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
+        Properties props = new Properties();// can't find this properties
+        Session session = Session.getDefaultInstance(props, null);//session?
 
         MimeMessage email = new MimeMessage(session);
 
         email.setFrom(new InternetAddress(from));
-        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
+        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));//InternetAddresS?
         email.setSubject(subject);
         email.setText(bodyText);
         return email;
@@ -62,14 +62,14 @@ public class MessagingSetup {
      * @throws IOException
      * @throws MessagingException
      */
-    public static Message createMessageWithEmail(MimeMessage emailContent)
+    public static Message createMessageWithEmail(MimeMessage emailContent)//which Message clasS?
             throws MessagingException, IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();//Byte Array OS?
         emailContent.writeTo(buffer);
         byte[] bytes = buffer.toByteArray();
-        String encodedEmail = Base64.encodeBase64URLSafeString(bytes);
+        String encodedEmail = Base64.encodeBase64URLSafeString(bytes);//Base64?
         Message message = new Message();
-        message.setRaw(encodedEmail);
+        message.setRaw(encodedEmail);//setRaw?
         return message;
     }
 
@@ -91,7 +91,7 @@ public class MessagingSetup {
         Message message = createMessageWithEmail(emailContent);
         message = service.users().messages().send(userId, message).execute();
 
-        System.out.println("Message id: " + message.getId());
+        System.out.println("Message id: " + message.getId());//getId?
         System.out.println(message.toPrettyString());
         return message;
     }
