@@ -84,14 +84,14 @@ public class MessagingSetup {
      * @throws IOException
      * @throws MessagingException
      */
-    public static Message createMessageWithEmail(MimeMessage emailContent)//which Message clasS?
+    public static Message createMessageWithEmail(MimeMessage emailContent)
             throws MessagingException, IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();//Byte Array OS?
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
         byte[] bytes = buffer.toByteArray();
-        String encodedEmail = Base64.encodeBase64URLSafeString(bytes);//Base64?
+        String encodedEmail = Base64.encodeBase64URLSafeString(bytes);
         Message message = new Message();
-        message.setRaw(encodedEmail);//setRaw?
+        message.setRaw(encodedEmail);
         return message;
     }
 
@@ -113,7 +113,7 @@ public class MessagingSetup {
         Message message = createMessageWithEmail(emailContent);
         message = service.users().messages().send(userId, message).execute();
 
-        System.out.println("Message id: " + message.getId());//getId?
+        System.out.println("Message id: " + message.getId());
         System.out.println(message.toPrettyString());
         return message;
     }
