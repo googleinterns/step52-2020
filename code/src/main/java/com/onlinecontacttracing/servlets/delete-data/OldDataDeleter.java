@@ -16,7 +16,7 @@ class OldDataDeleter {
   * If the query was successful, the number of entries deleted will be logged.
   * Otherwise the exception is caught and logged.
   */
-  public static void deleteOldData(OldDataTypes oldDataType, Logger log) {
+  public static void deleteOldData(OldDataType oldDataType, Logger log) {
     // Determine at what time old data exists
     long timeStampToGetOldData = Instant.now().getEpochSecond()-oldDataType.getMaxTime();
 
