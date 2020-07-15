@@ -2,6 +2,8 @@ package com.onlinecontacttracing.messaging;
 
 import java.util.ArrayList;
 import com.onlinecontacttracing.messaging.FlaggingFilter;
+import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PotentialContact;
 
 public class LinkFlaggingFilter implements FlaggingFilter{
   private static ArrayList<String> listOfLinkIndicators = new ArrayList<String> () {{

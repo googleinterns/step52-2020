@@ -1,6 +1,9 @@
 package com.onlinecontacttracing.messaging;
 
 import com.onlinecontacttracing.messaging.LocalityResource;
+import com.onlinecontacttracing.storage.CustomizableMessage;
+import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PotentialContact;
 
 public class Message {
   private SystemMessage systemMessage;
@@ -10,7 +13,7 @@ public class Message {
   private String errorMessage;
   private PositiveUser user;
 
-  public Message(SystemMessage systemMessage, String localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
+  public Message(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
     this.customizableMessage =  customizableMessage;
@@ -25,7 +28,7 @@ public class Message {
     String userId = customizableMessage.getUserId();
     
     try{
-      boolean check = NumberOfMessagesFlaggingFilter.passesFilter(userId, userMessage)
+      boolean check = NumberOfMessagesFlaggingFilter.passesFilter(user, userMessage)
       && ProfanityFlaggingFilter.passesFilter(userId, userMessage)
       && LinkFlaggingFilter.passesFilter(userId, userMessage)
       && HtmlOfMessagesFlaggingFilter.passesFilter(userId, userMessage)

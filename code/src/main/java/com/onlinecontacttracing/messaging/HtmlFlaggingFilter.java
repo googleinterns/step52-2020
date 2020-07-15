@@ -2,6 +2,8 @@ package com.onlinecontacttracing.messaging;
 
 import java.util.ArrayList;
 import com.onlinecontacttracing.messaging.FlaggingFilter;
+import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PotentialContact;
 
 public class HtmlFlaggingFilter implements FlaggingFilter{
   private static ArrayList<String> listOfHtmlIndicators = new ArrayList<String> () {{

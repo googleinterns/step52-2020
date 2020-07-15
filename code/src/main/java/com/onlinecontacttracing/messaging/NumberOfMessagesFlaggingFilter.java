@@ -1,6 +1,8 @@
 package com.onlinecontacttracing.messaging;
 
 import com.onlinecontacttracing.messaging.FlaggingFilter;
+import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PotentialContact;
 
 public class NumberOfMessagesFlaggingFilter implements FlaggingFilter{
   private static int limitNumOfMessages = 100;

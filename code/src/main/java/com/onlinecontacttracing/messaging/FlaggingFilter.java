@@ -7,6 +7,9 @@
 
 package com.onlinecontacttracing.messaging;
 
+import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PotentialContact;
+
 public interface FlaggingFilter {
   public static boolean passesFilter(PositiveUser positiveUser, String message);
   public static String errorMessageToUser();
