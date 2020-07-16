@@ -101,16 +101,20 @@
 </dependency>
 
 
-
+<dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-analyticsreporting</artifactId>
+      <version>v4-rev124-1.23.0</version>
+    </dependency>
 
   </dependencies>
-
+<!-- 
   <repositories>
    <repository>
     <id>central</id>
     <url>http://repo1.maven.org/maven2/</url>
   </repository>
-</repositories>
+</repositories> -->
 
   <build>
     <plugins>
@@ -126,6 +130,31 @@
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
+      <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>./src/main/java/com/onlinecontacttracing/packages</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+         <plugin>
+      <artifactId>maven-jar-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <classpathPrefix>packages/</classpathPrefix>
+          </manifest>
+        </archive>
+      </configuration>
+  </plugin>
     </plugins>
   </build>
 </project>
