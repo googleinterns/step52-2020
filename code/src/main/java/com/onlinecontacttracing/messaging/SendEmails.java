@@ -51,7 +51,7 @@ public class SendEmails {
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_LABELS);
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-  final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+  // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
   public SendEmails (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
     messageObject = new Message(systemMessage, localityResource, customizableMessage, user);
@@ -68,7 +68,7 @@ public class SendEmails {
     PotentialContact contact;
     MimeMessage email;
     for(PotentialContact contactName : contactsList) {
-      email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail(), emailSubject, emailBody);
+      // email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail(), emailSubject, emailBody);
       // sendMessage(service, user.getUserId(), email);
     }
   }
