@@ -54,6 +54,14 @@ public class PositiveUser {
     return lastLoginSeconds;
   }
 
+  public int getAttemptedEmailDrafts() {
+    return attemptedEmailDrafts;
+  }
+
+  public void incrementAttemptedEmailDrafts() {
+    attemptedEmailDrafts++;
+  }
+
   public void incrementEmailsSent() {
     emailsSent++;
   }
@@ -62,14 +70,14 @@ public class PositiveUser {
     return emailsSent < Constants.EMAILING_THRESHOLD;
   }
 
-  public boolean userCanMakeMoreDraftsAfterBeingFlagged() {
-    if (attemptedEmailDrafts > 0) {
-      attemptedEmailDrafts--;
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // public boolean userCanMakeMoreDraftsAfterBeingFlagged() {
+  //   if (attemptedEmailDrafts > 0) {
+  //     attemptedEmailDrafts--;
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   @Override
   public String toString() {
