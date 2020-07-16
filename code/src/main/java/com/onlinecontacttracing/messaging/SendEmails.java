@@ -58,9 +58,9 @@ public class SendEmails {
     emailBody = messageObject.compileMessage(messageLanguage);
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
-    service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))//getCredentials()?
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+    // service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+    //             .setApplicationName(APPLICATION_NAME)
+    //             .build();
     this.user = user;
   }
 
@@ -68,27 +68,27 @@ public class SendEmails {
     PotentialContact contact;
     MimeMessage email;
     for(PotentialContact contactName : contactsList) {
-      email = MessagingSetup.createEmail(contactName.getName() /* This isn't right, should probably be a specific ID or smth*/, user.getUserId(), emailSubject, emailBody);
-      sendMessage(service, user.getUserId, email);
+      email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail(), emailSubject, emailBody);
+      // sendMessage(service, user.getUserId(), email);
     }
   }
 
-  private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        // Load client secrets.
-        InputStream in = GmailQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+  // private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+  //       // Load client secrets
+  //       InputStream in = GmailQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+  //       if (in == null) {
+  //           throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+  //       }
+  //       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-    }
+  //       // Build flow and trigger user authorization request.
+  //       GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+  //               HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+  //               .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+  //               .setAccessType("offline")
+  //               .build();
+  //       LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+  //       return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+  //   }
 
 }

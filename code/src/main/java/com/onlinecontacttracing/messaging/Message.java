@@ -4,6 +4,7 @@ import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.CustomizableMessage;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
+import com.onlinecontacttracing.messaging.ChecksMessagesForFlags;
 
 public class Message {
   private SystemMessage systemMessage;
@@ -12,6 +13,7 @@ public class Message {
   private String userMessage;
   private String errorMessage;
   private PositiveUser user;
+  private List<String> listOfFlagMessages
 
   public Message(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
     this.systemMessage = systemMessage;
@@ -23,20 +25,9 @@ public class Message {
 
   }
 
-  public boolean checkForFlags(String userMessage) {
-    String userId = customizableMessage.getUserId();
-    
-    try{
-      boolean check = (new NumberOfMessagesFlaggingFilter()).passesFilter(user, userMessage)
-      && (new ProfanityFlaggingFilter()).passesFilter(user, userMessage)
-      && (new LinkFlaggingFilter()).passesFilter(user, userMessage)
-      && (new HtmlFlaggingFilter()).passesFilter(user, userMessage)
-      && (new LengthFlaggingFilter()).passesFilter(user, userMessage);
-      return check;
-    } catch (Exception e) {
-      errorMessage = e.toString();
-      return false;
-    }
+  public boolean checkForFlags() {
+    CheckMessagesForFlags flagChecker = new CheckMessagesForFlags();
+    listOfFlagMessages = CheckMessagesForFlags.findTriggeredFlags(flagChecker, user, userMessage);
   }
 
   public String compileMessage(String messageLanguage) {
@@ -44,21 +35,21 @@ public class Message {
     String translatedResourceMessage;
     String translatedSystemMessage;
     if (user.userCanMakeMoreDraftsAfterBeingFlagged()) {
-      if (checkForFlags(userMessage)) {//default should be english
-        if (messageLanguage.equals("EN")) {
+      if (listOfFlagMessages.size() == 0) {//default should be english
+        if (messageLanguage.equals("SP")) {
         translatedResourceMessage = localityResource.getEnglishTranslation();
         translatedSystemMessage = systemMessage.getEnglishTranslation();
         return translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage);
         }
-      } else{
-        // throw new Exception(errorMessage);
-        return errorMessage.toString();
+        else {
+          translatedResourceMessage = localityResource.getEnglishTranslation();
+          translatedSystemMessage = systemMessage.getEnglishTranslation();
+          return translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage);
+        }
       }
-    } else {
-      return "";
+      return "";//should return error messages
     }
     return "";
   }
-
 
 }

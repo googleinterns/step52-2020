@@ -58,8 +58,8 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   private String spanishTranslation;
   LocalityResource(String helpLink, String englishTranslation, String spanishTranslation) {
     this.helpLink = helpLink;
-    this.englishTranslation;
-    this.spanishTranslation;
+    this.englishTranslation = englishTranslation;
+    this.spanishTranslation = spanishTranslation;
   }
   public String getEnglishTranslation() {
     return englishTranslation.concat(helpLink);
@@ -68,4 +68,6 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   public String getSpanishTranslation() {
     return spanishTranslation.concat(helpLink);
   }
+
+  
 }
