@@ -11,13 +11,13 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
         add("badword");
     }};
 
-  public boolean passesFilter(PositiveUser positiveUser, String message) throws Exception {
+  public boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfProfanityIndicators = listOfProfanityIndicators.size();
       String profanityIndicator;
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
         profanityIndicator = listOfProfanityIndicators.get(profanityIndicatorIndex);
         if (message.indexOf(profanityIndicator) > -1) {
-          throw new Exception(new ProfanityFlaggingFilter().errorMessageToUser());
+          return false;
         }
       }
       return true;

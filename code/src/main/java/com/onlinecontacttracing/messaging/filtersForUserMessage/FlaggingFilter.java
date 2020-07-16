@@ -13,6 +13,6 @@ import java.lang.Exception;
 
 
 interface FlaggingFilter {
-  public boolean passesFilter(PositiveUser positiveUser, String message) throws Exception;
-  public String errorMessageToUser();
+  boolean passesFilter(PositiveUser positiveUser, String message);
+  String errorMessageToUser();
 }

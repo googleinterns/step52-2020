@@ -20,13 +20,13 @@ public class LinkFlaggingFilter implements FlaggingFilter{
     }};
   private int flagThreshold = 10;
   
-  public boolean passesFilter(PositiveUser positiveUser, String message) throws Exception {
+  public boolean passesFilter(PositiveUser positiveUser, String message) {
     int numOfLinkIndicators = listOfLinkIndicators.size();
     String linkIndicator;
     for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
       linkIndicator = listOfLinkIndicators.get(linkIndicatorIndex);
       if (message.indexOf(linkIndicator) > -1) {
-        throw new Exception(new LinkFlaggingFilter().errorMessageToUser());
+        return false;
       }
     }
     return true;
