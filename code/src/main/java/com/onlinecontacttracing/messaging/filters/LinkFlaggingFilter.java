@@ -1,7 +1,7 @@
-package com.onlinecontacttracing.messaging;
+package com.onlinecontacttracing.messaging.filters;
 
 import java.util.ArrayList;
-import com.onlinecontacttracing.messaging.FlaggingFilter;
+import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;

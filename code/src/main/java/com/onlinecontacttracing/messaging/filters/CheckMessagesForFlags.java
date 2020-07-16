@@ -1,4 +1,4 @@
-package com.onlinecontacttracing.messaging;
+package com.onlinecontacttracing.messaging.filters;
 
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.CustomizableMessage;
@@ -6,11 +6,10 @@ import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
 import java.util.List;
-import com.onlinecontacttracing.messaging.FlaggingFilter;
+import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 
-public class ChecksMessagesForFlags {
+public class CheckMessagesForFlags {
   private final static List<FlaggingFilter> listOfFilters = new ArrayList<FlaggingFilter> () {{
-    add(new NumberOfMessagesFlaggingFilter());
     add(new HtmlFlaggingFilter());
     add(new LengthFlaggingFilter());
     add(new LinkFlaggingFilter());
@@ -18,13 +17,18 @@ public class ChecksMessagesForFlags {
   }};
 
   private final List<String> listOfErrorMessages = new ArrayList<String> ();
-  public static String findTriggeredFlags (ChecksMessagesForFlags flagChecker, PositiveUser user, String userMessage) {
+  public static List<String> findTriggeredFlags (CheckMessagesForFlags flagChecker, PositiveUser user, String userMessage) {
+    CustomizeMessageTriesFlaggingFilter checkNumberOfTries= new CustomizeMessageTriesFlaggingFilter();
+    if (checkNumberOfTries.passesFilter(user, userMessage)) {
+      flagChecker.listOfErrorMessages.add(checkNumberOfTries.errorMessageToUser());
+      return flagChecker.listOfErrorMessages;
+    }
     for (FlaggingFilter filter : listOfFilters) {
       if (!filter.passesFilter(user, userMessage)) {
         flagChecker.listOfErrorMessages.add(filter.errorMessageToUser());
       }
     }
-    return true;
+    return flagChecker.listOfErrorMessages;
   }
 
 }

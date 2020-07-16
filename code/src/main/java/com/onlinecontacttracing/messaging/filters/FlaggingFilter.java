@@ -5,7 +5,7 @@
   "ProfanityFlaggingFilter", etc.
 */
 
-package com.onlinecontacttracing.messaging;
+package com.onlinecontacttracing.messaging.filters;
 
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
