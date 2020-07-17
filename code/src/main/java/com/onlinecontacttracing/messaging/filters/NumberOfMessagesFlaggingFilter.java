@@ -9,7 +9,7 @@ public class NumberOfMessagesFlaggingFilter implements FlaggingFilter{
   private static int limitNumOfMessages = 100;
 
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-    if (positiveUser.userCanMakeMoreDraftsAfterBeingFlagged()) {
+    if (positiveUser.getNumberOfEmailsSent() > limitNumOfMessages) {
       return false;
     }
     return true;
