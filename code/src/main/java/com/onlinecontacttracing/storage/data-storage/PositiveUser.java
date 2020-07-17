@@ -42,7 +42,7 @@ public class PositiveUser {
     return userEmail;
   }
   
-  public long getNumberOfEmailsSent() {
+  public int getNumberOfEmailsSent() {
     return emailsSent;
   }
 
