@@ -42,11 +42,11 @@
       <artifactId>google-api-services-gmail</artifactId>
       <version>v1-rev20200601-1.30.10</version>
     </dependency>
-    <!-- <dependency>
+    <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>
       <version>1.30.10</version>
-    </dependency> -->
+    </dependency>
      <!-- <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>

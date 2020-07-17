@@ -18,12 +18,13 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-// import com.onlinecontacttracing.client.googleapis.util.FileDataStoreFactory;
+// import com.google.api.client.util.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
 import com.google.api.services.gmail.model.ListLabelsResponse;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.auth.oauth2.TokenResponse;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,8 +50,8 @@ public class SendEmails {
   private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
-  private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_LABELS);
-  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+  private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
+  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";//rename to be likek authconfigurationdata
   // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
   public SendEmails (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
@@ -58,7 +59,7 @@ public class SendEmails {
     emailBody = messageObject.compileMessage(messageObject.statusListToShowUser(messageLanguage));
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
-    // service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+    // service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, user))
     //             .setApplicationName(APPLICATION_NAME)
     //             .build();
     this.user = user;
@@ -73,22 +74,26 @@ public class SendEmails {
     }
   }
 
-  // private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-  //       // Load client secrets
-  //       InputStream in = GmailQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-  //       if (in == null) {
-  //           throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-  //       }
-  //       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+  private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, PositiveUser user) throws IOException {
+        // Load client secrets
+        InputStream in = SendEmails.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
+        if (in == null) {
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+        }
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-  //       // Build flow and trigger user authorization request.
-  //       GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-  //               HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-  //               .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-  //               .setAccessType("offline")
-  //               .build();
-  //       LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-  //       return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-  //   }
+      
+        TokenResponse tokenResponse = new TokenResponse().setScope(SCOPES.get(0));
+        return new GoogleAuthorizationCodeFlow.Builder(
+               HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().createAndStoreCredential(tokenResponse, user.getUserId());
+        //  = new GoogleAuthorizationCodeFlow.Builder(
+        //         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+        //         .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+        //         .setAccessType("offline")
+        //         .build();
+        // LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        // return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
+  
 
 }
