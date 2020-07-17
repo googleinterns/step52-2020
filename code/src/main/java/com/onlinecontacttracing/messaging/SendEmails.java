@@ -1,6 +1,6 @@
 package com.onlinecontacttracing.messaging;
 
-import com.onlinecontacttracing.messaging.Message;
+import com.onlinecontacttracing.messaging.MessageServlet;
 import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.messaging.MessagingSetup;
@@ -18,7 +18,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
+// import com.onlinecontacttracing.client.googleapis.util.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
@@ -41,7 +41,7 @@ public class SendEmails {
   //store results in database
   private String emailSubject;
   private String emailBody;
-  private Message messageObject;
+  private MessageServlet messageObject;
   private ArrayList<PotentialContact> contactsList;
   private Gmail service;
   private PositiveUser user;
@@ -54,8 +54,8 @@ public class SendEmails {
   // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
   public SendEmails (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
-    messageObject = new Message(systemMessage, localityResource, customizableMessage, user);
-    emailBody = messageObject.compileMessage(messageLanguage);
+    messageObject = new MessageServlet(systemMessage, localityResource, customizableMessage, user);
+    emailBody = messageObject.compileMessage(messageObject.statusListToShowUser(messageLanguage));
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
     // service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
