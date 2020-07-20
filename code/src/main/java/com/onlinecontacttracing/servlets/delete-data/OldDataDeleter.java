@@ -46,7 +46,7 @@ public enum OldDataDeleter {
     * subtracts maximum time a class is allowed to persist in memory
     * from the current time by the 
     */
-    long timeStampToGetOldData = Instant.now().getEpochSecond()-oldDataDeleter.maxTimeAllowedInStorage;
+    long timeStampToGetOldData = Instant.now().getEpochSecond() - oldDataDeleter.maxTimeAllowedInStorage;
 
     // Fetch keys of old data
     Iterable<Key<?>> oldDataKeys = ofy().load().type(oldDataDeleter.oldDataType)
