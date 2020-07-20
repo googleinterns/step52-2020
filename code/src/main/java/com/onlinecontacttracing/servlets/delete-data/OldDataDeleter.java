@@ -56,17 +56,15 @@ public enum OldDataDeleter {
     String oldDataTypeName = oldDataDeleter.oldDataType.getSimpleName() + " class";
 
     try {
-      // Check how many entries will be deleted
+      // Check how many entries will be deleted to report in log
       int numberOfDataToDelete = Iterables.size(oldDataKeys);
 
-      // Delete old data
       ofy().delete().keys(oldDataKeys);
 
       // Log number of entries deleted
       log.info( "Deleted " + numberOfDataToDelete + " entries from the " + oldDataTypeName);
 
     } catch(Exception e) {
-      // Log error
       log.info( "Deleting from the " + oldDataTypeName + " failed. The following error was found: " + e.toString());
     }
   }
