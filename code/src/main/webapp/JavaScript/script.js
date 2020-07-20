@@ -44,13 +44,28 @@ class NegativeLoginPage {
   }
 }
 
-var listOfClassesHiddenStatus = {"landing" : true, "login" : true, "negative-login" : true};
+class NotificationPage {
+  constructor() {
+    this.background = document.getElementById("wrapper-background");
+  }
+
+  show() {
+    this.background.classList.add("login-background");
+  }
+
+  hide() {
+    this.background.classList.remove("login-background");
+  }
+}
+
+var listOfClassesHiddenStatus = {"landing" : true, "login" : true, "negative-login" : true, "notification" : true};
 
 class PageController {
   constructor() {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
     this.negativePage = new NegativeLoginPage();
+    this.notificationPage = new NotificationPage();
     this.currentlyShown = undefined;
   }
 
@@ -72,6 +87,9 @@ class PageController {
         break;
       case "negative-login":
         this.setPageState(pageToShow, 'Login', this.negativePage);
+        break;
+      case "notification":
+        this.setPageState(pageToShow, 'Thank You', this.notificationPage);
         break;
     }
   }
@@ -125,7 +143,7 @@ function LoadPage() {
   } else {
     PAGE_CONTROLLER.show(page);
   }
-  window.onpopstate = function(event) {
+  window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
 }
@@ -135,30 +153,35 @@ function startupGoogleLogin() {
   startApp;
 }
   
-var startApp = function() {
-  gapi.load('auth2', function() {
+var startApp = negativeUser => {
+  gapi.load('auth2', () => {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
     });
-    attachSignin(document.getElementById('login-button-left-or-top'));
-    attachSignin(document.getElementById('negative-login-button'));
+    attachSignin(document.getElementById('login-button-left-or-top'), false);
+    attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
-function attachSignin(element) {
+function attachSignin(element, negativeUser) {
   console.log(element.id);
-  auth2.attachClickHandler(element, {}, function(googleUser) {
+  auth2.attachClickHandler(element, {}, googleUser => {
 
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idtoken = googleUser.getAuthResponse().id_token;
     const params = new URLSearchParams()
     params.append('idtoken', idtoken);
-    const request = new Request('/get-calendar-data', {method: 'POST', body: params});
-    fetch(request).then(() => console.log("done"));
+    const request = new Request('/authenticate', {method: 'POST', body: params});
+    fetch(request).then(() => {
+      console.log("done");
+      if (negativeUser) {
+        PAGE_CONTROLLER.show('notification')
+      }
+    });
 
-  }, function(error) {
+  }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
 }
