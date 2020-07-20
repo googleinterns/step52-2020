@@ -50,11 +50,11 @@ class NotificationPage {
   }
 
   show() {
-    this.background.classList.add("login-background");
+    this.background.classList.add("notification");
   }
 
   hide() {
-    this.background.classList.remove("login-background");
+    this.background.classList.remove("notification");
   }
 }
 

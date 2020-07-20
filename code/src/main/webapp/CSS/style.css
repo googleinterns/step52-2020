@@ -87,11 +87,19 @@ div {
   background: #3293d3;
 }
 
+.landing-background .line-horizontal, .notification .line-horizontal  {
+  width: 0;
+}
+
 .line-horizontal {
   height: 1rem;
   position: fixed;
   transition: 1s width linear;
   width: 100%;
+}
+
+.landing-background .line-vertical, .notification .line-vertical  {
+  height: 0;
 }
 
 .line-vertical {
