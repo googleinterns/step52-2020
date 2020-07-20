@@ -26,12 +26,27 @@ class LoginPage {
   }
 }
 
-var listOfClassesHiddenStatus = {"landing" : true, "login" : true};
+class NegativeLoginPage {
+  constructor() {
+    this.background = document.getElementById("wrapper-background");
+  }
+
+  show() {
+    this.background.classList.add("login-background");
+  }
+
+  hide() {
+    this.background.classList.remove("login-background");
+  }
+}
+
+var listOfClassesHiddenStatus = {"landing" : true, "login" : true, "negative-login" : true};
 
 class PageController {
   constructor() {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
+    this.negativePage = new NegativeLoginPage();
     this.currentlyShown = undefined;
   }
 
@@ -46,24 +61,29 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        this.setPageState("landing", 'Online Contact Tracing', this.landingPage, pageToShow, listOfClassesHiddenStatus)
+        this.setPageState(pageToShow, 'Online Contact Tracing', this.landingPage)
         break;
       case "login":
-        this.setPageState("login", 'Login', this.loginPage, pageToShow, listOfClassesHiddenStatus)
+        this.setPageState(pageToShow, 'Login', this.loginPage)
+        startupGoogleLogin() 
+        startApp();
+        break;
+      case "negative-login":
+        this.setPageState(pageToShow, 'Login', this.negativePage)
         startupGoogleLogin() 
         startApp();
         break;
     }
   }
 
-  setPageState(pageID, pageName, thisPage, pageToShow,  listOfClassesHiddenStatus) {
+  setPageState(pageToShow, pageName, thisPage) {
     history.pushState({page: pageToShow}, pageName, pageToShow);
     thisPage.show();
     this.currentlyShown = thisPage;
     for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
       listOfClassesHiddenStatus[key] = true;
     }
-    listOfClassesHiddenStatus[pageID] = false;
+    listOfClassesHiddenStatus[pageToShow] = false;
     this.setFadeoutAndHiddenStatus(listOfClassesHiddenStatus);
   }
 
@@ -119,25 +139,31 @@ var startApp = function() {
   gapi.load('auth2', function() {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
+      apiKey: 'AIzaSyBMrfBNGcVEtoRsoduXvYSjd9piD36W7Qg',
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
-      cookiepolicy: 'single_host_origin',
-      // Request scopes in addition to 'profile' and 'email'
-      //scope: 'additional_scope'
+      scope: ''
+      //'https://www.googleapis.com/auth/calendar.events.readonly'
     });
     attachSignin(document.getElementById('login-button-left-or-top'));
   });
 };
 
 function attachSignin(element) {
-    console.log(element.id);
-    auth2.attachClickHandler(element, {},
-        function(googleUser) {
-          document.getElementById('name').innerText = "Signed in: " +
-              googleUser.getBasicProfile().getName();
-        }, function(error) {
-          alert(JSON.stringify(error, undefined, 2));
-        });
-  }
+  console.log(element.id);
+  auth2.attachClickHandler(element, {}, function(googleUser) {
+
+    document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
+
+    const idtoken = googleUser.getAuthResponse().id_token;
+    const params = new URLSearchParams()
+    params.append('idtoken', idtoken);
+    const request = new Request('/get-calendar-data', {method: 'POST', body: params});
+    fetch(request).then(() => console.log("done"));
+
+  }, function(error) {
+    alert(JSON.stringify(error, undefined, 2));
+  });
+}
 
 function backToLogin() {
   window.location = "/landing";
