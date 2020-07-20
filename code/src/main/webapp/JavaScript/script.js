@@ -139,10 +139,7 @@ var startApp = function() {
   gapi.load('auth2', function() {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
-      apiKey: 'AIzaSyBMrfBNGcVEtoRsoduXvYSjd9piD36W7Qg',
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
-      scope: ''
-      //'https://www.googleapis.com/auth/calendar.events.readonly'
     });
     attachSignin(document.getElementById('login-button-left-or-top'));
     attachSignin(document.getElementById('negative-login-button'));
