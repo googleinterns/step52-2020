@@ -19,6 +19,8 @@ class LoginPage {
 
   show() {
     this.background.classList.add("login-background");
+    startupGoogleLogin();
+    startApp();
   }
 
   hide() {
@@ -33,6 +35,8 @@ class NegativeLoginPage {
 
   show() {
     this.background.classList.add("login-background");
+    startupGoogleLogin();
+    startApp();
   }
 
   hide() {
@@ -61,17 +65,13 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        this.setPageState(pageToShow, 'Online Contact Tracing', this.landingPage)
+        this.setPageState(pageToShow, 'Online Contact Tracing', this.landingPage);
         break;
       case "login":
-        this.setPageState(pageToShow, 'Login', this.loginPage)
-        startupGoogleLogin() 
-        startApp();
+        this.setPageState(pageToShow, 'Login', this.loginPage);
         break;
       case "negative-login":
-        this.setPageState(pageToShow, 'Login', this.negativePage)
-        startupGoogleLogin() 
-        startApp();
+        this.setPageState(pageToShow, 'Login', this.negativePage);
         break;
     }
   }
@@ -145,6 +145,7 @@ var startApp = function() {
       //'https://www.googleapis.com/auth/calendar.events.readonly'
     });
     attachSignin(document.getElementById('login-button-left-or-top'));
+    attachSignin(document.getElementById('negative-login-button'));
   });
 };
 
