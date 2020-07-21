@@ -20,7 +20,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-// import com.google.api.client.util.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
@@ -41,13 +40,17 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-import com.google.api.client.json.webtoken.JsonWebSignature;
+// import com.google.api.client.json.webtoken.JsonWebSignature;
+// import com.google.api.client.json.webtoken.JsonWebToken;
 import com.google.api.client.json.webtoken.JsonWebToken;
+import com.google.api.client.json.webtoken.JsonWebSignature;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-// import javax.json.JSONObject;
+import javax.json.Json;
+import org.json.simple.JSONObject;
+
 
 public class CheckForCredentials {
 
@@ -62,13 +65,14 @@ public class CheckForCredentials {
     NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
  
     SCOPES = scopes;
-    InputStream in = CheckForCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
+    InputStream in = CheckForCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
             if (in == null) {
                 throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
             }
 
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+    ObjectMapper objectMapper = new ObjectMapper();
     try {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
           .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m"))
@@ -89,7 +93,7 @@ public class CheckForCredentials {
               userIdAndUrl.put("userId", userId);
               userIdAndUrl.put("originalUrl", originalUrl);
 
-              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("get-token-response").setState(new JSONObject(userIdAndUrl).toString());
+              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("get-token-response").setState(objectMapper.writeValueAsString(userIdAndUrl).toString());
               String url = authUrlRequestProperties.build();
 
               request.setAttribute("authUrlRequestProperties", authUrlRequestProperties);

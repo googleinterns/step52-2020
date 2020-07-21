@@ -129,8 +129,9 @@
 <dependency>
     <groupId>com.google.api.client</groupId>
     <artifactId>google-api-client-json</artifactId>
-    <version>1.2.3-alpha</version>
+    <version>1.2.1-alpha</version>
 </dependency>
+
 <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 <dependency>
     <groupId>io.jsonwebtoken</groupId>
@@ -138,7 +139,31 @@
     <version>0.9.1</version>
 </dependency>
 
+<!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
+<dependency>
+    <groupId>javax.json</groupId>
+    <artifactId>javax.json-api</artifactId>
+    <version>1.1.4</version>
+</dependency>
 
+<dependency>
+	<groupId>org.glassfish</groupId>
+  	<artifactId>javax.json</artifactId>
+  	<version>1.0.2</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1</version>
+</dependency>
+
+<dependency>
+	<groupId>com.google.oauth-client</groupId>
+	<artifactId>google-oauth-client</artifactId>
+	<version>1.8.0-beta</version>
+</dependency>
 
 <dependency>
       <groupId>com.google.apis</groupId>

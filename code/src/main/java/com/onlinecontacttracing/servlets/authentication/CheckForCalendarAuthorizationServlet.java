@@ -20,7 +20,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-// import com.google.api.client.util.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
@@ -51,35 +50,39 @@ public class CheckForCalendarAuthorizationServlet extends HttpServlet {
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-  final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
   
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-    InputStream in = CheckForCalendarAuthorizationServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    
-    if (request.getAttribute("authUrlRequestProperties") == null) {
-      CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials");
-    } else {
-      AuthorizationRequestUrl authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
-      GoogleAuthorizationCodeFlow flow = (GoogleAuthorizationCodeFlow) request.getAttribute("flow");
-
-      ObjectMapper mapper = new ObjectMapper();
-      Map<String, Object> authUrlProperties = mapper.readValue(authUrlRequestProperties.getState(), new TypeReference<Map<String, Object>>() {});
-      String userId = (String) authUrlProperties.get("userId");
-      Credential credential = flow.loadCredential(userId);
-      if(credential == null) {
-        PrintWriter out = response.getWriter();
-		    out.println("Something went wrong, please proceed to manual input.");
+    try{
+      final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+  
+      InputStream in = CheckForCalendarAuthorizationServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+          if (in == null) {
+              throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+          }
+      GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+      
+      if (request.getAttribute("authUrlRequestProperties") == null) {
+        CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials");
       } else {
-        //API setup
+        AuthorizationRequestUrl authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
+        GoogleAuthorizationCodeFlow flow = (GoogleAuthorizationCodeFlow) request.getAttribute("flow");
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> authUrlProperties = mapper.readValue(authUrlRequestProperties.getState(), new TypeReference<Map<String, Object>>() {});
+        String userId = (String) authUrlProperties.get("userId");
+        Credential credential = flow.loadCredential(userId);
+        if(credential == null) {
+          PrintWriter out = response.getWriter();
+          out.println("Something went wrong, please proceed to manual input.");
+        } else {
+          //API setup
+        }
       }
+    } catch (Exception e){
+
     }
   }
 
