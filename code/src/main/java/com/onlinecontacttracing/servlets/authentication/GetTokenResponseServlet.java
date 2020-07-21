@@ -28,24 +28,22 @@ import com.google.appengine.api.datastore.Projection;
 @WebServlet("/get-token-response")
 public class CheckForCredentialServlet extends HttpServlet {
 
-  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  private static final String TOKENS_DIRECTORY_PATH = "tokens";
-  private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-  final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-  private GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-               HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+  private AuthorizationRequestUrl authUrlRequestProperties;
+  private GoogleAuthorizationCodeFlow flow;
  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    authUrlRequestProperties = request.getAttribute("authUrlRequestProperties");
+    flow = request.getAttribute("flow");
+
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, Object> authUrlProperties = mapper.readValue(authUrlRequestProperties.getState(), new TypeReference<Map<String, Object>>() {});
+
     TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).execute();
-    flow.createAndStoreCredential(tokenResponse, userId);
-    response.sendRedirect("check-for-credentials");
+    flow.createAndStoreCredential(tokenResponse, (String) authUrlProperties.get("userId"));
+
+     RequestDispatcher requestDispatcher = request.getRequestDispatcher((String) authUrlProperties.get("originalUrl"));
+    requestDispatcher.include(request, response);
   }
 }
-
-// ServletContext context= getServletContext();
-// RequestDispatcher rd= context.getRequestDispatcher("/insertServlet");
-// rd.forward(request, response);
-
-// ^^getattribute on the request, cast obejct

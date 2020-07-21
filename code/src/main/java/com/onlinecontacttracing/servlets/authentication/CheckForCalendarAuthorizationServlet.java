@@ -25,7 +25,7 @@ import java.util.Collections;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Projection;
 
-@WebServlet("/check-for-credentials")
+@WebServlet("/check-for-calendar-credentials")
 public class CheckForCredentialServlet extends HttpServlet {
 
   //private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
@@ -36,40 +36,24 @@ public class CheckForCredentialServlet extends HttpServlet {
   final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   private GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-  @Override
+   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    try {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-          .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m"))
-          .build();
+    
+    if (request.getAttribute("authUrlRequestProperties") == null) {
+      CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials");
+    } else {
 
-        String idTokenString = request.getParameter("idtoken");
-
-        GoogleIdToken idToken = verifier.verify(idTokenString);
-
-        if (idToken != null) {
-            Payload payload = idToken.getPayload();
-            String userId = payload.getSubject();
-
-            InputStream in = CheckForCredentialServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
-            if (in == null) {
-                throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-            }
-
-            GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-          
-            Credential credential = new GoogleAuthorizationCodeFlow.Builder(
-                  HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().loadCredential(userId);
-            if (credential != null) {
-              response.getWriter().println(credential);//this should get changed
-            }
-            else{
-              response.sendRedirect('create-credentials');
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }  
+      ObjectMapper mapper = new ObjectMapper();
+      Map<String, Object> authUrlProperties = mapper.readValue(authUrlRequestProperties.getState(), new TypeReference<Map<String, Object>>() {});
+      String userId = (String) authUrlProperties.get("userId");
+      Credential credential = flow.loadCredential(userId);
+      if(credential == null) {
+        PrintWriter out = response.getWriter();
+		    out.println("Something went wrong, please proceed to manual input.");
+      } else {
+        //API setup
+      }
+    }
   }
 
 
