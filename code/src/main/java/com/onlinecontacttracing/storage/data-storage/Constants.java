@@ -20,8 +20,8 @@ public class Constants {
   public final static long TIME_INTERVAL_ERROR_SECONDS = 600L;
 
   /***** Data Persistance *****/
-  public final static long NEGATIVE_USER_DATA_MAX_TIME = SIX_HOURS_IN_SECONDS;
-  public final static long POSITIVE_USER_DATA_MAX_TIME = TWO_WEEKS_IN_SECONDS;
+  public final static long NEGATIVE_USER_DATA_MAX_TIME = TWO_WEEKS_IN_SECONDS;
+  public final static long POSITIVE_USER_DATA_MAX_TIME = SIX_HOURS_IN_SECONDS;
   public final static long NOTIFICATION_BATCH_MAX_TIME = ONE_WEEK_IN_SECONDS;
 
 }
