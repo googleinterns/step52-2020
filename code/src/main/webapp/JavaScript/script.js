@@ -19,6 +19,8 @@ class LoginPage {
 
   show() {
     this.background.classList.add("login-background");
+    startupGoogleLogin();
+    startApp();
   }
 
   hide() {
@@ -26,12 +28,44 @@ class LoginPage {
   }
 }
 
-var listOfClassesHiddenStatus = {"landing" : true, "login" : true};
+class NegativeLoginPage {
+  constructor() {
+    this.background = document.getElementById("wrapper-background");
+  }
+
+  show() {
+    this.background.classList.add("login-background");
+    startupGoogleLogin();
+    startApp();
+  }
+
+  hide() {
+    this.background.classList.remove("login-background");
+  }
+}
+
+class NotificationPage {
+  constructor() {
+    this.background = document.getElementById("wrapper-background");
+  }
+
+  show() {
+    this.background.classList.add("notification");
+  }
+
+  hide() {
+    this.background.classList.remove("notification");
+  }
+}
+
+var listOfClassesHiddenStatus = {"landing" : true, "login" : true, "negative-login" : true, "notification" : true};
 
 class PageController {
   constructor() {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
+    this.negativePage = new NegativeLoginPage();
+    this.notificationPage = new NotificationPage();
     this.currentlyShown = undefined;
   }
 
@@ -46,24 +80,28 @@ class PageController {
     this.hideCurrentPage();
     switch(pageToShow) {
       case "landing":
-        this.setPageState("landing", 'Online Contact Tracing', this.landingPage, pageToShow, listOfClassesHiddenStatus)
+        this.setPageState(pageToShow, 'Online Contact Tracing', this.landingPage);
         break;
       case "login":
-        this.setPageState("login", 'Login', this.loginPage, pageToShow, listOfClassesHiddenStatus)
-        startupGoogleLogin() 
-        startApp();
+        this.setPageState(pageToShow, 'Login', this.loginPage);
+        break;
+      case "negative-login":
+        this.setPageState(pageToShow, 'Login', this.negativePage);
+        break;
+      case "notification":
+        this.setPageState(pageToShow, 'Thank You', this.notificationPage);
         break;
     }
   }
 
-  setPageState(pageID, pageName, thisPage, pageToShow,  listOfClassesHiddenStatus) {
+  setPageState(pageToShow, pageName, thisPage) {
     history.pushState({page: pageToShow}, pageName, pageToShow);
     thisPage.show();
     this.currentlyShown = thisPage;
     for (const [key, value] of Object.entries(listOfClassesHiddenStatus)) {
       listOfClassesHiddenStatus[key] = true;
     }
-    listOfClassesHiddenStatus[pageID] = false;
+    listOfClassesHiddenStatus[pageToShow] = false;
     this.setFadeoutAndHiddenStatus(listOfClassesHiddenStatus);
   }
 
@@ -105,7 +143,7 @@ function LoadPage() {
   } else {
     PAGE_CONTROLLER.show(page);
   }
-  window.onpopstate = function(event) {
+  window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
 }
@@ -115,29 +153,36 @@ function startupGoogleLogin() {
   startApp;
 }
   
-var startApp = function() {
-  gapi.load('auth2', function() {
+var startApp = negativeUser => {
+  gapi.load('auth2', () => {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
-      cookiepolicy: 'single_host_origin',
-      // Request scopes in addition to 'profile' and 'email'
-      //scope: 'additional_scope'
     });
-    attachSignin(document.getElementById('login-button-left-or-top'));
+    attachSignin(document.getElementById('login-button-left-or-top'), false);
+    attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
-function attachSignin(element) {
-    console.log(element.id);
-    auth2.attachClickHandler(element, {},
-        function(googleUser) {
-          document.getElementById('name').innerText = "Signed in: " +
-              googleUser.getBasicProfile().getName();
-        }, function(error) {
-          alert(JSON.stringify(error, undefined, 2));
-        });
-  }
+function attachSignin(element, negativeUser) {
+  auth2.attachClickHandler(element, {}, googleUser => {
+
+    document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
+
+    const idToken = googleUser.getAuthResponse().id_token;
+    const params = new URLSearchParams()
+    params.append('idToken', idToken);
+    const request = new Request('/authenticate', {method: 'POST', body: params});
+    fetch(request).then(() => {
+      if (negativeUser) {
+        PAGE_CONTROLLER.show('notification')
+      }
+    });
+
+  }, error => {
+    alert(JSON.stringify(error, undefined, 2));
+  });
+}
 
 function backToLogin() {
   window.location = "/landing";
