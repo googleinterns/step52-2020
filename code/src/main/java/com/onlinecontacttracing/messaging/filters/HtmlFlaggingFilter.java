@@ -6,6 +6,7 @@ import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
 
+//Checks if the message contains HTML code
 public class HtmlFlaggingFilter implements FlaggingFilter{
   private static ArrayList<String> listOfHtmlIndicators = new ArrayList<String> () {{
         add("<html>");

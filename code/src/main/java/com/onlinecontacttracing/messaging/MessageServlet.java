@@ -31,9 +31,10 @@ public class MessageServlet extends HttpServlet {
   private LocalityResource localityResource;
   private CustomizableMessage customizableMessage;
   private String userMessage;
-  private String errorMessage;
   private PositiveUser user;
-  private List<String> listOfFlagMessages;
+  //for backend use
+  private String compiledMessage;
+  //for frontend display
   private List<String> statusMessage = new ArrayList<String> ();
 
 
@@ -42,7 +43,6 @@ public class MessageServlet extends HttpServlet {
     this.localityResource = localityResource;
     this.customizableMessage =  customizableMessage;
     this.userMessage = customizableMessage.getMessage();
-    this.errorMessage = "";
     this.user = user;
 
   }
@@ -56,33 +56,40 @@ public class MessageServlet extends HttpServlet {
 
   public void checkForFlags() {
     CheckMessagesForFlags flagChecker = new CheckMessagesForFlags();
-    listOfFlagMessages = CheckMessagesForFlags.findTriggeredFlags(flagChecker, user, userMessage);
+    statusMessage = CheckMessagesForFlags.findTriggeredFlags(flagChecker, user, userMessage);
   }
 
+  //if flags are triggered, returns message and list of errors, else returns message
   public List<String> statusListToShowUser(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     user.incrementAttemptedEmailDrafts();
     checkForFlags();
-    if (listOfFlagMessages.size() == 0) {
-      if (messageLanguage.equals("SP")) {
+    
+    if (messageLanguage.equals("SP")) {
+    translatedResourceMessage = localityResource.getEnglishTranslation();
+    translatedSystemMessage = systemMessage.getEnglishTranslation();
+    }
+    else {
       translatedResourceMessage = localityResource.getEnglishTranslation();
       translatedSystemMessage = systemMessage.getEnglishTranslation();
-      }
-      else {
-        translatedResourceMessage = localityResource.getEnglishTranslation();
-        translatedSystemMessage = systemMessage.getEnglishTranslation();
-      }
-      statusMessage.add(translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
-      return statusMessage;
     }
-    return listOfFlagMessages;//should return error messages
-   
+    
+    //if any flags are triggered, do not want to include the user's message in the message sent to the backend
+    if (statusMessage.size() != 0){
+      compiledMessage = translatedSystemMessage.concat(translatedResourceMessage);
+    } else {
+      compiledMessage = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage);
+    }
+    statusMessage.add(translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    return statusMessage;
+  
   }
 
-  public String compileMessage (List<String> statusMessages) {
+  public String compileMessage () {
+    //returns message with no userMessage if there are errors, else return message with userMessage
     if (statusMessages.size() > 1) {
-      return "";
+      return compiledMessage;
     }
     return statusMessages.get(0);
   }

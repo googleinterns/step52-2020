@@ -7,6 +7,7 @@ import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
 import com.onlinecontacttracing.messaging.filters.ProfanityList;
 
+//Checks if message contains any profanity
 public class ProfanityFlaggingFilter implements FlaggingFilter{
   private static ArrayList<String> listOfProfanityIndicators = = new ArrayList<String> () {{
     add("fuck");

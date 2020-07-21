@@ -6,6 +6,7 @@ import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
 
+//Checks if user has attempted to submit a message too many times
 public class CustomizeMessageTriesFlaggingFilter implements FlaggingFilter{
   private int maxNumberOfTries = 3; 
 

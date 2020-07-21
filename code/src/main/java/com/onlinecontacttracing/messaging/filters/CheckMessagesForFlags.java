@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 
+//checks all the filters
 public class CheckMessagesForFlags {
   private final static List<FlaggingFilter> listOfFilters = new ArrayList<FlaggingFilter> () {{
     add(new HtmlFlaggingFilter());
@@ -19,7 +20,9 @@ public class CheckMessagesForFlags {
   private final List<String> listOfErrorMessages = new ArrayList<String> ();
   public static List<String> findTriggeredFlags (CheckMessagesForFlags flagChecker, PositiveUser user, String userMessage) {
     CustomizeMessageTriesFlaggingFilter checkNumberOfTries= new CustomizeMessageTriesFlaggingFilter();
-    if (checkNumberOfTries.passesFilter(user, userMessage)) {
+    
+    //Want to just return if user has exceeded submission limit
+    if (!checkNumberOfTries.passesFilter(user, userMessage)) {
       flagChecker.listOfErrorMessages.add(checkNumberOfTries.errorMessageToUser());
       return flagChecker.listOfErrorMessages;
     }

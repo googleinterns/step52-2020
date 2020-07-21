@@ -36,10 +36,6 @@ import java.util.List;
 
 public class SendEmails {
 
-  //get contacts list from objectify
-  //create message
-  //create instance of messaging setup and try to email
-  //store results in database
   private String emailSubject;
   private String emailBody;
   private MessageServlet messageObject;

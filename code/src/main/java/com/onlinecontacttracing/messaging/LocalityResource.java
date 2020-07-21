@@ -1,5 +1,5 @@
 package com.onlinecontacttracing.messaging;
-//want to include an intro statement? in the enum
+
 public enum LocalityResource implements HasEnglishTranslation, HasSpanishTranslation{
   US("https://www.cdc.gov/coronavirus/2019-ncov/index.html", "Here's the national help link: ", "Aquí está el enlace de ayuda nacional: "),
   ALABAMA("http://www.alabamapublichealth.gov/covid19/index.html", "Here's your state's help link: ", "Aquí está el enlace de ayuda de su estado: "),

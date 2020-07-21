@@ -6,6 +6,7 @@ import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
 
+//Checks if message contains any links/URLs
 public class LinkFlaggingFilter implements FlaggingFilter{
   private static ArrayList<String> listOfLinkIndicators = new ArrayList<String> () {{
         add("https://");
