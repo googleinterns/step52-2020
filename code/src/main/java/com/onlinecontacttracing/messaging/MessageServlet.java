@@ -60,7 +60,6 @@ public class MessageServlet extends HttpServlet {
   }
 
   public List<String> statusListToShowUser(String messageLanguage) {
-    //need to adjust to change with getting different translations
     String translatedResourceMessage;
     String translatedSystemMessage;
     user.incrementAttemptedEmailDrafts();
