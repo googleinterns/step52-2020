@@ -8,7 +8,14 @@ import java.lang.Exception;
 import com.onlinecontacttracing.messaging.filters.ProfanityList;
 
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  private static ArrayList<String> listOfProfanityIndicators = ProfanityList.listOfProfanity;
+  private static ArrayList<String> listOfProfanityIndicators = = new ArrayList<String> () {{
+    add("fuck");
+    add("shit");
+    add("bitch");
+    add("crap");
+    add("damn");
+    add("goddamn");
+  }};
 
   public boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfProfanityIndicators = listOfProfanityIndicators.size();
