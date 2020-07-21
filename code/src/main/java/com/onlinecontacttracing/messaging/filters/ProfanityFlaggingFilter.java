@@ -5,15 +5,17 @@ import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
+import com.onlinecontacttracing.messaging.filters.ProfanityList;
 
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  private static ArrayList<String> listOfProfanityIndicators = new ArrayList<String> () {{
-        add("badword");
-    }};
+  private static ArrayList<String> listOfProfanityIndicators = ProfanityList.listOfProfanity;
 
   public boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfProfanityIndicators = listOfProfanityIndicators.size();
       String profanityIndicator;
+
+      message = prepMessageForCheck(message);
+
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
         profanityIndicator = listOfProfanityIndicators.get(profanityIndicatorIndex);
         if (message.indexOf(profanityIndicator) > -1) {
@@ -22,6 +24,29 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       }
       return true;
     }
+
+  
+  String prepMessageForCheck(String message) {
+    message = replaceSymbolsWithLetters(message);
+    message = message.toLowerCase();
+    return message;
+  }
+
+  String replaceSymbolsWithLetters(String message) {
+    message = message.replaceAll("1","i");
+    message = message.replaceAll("!","i");
+    message = message.replaceAll("3","e");
+    message = message.replaceAll("4","a");
+    message = message.replaceAll("@","a");
+    message = message.replaceAll("5","s");
+    message = message.replaceAll("7","t");
+    message = message.replaceAll("0","o");
+    message = message.replaceAll("9","g");
+    return message;
+  }
+
+
+
   public String errorMessageToUser() {
     return "We believe that your message contains profanity. Please remove it and try again.";
   };
