@@ -10,20 +10,65 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 
+
+
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+// import com.google.api.client.util.FileDataStoreFactory;
+import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.GmailScopes;
+import com.google.api.services.gmail.model.Label;
+import com.google.api.services.gmail.model.ListLabelsResponse;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
+import java.util.HashMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
+import com.fasterxml.jackson.core.type.TypeReference;
+import javax.servlet.RequestDispatcher;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
+import java.util.List;
+import com.google.api.client.json.webtoken.JsonWebSignature;
+import com.google.api.client.json.webtoken.JsonWebToken;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+// import javax.json.JSONObject;
+
 public class CheckForCredentials {
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
-  private static final List<String> SCOPES;
+  private static List<String> SCOPES;
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-  final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-  private GoogleAuthorizationCodeFlow flow;
-  private HashMap<String, String> userIdAndUrl = new HashMap<> ();
   
-  @Override
+
   public static void createCredentials(HttpServletRequest request, HttpServletResponse response, List<String> scopes, String originalUrl) throws IOException {
+    HashMap<String, String> userIdAndUrl = new HashMap<> ();
+    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+ 
     SCOPES = scopes;
-    flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+    InputStream in = CheckForCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
+            if (in == null) {
+                throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+            }
+
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
     try {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
           .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m"))
@@ -36,12 +81,7 @@ public class CheckForCredentials {
             Payload payload = idToken.getPayload();
             String userId = payload.getSubject();
 
-            InputStream in = CheckForCredentialServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
-            if (in == null) {
-                throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-            }
-
-            GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+            
             Credential credential = new GoogleAuthorizationCodeFlow.Builder(
                   HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().loadCredential(userId);
 
@@ -49,7 +89,7 @@ public class CheckForCredentials {
               userIdAndUrl.put("userId", userId);
               userIdAndUrl.put("originalUrl", originalUrl);
 
-              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPE).setRedirectUri("get-token-response").setState(new JSONObject(userIdAndUrl).toString());
+              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("get-token-response").setState(new JSONObject(userIdAndUrl).toString());
               String url = authUrlRequestProperties.build();
 
               request.setAttribute("authUrlRequestProperties", authUrlRequestProperties);
