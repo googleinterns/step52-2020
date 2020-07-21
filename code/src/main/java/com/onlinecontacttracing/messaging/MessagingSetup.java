@@ -63,7 +63,7 @@ public class MessagingSetup {
      * @return the MimeMessage to be used to send email
      * @throws MessagingException
      */
-  public static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
+  public static MimeMessage createEmail(String to, String from, String emailSubject, String emailContent) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
 
@@ -71,8 +71,8 @@ public class MessagingSetup {
 
         email.setFrom(new InternetAddress(from));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
-        email.setSubject(subject);
-        email.setText(bodyText);
+        email.setSubject(emailSubject);
+        email.setText(emailContent);
         return email;
   }
 
@@ -84,8 +84,7 @@ public class MessagingSetup {
      * @throws IOException
      * @throws MessagingException
      */
-    public static Message createMessageWithEmail(MimeMessage emailContent)
-            throws MessagingException, IOException {
+    public static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
         byte[] bytes = buffer.toByteArray();
@@ -106,15 +105,9 @@ public class MessagingSetup {
      * @throws MessagingException
      * @throws IOException
      */
-    public static Message sendMessage(Gmail service,
-                                      String userId,
-                                      MimeMessage emailContent)
-            throws MessagingException, IOException {
+    public static Message sendMessage(Gmail service, String userId, MimeMessage emailContent) throws MessagingException, IOException {
         Message message = createMessageWithEmail(emailContent);
         message = service.users().messages().send(userId, message).execute();
-
-        System.out.println("Message id: " + message.getId());
-        System.out.println(message.toPrettyString());
         return message;
     }
 
