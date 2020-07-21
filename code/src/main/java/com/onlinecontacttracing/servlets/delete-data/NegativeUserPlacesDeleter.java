@@ -21,7 +21,7 @@ class NegativeUserPlacesDeleter extends OldDataDeleter {
   * subtracts maximum time a class is allowed to persist in memory
   * from the current time by the 
   */
-  public long getMaxAge() {
+  public long getRetentionDuration() {
     return Constants.NEGATIVE_USER_DATA_MAX_TIME;
   }
 }

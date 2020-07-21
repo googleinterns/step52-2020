@@ -21,7 +21,7 @@ class NotificationBatchDeleter extends OldDataDeleter {
   * subtracts maximum time a class is allowed to persist in memory
   * from the current time by the 
   */
-  public long getMaxAge() {
+  public long getRetentionDuration() {
     return Constants.NOTIFICATION_BATCH_MAX_TIME;
   }
 }

@@ -12,7 +12,7 @@ import java.time.Instant;
 abstract class OldDataDeleter {
   public abstract Class getType();
   public abstract String getQueryString();
-  public abstract long getMaxAge();
+  public abstract long getRetentionDuration();
 
   /**
   * This method deletes old data.
@@ -23,7 +23,7 @@ abstract class OldDataDeleter {
 
     // Fetch keys of old data
     Iterable<Key<?>> oldDataKeys = ofy().load().type(getType())
-      .filter(getQueryString(), Instant.now().getEpochSecond() - getMaxAge()).keys();
+      .filter(getQueryString(), Instant.now().getEpochSecond() - getRetentionDuration()).keys();
 
     // Save data type class name to report in log
     String oldDataTypeName = getType().getSimpleName() + " class";
