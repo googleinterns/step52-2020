@@ -14,6 +14,6 @@ public class DeleteNotificationBatchServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    OldDataDeleter.deleteOldData(OldDataDeleter.NOTIFICATION_BATCH, log);
+    new NotificationBatchDeleter().delete(log);
   }
 }

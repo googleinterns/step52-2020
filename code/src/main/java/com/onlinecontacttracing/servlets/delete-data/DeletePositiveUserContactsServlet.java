@@ -14,6 +14,6 @@ public class DeletePositiveUserContactsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    OldDataDeleter.deleteOldData(OldDataDeleter.POSITIVE_USER_CONTACTS, log);
+    new PositiveUserContactsDeleter().delete(log);
   }
 }
