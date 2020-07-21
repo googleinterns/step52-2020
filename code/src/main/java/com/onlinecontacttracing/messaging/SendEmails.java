@@ -47,11 +47,10 @@ public class SendEmails {
   private Gmail service;
   private PositiveUser user;
 
-  private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
-  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";//rename to be likek authconfigurationdata
+  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";//rename to be likek authconfigurationdata, also need to remove from github
   // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
   public SendEmails (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
