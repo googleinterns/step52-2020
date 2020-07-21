@@ -165,17 +165,15 @@ var startApp = negativeUser => {
 };
 
 function attachSignin(element, negativeUser) {
-  console.log(element.id);
   auth2.attachClickHandler(element, {}, googleUser => {
 
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
-    const idtoken = googleUser.getAuthResponse().id_token;
+    const idToken = googleUser.getAuthResponse().id_token;
     const params = new URLSearchParams()
-    params.append('idtoken', idtoken);
+    params.append('idToken', idToken);
     const request = new Request('/authenticate', {method: 'POST', body: params});
     fetch(request).then(() => {
-      console.log("done");
       if (negativeUser) {
         PAGE_CONTROLLER.show('notification')
       }
