@@ -1,4 +1,4 @@
-package com.onlinecontacttracing.messaging;
+package com.onlinecontacttracing.authentication;
 
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.CustomizableMessage;
@@ -28,15 +28,14 @@ import com.google.appengine.api.datastore.Projection;
 @WebServlet("/check-for-calendar-credentials")
 public class CheckForCredentialServlet extends HttpServlet {
 
-  //private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
   final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-  private GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-               HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-   @Override
+  private GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+  
+  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
     if (request.getAttribute("authUrlRequestProperties") == null) {

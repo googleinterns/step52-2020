@@ -1,4 +1,4 @@
-package com.onlinecontacttracing.messaging;
+package com.onlinecontacttracing.authentication;
 
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.CustomizableMessage;
