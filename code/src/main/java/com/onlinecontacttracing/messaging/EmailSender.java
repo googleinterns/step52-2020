@@ -18,7 +18,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-// import com.google.api.client.util.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
@@ -34,7 +33,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-public class SendEmails {
+public class EmailSender {
 
   private String emailSubject;
   private String emailBody;
@@ -46,10 +45,11 @@ public class SendEmails {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
-  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";//rename to be likek authconfigurationdata, also need to remove from github
+  //rename to be like authconfigurationdata, also need to remove from github
+  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
   // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
-  public SendEmails (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
+  public EmailSender (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
     messageObject = new MessageServlet(systemMessage, localityResource, customizableMessage, user);
     emailBody = messageObject.compileMessage(messageObject.statusListToShowUser(messageLanguage));
     this.emailSubject= emailSubject;
@@ -71,7 +71,7 @@ public class SendEmails {
 
   private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, PositiveUser user) throws IOException {
         // Load client secrets
-        InputStream in = SendEmails.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
+        InputStream in = EmailSender.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
