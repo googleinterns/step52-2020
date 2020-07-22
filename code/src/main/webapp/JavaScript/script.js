@@ -176,13 +176,11 @@ function attachSignin(element, negativeUser) {
       const request = new Request('/get-negative-user-info', {method: 'POST', body: params});
       fetch(request).then(() => {
         PAGE_CONTROLLER.show('notification');
-      console.log("worked")
       });
     } else {
       const request = new Request('/get-positve-user-info', {method: 'POST', body: params});
       fetch(request).then(() => {
         // Redirect to next page
-      console.log("worked")
       });
     }
 

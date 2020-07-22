@@ -20,6 +20,12 @@ public class GetPositiveUserInfoServlet extends HttpServlet {
     } catch(Exception e) {
       e.printStackTrace();
     }
+    // Wait for servlets to finish executing?
+    try {
+      request.getRequestDispatcher("/merge-positive-user-contacts").forward(request,response);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
     System.out.println("Positive User done getting info");
   }
 }
