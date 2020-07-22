@@ -40,9 +40,9 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-// import com.google.api.client.json.webtoken.JsonWebToken;
-// import com.google.api.client.json.webtoken.JsonWebSignature;
-import io.jsonwebtoken.*;
+import com.google.api.client.json.webtoken.JsonWebToken;
+import com.google.api.client.json.webtoken.JsonWebSignature;
+// import io.jsonwebtoken.*;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -51,7 +51,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import javax.json.Json;
+// import javax.json.Json;
 import org.json.simple.JSONObject;
 
 
@@ -87,11 +87,10 @@ public class CheckForCredentials {
        
        
 
-        if (idTokenString != null) {
+        if (idToken != null) {
             Payload payload = idToken.getPayload();
             String userId = payload.getSubject();
 
-            
             Credential credential = new GoogleAuthorizationCodeFlow.Builder(
                   HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().loadCredential(userId);
 
