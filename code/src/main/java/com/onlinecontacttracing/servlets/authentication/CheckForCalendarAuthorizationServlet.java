@@ -55,8 +55,8 @@ public class CheckForCalendarAuthorizationServlet extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    try{
-      final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    
+      // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
       InputStream in = CheckForCalendarAuthorizationServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
           if (in == null) {
@@ -81,9 +81,7 @@ public class CheckForCalendarAuthorizationServlet extends HttpServlet {
           //API setup
         }
       }
-    } catch (Exception e){
-
-    }
+    
   }
 
 

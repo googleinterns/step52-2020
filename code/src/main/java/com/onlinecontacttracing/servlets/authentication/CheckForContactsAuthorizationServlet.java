@@ -49,7 +49,7 @@ public class CheckForContactsAuthorizationServlet extends HttpServlet {
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-  final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+  // NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
