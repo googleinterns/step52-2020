@@ -7,10 +7,10 @@ import java.lang.Exception;
 
 //Checks that the length of the message is within limits
 public class LengthFlaggingFilter implements FlaggingFilter{
-  private static int limitNumOfCharacters = 500;
+  private static final int LIMIT_NUMBER_OF_CHARACTERS = 500;
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-    if (message.length() > limitNumOfCharacters) {
+    if (message.length() > LIMIT_NUMBER_OF_CHARACTERS) {
       return false;
     }
     return true;

@@ -8,7 +8,7 @@ import java.lang.Exception;
 
 //Checks if message contains any profanity
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  private static ArrayList<String> listOfProfanityIndicators = new ArrayList<String> () {{
+  private static final ArrayList<String> LIST_OF_PROFANITY_INDICATORS = new ArrayList<String> () {{
     add("fuck");
     add("shit");
     add("bitch");
@@ -18,13 +18,13 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
   }};
 
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-      int numOfProfanityIndicators = listOfProfanityIndicators.size();
+      int numOfProfanityIndicators = LIST_OF_PROFANITY_INDICATORS.size();
       String profanityIndicator;
 
       message = prepMessageForCheck(message);
 
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
-        profanityIndicator = listOfProfanityIndicators.get(profanityIndicatorIndex);
+        profanityIndicator = LIST_OF_PROFANITY_INDICATORS.get(profanityIndicatorIndex);
         if (message.indexOf(profanityIndicator) > -1) {
           return false;
         }

@@ -6,10 +6,10 @@ import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
 
 public class NumberOfMessagesFlaggingFilter implements FlaggingFilter{
-  private static int limitNumOfMessages = 100;
+  private static final int LIMIT_NUMBER_OF_MESSAGES = 100;
 
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-    if (positiveUser.getNumberOfEmailsSent() > limitNumOfMessages) {
+    if (positiveUser.getNumberOfEmailsSent() > LIMIT_NUMBER_OF_MESSAGES) {
       return false;
     }
     return true;

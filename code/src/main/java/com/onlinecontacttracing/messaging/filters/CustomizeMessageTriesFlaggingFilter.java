@@ -8,11 +8,11 @@ import java.lang.Exception;
 
 //Checks if user has attempted to submit a message too many times
 public class CustomizeMessageTriesFlaggingFilter implements FlaggingFilter{
-  private int maxNumberOfTries = 3; 
+  private static final int MAX_NUMBER_OF_TRIES = 3; 
 
     public boolean passesFilter(PositiveUser positiveUser, String message) {
       int userNumberOfTries = positiveUser.getAttemptedEmailDrafts();
-      return maxNumberOfTries > userNumberOfTries;
+      return MAX_NUMBER_OF_TRIES > userNumberOfTries;
     }
     
     public String errorMessageToUser() {
