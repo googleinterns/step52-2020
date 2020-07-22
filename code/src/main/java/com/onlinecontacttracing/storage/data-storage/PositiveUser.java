@@ -70,15 +70,6 @@ public class PositiveUser {
     return emailsSent < Constants.EMAILING_THRESHOLD;
   }
 
-  // public boolean userCanMakeMoreDraftsAfterBeingFlagged() {
-  //   if (attemptedEmailDrafts > 0) {
-  //     attemptedEmailDrafts--;
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   @Override
   public String toString() {
     String person = "Negative User- ID:" + userId + ", email:" + userEmail + "\n";
