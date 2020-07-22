@@ -8,52 +8,52 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.io.IOException;
+import com.onlinecontacttracing.storage.PotentialContact;
+import java.util.ArrayList;
 
 @WebServlet("/get-positve-user-info")
 public class GetPositiveUserInfoServlet extends HttpServlet {
 
+  /*
+  * This servlet will retrieve data from the People Api
+  * Additionaly it will forward the request to the servlet for Calendar Api
+  * Once both are done, the servlet will merge contact data sets
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ForwardRequest peopleInfo = new ForwardRequest("/get-positive-user-people-info", request, response);
-    ForwardRequest contactInfo = new ForwardRequest("/get-positive-user-calendar-info", request, response);
-
+    ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
+    Thread peopleInfo = new Thread(new GetPeopleData(contactsFromPeople));
     peopleInfo.start();
-    contactInfo.start();
-
-    // Wait for servlets to finish retrieving data.
+    
     try {
-      peopleInfo.join();
-      contactInfo.join();
-    } catch(Exception e) {
-        e.printStackTrace();
-    }
-
-    // Finally, consolidate data sets.
-    try {
-      request.getRequestDispatcher("/merge-positive-user-contacts").forward(request, response);
+      request.getRequestDispatcher("/get-positive-user-calendar-info").forward(request,response);
     } catch(Exception e) {
       e.printStackTrace();
     }
+
+    try {
+      peopleInfo.join();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+
+    // Finally, consolidate data sets.
+    
+    // Load PositiveUserContacts from objectify
+    // call mergeContactListsFromPeopleAPI(contactsFromPeople)
+
     System.out.println("Positive User done getting info");
   }
 
-  class ForwardRequest extends Thread {
-    String servlet;
-    HttpServletRequest request;
-    HttpServletResponse response;
+  class GetPeopleData implements Runnable {
+    ArrayList<PotentialContact> contacts;
 
-    public ForwardRequest(String servlet, HttpServletRequest request, HttpServletResponse response) {
-      this.servlet = servlet;
-      this.request = request;
-      this.response = response;
+    public GetPeopleData(ArrayList<PotentialContact> contacts) {
+      this.contacts = contacts;
     }
 
     public void run() {
-      try {
-        request.getRequestDispatcher(servlet).forward(request, response);
-      } catch(Exception e) {
-        e.printStackTrace();
-      }
+      // Get contacts from people api
     }
   }
 }
