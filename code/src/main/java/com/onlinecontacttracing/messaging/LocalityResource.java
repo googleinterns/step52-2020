@@ -54,8 +54,8 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   WYOMING("https://health.wyo.gov/publichealth/infectious-disease-epidemiology-unit/disease/novel-coronavirus/", "Here's your state's help link: ", "Aquí está el enlace de ayuda de su estado: ");
   
   private String helpLink;
-  private String englishTranslation;
-  private String spanishTranslation;
+  private final String englishTranslation;
+  private final String spanishTranslation;
   LocalityResource(String helpLink, String englishTranslation, String spanishTranslation) {
     this.helpLink = helpLink;
     this.englishTranslation = englishTranslation;
@@ -64,10 +64,7 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   public String getEnglishTranslation() {
     return englishTranslation.concat(helpLink);
   }
-
   public String getSpanishTranslation() {
     return spanishTranslation.concat(helpLink);
   }
-
-  
 }
