@@ -40,14 +40,17 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-// import com.google.api.client.json.webtoken.JsonWebSignature;
 // import com.google.api.client.json.webtoken.JsonWebToken;
-import com.google.api.client.json.webtoken.JsonWebToken;
-import com.google.api.client.json.webtoken.JsonWebSignature;
+// import com.google.api.client.json.webtoken.JsonWebSignature;
+import io.jsonwebtoken.*;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import javax.json.Json;
 import org.json.simple.JSONObject;
 
@@ -62,26 +65,29 @@ public class CheckForCredentials {
 
   public static void createCredentials(HttpServletRequest request, HttpServletResponse response, List<String> scopes, String originalUrl) throws IOException {
     HashMap<String, String> userIdAndUrl = new HashMap<> ();
-    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
- 
-    SCOPES = scopes;
-    InputStream in = CheckForCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-            if (in == null) {
-                throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-            }
-
-    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-    ObjectMapper objectMapper = new ObjectMapper();
+    
     try {
+      NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+ 
+      SCOPES = scopes;
+      InputStream in = CheckForCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+              if (in == null) {
+                  throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+              }
+
+      GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+      ObjectMapper objectMapper = new ObjectMapper();
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
           .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m"))
           .build();
 
         String idTokenString = request.getParameter("idtoken");
         GoogleIdToken idToken = verifier.verify(idTokenString);
+       
+       
 
-        if (idToken != null) {
+        if (idTokenString != null) {
             Payload payload = idToken.getPayload();
             String userId = payload.getSubject();
 
