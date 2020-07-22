@@ -13,11 +13,11 @@ public enum SystemMessage implements HasEnglishTranslation, HasSpanishTranslatio
   }
 
   public String getEnglishTranslation() {
-    return englishTranslation;
+    return this.englishTranslation;
   }
 
   public String getSpanishTranslation() {
-    return spanishTranslation;
+    return this.spanishTranslation;
   }
 
 }

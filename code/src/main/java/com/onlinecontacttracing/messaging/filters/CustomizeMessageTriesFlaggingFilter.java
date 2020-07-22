@@ -12,7 +12,7 @@ public class CustomizeMessageTriesFlaggingFilter implements FlaggingFilter{
 
     public boolean passesFilter(PositiveUser positiveUser, String message) {
       int userNumberOfTries = positiveUser.getAttemptedEmailDrafts();
-      return MAX_NUMBER_OF_TRIES > userNumberOfTries;
+      return this.MAX_NUMBER_OF_TRIES > userNumberOfTries;
     }
     
     public String errorMessageToUser() {

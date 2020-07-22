@@ -58,14 +58,14 @@ public class MessageServlet extends HttpServlet {
 
   public void checkForFlags() {
     CheckMessagesForFlags flagChecker = new CheckMessagesForFlags();
-    this.messagesForFrontendDisplay = CheckMessagesForFlags.findTriggeredFlags(flagChecker, user, userMessage);
+    this.messagesForFrontendDisplay = CheckMessagesForFlags.findTriggeredFlags(flagChecker, this.user, this.userMessage);
   }
 
   //if flags are triggered, returns message and list of errors, else returns message
   public ArrayList<String> compileMessages(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
-    user.incrementAttemptedEmailDrafts();
+    this.user.incrementAttemptedEmailDrafts();
     checkForFlags();
     
     if (messageLanguage.equals("SP")) {

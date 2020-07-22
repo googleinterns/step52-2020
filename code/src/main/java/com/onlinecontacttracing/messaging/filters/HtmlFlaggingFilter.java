@@ -20,10 +20,10 @@ public class HtmlFlaggingFilter implements FlaggingFilter{
     }}; 
 
     public boolean passesFilter(PositiveUser positiveUser, String message) {
-      int numOfHtmlIndicators = LIST_OF_HTML_INDICATORS.size();
+      int numOfHtmlIndicators = this.LIST_OF_HTML_INDICATORS.size();
       String htmlIndicator;
       for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
-        htmlIndicator = LIST_OF_HTML_INDICATORS.get(htmlIndicatorIndex);
+        htmlIndicator = this.LIST_OF_HTML_INDICATORS.get(htmlIndicatorIndex);
         if (message.indexOf(htmlIndicator) > -1) {
           return false;
         }

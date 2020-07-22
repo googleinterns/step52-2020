@@ -47,10 +47,7 @@ public class EmailSender {
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
   // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
-  public EmailSender (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
-    messageObject = new MessageServlet(systemMessage, localityResource, customizableMessage, user);
-    messageObject.compileMessages(messageLanguage);
-    emailBody = messageObject.getCompiledBackendMessage();
+  public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList) {
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
     // service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, user))
@@ -59,10 +56,19 @@ public class EmailSender {
     this.user = user;
   }
 
-  public void sendEmailsOut () {
+  public void setMessageObject(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
+    this.messageObject = new MessageServlet(systemMessage, localityResource, customizableMessage, user);
+  }
+
+  public void setEmailBody(String messageLanguage) {
+    this.messageObject.compileMessages(messageLanguage);
+    this.emailBody = this.messageObject.getCompiledBackendMessage();
+  }
+
+  public void sendEmailsOut() {
     PotentialContact contact;
     MimeMessage email;
-    for(PotentialContact contactName : contactsList) {
+    for(PotentialContact contactName : this.contactsList) {
       // email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail(), emailSubject, emailBody);
       // sendMessage(service, user.getUserId(), email);
     }

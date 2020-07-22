@@ -3,28 +3,22 @@ package com.onlinecontacttracing.messaging.filters;
 import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
+import com.onlinecontacttracing.messaging.filters.FileReader;
 import java.lang.Exception;
 import java.util.ArrayList;
 
 //Checks if message contains any profanity
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  private static final ArrayList<String> LIST_OF_PROFANITY_INDICATORS = new ArrayList<String> () {{
-    add("fuck");
-    add("shit");
-    add("bitch");
-    add("crap");
-    add("damn");
-    add("goddamn");
-  }};
-
+  private static final ArrayList<String> LIST_OF_PROFANITY_INDICATORS = FileReader.getListFromFile("profanity.txt");
+  
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-      int numOfProfanityIndicators = LIST_OF_PROFANITY_INDICATORS.size();
+      int numOfProfanityIndicators = this.LIST_OF_PROFANITY_INDICATORS.size();
       String profanityIndicator;
 
       message = prepMessageForCheck(message);
 
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
-        profanityIndicator = LIST_OF_PROFANITY_INDICATORS.get(profanityIndicatorIndex);
+        profanityIndicator = this.LIST_OF_PROFANITY_INDICATORS.get(profanityIndicatorIndex);
         if (message.indexOf(profanityIndicator) > -1) {
           return false;
         }

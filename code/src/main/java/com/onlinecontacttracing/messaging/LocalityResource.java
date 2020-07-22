@@ -62,9 +62,9 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
     this.spanishTranslation = spanishTranslation;
   }
   public String getEnglishTranslation() {
-    return englishTranslation.concat(helpLink);
+    return this.englishTranslation.concat(helpLink);
   }
   public String getSpanishTranslation() {
-    return spanishTranslation.concat(helpLink);
+    return this.spanishTranslation.concat(helpLink);
   }
 }

@@ -19,13 +19,12 @@ public class LinkFlaggingFilter implements FlaggingFilter{
         add(".us");
         add("www.");
     }};
-  private int flagThreshold = 10;
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-    int numOfLinkIndicators = LIST_OF_LINK_INDICATORS.size();
+    int numOfLinkIndicators = this.LIST_OF_LINK_INDICATORS.size();
     String linkIndicator;
     for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
-      linkIndicator = LIST_OF_LINK_INDICATORS.get(linkIndicatorIndex);
+      linkIndicator = this.LIST_OF_LINK_INDICATORS.get(linkIndicatorIndex);
       if (message.indexOf(linkIndicator) > -1) {
         return false;
       }
