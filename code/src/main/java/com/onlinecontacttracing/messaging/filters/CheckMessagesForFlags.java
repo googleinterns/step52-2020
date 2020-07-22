@@ -10,15 +10,15 @@ import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 
 //checks all the filters
 public class CheckMessagesForFlags {
-  private final static List<FlaggingFilter> listOfFilters = new ArrayList<FlaggingFilter> () {{
+  private final static ArrayList<FlaggingFilter> listOfFilters = new ArrayList<FlaggingFilter> () {{
     add(new HtmlFlaggingFilter());
     add(new LengthFlaggingFilter());
     add(new LinkFlaggingFilter());
     add(new ProfanityFlaggingFilter());
   }};
 
-  private final List<String> listOfErrorMessages = new ArrayList<String> ();
-  public static List<String> findTriggeredFlags (CheckMessagesForFlags flagChecker, PositiveUser user, String userMessage) {
+  private final ArrayList<String> listOfErrorMessages = new ArrayList<String> ();
+  public static ArrayList<String> findTriggeredFlags (CheckMessagesForFlags flagChecker, PositiveUser user, String userMessage) {
     CustomizeMessageTriesFlaggingFilter checkNumberOfTries= new CustomizeMessageTriesFlaggingFilter();
     
     //Want to just return if user has exceeded submission limit

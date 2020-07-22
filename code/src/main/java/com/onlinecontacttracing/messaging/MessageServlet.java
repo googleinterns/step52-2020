@@ -35,7 +35,7 @@ public class MessageServlet extends HttpServlet {
   //for backend use
   private String compiledMessage;
   //for frontend display
-  private List<String> statusMessage = new ArrayList<String> ();
+  private ArrayList<String> statusMessage = new ArrayList<String> ();
 
 
   public MessageServlet(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
@@ -60,7 +60,7 @@ public class MessageServlet extends HttpServlet {
   }
 
   //if flags are triggered, returns message and list of errors, else returns message
-  public List<String> statusListToShowUser(String messageLanguage) {
+  public ArrayList<String> statusListToShowUser(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     user.incrementAttemptedEmailDrafts();
@@ -79,19 +79,19 @@ public class MessageServlet extends HttpServlet {
     if (statusMessage.size() != 0){
       compiledMessage = translatedSystemMessage.concat(translatedResourceMessage);
     } else {
-      compiledMessage = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage);
+      compiledMessage = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
     }
     statusMessage.add(translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
     return statusMessage;
   
   }
 
-  public String compileMessage () {
+  public String compileMessage (ArrayList<String> statusMessage) {
     //returns message with no userMessage if there are errors, else return message with userMessage
-    if (statusMessages.size() > 1) {
+    if (statusMessage.size() > 1) {
       return compiledMessage;
     }
-    return statusMessages.get(0);
+    return statusMessage.get(0);
   }
 
 }
