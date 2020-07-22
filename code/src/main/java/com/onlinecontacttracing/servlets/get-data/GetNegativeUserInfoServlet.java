@@ -26,16 +26,24 @@ public class GetNegativeUserInfoServlet extends HttpServlet {
       Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
 
       // Retrieve user otherwise make new one
-      NegativeUser negativeUser = negativeUserOptional.orElse(new NegativeUser(userId, payload.getEmail()));
+      NegativeUser negativeUser;
+      if (negativeUserOptional.isPresent()) {
+        negativeUser = negativeUserOptional.get();
+        negativeUser.setLastLogin();
+      } else {
+        negativeUser = new NegativeUser(userId, payload.getEmail());
+      }
+      
+      ofy().save().entity(negativeUser).now();
 
-    try {
-      request.getRequestDispatcher("/get-negative-user-calendar-info").forward(request,response);
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
+      try {
+        request.getRequestDispatcher("/get-negative-user-calendar-info").forward(request,response);
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
 
-    negativeUser.setLastLogin();
-    ofy().save().entity(negativeUser);
+    } else {
+      System.out.println("idToken did not yield payload");
     }
 
 
