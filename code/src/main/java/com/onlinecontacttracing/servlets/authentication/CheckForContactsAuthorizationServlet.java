@@ -14,7 +14,6 @@ import com.onlinecontacttracing.authentication.CheckForCredentials;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -24,7 +23,6 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
 import com.google.api.services.gmail.model.ListLabelsResponse;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
 import java.util.HashMap;
@@ -41,6 +39,8 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import java.util.Optional;
 
 @WebServlet("/check-for-contacts-credentials")
 public class CheckForContactsAuthorizationServlet extends HttpServlet {
@@ -49,8 +49,7 @@ public class CheckForContactsAuthorizationServlet extends HttpServlet {
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-  // NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-  
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
@@ -62,7 +61,8 @@ public class CheckForContactsAuthorizationServlet extends HttpServlet {
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     
     if (request.getAttribute("authUrlRequestProperties") == null) {
-      CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials");
+      Optional<Payload> payload = CheckForCredentials.getPayload(request, response);
+      CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials", payload);
     } else {
 
       AuthorizationRequestUrl authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
