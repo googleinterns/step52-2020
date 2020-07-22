@@ -67,8 +67,8 @@ public class MessageServlet extends HttpServlet {
     checkForFlags();
     
     if (messageLanguage.equals("SP")) {
-    translatedResourceMessage = localityResource.getEnglishTranslation();
-    translatedSystemMessage = systemMessage.getEnglishTranslation();
+      translatedResourceMessage = localityResource.getEnglishTranslation();
+      translatedSystemMessage = systemMessage.getEnglishTranslation();
     }
     else {
       translatedResourceMessage = localityResource.getEnglishTranslation();
@@ -76,12 +76,11 @@ public class MessageServlet extends HttpServlet {
     }
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
-    if (statusMessage.size() != 0){
-      compiledMessage = translatedSystemMessage.concat(translatedResourceMessage);
-    } else {
-      compiledMessage = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
-    }
     statusMessage.add(translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    if (statusMessage.size() > 0){
+      userMessage = "";
+    }
+    compiledMessage = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
     return statusMessage;
   
   }
@@ -93,5 +92,4 @@ public class MessageServlet extends HttpServlet {
     }
     return statusMessage.get(0);
   }
-
 }
