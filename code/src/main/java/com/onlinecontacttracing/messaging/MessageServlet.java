@@ -31,10 +31,11 @@ public class MessageServlet extends HttpServlet {
   private String userMessage;
   private PositiveUser user;
   //for backend use
-  private String compiledMessage;
+  private String messagesForBackendUse;
   //for frontend display
-  private ArrayList<String> statusMessage = new ArrayList<String> ();
-
+  private ArrayList<String> messagesForFrontendDisplay = new ArrayList<String> ();
+  //the frontend and backend are not necessarily the same message in case the 
+  //user's message triggered flags
 
   public MessageServlet(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
     this.systemMessage = systemMessage;
@@ -48,7 +49,7 @@ public class MessageServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     String messageLanguage = request.getParameter("language");
-    response.getWriter().println(statusListToShowUser(messageLanguage));
+    response.getWriter().println(compileMessages(messageLanguage));
   }
 
   public void setUserMessage() {
@@ -57,11 +58,11 @@ public class MessageServlet extends HttpServlet {
 
   public void checkForFlags() {
     CheckMessagesForFlags flagChecker = new CheckMessagesForFlags();
-    statusMessage = CheckMessagesForFlags.findTriggeredFlags(flagChecker, user, userMessage);
+    this.messagesForFrontendDisplay = CheckMessagesForFlags.findTriggeredFlags(flagChecker, user, userMessage);
   }
 
   //if flags are triggered, returns message and list of errors, else returns message
-  public ArrayList<String> statusListToShowUser(String messageLanguage) {
+  public ArrayList<String> compileMessages(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     user.incrementAttemptedEmailDrafts();
@@ -77,20 +78,18 @@ public class MessageServlet extends HttpServlet {
     }
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
-    statusMessage.add(translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
-    if (statusMessage.size() > 0){
+    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    if (messagesForFrontendDisplay.size() > 1){
       userMessage = "";
     }
-    compiledMessage = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
-    return statusMessage;
+    this.messagesForBackendUse = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    return messagesForFrontendDisplay;
   
   }
 
-  public String compileMessage (ArrayList<String> statusMessage) {
+  public String getCompiledBackendMessage () {
     //returns message with no userMessage if there are errors, else return message with userMessage
-    if (statusMessage.size() > 1) {
-      return compiledMessage;
-    }
-    return statusMessage.get(0);
+    return this.messagesForBackendUse;
+    
   }
 }

@@ -49,7 +49,8 @@ public class EmailSender {
   
   public EmailSender (SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, String emailSubject, String messageLanguage, ArrayList<PotentialContact> contactsList, PositiveUser user) {
     messageObject = new MessageServlet(systemMessage, localityResource, customizableMessage, user);
-    emailBody = messageObject.compileMessage(messageObject.statusListToShowUser(messageLanguage));
+    messageObject.compileMessages(messageLanguage);
+    emailBody = messageObject.getCompiledBackendMessage();
     this.emailSubject= emailSubject;
     this.contactsList = contactsList;
     // service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, user))
