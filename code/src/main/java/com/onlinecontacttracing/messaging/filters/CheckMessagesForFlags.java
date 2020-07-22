@@ -1,12 +1,12 @@
 package com.onlinecontacttracing.messaging.filters;
 
 import com.onlinecontacttracing.messaging.LocalityResource;
+import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 import com.onlinecontacttracing.storage.CustomizableMessage;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
 import java.util.List;
-import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 
 //checks all the filters
 public class CheckMessagesForFlags {
