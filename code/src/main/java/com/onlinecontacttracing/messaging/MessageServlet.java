@@ -40,7 +40,6 @@ public class MessageServlet extends HttpServlet {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
     this.customizableMessage =  customizableMessage;
-    this.userMessage = customizableMessage.getMessage();
     this.user = user;
 
   }
@@ -50,6 +49,10 @@ public class MessageServlet extends HttpServlet {
     response.setContentType("text/html;");
     String messageLanguage = request.getParameter("language");
     response.getWriter().println(statusListToShowUser(messageLanguage));
+  }
+
+  public void setUserMessage() {
+    this.userMessage = this.customizableMessage.getMessage();
   }
 
   public void checkForFlags() {
