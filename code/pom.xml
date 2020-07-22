@@ -16,8 +16,6 @@
     <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
 
-  
-
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -45,23 +43,6 @@
       <artifactId>google-api-client</artifactId>
       <version>1.30.10</version>
     </dependency>
-     <!-- <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.22.0</version>
-    </dependency> -->
-    <!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
-<!-- <dependency>
-    <groupId>com.google.api-client</groupId>
-    <artifactId>google-api-client</artifactId>
-    <version>1.20.0</version>
-</dependency>
-<dependency>
-    <groupId>com.onlinecontacttracing</groupId>
-    <artifactId>google-api-client-util</artifactId>
-    <version>1.2.3-alpha</version>
-</dependency> -->
-
     <dependency>
       <groupId>com.googlecode.objectify</groupId>
       <artifactId>objectify</artifactId>
@@ -97,75 +78,73 @@
         <version>1.22.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-util -->
-<!-- <dependency>
-    <groupId>com.google.api.client</groupId>
-    <artifactId>google-api-client-util</artifactId>
-    <version>1.2.3-alpha</version>
-</dependency> -->
+    <dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-util</artifactId>
+        <version>1.2.3-alpha</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.11.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-calendar -->
+    <dependency>
+        <groupId>com.google.apis</groupId>
+        <artifactId>google-api-services-calendar</artifactId>
+        <version>v3-rev411-1.25.0</version>
+    </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.11.1</version>
-</dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-json -->
+    <dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-json</artifactId>
+        <version>1.2.1-alpha</version>
+    </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-calendar -->
-<dependency>
-    <groupId>com.google.apis</groupId>
-    <artifactId>google-api-services-calendar</artifactId>
-    <version>v3-rev411-1.25.0</version>
-</dependency>
+     <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-credentials</artifactId>
+      <version>0.21.1</version>
+    </dependency>
 
-<!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
-<!-- <dependency>
-    <groupId>javax.json</groupId>
-    <artifactId>javax.json-api</artifactId>
-    <version>1.1.4</version>
-</dependency> -->
+    <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>0.9.1</version>
+    </dependency>
 
+    <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
+    <dependency>
+        <groupId>javax.json</groupId>
+        <artifactId>javax.json-api</artifactId>
+        <version>1.1.4</version>
+    </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-json -->
-<dependency>
-    <groupId>com.google.api.client</groupId>
-    <artifactId>google-api-client-json</artifactId>
-    <version>1.2.1-alpha</version>
-</dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.0.2</version>
+    </dependency>
 
-<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-<dependency>
-    <groupId>io.jsonwebtoken</groupId>
-    <artifactId>jjwt</artifactId>
-    <version>0.9.1</version>
-</dependency>
+    <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+    <dependency>
+        <groupId>com.googlecode.json-simple</groupId>
+        <artifactId>json-simple</artifactId>
+        <version>1.1</version>
+    </dependency>
 
-<!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
-<dependency>
-    <groupId>javax.json</groupId>
-    <artifactId>javax.json-api</artifactId>
-    <version>1.1.4</version>
-</dependency>
-
-<dependency>
-	<groupId>org.glassfish</groupId>
-  	<artifactId>javax.json</artifactId>
-  	<version>1.0.2</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
-<dependency>
-    <groupId>com.googlecode.json-simple</groupId>
-    <artifactId>json-simple</artifactId>
-    <version>1.1</version>
-</dependency>
-
-<dependency>
+    <dependency>
 	<groupId>com.google.oauth-client</groupId>
 	<artifactId>google-oauth-client</artifactId>
-	<version>1.8.0-beta</version>
+	<version>1.19.0</version>
 </dependency>
+<!-- Thanks for using https://jar-download.com -->
 
-<dependency>
+
+    <dependency>
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-analyticsreporting</artifactId>
       <version>v4-rev124-1.23.0</version>
