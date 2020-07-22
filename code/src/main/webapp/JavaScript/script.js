@@ -172,12 +172,19 @@ function attachSignin(element, negativeUser) {
     const idToken = googleUser.getAuthResponse().id_token;
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    const request = new Request('/authenticate', {method: 'POST', body: params});
-    fetch(request).then(() => {
-      if (negativeUser) {
-        PAGE_CONTROLLER.show('notification')
-      }
-    });
+    if (negativeUser) {
+      const request = new Request('/get-negative-user-info', {method: 'POST', body: params});
+      fetch(request).then(() => {
+        PAGE_CONTROLLER.show('notification');
+      console.log("worked")
+      });
+    } else {
+      const request = new Request('/get-positve-user-info', {method: 'POST', body: params});
+      fetch(request).then(() => {
+        // Redirect to next page
+      console.log("worked")
+      });
+    }
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
