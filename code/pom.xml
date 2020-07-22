@@ -8,8 +8,6 @@
   <version>1</version>
   <packaging>war</packaging>
 
-  
-
   <properties>
     <!-- This project uses Java 8 -->
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -17,8 +15,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
-
-    
 
   <dependencies>
     <dependency>
@@ -47,28 +43,6 @@
       <artifactId>google-api-client</artifactId>
       <version>1.30.10</version>
     </dependency>
-     <!-- <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.22.0</version>
-    </dependency> -->
-    <!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
-<!-- <dependency>
-    <groupId>com.google.api-client</groupId>
-    <artifactId>google-api-client</artifactId>
-    <version>1.20.0</version>
-</dependency>
-
-<dependency>
-
-    <groupId>com.onlinecontacttracing</groupId>
-
-    <artifactId>google-api-client-util</artifactId>
-
-    <version>1.2.3-alpha</version>
-
-</dependency> -->
-
     <dependency>
       <groupId>com.googlecode.objectify</groupId>
       <artifactId>objectify</artifactId>
@@ -103,28 +77,12 @@
         <artifactId>google-oauth-client-jetty</artifactId>
         <version>1.22.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-util -->
-<!-- <dependency>
-    <groupId>com.google.api.client</groupId>
-    <artifactId>google-api-client-util</artifactId>
-    <version>1.2.3-alpha</version>
-</dependency> -->
-
-
-<dependency>
+    <dependency>
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-analyticsreporting</artifactId>
       <version>v4-rev124-1.23.0</version>
     </dependency>
-
   </dependencies>
-<!-- 
-  <repositories>
-   <repository>
-    <id>central</id>
-    <url>http://repo1.maven.org/maven2/</url>
-  </repository>
-</repositories> -->
 
   <build>
     <plugins>
