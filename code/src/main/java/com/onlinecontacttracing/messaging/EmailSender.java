@@ -71,7 +71,8 @@ public class EmailSender {
 
   private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, PositiveUser user) throws IOException {
         // Load client secrets
-        InputStream in = EmailSender.class.getResourceAsStream(CREDENTIALS_FILE_PATH);//create a class authAPI config constants, have this as a string, eliminate input reader
+        //create a class authAPI config constants, have this as a string, eliminate input reader
+        InputStream in = EmailSender.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
