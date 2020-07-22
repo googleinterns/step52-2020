@@ -14,18 +14,46 @@ public class GetPositiveUserInfoServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    ForwardRequest peopleInfo = new ForwardRequest("/get-positive-user-people-info", request, response);
+    ForwardRequest contactInfo = new ForwardRequest("/get-positive-user-calendar-info", request, response);
+
+    peopleInfo.start();
+    contactInfo.start();
+
+    // Wait for servlets to finish retrieving data.
     try {
-      request.getRequestDispatcher("/get-positive-user-people-info").forward(request,response);
-      request.getRequestDispatcher("/get-positive-user-calendar-info").forward(request,response);
+      peopleInfo.join();
+      contactInfo.join();
     } catch(Exception e) {
-      e.printStackTrace();
+        e.printStackTrace();
     }
-    // Wait for servlets to finish executing?
+
+    // Finally, consolidate data sets.
     try {
-      request.getRequestDispatcher("/merge-positive-user-contacts").forward(request,response);
+      request.getRequestDispatcher("/merge-positive-user-contacts").forward(request, response);
     } catch(Exception e) {
       e.printStackTrace();
     }
     System.out.println("Positive User done getting info");
+  }
+
+  class ForwardRequest extends Thread {
+    String servlet;
+    HttpServletRequest request;
+    HttpServletResponse response;
+
+    public ForwardRequest(String servlet, HttpServletRequest request, HttpServletResponse response) {
+      this.servlet = servlet;
+      this.request = request;
+      this.response = response;
+    }
+
+    public void run() {
+      try {
+        request.getRequestDispatcher(servlet).forward(request, response);
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 }
