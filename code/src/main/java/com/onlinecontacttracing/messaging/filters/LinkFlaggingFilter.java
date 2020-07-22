@@ -36,7 +36,4 @@ public class LinkFlaggingFilter implements FlaggingFilter{
   public String errorMessageToUser() {
     return "We think there might be a URL or link in your message. Please remove them and try again!";
   }
-
-  
-
 }

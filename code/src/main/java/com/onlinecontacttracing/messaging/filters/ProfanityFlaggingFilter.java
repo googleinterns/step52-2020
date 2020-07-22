@@ -32,7 +32,6 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       return true;
     }
 
-  
   String prepMessageForCheck(String message) {
     message = replaceSymbolsWithLetters(message);
     message = message.toLowerCase();
@@ -54,9 +53,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
     message = message.replaceAll("!","i");
     return message;
   }
-
-
-
+  
   public String errorMessageToUser() {
     return "We believe that your message contains profanity. Please remove it and try again.";
   };
