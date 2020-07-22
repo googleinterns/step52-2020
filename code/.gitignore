@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+#Ignore credentials file for security
+./src/main/java/onlinecontacttracing/messaging/credentials.json
