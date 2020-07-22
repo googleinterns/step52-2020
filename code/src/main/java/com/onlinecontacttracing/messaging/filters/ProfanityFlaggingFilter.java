@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 //Checks if message contains any profanity
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  private static final ArrayList<String> LIST_OF_PROFANITY_INDICATORS = FileReader.getListFromFile("profanity.txt");
+  private static final ArrayList<String> LIST_OF_PROFANITY_INDICATORS = FileReader.getListFromFile("profanity-indicators.txt");
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfProfanityIndicators = this.LIST_OF_PROFANITY_INDICATORS.size();
