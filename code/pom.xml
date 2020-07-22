@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.google.sps</groupId>
+  <groupId>com.onlinecontacttracing</groupId>
   <artifactId>code</artifactId>
   <version>1</version>
   <packaging>war</packaging>
@@ -34,16 +34,6 @@
         <version>1.9.59</version>
     </dependency>
     <dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-gmail</artifactId>
-      <version>v1-rev20200601-1.30.10</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.30.10</version>
-    </dependency>
-    <dependency>
       <groupId>com.googlecode.objectify</groupId>
       <artifactId>objectify</artifactId>
       <version>6.0.6</version>
@@ -53,98 +43,21 @@
       <artifactId>junit</artifactId>
       <version>4.12</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
-    <dependency>
-        <groupId>javax.activation</groupId>
-        <artifactId>activation</artifactId>
-        <version>1.1.1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client -->
-    <dependency>
-        <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client</artifactId>
-        <version>1.11.0-beta</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-java6 -->
-    <dependency>
-        <groupId>com.google.oauth-client</groupId>
-        <artifactId>google-oauth-client-java6</artifactId>
-        <version>1.11.0-beta</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
-    <dependency>
-        <groupId>com.google.oauth-client</groupId>
-        <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.22.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-util -->
-    <dependency>
-        <groupId>com.google.api.client</groupId>
-        <artifactId>google-api-client-util</artifactId>
-        <version>1.2.3-alpha</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.11.1</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-calendar -->
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-gmail</artifactId>
+      <version>v1-rev20200601-1.30.10</version>
+    </dependency>
     <dependency>
         <groupId>com.google.apis</groupId>
         <artifactId>google-api-services-calendar</artifactId>
         <version>v3-rev411-1.25.0</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/com.google.api.client/google-api-client-json -->
-    <dependency>
-        <groupId>com.google.api.client</groupId>
-        <artifactId>google-api-client-json</artifactId>
-        <version>1.2.2-alpha</version>
-    </dependency>
-
-     <dependency>
-      <groupId>com.google.auth</groupId>
-      <artifactId>google-auth-library-credentials</artifactId>
-      <version>0.21.1</version>
-    </dependency>
-
- 
-
-    <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
-    <!-- <dependency>
-        <groupId>javax.json</groupId>
-        <artifactId>javax.json-api</artifactId>
-        <version>1.1.4</version>
-    </dependency> -->
-<!-- 
-    <dependency>
-      <groupId>org.glassfish</groupId>
-        <artifactId>javax.json</artifactId>
-        <version>1.0.2</version>
-    </dependency> -->
-
-    <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
-    <dependency>
-        <groupId>com.googlecode.json-simple</groupId>
-        <artifactId>json-simple</artifactId>
-        <version>1.1</version>
-    </dependency>
-
-    <dependency>
-	<groupId>com.google.oauth-client</groupId>
-	<artifactId>google-oauth-client</artifactId>
-	<version>1.19.0</version>
-</dependency>
-<!-- Thanks for using https://jar-download.com -->
-
-
-    <dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-analyticsreporting</artifactId>
-      <version>v4-rev124-1.23.0</version>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -157,7 +70,7 @@
         <artifactId>appengine-maven-plugin</artifactId>
         <version>2.2.0</version>
         <configuration>
-          <deploy.projectId>covid-catchin-code</deploy.projectId>
+          <deploy.projectId>covid-catchers-fixed-gcp</deploy.projectId>
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
