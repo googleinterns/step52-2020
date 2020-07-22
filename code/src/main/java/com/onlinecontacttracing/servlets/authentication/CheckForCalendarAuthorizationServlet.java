@@ -54,15 +54,14 @@ public class CheckForCalendarAuthorizationServlet extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-      // final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
   
       InputStream in = CheckForCalendarAuthorizationServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
           if (in == null) {
               throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
           }
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-      
+      //if the request does not have these request properties, indicating it has not created a credential, it will be directed to create credentials
+      //otherwise it'll access those credentials
       if (request.getAttribute("authUrlRequestProperties") == null) {
         Optional<Payload> payload = CheckForCredentials.getPayload(request, response);
         CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials", payload);

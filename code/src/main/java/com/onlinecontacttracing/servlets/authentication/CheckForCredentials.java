@@ -87,7 +87,7 @@ public class CheckForCredentials {
         return Optional.empty();
     } 
   }
-  
+  //checks for credentials, if they don't exist, go create them
   public static void createCredentials(HttpServletRequest request, HttpServletResponse response, List<String> scopes, String originalUrl, Optional<Payload> payload) throws IOException {
     HashMap<String, String> userIdAndUrl = new HashMap<> ();
     
@@ -109,7 +109,7 @@ public class CheckForCredentials {
 
             Credential credential = new GoogleAuthorizationCodeFlow.Builder(
                   HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().loadCredential(userId);
-
+            //checks if credentials exist or not, create if not
             if(credential == null) {
               userIdAndUrl.put("userId", userId);
               userIdAndUrl.put("originalUrl", originalUrl);

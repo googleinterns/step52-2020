@@ -46,7 +46,7 @@ public class GetTokenResponseServlet extends HttpServlet {
  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    //create token response and redirect to original url
     authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
     flow = (GoogleAuthorizationCodeFlow) request.getAttribute("flow");
 
@@ -60,7 +60,7 @@ public class GetTokenResponseServlet extends HttpServlet {
     try {
       requestDispatcher.include(request, response);
     } catch (Exception e) {
-      System.out.println("hello");
+      e.printStackTrace();
     }
   }
 }
