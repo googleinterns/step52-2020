@@ -15,8 +15,20 @@ public class GetNegativeUserInfoServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    updateUser(request.getParameter("idToken"));
+
+    try {
+      request.getRequestDispatcher("/get-negative-user-calendar-info").forward(request,response);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("Negative User done getting info");
+  }
+
+  public void updateUser(String idToken) {
     // Using dummy function while Cynthia merges Authentication branch
-    Optional<Payload> payloadOptional = AuthenticateUser.getUserId(request.getParameter("idToken"));
+    Optional<Payload> payloadOptional = AuthenticateUser.getUserId(idToken);
     if (payloadOptional.isPresent()) {
       // Get userId form payload
       Payload payload = payloadOptional.get();
@@ -36,18 +48,8 @@ public class GetNegativeUserInfoServlet extends HttpServlet {
       
       ofy().save().entity(negativeUser).now();
 
-      try {
-        request.getRequestDispatcher("/get-negative-user-calendar-info").forward(request,response);
-      } catch(Exception e) {
-        e.printStackTrace();
-      }
-
     } else {
       System.out.println("idToken did not yield payload");
     }
-
-
-    System.out.println("Negative User done getting info");
-    
   }
 }

@@ -22,8 +22,43 @@ public class GetPositiveUserInfoServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    updateUser(request.getParameter("idToken"));
+
+    // Execute runnable to get people data
+    ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
+    Thread peopleInfo = new Thread(new GetPeopleData(contactsFromPeople));
+    peopleInfo.start();
+
+    // Forward to servlet to retrieve calendar data
+    try {
+      request.getRequestDispatcher("/get-positive-user-calendar-info").forward(request,response);
+
+      // Finally, consolidate data sets.
+      peopleInfo.join();
+      // Load PositiveUserContacts from objectify
+      // call mergeContactListsFromPeopleAPI(contactsFromPeople)
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+    
+    System.out.println("Positive User done getting info");
+  }
+
+  class GetPeopleData implements Runnable {
+    ArrayList<PotentialContact> contacts;
+
+    public GetPeopleData(ArrayList<PotentialContact> contacts) {
+      this.contacts = contacts;
+    }
+
+    public void run() {
+      // Get contacts from people api
+    }
+  }
+
+  public void updateUser(String idToken) {
     // Using dummy function while Cynthia merges Authentication branch
-    Optional<Payload> payloadOptional = AuthenticateUser.getUserId(request.getParameter("idToken"));
+    Optional<Payload> payloadOptional = AuthenticateUser.getUserId(idToken);
     if (payloadOptional.isPresent()) {
       // Get userId form payload
       Payload payload = payloadOptional.get();
@@ -43,42 +78,8 @@ public class GetPositiveUserInfoServlet extends HttpServlet {
 
       ofy().save().entity(positiveUser).now();
 
-      ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
-      Thread peopleInfo = new Thread(new GetPeopleData(contactsFromPeople));
-      peopleInfo.start();
-    
-      try {
-        request.getRequestDispatcher("/get-positive-user-calendar-info").forward(request,response);
-      } catch(Exception e) {
-        e.printStackTrace();
-      }
-
-      try {
-        peopleInfo.join();
-      } catch(Exception e) {
-        e.printStackTrace();
-      }
-
-      // Finally, consolidate data sets.
-    
-      // Load PositiveUserContacts from objectify
-      // call mergeContactListsFromPeopleAPI(contactsFromPeople)
     } else {
       System.out.println("idToken did not yield payload");
-    }
-    
-    System.out.println("Positive User done getting info");
-  }
-
-  class GetPeopleData implements Runnable {
-    ArrayList<PotentialContact> contacts;
-
-    public GetPeopleData(ArrayList<PotentialContact> contacts) {
-      this.contacts = contacts;
-    }
-
-    public void run() {
-      // Get contacts from people api
     }
   }
 }
