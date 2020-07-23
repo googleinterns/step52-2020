@@ -161,6 +161,7 @@ var startApp = negativeUser => {
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
     attachSignin(document.getElementById('negative-login-button'), true);
+    attachSigninToWipeOutNegativeUserData(document.getElementById('data-wipe-out'));
   });
 };
 
@@ -178,6 +179,19 @@ function attachSignin(element, negativeUser) {
         PAGE_CONTROLLER.show('notification')
       }
     });
+
+  }, error => {
+    alert(JSON.stringify(error, undefined, 2));
+  });
+}
+
+function attachSigninToWipeOutNegativeUserData(element) {
+  auth2.attachClickHandler(element, {}, googleUser => {
+
+    const idToken = googleUser.getAuthResponse().id_token;
+    const params = new URLSearchParams()
+    params.append('idToken', idToken);
+    const request = new Request('/delete-all-negative-user-data', {method: 'POST', body: params});
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
