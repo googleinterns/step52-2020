@@ -25,8 +25,7 @@ public class DeleteAllNegativeUserDataServlet extends HttpServlet {
 
     if (payloadOptional.isPresent()) {
       // Get userId form payload
-      Payload payload = payloadOptional.get();
-      String userId = payload.getSubject();
+      String userId = payloadOptional.get().getSubject();
 
       Iterable<Key<NegativeUserPlace>> negativeUserPlaces = ofy().load().type(NegativeUserPlace.class)
         .filter("userId", userId).keys();
@@ -39,7 +38,5 @@ public class DeleteAllNegativeUserDataServlet extends HttpServlet {
       NegativeUser negativeUser = ofy().load().type(NegativeUser.class).id(userId).now();
       ofy().delete().entity(negativeUser).now();
     }
-    
-    System.out.println("Servlet done executing");
   }
 }
