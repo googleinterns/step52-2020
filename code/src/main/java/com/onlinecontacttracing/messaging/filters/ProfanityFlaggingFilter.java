@@ -14,38 +14,18 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
       int numOfProfanityIndicators = this.LIST_OF_PROFANITY_INDICATORS.size();
-      String profanityIndicator;
-
-      message = prepMessageForCheck(message);
-      int startOfProfaneWord;
-      int endOfProfaneWord;
-      boolean isSeparateWord = true;
+      String profanityIndicatorWord;
       int messageLength = message.length();
-      char characterBeforeWord;
-      char characterAfterWord;
+      boolean isSelfContainedWord;   
+      message = prepMessageForCheck(message);
 
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
         profanityIndicatorWord = this.LIST_OF_PROFANITY_INDICATORS.get(profanityIndicatorIndex);
-        startOfProfaneWord = message.indexOf(profanityIndicatorWord);
-        endOfProfaneWord = startOfProfaneWord + profanityIndicatorWord.length()-1;
         //check existence of profane word
-        if (startOfProfaneWord > -1) {
-          //check profane word is its own word
-          //i.e. only spaces/punctuation on either end of the word
-          if (startOfProfaneWord > 0) {
-            characterBeforeWord = message.charAt(startOfProfaneWord-1);
-            if (characterBeforeWord != ' ' || !checkIfCharIsPunctuation(characterBeforeWord)) {
-              isSeparateWord = false;
-            }
-          }
-          if (endOfProfaneWord < messageLength) {
-            characterAfterWord = message.charAt(endOfProfaneWord+1);
-            if ( characterAfterWord != ' ' || !checkIfCharIsPunctuation(characterAfterWord)){
-              isSeparateWord = false;
-            }
-          }
-          if (isSeparateWord) {
-            //profane word exists and is its own word, does not pass filter
+        if (message.indexOf(profanityIndicatorWord) > -1) {//profane word exists
+          isSelfContainedWord = checkIfWordIsSelfContained(message, profanityIndicatorWord, messageLength);
+          if (isSelfContainedWord) {
+            //profane word exists and is its own word => does not pass filter
             return false;
           }
         }
@@ -53,8 +33,30 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       return true;
     }
 
-  boolean checkIfCharIsPunctuation(Character character) {
-    ArrayList<Character> listOfPunctuation  = FileReader.getListFromFile("profanity-indicators.txt");
+  public boolean checkIfWordIsSelfContained (String message, String word, int messageLength) {
+    int startOfWordIndex = message.indexOf(word);
+    int endOfWordIndex = startOfWordIndex + word.length()-1;
+    String characterBeforeWord;
+    String characterAfterWord;
+      //check is self-contained/not within another, larger, word
+      //i.e. only spaces/punctuation on either end of the word
+      if (startOfWordIndex > 0) {
+        characterBeforeWord = message.substring(startOfWordIndex-1, startOfWordIndex);
+        if (characterBeforeWord.equals(" ") || !checkIfCharIsPunctuation(characterBeforeWord)) {
+          return false;
+        }
+      }
+      if (endOfWordIndex < messageLength) {
+        characterAfterWord = message.substring(endOfWordIndex+1, endOfWordIndex+2);
+        if (characterAfterWord.equals(" ") || !checkIfCharIsPunctuation(characterAfterWord)) {
+          return false;
+        }
+      }
+      return true;
+  }
+
+  public boolean checkIfCharIsPunctuation(String character) {
+    ArrayList<String> listOfPunctuation  = FileReader.getListFromFile("punctuation-list.txt");
     return listOfPunctuation.contains(character);
   }
 
