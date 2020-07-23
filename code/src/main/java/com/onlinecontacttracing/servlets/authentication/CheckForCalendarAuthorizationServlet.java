@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import com.onlinecontacttracing.authentication.CheckForCredentials;
 
+import com.onlinecontacttracing.authentication.CheckForApiAuthorizationServlet;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -43,45 +44,27 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
 @WebServlet("/check-for-calendar-credentials")
-public class CheckForCalendarAuthorizationServlet extends HttpServlet {
+public class CheckForCalendarAuthorizationServlet extends CheckForApiAuthorizationServlet {
 
-  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
   
-  
-  
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-  
-      InputStream in = CheckForCalendarAuthorizationServlet.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-          if (in == null) {
-              throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-          }
-      GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-      //if the request does not have these request properties, indicating it has not created a credential, it will be directed to create credentials
-      //otherwise it'll access those credentials
-      if (request.getAttribute("authUrlRequestProperties") == null) {
-        Optional<Payload> payload = CheckForCredentials.getPayload(request, response);
-        CheckForCredentials.createCredentials(request, response, SCOPES, "check-for-contacts-credentials", payload);
-      } else {
-        AuthorizationRequestUrl authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
-        GoogleAuthorizationCodeFlow flow = (GoogleAuthorizationCodeFlow) request.getAttribute("flow");
+  List<String> getScopes() {
+    return SCOPES;
+  }
 
-        Type authUrlPropertiesType = new TypeToken<Map<String, String>>() {}.getType();
-        Map<String, Object> authUrlProperties = new Gson().fromJson(authUrlRequestProperties.getState(), authUrlPropertiesType);
-        String userId = (String) authUrlProperties.get("userId");
-        Credential credential = flow.loadCredential(userId);
-        if(credential == null) {
-          PrintWriter out = response.getWriter();
-          out.println("Something went wrong, please proceed to manual input.");
-        } else {
-          //API setup
-        }
-      }
+  String getOriginalUrl() {
+    return "check-for-calendar-credentials";
+  }
+
+  String getCredentialsFilePath() {
+    return CREDENTIALS_FILE_PATH;
+  }
+
+  void onSuccessfulLogin(Credential credential) {
     
   }
+  
 
 
 }
