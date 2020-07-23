@@ -26,9 +26,7 @@ import com.google.api.services.gmail.model.ListLabelsResponse;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
 import java.util.HashMap;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
-import com.fasterxml.jackson.core.type.TypeReference;
 import javax.servlet.RequestDispatcher;
 
 import java.io.FileNotFoundException;
@@ -69,7 +67,7 @@ public class CheckForCredentials {
 
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
       GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-      ObjectMapper objectMapper = new ObjectMapper();
+
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
           .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m"))
           .build();
@@ -90,6 +88,7 @@ public class CheckForCredentials {
   //checks for credentials, if they don't exist, go create them
   public static void createCredentials(HttpServletRequest request, HttpServletResponse response, List<String> scopes, String originalUrl, Optional<Payload> payload) throws IOException {
     HashMap<String, String> userIdAndUrl = new HashMap<> ();
+    String jsonOfUserIdAndUrl;
     
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -102,7 +101,6 @@ public class CheckForCredentials {
 
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
       GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-      ObjectMapper objectMapper = new ObjectMapper();
      
         if (payload.isPresent()) {
             String userId = payload.get().getSubject();
@@ -113,8 +111,9 @@ public class CheckForCredentials {
             if(credential == null) {
               userIdAndUrl.put("userId", userId);
               userIdAndUrl.put("originalUrl", originalUrl);
+              jsonOfUserIdAndUrl = new Gson().toJson(userIdAndUrl);
 
-              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("get-token-response").setState(objectMapper.writeValueAsString(userIdAndUrl).toString());
+              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("get-token-response").setState(jsonOfUserIdAndUrl);
               String url = authUrlRequestProperties.build();
 
               request.setAttribute("authUrlRequestProperties", authUrlRequestProperties);

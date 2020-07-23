@@ -25,9 +25,7 @@ import com.google.api.services.gmail.model.ListLabelsResponse;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
 import java.util.HashMap;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
-import com.fasterxml.jackson.core.type.TypeReference;
 import javax.servlet.RequestDispatcher;
 
 import java.io.FileNotFoundException;
@@ -37,6 +35,8 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 @WebServlet("/get-token-response")
 public class GetTokenResponseServlet extends HttpServlet {
@@ -50,8 +50,8 @@ public class GetTokenResponseServlet extends HttpServlet {
     authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
     flow = (GoogleAuthorizationCodeFlow) request.getAttribute("flow");
 
-    ObjectMapper mapper = new ObjectMapper();
-    Map<String, Object> authUrlProperties = mapper.readValue(authUrlRequestProperties.getState(), new TypeReference<Map<String, Object>>() {});
+    Type authUrlPropertiesType = new TypeToken<Map<String, String>>() {}.getType();
+        Map<String, Object> authUrlProperties = new Gson().fromJson(authUrlRequestProperties.getState(), authUrlPropertiesType);
 
     TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).execute();
     flow.createAndStoreCredential(tokenResponse, (String) authUrlProperties.get("userId"));
