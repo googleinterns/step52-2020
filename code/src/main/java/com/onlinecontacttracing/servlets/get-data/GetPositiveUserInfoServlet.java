@@ -1,5 +1,6 @@
 package com.onlinecontacttracing.servlets;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,33 +23,49 @@ public class GetPositiveUserInfoServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    updateUser(request.getParameter("idToken"));
-
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
-    Thread peopleInfo = new Thread(new GetPeopleData(contactsFromPeople));
+    // Using dummy function while Cynthia merges Authentication branch
+    Optional<Credential> credentialOptional = AuthenticateUser.getCredential();
+    Credential credential = credentialOptional.get();
+    Thread peopleInfo = new Thread(new GetPeopleData(credential, contactsFromPeople));
+    Thread contactInfo = new Thread(new GetCalendarData(credential));
+
     peopleInfo.start();
+    contactInfo.start();
 
-    // Forward to servlet to retrieve calendar data
     try {
-      request.getRequestDispatcher("/get-positive-user-calendar-info").forward(request,response);
-
-      // Finally, consolidate data sets.
       peopleInfo.join();
+      contactInfo.join();
+
       // Load PositiveUserContacts from objectify
       // call mergeContactListsFromPeopleAPI(contactsFromPeople)
     } catch(Exception e) {
       e.printStackTrace();
     }
-    
+
     System.out.println("Positive User done getting info");
   }
 
   class GetPeopleData implements Runnable {
+    Credential credential;
     ArrayList<PotentialContact> contacts;
 
-    public GetPeopleData(ArrayList<PotentialContact> contacts) {
+    public GetPeopleData(Credential credential, ArrayList<PotentialContact> contacts) {
+      this.credential = credential;
       this.contacts = contacts;
+    }
+
+    public void run() {
+      // Get contacts from people api
+    }
+  }
+
+  class GetCalendarData implements Runnable {
+    Credential credential;
+
+    public GetCalendarData(Credential credential) {
+      this.credential = credential;
     }
 
     public void run() {

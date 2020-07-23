@@ -1,5 +1,6 @@
 package com.onlinecontacttracing.servlets;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +18,31 @@ public class GetNegativeUserInfoServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     updateUser(request.getParameter("idToken"));
 
+    // Using dummy function while Cynthia merges Authentication branch
+    Optional<Credential> credentialOptional = AuthenticateUser.getCredential();
+    Thread contactInfo = new Thread(new GetCalendarData(credentialOptional.get()));
+
+    contactInfo.start();
+
     try {
-      request.getRequestDispatcher("/get-negative-user-calendar-info").forward(request,response);
+      contactInfo.join();
     } catch(Exception e) {
       e.printStackTrace();
     }
 
     System.out.println("Negative User done getting info");
+  }
+
+  class GetCalendarData implements Runnable {
+    Credential credential;
+
+    public GetCalendarData(Credential credential) {
+      this.credential = credential;
+    }
+
+    public void run() {
+      // Get contacts from people api
+    }
   }
 
   public void updateUser(String idToken) {
