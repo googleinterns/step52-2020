@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 //Checks if message contains any links/URLs
 public class LinkFlaggingFilter implements FlaggingFilter{
-  private static final ArrayList<String> LIST_OF_LINK_INDICATORS = FileReader.getListFromFile("link-indicators.txt")
+  private static final ArrayList<String> LIST_OF_LINK_INDICATORS = FileReader.getListFromFile("link-indicators.txt");
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
     int numOfLinkIndicators = this.LIST_OF_LINK_INDICATORS.size();

@@ -8,6 +8,7 @@ import java.lang.Exception;
 import java.util.ArrayList;
 
 //Checks if message contains any profanity
+//assumes all profanity in language is not included in longer words, e.g. "ass" will trigger the flag, "bass" will not
 public class ProfanityFlaggingFilter implements FlaggingFilter{
   private static final ArrayList<String> LIST_OF_PROFANITY_INDICATORS = FileReader.getListFromFile("profanity-indicators.txt");
   
@@ -16,15 +17,46 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       String profanityIndicator;
 
       message = prepMessageForCheck(message);
+      int startOfProfaneWord;
+      int endOfProfaneWord;
+      boolean isSeparateWord = true;
+      int messageLength = message.length();
+      char characterBeforeWord;
+      char characterAfterWord;
 
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
-        profanityIndicator = this.LIST_OF_PROFANITY_INDICATORS.get(profanityIndicatorIndex);
-        if (message.indexOf(profanityIndicator) > -1) {
-          return false;
+        profanityIndicatorWord = this.LIST_OF_PROFANITY_INDICATORS.get(profanityIndicatorIndex);
+        startOfProfaneWord = message.indexOf(profanityIndicatorWord);
+        endOfProfaneWord = startOfProfaneWord + profanityIndicatorWord.length()-1;
+        //check existence of profane word
+        if (startOfProfaneWord > -1) {
+          //check profane word is its own word
+          //i.e. only spaces/punctuation on either end of the word
+          if (startOfProfaneWord > 0) {
+            characterBeforeWord = message.charAt(startOfProfaneWord-1);
+            if (characterBeforeWord != ' ' || !checkIfCharIsPunctuation(characterBeforeWord)) {
+              isSeparateWord = false;
+            }
+          }
+          if (endOfProfaneWord < messageLength) {
+            characterAfterWord = message.charAt(endOfProfaneWord+1);
+            if ( characterAfterWord != ' ' || !checkIfCharIsPunctuation(characterAfterWord)){
+              isSeparateWord = false;
+            }
+          }
+          if (isSeparateWord) {
+            //profane word exists and is its own word, does not pass filter
+            return false;
+          }
         }
       }
       return true;
     }
+
+  boolean checkIfCharIsPunctuation(Character character) {
+    ArrayList<Character> listOfPunctuation  = FileReader.getListFromFile("profanity-indicators.txt");
+    return listOfPunctuation.contains(character);
+  }
 
   String prepMessageForCheck(String message) {
     message = replaceSymbolsWithLetters(message);
