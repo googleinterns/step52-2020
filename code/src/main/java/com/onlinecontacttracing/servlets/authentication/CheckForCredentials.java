@@ -52,10 +52,9 @@ public class CheckForCredentials {
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
-  private static List<String> SCOPES;
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-  public static Optional<Payload> getPayload(HttpServletRequest request, HttpServletResponse response) {
+  public static Optional<Payload> getPayload(HttpServletRequest request, HttpServletResponse response, List<String> scopes) {
 
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -66,7 +65,7 @@ public class CheckForCredentials {
               }
 
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes).build();
 
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
           .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m"))
@@ -93,27 +92,26 @@ public class CheckForCredentials {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
  
-      SCOPES = scopes;
       InputStream in = CheckForCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
               if (in == null) {
                   throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
               }
 
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes).build();
      
         if (payload.isPresent()) {
             String userId = payload.get().getSubject();
 
             Credential credential = new GoogleAuthorizationCodeFlow.Builder(
-                  HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().loadCredential(userId);
+                  HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes).build().loadCredential(userId);
             //checks if credentials exist or not, create if not
             if(credential == null) {
               userIdAndUrl.put("userId", userId);
               userIdAndUrl.put("originalUrl", originalUrl);
               jsonOfUserIdAndUrl = new Gson().toJson(userIdAndUrl);
 
-              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("get-token-response").setState(jsonOfUserIdAndUrl);
+              AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(scopes).setRedirectUri("get-token-response").setState(jsonOfUserIdAndUrl);
               String url = authUrlRequestProperties.build();
 
               request.setAttribute("authUrlRequestProperties", authUrlRequestProperties);

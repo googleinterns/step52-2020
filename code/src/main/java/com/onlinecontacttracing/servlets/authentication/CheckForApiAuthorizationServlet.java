@@ -57,7 +57,7 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
               throw new FileNotFoundException("Resource not found: " + getCredentialsFilePath());
           }
       if (request.getAttribute("authUrlRequestProperties") == null) {
-        Optional<Payload> payload = CheckForCredentials.getPayload(request, response);
+        Optional<Payload> payload = CheckForCredentials.getPayload(request, response, getScopes());
         CheckForCredentials.createCredentials(request, response, getScopes(), getOriginalUrl(), payload);
       } else {
         AuthorizationRequestUrl authUrlRequestProperties = (AuthorizationRequestUrl) request.getAttribute("authUrlRequestProperties");
@@ -68,8 +68,7 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
         String userId = (String) authUrlProperties.get("userId");
         Credential credential = flow.loadCredential(userId);
         if(credential == null) {
-          PrintWriter out = response.getWriter();
-          out.println("Something went wrong, please proceed to manual input.");
+          response.sendError(403);
         } else {
           onSuccessfulLogin(credential);
         }
