@@ -68,19 +68,10 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
     response.getWriter().println(url);
   }
 
-  public GoogleAuthorizationCodeFlow getFlow() {
-    try {
-      NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
- 
-      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+  public GoogleAuthorizationCodeFlow getFlow(NetHttpTransport HTTP_TRANSPORT) {
+    InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
 
-      GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-      return flow;
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    return null;
-  }
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+    return flow;
 }
