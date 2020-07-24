@@ -160,7 +160,7 @@ var startApp = negativeUser => {
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
-    attachSignin(document.getElementById('negative-login-button'), true);
+    // attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
@@ -172,22 +172,30 @@ function attachSignin(element, negativeUser) {
     const idToken = googleUser.getAuthResponse().id_token;
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    const request = new Request('/authenticate', {method: 'POST', body: params});
-    fetch(request).then(() => {
-      if (negativeUser) {
-        PAGE_CONTROLLER.show('notification')
-      }
-    });
+    fetch(new Request('/check-for-api-authorization', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
 }
 
-function backToLogin() {
-  window.location = "/landing";
-}
-
-function getFAQ() {
-  window.location = "../html/faq.html";
+function start() {
+  // console.log("hello")
+  const urlParams = new URLSearchParams(window.location);
+  const code = urlParams.get('code')
+console.log(code);
+  const params = new URLSearchParams()
+  params.append('code', code);
+  
+  const request = new Request('/get-token-response', {method: 'POST', body: params});
+    console.log("a");
+    console.log(request);
+    console.log("b");
+     fetch(request).then((response) => {
+      console.log("inside2")
+      // console.log(response["url"])
+      console.log(response);
+      // window.location = "https://www.google.com"
+      // console.log(window.location);
+    });
 }
