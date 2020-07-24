@@ -57,7 +57,9 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
-
+    
+      // API code goes here
+      
     } catch (Exception e) {
       e.printStackTrace();
     }
