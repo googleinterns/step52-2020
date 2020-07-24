@@ -32,9 +32,12 @@ import java.util.logging.Logger;
 abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   abstract void useCredential(Credential credential);
+  abstract String getServletURIName();
+  // should return "check-for-api-authorization" for now
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
+  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com/"
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   @Override
@@ -49,7 +52,7 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
         response.getWriter().println("Error");
       }
 
-      TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/check-for-api-authorization").execute();
+      TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri(url+getServletURIName()).execute();
 
       // Make verifier to get payload
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
@@ -83,7 +86,7 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       response.getWriter().println("Error");
     }
 
-    AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/check-for-api-authorization").setState(idToken);
+    AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
     String url = authUrlRequestProperties.build();
 
     // Send url back to client
