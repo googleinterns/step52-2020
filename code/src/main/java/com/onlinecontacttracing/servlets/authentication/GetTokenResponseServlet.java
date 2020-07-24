@@ -40,8 +40,7 @@ public class GetTokenResponseServlet extends HttpServlet {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
       GoogleAuthorizationCodeFlow flow = GetFlow.getFlow();
-      // TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/get-token-response").execute();
-      TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri("https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev/get-token-response").execute();
+      TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/get-token-response").execute();
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
         .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
         .build();

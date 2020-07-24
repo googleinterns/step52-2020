@@ -28,8 +28,7 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idToken = request.getParameter("idToken");
     GoogleAuthorizationCodeFlow flow = GetFlow.getFlow();
-    // AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/get-token-response").setState(idToken);
-    AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev/get-token-response").setState(idToken);
+    AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/get-token-response").setState(idToken);
     String url = authUrlRequestProperties.build();
     response.getWriter().println(url);
   }
