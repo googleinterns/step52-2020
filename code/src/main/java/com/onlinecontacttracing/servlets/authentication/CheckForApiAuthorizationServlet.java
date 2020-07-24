@@ -24,6 +24,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.File;
+import java.security.GeneralSecurityException;
+import java.io.FileNotFoundException;
+import java.util.logging.Logger;
 
 @WebServlet("/check-for-api-authorization")
 public class CheckForApiAuthorizationServlet extends HttpServlet {
@@ -31,6 +34,7 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
+  static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -39,6 +43,11 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
 
       // Get flow for token response
       GoogleAuthorizationCodeFlow flow = getFlow();
+
+      if (flow == null) {
+        response.getWriter().println("Error");
+      }
+
       TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/check-for-api-authorization").execute();
 
       // Make verifier to get payload
@@ -55,8 +64,8 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
     
       // API code goes here
       
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (GeneralSecurityException e) {
+      response.getWriter().println("Error");
     }
   }
   
@@ -67,6 +76,11 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
 
     // Get flow to build url redirect
     GoogleAuthorizationCodeFlow flow = getFlow();
+
+    if (flow == null) {
+      response.getWriter().println("Error");
+    }
+
     AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/check-for-api-authorization").setState(idToken);
     String url = authUrlRequestProperties.build();
 
@@ -85,9 +99,13 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
       GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
       return flow;
     } catch (Exception e) {
-      e.printStackTrace();
-    }
+      if (e instanceof FileNotFoundException) {
+        log.warning("credentials.json not found");
+      } else if (e instanceof GeneralSecurityException) {
+        // Do something
+      }
 
-    return null;
+      return null;
+    }
   }
 }
