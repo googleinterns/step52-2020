@@ -1,4 +1,4 @@
-package com.onlinecontacttracing.servlets;
+package com.onlinecontacttracing.authentication;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
@@ -14,20 +14,21 @@ import java.util.Optional;
 import java.util.ArrayList;
 
 @WebServlet("/get-positve-user-info")
-public class GetPositiveUserInfoServlet extends HttpServlet {
+public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
 
+  String getServletURIName() {
+    return "get-positve-user-info";
+  }
+  
+  
   /*
   * This servlet will retrieve data from the People Api
   * Additionaly it will forward the request to the servlet for Calendar Api
   * Once both are done, the servlet will merge contact data sets
   */
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  void useCredential(Credential credential) {
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
-    // Using dummy function while Cynthia merges Authentication branch
-    Optional<Credential> credentialOptional = AuthenticateUser.getCredential();
-    Credential credential = credentialOptional.get();
     Thread peopleInfo = new Thread(new GetPeopleData(credential, contactsFromPeople));
     Thread contactInfo = new Thread(new GetCalendarData(credential));
 
@@ -73,30 +74,19 @@ public class GetPositiveUserInfoServlet extends HttpServlet {
     }
   }
 
-  public void updateUser(String idToken) {
-    // Using dummy function while Cynthia merges Authentication branch
-    Optional<Payload> payloadOptional = AuthenticateUser.getUserId(idToken);
-    if (payloadOptional.isPresent()) {
-      // Get userId form payload
-      Payload payload = payloadOptional.get();
-      String userId = payload.getSubject();
+  public void updateUser(String userId) {
+    // Load user from objectify
+    Optional<PositiveUser> positiveUserOptional = Optional.ofNullable(ofy().load().type(PositiveUser.class).id(userId).now());
 
-      // Load user from objectify
-      Optional<PositiveUser> positiveUserOptional = Optional.ofNullable(ofy().load().type(PositiveUser.class).id(userId).now());
-
-      // Retrieve user otherwise make new one
-      PositiveUser positiveUser;
-      if (positiveUserOptional.isPresent()) {
-        positiveUser = positiveUserOptional.get();
-        positiveUser.setLastLogin();
-      } else {
-        positiveUser = new PositiveUser(userId, payload.getEmail());
-      }
-
-      ofy().save().entity(positiveUser).now();
-
+    // Retrieve user otherwise make new one
+    PositiveUser positiveUser;
+    if (positiveUserOptional.isPresent()) {
+      positiveUser = positiveUserOptional.get();
+      positiveUser.setLastLogin();
     } else {
-      System.out.println("idToken did not yield payload");
+      positiveUser = new PositiveUser(userId, "payload.getEmail()");
     }
+
+    ofy().save().entity(positiveUser).now();
   }
 }

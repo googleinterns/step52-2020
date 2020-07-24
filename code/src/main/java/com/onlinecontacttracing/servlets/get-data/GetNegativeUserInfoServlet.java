@@ -1,4 +1,4 @@
-package com.onlinecontacttracing.servlets;
+package com.onlinecontacttracing.authentication;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
@@ -12,15 +12,14 @@ import com.onlinecontacttracing.storage.NegativeUser;
 import java.util.Optional;
 
 @WebServlet("/get-negative-user-info")
-public class GetNegativeUserInfoServlet extends HttpServlet {
+public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
 
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    updateUser(request.getParameter("idToken"));
-
-    // Using dummy function while Cynthia merges Authentication branch
-    Optional<Credential> credentialOptional = AuthenticateUser.getCredential();
-    Thread contactInfo = new Thread(new GetCalendarData(credentialOptional.get()));
+  String getServletURIName() {
+    return "get-negative-user-info";
+  }
+  
+  void useCredential(Credential credential) {
+    Thread contactInfo = new Thread(new GetCalendarData(credential));
 
     contactInfo.start();
 
@@ -45,30 +44,19 @@ public class GetNegativeUserInfoServlet extends HttpServlet {
     }
   }
 
-  public void updateUser(String idToken) {
-    // Using dummy function while Cynthia merges Authentication branch
-    Optional<Payload> payloadOptional = AuthenticateUser.getUserId(idToken);
-    if (payloadOptional.isPresent()) {
-      // Get userId form payload
-      Payload payload = payloadOptional.get();
-      String userId = payload.getSubject();
+  public void updateUser(String userId) {
+    // Load user from objectify
+    Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
 
-      // Load user from objectify
-      Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
-
-      // Retrieve user otherwise make new one
-      NegativeUser negativeUser;
-      if (negativeUserOptional.isPresent()) {
-        negativeUser = negativeUserOptional.get();
-        negativeUser.setLastLogin();
-      } else {
-        negativeUser = new NegativeUser(userId, payload.getEmail());
-      }
-      
-      ofy().save().entity(negativeUser).now();
-
+    // Retrieve user otherwise make new one
+    NegativeUser negativeUser;
+    if (negativeUserOptional.isPresent()) {
+      negativeUser = negativeUserOptional.get();
+      negativeUser.setLastLogin();
     } else {
-      System.out.println("idToken did not yield payload");
+      negativeUser = new NegativeUser(userId, "payload.getEmail()");
     }
+    
+    ofy().save().entity(negativeUser).now();
   }
 }

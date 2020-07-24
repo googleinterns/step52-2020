@@ -160,7 +160,7 @@ var startApp = negativeUser => {
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
-    attachSignin(document.getElementById('negative-login-button'), true);
+    // attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
@@ -173,26 +173,12 @@ function attachSignin(element, negativeUser) {
     const params = new URLSearchParams()
     params.append('idToken', idToken);
     if (negativeUser) {
-      const request = new Request('/get-negative-user-info', {method: 'POST', body: params});
-      fetch(request).then(() => {
-        PAGE_CONTROLLER.show('notification');
-      });
+      fetch(new Request('/get-negative-user-info', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
     } else {
-      const request = new Request('/get-positve-user-info', {method: 'POST', body: params});
-      fetch(request).then(() => {
-        // Redirect to next page
-      });
+      fetch(new Request('/get-positve-user-info', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
     }
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
-}
-
-function backToLogin() {
-  window.location = "/landing";
-}
-
-function getFAQ() {
-  window.location = "../html/faq.html";
 }
