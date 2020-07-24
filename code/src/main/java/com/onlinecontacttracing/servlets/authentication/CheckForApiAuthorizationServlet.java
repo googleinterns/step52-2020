@@ -24,11 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.File;
-import com.google.api.services.people.v1.PeopleService;
-import com.google.api.services.people.v1.PeopleServiceScopes;
-import com.google.api.services.people.v1.model.ListConnectionsResponse;
-import com.google.api.services.people.v1.model.Name;
-import com.google.api.services.people.v1.model.Person;
 
 @WebServlet("/check-for-api-authorization")
 public class CheckForApiAuthorizationServlet extends HttpServlet {
@@ -82,7 +77,8 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
   public GoogleAuthorizationCodeFlow getFlow() {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
- 
+
+      // Create flow object using credentials file
       InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
 
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
