@@ -65,6 +65,7 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
       // API code goes here
       
     } catch (GeneralSecurityException e) {
+      log.warning("http transport failed, security error");
       response.getWriter().println("Error");
     }
   }
@@ -102,7 +103,7 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
       if (e instanceof FileNotFoundException) {
         log.warning("credentials.json not found");
       } else if (e instanceof GeneralSecurityException) {
-        // Do something
+        log.warning("http transport failed, security error");
       }
 
       return null;
