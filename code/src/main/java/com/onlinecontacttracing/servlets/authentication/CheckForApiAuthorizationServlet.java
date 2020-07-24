@@ -39,18 +39,22 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //create token response and redirect to original url
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
+      // Get flow for token response
       GoogleAuthorizationCodeFlow flow = getFlow();
       TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/check-for-api-authorization").execute();
+
+      // Make verifier to get payload
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
         .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
         .build();
       String idTokenString = request.getParameter("state");
       GoogleIdToken idToken = verifier.verify(idTokenString);
       Payload payload = idToken.getPayload();
+
+      // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
 
@@ -61,10 +65,15 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get token to pass into redirect
     String idToken = request.getParameter("idToken");
+
+    // Get flow to build url redirect
     GoogleAuthorizationCodeFlow flow = getFlow();
     AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri("https://covid-catchers-fixed-gcp.ue.r.appspot.com/check-for-api-authorization").setState(idToken);
     String url = authUrlRequestProperties.build();
+
+    // Send url back to client
     response.getWriter().println(url);
   }
 
