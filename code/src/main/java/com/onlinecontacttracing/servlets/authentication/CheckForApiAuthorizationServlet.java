@@ -29,8 +29,9 @@ import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
 @WebServlet("/check-for-api-authorization")
-public class CheckForApiAuthorizationServlet extends HttpServlet {
+abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
+  abstract void useCredential(Credential credential);
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
@@ -62,7 +63,7 @@ public class CheckForApiAuthorizationServlet extends HttpServlet {
       String userId = payload.getSubject();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
     
-      // API code goes here
+      useCredential(credential);
       
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
