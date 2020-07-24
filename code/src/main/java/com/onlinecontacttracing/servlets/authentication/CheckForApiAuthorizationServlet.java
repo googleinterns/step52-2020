@@ -33,11 +33,12 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   abstract void useCredential(Credential credential);
   abstract String getServletURIName();
+  abstract void updateUser(String userId);
   // should return "check-for-api-authorization" for now
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com/"
+  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com/";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   @Override
@@ -66,6 +67,7 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String userId = payload.getSubject();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
     
+      updateUser(userId);
       useCredential(credential);
       
     } catch (GeneralSecurityException e) {
