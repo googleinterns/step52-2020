@@ -178,24 +178,3 @@ function attachSignin(element, negativeUser) {
     alert(JSON.stringify(error, undefined, 2));
   });
 }
-
-function start() {
-  // console.log("hello")
-  const urlParams = new URLSearchParams(window.location);
-  const code = urlParams.get('code')
-console.log(code);
-  const params = new URLSearchParams()
-  params.append('code', code);
-  
-  const request = new Request('/get-token-response', {method: 'POST', body: params});
-    console.log("a");
-    console.log(request);
-    console.log("b");
-     fetch(request).then((response) => {
-      console.log("inside2")
-      // console.log(response["url"])
-      console.log(response);
-      // window.location = "https://www.google.com"
-      // console.log(window.location);
-    });
-}
