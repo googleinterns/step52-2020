@@ -19,7 +19,7 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
   }
   
   void useCredential(Credential credential) {
-    Thread contactInfo = new Thread(new GetCalendarData(credential));
+    Thread contactInfo = new Thread(new GetCalendarDataForNegativeUser(credential));
 
     contactInfo.start();
 
@@ -28,23 +28,11 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
     } catch(Exception e) {
       e.printStackTrace();
     }
-
-    System.out.println("Negative User done getting info");
   }
 
-  class GetCalendarData implements Runnable {
-    Credential credential;
 
-    public GetCalendarData(Credential credential) {
-      this.credential = credential;
-    }
 
-    public void run() {
-      // Get contacts from people api
-    }
-  }
-
-  public void updateUser(String userId) {
+  void updateUser(String userId) {
     // Load user from objectify
     Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
 

@@ -29,8 +29,8 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
   void useCredential(Credential credential) {
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
-    Thread peopleInfo = new Thread(new GetPeopleData(credential, contactsFromPeople));
-    Thread contactInfo = new Thread(new GetCalendarData(credential));
+    Thread peopleInfo = new Thread(new GetPeopleDataForPositiveUser(credential, contactsFromPeople));
+    Thread contactInfo = new Thread(new GetCalendarDataForPositiveUser(credential));
 
     peopleInfo.start();
     contactInfo.start();
@@ -44,37 +44,9 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
     } catch(Exception e) {
       e.printStackTrace();
     }
-
-    System.out.println("Positive User done getting info");
   }
 
-  class GetPeopleData implements Runnable {
-    Credential credential;
-    ArrayList<PotentialContact> contacts;
-
-    public GetPeopleData(Credential credential, ArrayList<PotentialContact> contacts) {
-      this.credential = credential;
-      this.contacts = contacts;
-    }
-
-    public void run() {
-      // Get contacts from people api
-    }
-  }
-
-  class GetCalendarData implements Runnable {
-    Credential credential;
-
-    public GetCalendarData(Credential credential) {
-      this.credential = credential;
-    }
-
-    public void run() {
-      // Get contacts from people api
-    }
-  }
-
-  public void updateUser(String userId) {
+  void updateUser(String userId) {
     // Load user from objectify
     Optional<PositiveUser> positiveUserOptional = Optional.ofNullable(ofy().load().type(PositiveUser.class).id(userId).now());
 
