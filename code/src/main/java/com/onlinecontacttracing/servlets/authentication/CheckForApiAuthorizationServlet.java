@@ -32,9 +32,11 @@ import java.util.logging.Logger;
 abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   abstract void useCredential(Credential credential);
-  abstract String getServletURIName();
-  abstract void updateUser(String userId);
+  
   // should return "check-for-api-authorization" for now
+  abstract String getServletURIName();
+
+  abstract void updateUser(String userId);
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
