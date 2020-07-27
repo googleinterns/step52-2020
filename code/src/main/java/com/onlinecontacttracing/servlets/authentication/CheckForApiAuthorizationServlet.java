@@ -47,10 +47,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com/";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
-  public CheckForApiAuthorizationServlet() {
-
-  }
-
   //Creates the user's credential
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
