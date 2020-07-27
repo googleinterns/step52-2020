@@ -170,11 +170,12 @@ function attachSignin(element, negativeUser) {
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
+    console.log(idToken.toString());
+    localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    console.log("here");
     fetch(new Request('/authentication-test', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
-    console.log("here2");
+
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
