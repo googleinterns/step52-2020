@@ -50,30 +50,21 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   //Creates the user's credential
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    try{
-      // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow();
-      if (flow == null) {
-        response.getWriter().println("Error");
-      }
-      
+    // Get flow for token response
+    GoogleAuthorizationCodeFlow flow = getFlow(response);
+    if (flow != null) {
       String code = request.getParameter("code");
       String idTokenString = request.getParameter("state");
-    
+
       // Get userId
-      String userId = getUserId(idTokenString, flow);
-      if (userId.equals("")) {
-        response.getWriter().println("Error");
+      String userId = getUserId(idTokenString, flow, response);
+      if (userId != null) {
+        TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
+        Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
+        updateUser(userId);
+        useCredential(credential);
       }
-      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
-      Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
-      updateUser(userId);
-      useCredential(credential);
-    } catch (Exception e) {
-      log.warning("http transport failed, security error");
-      response.getWriter().println("Error");
     }
-     
   }
   
   //Creates the url for authorizing the user
@@ -84,24 +75,17 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     // Get flow to build url redirect
     GoogleAuthorizationCodeFlow flow = getFlow();
 
-    if (flow == null) {
-      response.getWriter().println("Error");
+    if (flow != null) {
+      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
+      String url = authUrlRequestProperties.build();
+      // Send url back to client
+      response.getWriter().println(url);
     }
-
-    AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
-    String url = authUrlRequestProperties.build();
-    // Send url back to client
-    response.getWriter().println(url);
   }
 
-  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow) {
+  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-      // Get flow for token response
-      if (flow == null) {
-        return "";
-      }
-
       
       // Make verifier to get payload
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
@@ -115,11 +99,12 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       
     } catch (Exception e) {
       log.warning("http transport failed, security error");
-      return "";
+      response.getWriter().println("Transport Error");
+      return null;
     }
   }
 
-  private GoogleAuthorizationCodeFlow getFlow() {
+  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -132,8 +117,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     } catch (Exception e) {
       if (e instanceof FileNotFoundException) {
         log.warning("credentials.json not found");
+        response.getWriter().println("File Error");
       } else if (e instanceof GeneralSecurityException) {
         log.warning("http transport failed, security error");
+        response.getWriter().println("Transport Error");
       }
       return null;
     }
