@@ -143,6 +143,12 @@ function LoadPage() {
   } else {
     PAGE_CONTROLLER.show(page);
   }
+
+  const error = urlParams.get('error');
+  if (error != null) {
+    handleLoginError(error);
+  }
+
   window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
@@ -160,7 +166,7 @@ var startApp = negativeUser => {
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
-    // attachSignin(document.getElementById('negative-login-button'), true);
+    attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
@@ -170,15 +176,33 @@ function attachSignin(element, negativeUser) {
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
+    localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
+    const request;
     if (negativeUser) {
-      fetch(new Request('/get-negative-user-info', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
+      request = new Request('/get-negative-user-info', {method: 'POST', body: params})
     } else {
-      fetch(new Request('/get-positve-user-info', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
+      request = new Request('/get-positve-user-info', {method: 'POST', body: params})
     }
+    fetch(request)
+    .then(response => response.text())
+    .then(url => { if (url.length < 20) {
+        handleLoginError(url);
+      } else {
+        window.location = url;
+      }
+    });
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
+}
+
+function handleLoginError(error) {
+  if (error == "TransportError") {
+    alert("something went wrong, please try again");
+  } else if (error == "FileError") {
+    alert("We have encountered issues, please try again later");
+  }
 }

@@ -15,10 +15,11 @@ import java.util.Optional;
 public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
 
   String getServletURIName() {
-    return "get-negative-user-info";
+    return "/get-negative-user-info";
   }
   
   void useCredential(Credential credential) {
+    System.out.println("Negative useCred");
     Thread contactInfo = new Thread(new GetCalendarDataForNegativeUser(credential));
 
     contactInfo.start();
@@ -33,6 +34,7 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
 
 
   void updateUser(String userId) {
+    System.out.println("Negative updateUser");
     // Load user from objectify
     Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
 

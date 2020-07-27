@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
 
   String getServletURIName() {
-    return "get-positve-user-info";
+    return "/get-positve-user-info";
   }
   
   
@@ -27,6 +27,7 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
   * Once both are done, the servlet will merge contact data sets
   */
   void useCredential(Credential credential) {
+    System.out.println("Postive useCred");
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
     Thread peopleInfo = new Thread(new GetPeopleDataForPositiveUser(credential, contactsFromPeople));
@@ -47,6 +48,7 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
   }
 
   void updateUser(String userId) {
+    System.out.println("Postive user");
     // Load user from objectify
     Optional<PositiveUser> positiveUserOptional = Optional.ofNullable(ofy().load().type(PositiveUser.class).id(userId).now());
 
