@@ -21,9 +21,9 @@ import java.util.ArrayList;
 
 @Entity
 public class PositiveUserWithMessage {
-  @Id private static String userId;
-  private static ArrayList<String> listOfContacts = new ArrayList<String>();
-  private static CustomizableMessage customMessage;
+  @Id private String userId;
+  private ArrayList<String> listOfContacts = new ArrayList<String>();
+  private CustomizableMessage customMessage;
 
     public PositiveUserWithMessage() {}
 
@@ -33,11 +33,11 @@ public class PositiveUserWithMessage {
         userId = customMessage.getUserId();
     }
     
-    public static ArrayList<String> getContacts() {
+    public ArrayList<String> getContacts() {
         return listOfContacts;
     }
 
-    public static CustomizableMessage getMessage() {
+    public CustomizableMessage getMessage() {
         return customMessage;
     }
 }

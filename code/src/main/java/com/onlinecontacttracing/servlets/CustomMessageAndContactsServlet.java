@@ -1,28 +1,25 @@
-// Copyright 2019 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.googlecode.objectify.annotation.Id;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Load;
+import com.googlecode.objectify.Objectify; 
+import com.googlecode.objectify.ObjectifyFactory; 
+import com.googlecode.objectify.ObjectifyService; 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import com.onlinecontacttracing.storage.CustomizableMessage;
-import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PositiveUserWithMessage;
+import com.onlinecontacttracing.messsaging.GeneratedUserId;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,16 +27,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.ClassCastException;
 import java.util.ArrayList;
-/**Servlet to put custom message data into datastore */
+import java.util.Collections;
+import java.util.UUID;
+/**Servlet to put custom message data into Ofy store */
 @WebServlet("/customMessage")
 public class CustomMessageAndContactsServlet extends HttpServlet {
-  ArrayList<String> employeeComment = new ArrayList<String>();
-  @Id private String userId;
-  //A better way to get the userId is from the payload but that has not been pushed yet
-  //Cannot store information in the datastore until wer have userId
-  public CustomMessageAndContactsServlet(HttpServletRequest request, HttpServletResponse response, PositiveUser positiveUser) {
-    userId = positiveUser.getUserId();
-  }
+  private final ArrayList<String> employeeComment = new ArrayList<String>();
+  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+  
   /**
    * Get the number of emails to display from the user
    */
@@ -58,7 +53,7 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
   }
 
   /**
-   * Adds the Emails and custom message to the datastore
+   * Adds the Emails and custom message to the Objectify store
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -68,22 +63,20 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
     } catch(NumberFormatException e) {
         System.out.println("Not a number");
         numberOfRecipients = -1;
-        //Prompt User for new input
     }
+    System.out.println("Got num recipients");
     ArrayList<String> emailAddresses = new ArrayList<String>();
-    //Add each email from list of emails to arrayList
     for(int i  = 0; i < numberOfRecipients; i++) {
-      emailAddresses.add(request./*getParameter("list-of-emails").*/getParameter("email-box-" + (i + 1)));
+      emailAddresses.add(request.getParameter("email-box-" + (i + 1)));
     }
+
+    String userId = new GeneratedUserId("anon-").getIdString();
     CustomizableMessage customMessage = new CustomizableMessage(userId, request.getParameter("custom-message-box"));
-    
-    Entity positiveUserWithMessage = new Entity("Positive User with Message");
-    positiveUserWithMessage.setProperty("List of Contacts", emailAddresses);
-    positiveUserWithMessage.setProperty("Custom Message", customMessage);
+    PositiveUserWithMessage positiveUserWithMessage = new PositiveUserWithMessage(emailAddresses, customMessage);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(positiveUserWithMessage);
-
+    ofy().save().entity(positiveUserWithMessage).now();
     response.sendRedirect("/index.html");
   }
 }
+
+@Test
