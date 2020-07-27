@@ -45,7 +45,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
-  // private static final String url = "https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   //Creates the user's credential
