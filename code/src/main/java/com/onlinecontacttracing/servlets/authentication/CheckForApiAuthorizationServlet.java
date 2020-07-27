@@ -44,7 +44,8 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com/";
+  // private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  private static final String url = "https://8080-ac896ae1-5f0c-45b5-8dfe-19fa4d3d8699.us-east1.cloudshell.dev";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   //Creates the user's credential
@@ -52,20 +53,18 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
       // Get flow for token response
       GoogleAuthorizationCodeFlow flow = getFlow();
-
       if (flow == null) {
         response.getWriter().println("Error");
       }
 
       TokenResponse tokenResponse = flow.newTokenRequest(request.getParameter("code")).setRedirectUri(url+getServletURIName()).execute();
-
       // Make verifier to get payload
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
         .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
         .build();
+
       String idTokenString = request.getParameter("state");
       GoogleIdToken idToken = verifier.verify(idTokenString);
       Payload payload = idToken.getPayload();

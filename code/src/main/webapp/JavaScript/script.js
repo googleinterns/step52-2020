@@ -172,8 +172,9 @@ function attachSignin(element, negativeUser) {
     const idToken = googleUser.getAuthResponse().id_token;
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    fetch(new Request('/check-for-api-authorization', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
-
+    console.log("here");
+    fetch(new Request('/authentication-test', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
+    console.log("here2");
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
