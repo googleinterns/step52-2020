@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 @WebServlet("/authentication-test")
 public class AuthenticationTestServlet extends CheckForApiAuthorizationServlet{
 
-  public void useCredential(Credential credential) {
+  public void useCredential(Credential credential, HttpServletResponse response) {
     //replace with whichever API want to test access to
   }
   

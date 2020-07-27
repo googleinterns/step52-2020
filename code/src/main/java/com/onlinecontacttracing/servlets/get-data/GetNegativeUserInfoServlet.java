@@ -18,19 +18,19 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
     return "/get-negative-user-info";
   }
   
-  void useCredential(Credential credential) throws InterruptedException{
-    System.out.println("Negative useCred");
+  void useCredential(Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     Thread contactInfo = new Thread(new GetCalendarDataForNegativeUser(credential));
 
     contactInfo.start();
   
     contactInfo.join();
+
+    response.sendRedirect("/?page=notification");
   }
 
 
 
   void updateUser(String userId) {
-    System.out.println("Negative updateUser");
     // Load user from objectify
     Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
 

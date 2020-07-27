@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
-  abstract void useCredential(Credential credential) throws InterruptedException;
+  abstract void useCredential(Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
   // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
   // Update the userId with the newly created credential
@@ -45,8 +45,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  //private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
-  private static final String url = "https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev";
+  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
@@ -67,7 +66,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
       updateUser(userId);
-      useCredential(credential);
+      useCredential(credential, response);
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
       response.sendRedirect("/?page=login&error=FileError");

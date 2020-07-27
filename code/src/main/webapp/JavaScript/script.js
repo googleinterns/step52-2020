@@ -179,13 +179,8 @@ function attachSignin(element, negativeUser) {
     localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    const request;
-    if (negativeUser) {
-      request = new Request('/get-negative-user-info', {method: 'POST', body: params})
-    } else {
-      request = new Request('/get-positve-user-info', {method: 'POST', body: params})
-    }
-    fetch(request)
+
+    fetch(makeRequest(negativeUser, params))
     .then(response => response.text())
     .then(url => { if (url.length < 20) {
         handleLoginError(url);
@@ -197,6 +192,14 @@ function attachSignin(element, negativeUser) {
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
+}
+
+function makeRequest(negativeUser, params) {    
+  if (negativeUser) {
+    return new Request('/get-negative-user-info', {method: 'POST', body: params})
+  } else {
+    return new Request('/get-positve-user-info', {method: 'POST', body: params})
+  }
 }
 
 function handleLoginError(error) {
