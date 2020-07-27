@@ -35,8 +35,9 @@ import java.util.logging.Logger;
 @WebServlet("/check-for-api-authorization")
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
+  //access API with the created credential
   abstract void useCredential(Credential credential);
-  // should return "check-for-api-authorization" for now
+  //URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
   //Update the userId with the newly created credential
   abstract void updateUser(String userId);
@@ -48,7 +49,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
-  //Creates the user's credential
+  /**
+  *  This method creates the user's Credential. All errors will be logged and 
+  *  dealt with by the frontend. If no errors, the created credential is used immediately.
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
@@ -76,7 +80,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     
   }
   
-  //Creates the url for authorizing the user
+  /**
+  *  This method creates the URL to authorize access to the user's data. All errors will be logged
+  *  and dealt with by the frontend. If no errors, the URL is sent to the frontend for use.
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
@@ -102,6 +109,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
 
+
+  /**
+  *  This method returns the user's userID.
+  */
   public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     
@@ -116,6 +127,9 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     return userId;
   }
 
+  /**
+  *  This method returns an GoogleAuthorizationCodeFlow object.
+  */
   private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
     NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
