@@ -65,10 +65,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     } catch (Exception e) {
       if (e instanceof FileNotFoundException) {
         log.warning("credentials.json not found");
-        response.getWriter().println("File Error");
+        response.sendRedirect("/?page=login&error=FileError");
       } else if (e instanceof GeneralSecurityException) {
         log.warning("http transport failed, security error");
-        response.getWriter().println("Transport Error");
+        response.sendRedirect("/?page=login&error=TransportError");
       }
     }
   }
@@ -90,10 +90,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     } catch (Exception e) {
       if (e instanceof FileNotFoundException) {
         log.warning("credentials.json not found");
-        response.getWriter().println("File Error");
+        response.getWriter().println("FileError");
       } else if (e instanceof GeneralSecurityException) {
         log.warning("http transport failed, security error");
-        response.getWriter().println("Transport Error");
+        response.getWriter().println("TransportError");
       }
     }
   }

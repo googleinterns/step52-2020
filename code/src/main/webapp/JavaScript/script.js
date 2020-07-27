@@ -143,6 +143,12 @@ function LoadPage() {
   } else {
     PAGE_CONTROLLER.show(page);
   }
+
+  const error = urlParams.get('error');
+  if (error != null) {
+    handleLoginError(error);
+  }
+
   window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
@@ -175,10 +181,8 @@ function attachSignin(element, negativeUser) {
     params.append('idToken', idToken);
     fetch(new Request('/authentication-test', {method: 'POST', body: params}))
     .then(response => response.text())
-    .then(url => { if (url == "Transport Error") {
-        alert("something went wrong, please try again");
-      } else if (url == "File Error") {
-        alert("We have encountered issues, please try again later");
+    .then(url => { if (url.length < 20) {
+        handleLoginError(url);
       } else {
         window.location = url;
       }
@@ -187,4 +191,12 @@ function attachSignin(element, negativeUser) {
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
+}
+
+function handleLoginError(error) {
+  if (error == "TransportError") {
+    alert("something went wrong, please try again");
+  } else if (error == "FileError") {
+    alert("We have encountered issues, please try again later");
+  }
 }
