@@ -46,6 +46,6 @@ public class AuthenticationTestServlet extends CheckForApiAuthorizationServlet{
   }
   
   //Update the userId with the newly created credential
-  public void updateUser(String userId) {
+  public void updateUser(String userId, String email) {
   }
 }

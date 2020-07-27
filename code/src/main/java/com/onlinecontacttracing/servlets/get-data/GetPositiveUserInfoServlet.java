@@ -43,18 +43,21 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
     // call mergeContactListsFromPeopleAPI(contactsFromPeople)
   }
 
-  void updateUser(String userId) {
+  void updateUser(String userId, String email) {
     // Load user from objectify
     Optional<PositiveUser> positiveUserOptional = Optional.ofNullable(ofy().load().type(PositiveUser.class).id(userId).now());
 
-    // Retrieve user otherwise make new one
-    PositiveUser positiveUser;
-    if (positiveUserOptional.isPresent()) {
-      positiveUser = positiveUserOptional.get();
-      positiveUser.setLastLogin();
-    } else {
-      positiveUser = new PositiveUser(userId, "payload.getEmail()");
-    }
+    PositiveUser positiveUser = positiveUserOptional.map(user -> {
+      // If user found, update login
+      user.setLastLogin();
+      return user;
+    }).orElse(
+      // If user is not found, make new one
+      new PositiveUser(userId, email)
+    );
+    
+    System.out.println(positiveUser);
+   
 
     ofy().save().entity(positiveUser).now();
   }

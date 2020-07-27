@@ -30,19 +30,21 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
 
 
 
-  void updateUser(String userId) {
+  void updateUser(String userId, String email) {
     // Load user from objectify
     Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());
 
-    // Retrieve user otherwise make new one
-    NegativeUser negativeUser;
-    if (negativeUserOptional.isPresent()) {
-      negativeUser = negativeUserOptional.get();
-      negativeUser.setLastLogin();
-    } else {
-      negativeUser = new NegativeUser(userId, "payload.getEmail()");
-    }
+    NegativeUser negativeUser = negativeUserOptional.map(user -> {
+      // If user found, update login
+      user.setLastLogin();
+      return user;
+    }).orElse(
+      // If user is not found, make new one
+      new NegativeUser(userId, email)
+    );
     
+    System.out.println(negativeUser);
+
     ofy().save().entity(negativeUser).now();
   }
 }
