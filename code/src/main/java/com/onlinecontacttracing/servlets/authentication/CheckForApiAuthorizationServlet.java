@@ -71,23 +71,31 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
         log.warning("http transport failed, security error");
         response.getWriter().println("Transport Error");
       }
-      return null;
     }
   }
   
   //Creates the url for authorizing the user
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get token to pass into redirect
-    String idToken = request.getParameter("idToken");
-    // Get flow to build url redirect
-    GoogleAuthorizationCodeFlow flow = getFlow(response);
+    try {
+      // Get token to pass into redirect
+      String idToken = request.getParameter("idToken");
+      // Get flow to build url redirect
+      GoogleAuthorizationCodeFlow flow = getFlow(response);
 
-    if (flow != null) {
       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
       String url = authUrlRequestProperties.build();
       // Send url back to client
       response.sendRedirect(url);
+      
+    } catch (Exception e) {
+      if (e instanceof FileNotFoundException) {
+        log.warning("credentials.json not found");
+        response.getWriter().println("File Error");
+      } else if (e instanceof GeneralSecurityException) {
+        log.warning("http transport failed, security error");
+        response.getWriter().println("Transport Error");
+      }
     }
   }
 
