@@ -42,8 +42,6 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
       // If user is not found, make new one
       new NegativeUser(userId, email)
     );
-    
-    System.out.println(negativeUser);
 
     ofy().save().entity(negativeUser).now();
   }

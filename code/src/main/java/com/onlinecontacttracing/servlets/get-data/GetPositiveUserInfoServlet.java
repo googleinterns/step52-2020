@@ -55,9 +55,6 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
       // If user is not found, make new one
       new PositiveUser(userId, email)
     );
-    
-    System.out.println(positiveUser);
-   
 
     ofy().save().entity(positiveUser).now();
   }
