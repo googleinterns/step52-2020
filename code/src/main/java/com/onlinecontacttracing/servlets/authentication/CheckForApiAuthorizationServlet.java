@@ -62,15 +62,17 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
       updateUser(userId);
       useCredential(credential);
-    } catch (Exception e) {
-      if (e instanceof FileNotFoundException) {
-        log.warning("credentials.json not found");
-        response.sendRedirect("/?page=login&error=FileError");
-      } else if (e instanceof GeneralSecurityException) {
-        log.warning("http transport failed, security error");
-        response.sendRedirect("/?page=login&error=TransportError");
-      }
+    } catch (FileNotFoundException e) {
+      log.warning("credentials.json not found");
+      response.sendRedirect("/?page=login&error=FileError");
+    } catch (GeneralSecurityException e) {
+      log.warning("http transport failed, security error");
+      response.sendRedirect("/?page=login&error=TransportError");
+    } catch(Exception e) { //don't expect any other error
+      log.warning("exception occurred");
+      response.sendRedirect("/?page=login&error=GeneralError");
     }
+    
   }
   
   //Creates the url for authorizing the user
@@ -87,14 +89,15 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Send url back to client
       response.getWriter().println(url);
 
-    } catch (Exception e) {
-      if (e instanceof FileNotFoundException) {
-        log.warning("credentials.json not found");
-        response.getWriter().println("FileError");
-      } else if (e instanceof GeneralSecurityException) {
-        log.warning("http transport failed, security error");
-        response.getWriter().println("TransportError");
-      }
+    } catch (FileNotFoundException e) {
+      log.warning("credentials.json not found");
+      response.sendRedirect("/?page=login&error=FileError");
+    } catch (GeneralSecurityException e) {
+      log.warning("http transport failed, security error");
+      response.sendRedirect("/?page=login&error=TransportError");
+    } catch(Exception e) { //don't expect any other error
+      log.warning("exception occurred");
+      response.sendRedirect("/?page=login&error=GeneralError");
     }
   }
 
