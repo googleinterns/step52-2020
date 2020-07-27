@@ -160,7 +160,7 @@ var startApp = negativeUser => {
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
-    // attachSignin(document.getElementById('negative-login-button'), true);
+    attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
@@ -170,11 +170,16 @@ function attachSignin(element, negativeUser) {
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
-    console.log(idToken.toString());
     localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    fetch(new Request('/authentication-test', {method: 'POST', body: params})).then(response => response.text()).then(url => window.location = url);
+    fetch(new Request('/authentication-test', {method: 'POST', body: params}))
+      .then(response => response.text())
+      .then(url => {if (url == "Error") {
+        alert("something went wrong, please try again");
+      } else {
+        window.location = url;
+      }});
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
