@@ -51,20 +51,27 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   //Creates the user's credential
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get flow for token response
-    GoogleAuthorizationCodeFlow flow = getFlow(response);
-    if (flow != null) {
+    try {
+      // Get flow for token response
+      GoogleAuthorizationCodeFlow flow = getFlow(response);
       String code = request.getParameter("code");
       String idTokenString = request.getParameter("state");
 
       // Get userId
       String userId = getUserId(idTokenString, flow, response);
-      if (userId != null) {
-        TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
-        Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
-        updateUser(userId);
-        useCredential(credential);
+      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
+      Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
+      updateUser(userId);
+      useCredential(credential);
+    } catch (Exception e) {
+      if (e instanceof FileNotFoundException) {
+        log.warning("credentials.json not found");
+        response.getWriter().println("File Error");
+      } else if (e instanceof GeneralSecurityException) {
+        log.warning("http transport failed, security error");
+        response.getWriter().println("Transport Error");
       }
+      return null;
     }
   }
   
@@ -84,46 +91,28 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
 
-  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException {
-    try {
-      NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-      
-      // Make verifier to get payload
-      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-        .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
-        .build();
-      GoogleIdToken idToken = verifier.verify(idTokenString);
-      Payload payload = idToken.getPayload();
-      // Get userId form payload and retrieve credential
-      String userId = payload.getSubject();
-      return userId;
-      
-    } catch (Exception e) {
-      log.warning("http transport failed, security error");
-      response.getWriter().println("Transport Error");
-      return null;
-    }
+  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
+    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    
+    // Make verifier to get payload
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+    .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
+    .build();
+    GoogleIdToken idToken = verifier.verify(idTokenString);
+    Payload payload = idToken.getPayload();
+    // Get userId form payload and retrieve credential
+    String userId = payload.getSubject();
+    return userId;
   }
 
-  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException {
-    try {
-      NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
+    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
-      // Create flow object using credentials file
-      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+    // Create flow object using credentials file
+    InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
 
-      GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
-      return flow;
-    } catch (Exception e) {
-      if (e instanceof FileNotFoundException) {
-        log.warning("credentials.json not found");
-        response.getWriter().println("File Error");
-      } else if (e instanceof GeneralSecurityException) {
-        log.warning("http transport failed, security error");
-        response.getWriter().println("Transport Error");
-      }
-      return null;
-    }
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+    return flow;
   }
 }
