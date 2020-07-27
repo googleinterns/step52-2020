@@ -174,14 +174,13 @@ function attachSignin(element, negativeUser) {
     const params = new URLSearchParams()
     params.append('idToken', idToken);
     fetch(new Request('/authentication-test', {method: 'POST', body: params}))
-      .then(response => response.text())
-      .then(url => { if (url == "Transport Error") {
+    .then(response => response.text())
+    .then(error => { if (error == "Transport Error") {
         alert("something went wrong, please try again");
-      } else if (url == "File Error") {
+      } else if (error == "File Error") {
         alert("We have encountered issues, please try again later");
-      } else {
-        window.location = url;
-      }});
+      }
+    });
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));

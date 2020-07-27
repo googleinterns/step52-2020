@@ -44,7 +44,8 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://8080-ac896ae1-5f0c-45b5-8dfe-19fa4d3d8699.us-east1.cloudshell.dev";
+  // private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  private static final String url = "https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   //Creates the user's credential
@@ -73,17 +74,17 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     // Get token to pass into redirect
     String idToken = request.getParameter("idToken");
     // Get flow to build url redirect
-    GoogleAuthorizationCodeFlow flow = getFlow();
+    GoogleAuthorizationCodeFlow flow = getFlow(response);
 
     if (flow != null) {
       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
       String url = authUrlRequestProperties.build();
       // Send url back to client
-      response.getWriter().println(url);
+      response.sendRedirect(url);
     }
   }
 
-  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) {
+  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       
@@ -104,7 +105,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
 
-  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) {
+  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
