@@ -25,6 +25,8 @@ public class PositiveUserWithMessage {
   private static ArrayList<String> listOfContacts = new ArrayList<String>();
   private static CustomizableMessage customMessage;
 
+    public PositiveUserWithMessage() {}
+
     public PositiveUserWithMessage (ArrayList<String> contacts, CustomizableMessage message) {
         listOfContacts = contacts;
         customMessage = message;

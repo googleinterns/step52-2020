@@ -15,6 +15,7 @@
 package com.google.sps.servlets;
 
 
+import com.google.appengine.api.datastore.DatastoreService; 
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -27,6 +28,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+//import com.googlecode.objectify.impl;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Load;
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -111,6 +113,7 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
     System.out.println("Make objs");
 
     ofy().save().entity(positiveUserWithMessage).now();
+    //ofy().getDatastore().put(positiveUserWithMessage);
 
     System.out.println("Write to ofy save");
     // } catch(Exception e) {
