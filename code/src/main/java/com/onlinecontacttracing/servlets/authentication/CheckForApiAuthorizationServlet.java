@@ -28,21 +28,30 @@ import java.security.GeneralSecurityException;
 import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
+/**
+*  This class directs the creation of user Credentials for accessing APIs.
+*/
+
 @WebServlet("/check-for-api-authorization")
-abstract class CheckForApiAuthorizationServlet extends HttpServlet {
+public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   abstract void useCredential(Credential credential);
-  
   // should return "check-for-api-authorization" for now
   abstract String getServletURIName();
-
+  //Update the userId with the newly created credential
   abstract void updateUser(String userId);
+
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com/";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
+  public CheckForApiAuthorizationServlet() {
+
+  }
+
+  //Creates the user's credential
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
@@ -78,6 +87,7 @@ abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
   
+  //Creates the url for authorizing the user
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get token to pass into redirect
