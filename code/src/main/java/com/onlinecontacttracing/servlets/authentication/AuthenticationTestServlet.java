@@ -29,17 +29,22 @@ import java.security.GeneralSecurityException;
 import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
+/**
+*  This class tests whether a user's Credential have been accessed
+*  successfully.
+*/
 
 @WebServlet("/authentication-test")
 public class AuthenticationTestServlet extends CheckForApiAuthorizationServlet{
 
   public void useCredential(Credential credential) {
-    //use API to access
+    //replace with whichever API want to test access to
   }
   
   public String getServletURIName() {
     return "/authentication-test";
   }
+  
   //Update the userId with the newly created credential
   public void updateUser(String userId) {
   }
