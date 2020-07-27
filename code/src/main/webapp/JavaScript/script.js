@@ -200,7 +200,7 @@ function attachSignin(element, negativeUser) {
 }
 
 function handleLoginError(error) {
-  if (error == "TransportError") {
+  if (error == "GeneralError") {
     alert("something went wrong, please try again");
   } else if (error == "FileError") {
     alert("We have encountered issues, please try again later");

@@ -35,11 +35,11 @@ import java.util.logging.Logger;
 @WebServlet("/check-for-api-authorization")
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
-  //access API with the created credential
-  abstract void useCredential(Credential credential);
-  //URI pointing to redirect to the servlet that implements this class
+  // access API with the created credential
+  abstract void useCredential(Credential credential) throws InterruptedException;
+  // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
-  //Update the userId with the newly created credential
+  // Update the userId with the newly created credential
   abstract void updateUser(String userId);
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -73,8 +73,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       response.sendRedirect("/?page=login&error=FileError");
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
-      response.sendRedirect("/?page=login&error=TransportError");
-    } catch(Exception e) { //don't expect any other error
+      response.sendRedirect("/?page=login&error=GeneralError");
+    } catch (InterruptedException e) {
+      response.sendRedirect("/?page=login&error=GeneralError");
+    } catch(Exception e) { // don't expect any other error
       log.warning("exception occurred");
       response.sendRedirect("/?page=login&error=GeneralError");
     }

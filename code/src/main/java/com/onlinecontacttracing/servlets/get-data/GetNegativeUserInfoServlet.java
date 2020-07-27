@@ -18,17 +18,13 @@ public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet 
     return "/get-negative-user-info";
   }
   
-  void useCredential(Credential credential) {
+  void useCredential(Credential credential) throws InterruptedException{
     System.out.println("Negative useCred");
     Thread contactInfo = new Thread(new GetCalendarDataForNegativeUser(credential));
 
     contactInfo.start();
-
-    try {
-      contactInfo.join();
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
+  
+    contactInfo.join();
   }
 
 

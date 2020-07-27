@@ -26,7 +26,7 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
   * Additionaly it will forward the request to the servlet for Calendar Api
   * Once both are done, the servlet will merge contact data sets
   */
-  void useCredential(Credential credential) {
+  void useCredential(Credential credential) throws InterruptedException{
     System.out.println("Postive useCred");
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
@@ -36,15 +36,12 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
     peopleInfo.start();
     contactInfo.start();
 
-    try {
-      peopleInfo.join();
-      contactInfo.join();
+    
+    peopleInfo.join();
+    contactInfo.join();
 
-      // Load PositiveUserContacts from objectify
-      // call mergeContactListsFromPeopleAPI(contactsFromPeople)
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
+    // Load PositiveUserContacts from objectify
+    // call mergeContactListsFromPeopleAPI(contactsFromPeople)
   }
 
   void updateUser(String userId) {
