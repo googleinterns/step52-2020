@@ -45,6 +45,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   //Creates the user's credential
@@ -106,7 +107,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     
     // Make verifier to get payload
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-    .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
+    .setAudience(Collections.singletonList(CLIENT_ID))
     .build();
     GoogleIdToken idToken = verifier.verify(idTokenString);
     Payload payload = idToken.getPayload();
