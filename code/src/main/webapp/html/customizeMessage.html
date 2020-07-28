@@ -10,7 +10,7 @@
   <div class="general-background">
     <div class="custom-message">
       <label>How many people are you alerting?</label><br>
-      <input type="number" id="number-of-recipients-box" min="0">
+      <input type="number" name ="number-of-recipients-box" id="number-of-recipients-box" min="0">
       <button onClick="addEmailBoxes()">Provide Emails</button>
       <div id="list-of-emails">
         <!--Populates with the indicated number of text input boxes each box to have one email-->
@@ -18,7 +18,7 @@
       </div>
       <form action="/customMessage" method="POST">
         <br>
-        <textarea name="custom-messsge-box" style="width:310px;height:100px">Hello, apologies for the inconvenience but someone you had contact with has tested positive for COVID-19, for your safety and the safety of those around you we ask that you get tested yourself and self quarentine for two weeks. Thank you for your patience and cooperation.  
+        <textarea name="custom-message-box" style="width:310px;height:100px">Hello, apologies for the inconvenience but someone you had contact with has tested positive for COVID-19, for your safety and the safety of those around you we ask that you get tested yourself and self quarentine for two weeks. Thank you for your patience and cooperation.  
         </textarea>
         <input type="submit">
       </form>

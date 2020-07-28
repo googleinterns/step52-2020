@@ -34,23 +34,6 @@ import java.util.UUID;
 public class CustomMessageAndContactsServlet extends HttpServlet {
   private final ArrayList<String> employeeComment = new ArrayList<String>();
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  
-  /**
-   * Get the number of emails to display from the user
-   */
-  private int getNumEmails(HttpServletRequest request) {
-    // Get the input from the form.
-    String userNum = request.getParameter("number-of-recipients-box");
-    int requestedNum;
-    //Convert input into an int
-    try {
-      requestedNum = Integer.parseInt(userNum);
-    } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + userNum);
-      return -1;
-    }
-    return requestedNum;
-  }
 
   /**
    * Adds the Emails and custom message to the Objectify store
@@ -59,12 +42,11 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     int numberOfRecipients = 0;
     try {
-      numberOfRecipients = Integer.parseInt(request.getParameter("number-of-recipients-box"));
+      numberOfRecipients = Integer.parseInt(request.getParameter("number-of-recipients-box");
     } catch(NumberFormatException e) {
         System.out.println("Not a number");
         numberOfRecipients = -1;
     }
-    System.out.println("Got num recipients");
     ArrayList<String> emailAddresses = new ArrayList<String>();
     for(int i  = 0; i < numberOfRecipients; i++) {
       emailAddresses.add(request.getParameter("email-box-" + (i + 1)));
@@ -78,5 +60,3 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 }
-
-@Test
