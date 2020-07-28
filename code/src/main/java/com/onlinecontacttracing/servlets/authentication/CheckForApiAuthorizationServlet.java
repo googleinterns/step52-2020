@@ -79,8 +79,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
       response.sendRedirect("/?page=login&error=GeneralError");
-    } catch (InterruptedException e) {
-      response.sendRedirect("/?page=login&error=GeneralError");
     } catch(Exception e) { // don't expect any other error
       log.warning("A exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
