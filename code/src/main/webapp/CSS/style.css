@@ -61,11 +61,11 @@ div {
   text-align: center;
 }
 
-.landing-background #blue-buttons-to-procede {
+.landing-background .blue-buttons-to-procede {
   top: 60%;
 }
 
-.login-background #blue-buttons-to-procede {
+.login-background .blue-buttons-to-procede {
   top: 60%;
 }
 
@@ -106,7 +106,7 @@ div {
 }
 
 
-#blue-buttons-to-procede button {
+.blue-buttons-to-procede button {
   background: #025696;
   border: 8px solid #025696;
   border-radius: 5rem;
@@ -119,7 +119,7 @@ div {
   top: 60%;
 }
 
-#blue-buttons-to-procede button:hover {
+.blue-buttons-to-procede button:hover {
   box-shadow: 0 0 2rem #C6C6C6;
 }
 
@@ -162,14 +162,14 @@ div {
   transition-delay: 1s
 }
 
-#mission-statement {
+.mission-statement {
   font-size: 4vmin;
   margin-left: auto;
   margin-right: auto;
   top: 29%;
 }
 
-#welcome {
+.welcome {
   font-size: 7vmin;
   top: 10%;
 }
@@ -217,27 +217,27 @@ div {
 }
 
 @media only screen and (max-width: 900px) {
-  #mission-statement {
+  .mission-statement {
    left: 2.5%;
    width: 95%; 
   }
 } 
 @media only screen and (max-width: 1400px) and (min-width: 900px) {
-  #mission-statement {
+  .mission-statement {
    left: 7.5%;
    width: 85%;
   }
 }
 
 @media only screen and (max-width: 1900px) and (min-width: 1400px) {
-  #mission-statement {
+  .mission-statement {
    left: 10%;
    width: 80%;
   }
 }
 
 @media only screen and (min-width: 1900px) {
-  #mission-statement {
+  .mission-statement {
    left: 15%;
    width: 70%;
   }
