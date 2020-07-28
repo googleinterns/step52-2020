@@ -39,8 +39,8 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     peopleInfo.join();
     contactInfo.join();
 
-    // Load PositiveUserContacts from objectify
-    // call mergeContactListsFromPeopleAPI(contactsFromPeople)
+    // TODO Load PositiveUserContacts from objectify
+    // TODO call mergeContactListsFromPeopleAPI(contactsFromPeople)
   }
 
   void updateUser(String userId, String email) {

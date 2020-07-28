@@ -10,6 +10,6 @@ class CalendarDataForPositiveUser implements Runnable {
   }
 
   public void run() {
-    // Get contacts from people api
+    // TODO Get contacts from people api
   }
 }

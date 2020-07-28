@@ -62,13 +62,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String idTokenString = request.getParameter("state");
 
       // Get payload containing user info
-      Payload payload = getUserId(idTokenString, flow, response);
+      Payload payload = getPayload(idTokenString, flow, response);
 
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
       String email = payload.getEmail();
       
-      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
+      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
       updateUser(userId, email);
       useCredential(userId, credential, response);
@@ -80,7 +80,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       log.warning("http transport failed, security error");
       response.sendRedirect("/?page=login&error=GeneralError");
     } catch(Exception e) { // don't expect any other error
-      log.warning("A exception occurred: " + e.toString());
+      log.warning("An exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
     }
     
@@ -98,7 +98,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get flow to build url redirect
       GoogleAuthorizationCodeFlow flow = getFlow(response);
 
-      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
+      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
       String url = authUrlRequestProperties.build();
       // Send url back to client
       response.getWriter().println(url);
@@ -115,7 +115,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
   
-  private Payload getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
+  private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     
     // Make verifier to get payload
