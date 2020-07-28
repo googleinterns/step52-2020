@@ -31,16 +31,14 @@ import java.util.logging.Logger;
 /**
 *  This class directs the creation of user Credentials for accessing APIs.
 */
-
-@WebServlet("/check-for-api-authorization")
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
-  //access API with the created credential
-  abstract void useCredential(Credential credential);
-  //URI pointing to redirect to the servlet that implements this class
+  // access API with the created credential
+  abstract void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
+  // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
-  //Update the userId with the newly created credential
-  abstract void updateUser(String userId);
+  // Update the userId with the newly created credential
+  abstract void updateUser(String userId, String email);
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
@@ -61,20 +59,26 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String code = request.getParameter("code");
       String idTokenString = request.getParameter("state");
 
-      // Get userId
-      String userId = getUserId(idTokenString, flow, response);
-      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
+      // Get payload containing user info
+      Payload payload = getPayload(idTokenString, flow, response);
+
+      // Get userId form payload and retrieve credential
+      String userId = payload.getSubject();
+      String email = payload.getEmail();
+      
+      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
-      updateUser(userId);
-      useCredential(credential);
+      updateUser(userId, email);
+      useCredential(userId, credential, response);
+
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
       response.sendRedirect("/?page=login&error=FileError");
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
-      response.sendRedirect("/?page=login&error=TransportError");
-    } catch(Exception e) { //don't expect any other error
-      log.warning("exception occurred");
+      response.sendRedirect("/?page=login&error=GeneralError");
+    } catch(Exception e) { // don't expect any other error
+      log.warning("An exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
     }
     
@@ -92,7 +96,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get flow to build url redirect
       GoogleAuthorizationCodeFlow flow = getFlow(response);
 
-      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
+      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
       String url = authUrlRequestProperties.build();
       // Send url back to client
       response.getWriter().println(url);
@@ -108,12 +112,8 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       response.sendRedirect("/?page=login&error=GeneralError");
     }
   }
-
-
-  /**
-  *  This method returns the user's userID.
-  */
-  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
+  
+  private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     
     // Make verifier to get payload
@@ -121,10 +121,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     .setAudience(Collections.singletonList(CLIENT_ID))
     .build();
     GoogleIdToken idToken = verifier.verify(idTokenString);
-    Payload payload = idToken.getPayload();
-    // Get userId form payload and retrieve credential
-    String userId = payload.getSubject();
-    return userId;
+    return idToken.getPayload();
   }
 
   /**

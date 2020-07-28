@@ -179,7 +179,8 @@ function attachSignin(element, negativeUser) {
     localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    fetch(new Request('/authentication-test', {method: 'POST', body: params}))
+
+    fetch(makeRequest(negativeUser, params))
     .then(response => response.text())
     .then(url => { if (url.length < 20) {
         handleLoginError(url);
@@ -193,8 +194,16 @@ function attachSignin(element, negativeUser) {
   });
 }
 
+function makeRequest(negativeUser, params) {    
+  if (negativeUser) {
+    return new Request('/get-negative-user-info', {method: 'POST', body: params})
+  } else {
+    return new Request('/get-positive-user-info', {method: 'POST', body: params})
+  }
+}
+
 function handleLoginError(error) {
-  if (error == "TransportError") {
+  if (error == "GeneralError") {
     alert("something went wrong, please try again");
   } else if (error == "FileError") {
     alert("We have encountered issues, please try again later");
