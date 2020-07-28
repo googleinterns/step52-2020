@@ -16,25 +16,7 @@
     <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
 
-  <dependencyManagement>
   <dependencies>
-    <dependency>
-      <groupId>com.google.cloud</groupId>
-      <artifactId>libraries-bom</artifactId>
-      <version>7.0.0</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
-
-
-  <dependencies>
-    <!-- For getting service account credentials -->
-    <dependency>
-      <groupId>com.google.cloud</groupId>
-      <artifactId>google-cloud-storage</artifactId>
-    </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -50,16 +32,6 @@
         <groupId>com.google.appengine</groupId>
         <artifactId>appengine-api-1.0-sdk</artifactId>
         <version>1.9.59</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-gmail</artifactId>
-      <version>v1-rev20200601-1.30.10</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client</artifactId>
-      <version>1.30.10</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.objectify</groupId>
@@ -86,45 +58,66 @@
       <artifactId>google-api-services-people</artifactId>
       <version>v1-rev537-1.25.0</version>
     </dependency>
-    <!-- Service Account Stuff -->
+
+
+  
+    <!-- For binary base 64 encoding -->
+    <!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client-android -->
+    <!-- <dependency>
+        <groupId>com.google.api-client</groupId>
+        <artifactId>google-api-client-android</artifactId>
+        <version>1.24.1</version>
+    </dependency> -->
+    <!-- <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-storage</artifactId>
+    </dependency> -->
     <dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client</artifactId>
-      <version>1.12.0-beta</version>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-appengine</artifactId>
+      <version>0.21.1</version>
     </dependency>
-    
-    <!-- https://mvnrepository.com/artifact/com.google.auth/google-auth-library-appengine -->
-    <dependency>
-        <groupId>com.google.auth</groupId>
-        <artifactId>google-auth-library-appengine</artifactId>
-        <version>0.21.1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-java6 -->
-    <dependency>
-        <groupId>com.google.oauth-client</groupId>
-        <artifactId>google-oauth-client-java6</artifactId>
-        <version>1.11.0-beta</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
-    <dependency>
-        <groupId>com.google.oauth-client</groupId>
-        <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.31.0</version>
-    </dependency>
+
+
+    <!-- For IAM -->
     <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-iam -->
     <dependency>
         <groupId>com.google.apis</groupId>
         <artifactId>google-api-services-iam</artifactId>
         <version>v1-rev316-1.25.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/javax/activation -->
+    </dependency> 
+    <!-- For com.google.auth.appengine -->
+    <!-- https://mvnrepository.com/artifact/com.google.auth/google-auth-library-appengine -->
+    
+
+    <!-- For google storage -->
+    <!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-storage -->
     <dependency>
-        <groupId>com.sun.activation</groupId>
-        <artifactId>javax.activation</artifactId>
-        <version>1.2.0</version>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>google-cloud-storage</artifactId>
+        <version>1.35.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-storage -->
+<!-- <dependency>
+    <groupId>com.google.cloud</groupId>
+    <artifactId>google-cloud-storage</artifactId>
+    <version>1.102.0</version>
+</dependency> -->
+
+    <!-- For creating buckets -->
+    <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-compute -->
+    <!-- <dependency>
+        <groupId>com.google.apis</groupId>
+        <artifactId>google-api-services-compute</artifactId>
+        <version>v1-rev20190825-1.30.3</version>
+    </dependency> -->
 
 
+<dependency>
+	  <groupId>com.google.api-client</groupId>
+	  <artifactId>google-api-client</artifactId>
+	  <version>1.23.0</version>
+	</dependency>
 
   </dependencies>
 
@@ -142,7 +135,6 @@
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
-      
     </plugins>
   </build>
 </project>
