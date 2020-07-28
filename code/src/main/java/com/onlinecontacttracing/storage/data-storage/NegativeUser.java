@@ -48,6 +48,6 @@ public class NegativeUser {
   
   @Override
   public String toString() {
-    return "Negative User- ID: " + userId + ", email: " + userEmail;
+    return String.format("(Negative User) ID: %s, email: %s\n", userId, userEmail);
   }
 }

@@ -73,14 +73,14 @@ public class PositiveUser {
 
   @Override
   public String toString() {
-    String person = "Negative User- ID: " + userId + ", email: " + userEmail + "\n";
-    String hasNumberOfAttemptsLeft = "  number of attempted drafts left: " + (Constants.NUMBER_OF_DRAFTS_ALLOWED - attemptedEmailDrafts) + "\n";
-    String hasSentThisManyEmails = "  number of emails sent: " + emailsSent + "\n";
+    String person = String.format("(Positive User) ID: %s, email: %s\n", userId, userEmail);
+    String hasNumberOfAttemptsLeft = String.format("  number of attempted drafts left: %s\n", (Constants.NUMBER_OF_DRAFTS_ALLOWED - attemptedEmailDrafts));
+    String hasSentThisManyEmails = String.format("  number of emails sent: %s\n", emailsSent);
 
     Date firstLogin = new java.util.Date(firstLoginSeconds * 1000);
     Date lastLogin = new java.util.Date(lastLoginSeconds * 1000);
-    String loginInformation = "  first login: " + firstLogin + ", last login: " + lastLogin;
+    String loginInformation = String.format("  first login: %s, last login: %s", firstLogin, lastLogin);
 
-    return person + hasNumberOfAttemptsLeft + hasSentThisManyEmails + loginInformation;
+    return String.format("%s%s%s%s", person, hasNumberOfAttemptsLeft, hasSentThisManyEmails, loginInformation);
   }
 }
