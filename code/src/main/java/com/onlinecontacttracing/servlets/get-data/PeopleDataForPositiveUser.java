@@ -13,6 +13,7 @@ class PeopleDataForPositiveUser implements Runnable {
     this.contacts = contacts;
   }
 
+  @Override
   public void run() {
     // TODO Get contacts from people api
   }

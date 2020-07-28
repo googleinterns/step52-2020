@@ -9,6 +9,7 @@ class CalendarDataForPositiveUser implements Runnable {
     this.credential = credential;
   }
 
+  @Override
   public void run() {
     // TODO Get contacts from people api
   }
