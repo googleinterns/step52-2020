@@ -20,6 +20,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
+import com.google.api.services.calendar.CalendarScopes;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
@@ -39,9 +40,9 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   abstract String getServletURIName();
   // Update the userId with the newly created credential
   abstract void updateUser(String userId, String email);
-
+  
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
+  private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
