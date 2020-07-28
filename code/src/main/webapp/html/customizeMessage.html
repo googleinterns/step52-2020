@@ -9,7 +9,8 @@
 <body>
   <div class="general-background">
     <div class="custom-message">
-      
+      <!--Button is above form because if placed in the form it will
+       submit the whole thing when we just want it associated with the first part-->
       <button onclick="addEmailBoxes()">Provide Emails</button>
       <form action="/customMessage" method="POST">
         <label>How many people are you alerting?</label><br>
