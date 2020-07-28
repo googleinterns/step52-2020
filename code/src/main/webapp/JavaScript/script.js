@@ -143,6 +143,12 @@ function LoadPage() {
   } else {
     PAGE_CONTROLLER.show(page);
   }
+
+  const error = urlParams.get('error');
+  if (error != null) {
+    handleLoginError(error);
+  }
+
   window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
@@ -171,12 +177,15 @@ function attachSignin(element, negativeUser) {
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
+    localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    const request = new Request('/authenticate', {method: 'POST', body: params});
-    fetch(request).then(() => {
-      if (negativeUser) {
-        PAGE_CONTROLLER.show('notification')
+    fetch(new Request('/authentication-test', {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => { if (url.length < 20) {
+        handleLoginError(url);
+      } else {
+        window.location = url;
       }
     });
 
@@ -198,10 +207,10 @@ function attachSigninToWipeOutNegativeUserData(element) {
   });
 }
 
-function backToLogin() {
-  window.location = "/landing";
-}
-
-function getFAQ() {
-  window.location = "../html/faq.html";
+function handleLoginError(error) {
+  if (error == "TransportError") {
+    alert("something went wrong, please try again");
+  } else if (error == "FileError") {
+    alert("We have encountered issues, please try again later");
+  }
 }
