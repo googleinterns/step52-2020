@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.ClassCastException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
 /**Servlet to put custom message data into Ofy store */
 @WebServlet("/customMessage")
 public class CustomMessageAndContactsServlet extends HttpServlet {
@@ -44,7 +43,7 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
     try {
       numberOfRecipients = Integer.parseInt(request.getParameter("number-of-recipients-box");
     } catch(NumberFormatException e) {
-        System.out.println("Not a number");
+        System.out.err("Not a number");
         numberOfRecipients = -1;
     }
     ArrayList<String> emailAddresses = new ArrayList<String>();
