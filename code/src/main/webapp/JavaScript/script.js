@@ -161,6 +161,7 @@ function addEmailBoxes() {
       document.getElementById("list-of-emails").appendChild(emailBox);
       document.getElementById("list-of-emails").appendChild(document.createElement("br"));
     }
+    console.log(document.getElementById("email-box-1"));
 }
 
 function redirectManualInput() {

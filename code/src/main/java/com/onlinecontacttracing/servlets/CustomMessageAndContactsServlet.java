@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.ClassCastException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 /**Servlet to put custom message data into Ofy store */
 @WebServlet("/customMessage")
 public class CustomMessageAndContactsServlet extends HttpServlet {
@@ -39,11 +40,13 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    System.out.println(request.getParameterMap().toString());
+
     int numberOfRecipients = 0;
     try {
-      numberOfRecipients = Integer.parseInt(request.getParameter("number-of-recipients-box");
+      numberOfRecipients = Integer.parseInt(request.getParameter("number-of-recipients-box"));
     } catch(NumberFormatException e) {
-        System.out.err("Not a number");
+        System.err.println("Not a number");
         numberOfRecipients = -1;
     }
     ArrayList<String> emailAddresses = new ArrayList<String>();
