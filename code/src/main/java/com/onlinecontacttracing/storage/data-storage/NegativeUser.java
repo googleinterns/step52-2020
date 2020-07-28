@@ -22,11 +22,12 @@ public class NegativeUser {
   public NegativeUser(String id, String email) {
     userId = id;
     userEmail = email;
-    firstLoginSeconds = lastLoginSeconds = Instant.now().getEpochSecond();
+    firstLoginSeconds = Instant.now().getEpochSecond();
+    lastLoginSeconds = firstLoginSeconds;
   }
 
   public void setLastLogin() {
-    firstLoginSeconds = Instant.now().getEpochSecond();
+    lastLoginSeconds = Instant.now().getEpochSecond();
   }
   
   public String getUserId() {

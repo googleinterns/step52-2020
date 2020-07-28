@@ -2,10 +2,10 @@ package com.onlinecontacttracing.authentication;
 
 import com.google.api.client.auth.oauth2.Credential;
 
-class GetCalendarDataForNegativeUser implements Runnable {
+class CalendarDataForPositiveUser implements Runnable {
   Credential credential;
 
-  public GetCalendarDataForNegativeUser(Credential credential) {
+  public CalendarDataForPositiveUser(Credential credential) {
     this.credential = credential;
   }
 

@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
-  abstract void useCredential(Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
+  abstract void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
   // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
   // Update the userId with the newly created credential
@@ -45,7 +45,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  private static final String url = "https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
@@ -71,7 +71,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
       updateUser(userId, email);
-      useCredential(credential, response);
+      useCredential(userId, credential, response);
 
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
@@ -82,7 +82,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     } catch (InterruptedException e) {
       response.sendRedirect("/?page=login&error=GeneralError");
     } catch(Exception e) { // don't expect any other error
-      log.warning("exception occurred");
+      log.warning("A exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
     }
     
@@ -116,11 +116,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       response.sendRedirect("/?page=login&error=GeneralError");
     }
   }
-
-
-  /**
-  *  This method returns the user's userID.
-  */
+  
   private Payload getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     

@@ -13,11 +13,11 @@ import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
 import java.util.ArrayList;
 
-@WebServlet("/get-positve-user-info")
-public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
+@WebServlet("/get-positive-user-info")
+public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
 
   String getServletURIName() {
-    return "/get-positve-user-info";
+    return "/get-positive-user-info";
   }
   
   
@@ -26,11 +26,11 @@ public class GetPositiveUserInfoServlet extends CheckForApiAuthorizationServlet 
   * Additionaly it will forward the request to the servlet for Calendar Api
   * Once both are done, the servlet will merge contact data sets
   */
-  void useCredential(Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+  void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
-    Thread peopleInfo = new Thread(new GetPeopleDataForPositiveUser(credential, contactsFromPeople));
-    Thread contactInfo = new Thread(new GetCalendarDataForPositiveUser(credential));
+    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(credential, contactsFromPeople));
+    Thread contactInfo = new Thread(new CalendarDataForPositiveUser(credential));
 
     peopleInfo.start();
     contactInfo.start();

@@ -12,14 +12,14 @@ import com.onlinecontacttracing.storage.NegativeUser;
 import java.util.Optional;
 
 @WebServlet("/get-negative-user-info")
-public class GetNegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
+public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
 
   String getServletURIName() {
     return "/get-negative-user-info";
   }
   
-  void useCredential(Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
-    Thread contactInfo = new Thread(new GetCalendarDataForNegativeUser(credential));
+  void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+    Thread contactInfo = new Thread(new CalendarDataForNegativeUser(credential));
 
     contactInfo.start();
   

@@ -198,7 +198,7 @@ function makeRequest(negativeUser, params) {
   if (negativeUser) {
     return new Request('/get-negative-user-info', {method: 'POST', body: params})
   } else {
-    return new Request('/get-positve-user-info', {method: 'POST', body: params})
+    return new Request('/get-positive-user-info', {method: 'POST', body: params})
   }
 }
 
