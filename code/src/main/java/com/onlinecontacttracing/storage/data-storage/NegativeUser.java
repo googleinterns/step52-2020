@@ -13,8 +13,6 @@ public class NegativeUser {
 
   @Id private String userId;
   private String userEmail;
-  private long firstLoginSeconds;
-  private long lastLoginSeconds;
 
   // Objecify requires one constructor with no parameters
   private NegativeUser() {}
@@ -22,12 +20,6 @@ public class NegativeUser {
   public NegativeUser(String id, String email) {
     userId = id;
     userEmail = email;
-    firstLoginSeconds = Instant.now().getEpochSecond();
-    lastLoginSeconds = firstLoginSeconds;
-  }
-
-  public void setLastLogin() {
-    lastLoginSeconds = Instant.now().getEpochSecond();
   }
   
   public String getUserId() {
@@ -38,16 +30,8 @@ public class NegativeUser {
     return userEmail;
   }
 
-  public long getFirstLoginInSeconds() {
-    return firstLoginSeconds;
-  }
-
-  public long getLastLoginInSeconds() {
-    return lastLoginSeconds;
-  }
-  
   @Override
   public String toString() {
-    return "Negative User- ID: " + userId + ", email: " + userEmail;
+    return "Negative User- ID:" + userId + ", email:" + userEmail;
   }
 }

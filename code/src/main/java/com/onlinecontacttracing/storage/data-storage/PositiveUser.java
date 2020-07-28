@@ -31,7 +31,7 @@ public class PositiveUser {
   }
 
   public void setLastLogin() {
-    lastLoginSeconds = Instant.now().getEpochSecond();
+    firstLoginSeconds = Instant.now().getEpochSecond();
   }
   
   public String getUserId() {
@@ -73,7 +73,7 @@ public class PositiveUser {
 
   @Override
   public String toString() {
-    String person = "Negative User- ID: " + userId + ", email: " + userEmail + "\n";
+    String person = "Negative User- ID:" + userId + ", email:" + userEmail + "\n";
     String hasNumberOfAttemptsLeft = "  number of attempted drafts left: " + (Constants.NUMBER_OF_DRAFTS_ALLOWED - attemptedEmailDrafts) + "\n";
     String hasSentThisManyEmails = "  number of emails sent: " + emailsSent + "\n";
 
