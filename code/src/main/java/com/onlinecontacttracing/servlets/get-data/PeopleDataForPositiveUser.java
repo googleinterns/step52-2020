@@ -5,7 +5,7 @@ import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
 
 class PeopleDataForPositiveUser implements Runnable {
-  Credential credential;
+  private final Credential credential;
   ArrayList<PotentialContact> contacts;
 
   public PeopleDataForPositiveUser(Credential credential, ArrayList<PotentialContact> contacts) {

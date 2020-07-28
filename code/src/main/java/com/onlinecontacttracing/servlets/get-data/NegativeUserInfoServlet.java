@@ -14,22 +14,21 @@ import java.util.Optional;
 @WebServlet("/get-negative-user-info")
 public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
 
+  @Override
   String getServletURIName() {
     return "/get-negative-user-info";
   }
   
+  @Override
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     Thread contactInfo = new Thread(new CalendarDataForNegativeUser(credential));
 
-    contactInfo.start();
-  
-    contactInfo.join();
+    contactInfo.run();
 
     response.sendRedirect("/?page=notification");
   }
 
-
-
+  @Override
   void updateUser(String userId, String email) {
     // Load user from objectify
     Optional<NegativeUser> negativeUserOptional = Optional.ofNullable(ofy().load().type(NegativeUser.class).id(userId).now());

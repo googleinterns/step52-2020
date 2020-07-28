@@ -16,16 +16,17 @@ import java.util.ArrayList;
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
 
+  @Override
   String getServletURIName() {
     return "/get-positive-user-info";
   }
-  
   
   /*
   * This servlet will retrieve data from the People Api
   * Additionaly it will forward the request to the servlet for Calendar Api
   * Once both are done, the servlet will merge contact data sets
   */
+  @Override
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
@@ -34,7 +35,6 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
 
     peopleInfo.start();
     contactInfo.start();
-
     
     peopleInfo.join();
     contactInfo.join();
@@ -43,6 +43,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     // TODO call mergeContactListsFromPeopleAPI(contactsFromPeople)
   }
 
+  @Override
   void updateUser(String userId, String email) {
     // Load user from objectify
     Optional<PositiveUser> positiveUserOptional = Optional.ofNullable(ofy().load().type(PositiveUser.class).id(userId).now());

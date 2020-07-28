@@ -31,8 +31,6 @@ import java.util.logging.Logger;
 /**
 *  This class directs the creation of user Credentials for accessing APIs.
 */
-
-@WebServlet("/check-for-api-authorization")
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
