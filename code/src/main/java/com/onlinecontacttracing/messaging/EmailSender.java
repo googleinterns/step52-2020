@@ -1,6 +1,6 @@
 package com.onlinecontacttracing.messaging;
 
-import com.onlinecontacttracing.messaging.MessageServlet;
+import com.onlinecontacttracing.messaging.CompileMessageServlet;
 import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.messaging.MessagingSetup;
@@ -38,25 +38,21 @@ import javax.mail.MessagingException;
 public class EmailSender {
 
   private String emailSubject;
-  private String emailBody;
-  private MessageServlet messageObject;
   private ArrayList<PotentialContact> contactsList;
   private Gmail service;
-  private PositiveUser user;
-
+  private PositiveUser user; //consider removing
+  private CompiledMessage compiledMessage;
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
-  //rename to be like authconfigurationdata, also need to remove from github
-  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-
   private static final String APPLICATION_NAME = "Online Contact Tracing";
   
-  public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList) {
+  public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList, CompiledMessage compiledMessage) {
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       this.emailSubject= emailSubject;
       this.contactsList = contactsList;
+      this.compiledMessage = compiledMessage;
       GoogleCredential serviceAccountCredential = GetServiceAccountCredentials.getServiceAccountCredentials();
       service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
@@ -69,22 +65,16 @@ public class EmailSender {
     }
   }
 
-  public void setMessageObject(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser user) {
-    this.messageObject = new MessageServlet(systemMessage, localityResource, customizableMessage, user);
-  }
 
-  public void setEmailBody(String messageLanguage) {
-    this.messageObject.compileMessages(messageLanguage);
-    this.emailBody = this.messageObject.getCompiledBackendMessage();
-  }
-
-  public void sendEmailsOut() {
+  public void sendEmailsOut(String messageLanguage) {
+    this.compiledMessage.compileMessages(messageLanguage);
+    String emailBody = compiledMessage.getCompiledBackendMessage();
     PotentialContact contact;
     MimeMessage email;
     for(PotentialContact contactName : this.contactsList) {
       try{ 
-        email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail(), emailSubject, emailBody);
-        MessagingSetup.sendMessage(service, user.getUserId(), email);
+        email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail()/*Switch email*/, this.emailSubject, emailBody);
+        MessagingSetup.sendMessage(service, user.getUserId(), email);//fix
       } catch (MessagingException e) {
         //do something
       } catch (Exception e) {
@@ -92,28 +82,5 @@ public class EmailSender {
       }
     }
   }
-    //need to use service account credentials
-  // private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, PositiveUser user) throws IOException {
-  //       // Load client secrets
-  //       //create a class authAPI config constants, have this as a string, eliminate input reader
-  //       InputStream in = EmailSender.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-  //       if (in == null) {
-  //           throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-  //       }
-  //       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-      
-  //       TokenResponse tokenResponse = new TokenResponse().setScope(SCOPES.get(0));
-  //       return new GoogleAuthorizationCodeFlow.Builder(
-  //              HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build().createAndStoreCredential(tokenResponse, user.getUserId());
-        //  = new GoogleAuthorizationCodeFlow.Builder(
-        //         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-        //         .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-        //         .setAccessType("offline")
-        //         .build();
-        // LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        // return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-    //}
-  
 
 }
