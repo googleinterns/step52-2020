@@ -202,3 +202,23 @@ function handleLoginError(error) {
     alert("We have encountered issues, please try again later");
   }
 }
+function addEmailBoxes() {
+    var labelForEmailBoxes = document.createElement("label");
+    labelForEmailBoxes.setAttribute("for", "Emails");
+    labelForEmailBoxes.innerHTML = "Input email addresses below:";
+    document.getElementById("list-of-emails").appendChild(labelForEmailBoxes);
+    document.getElementById("list-of-emails").appendChild(document.createElement("br"));
+    var numberOfEmails = document.getElementById("number-of-recipients-box").value;
+    for(var i = 0; i < numberOfEmails; i++) {
+      var emailBox = document.createElement("input");
+      emailBox.setAttribute("type","text");
+      emailBox.setAttribute("name","email-box-" + (i + 1));
+      emailBox.setAttribute("id","email-box-" + (i + 1));
+      document.getElementById("list-of-emails").appendChild(emailBox);
+      document.getElementById("list-of-emails").appendChild(document.createElement("br"));
+    }
+}
+
+function redirectManualInput() {
+    window.location = "../html/customizeMessage.html";
+}
