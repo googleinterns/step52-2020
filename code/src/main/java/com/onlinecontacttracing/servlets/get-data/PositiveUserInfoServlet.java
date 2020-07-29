@@ -31,7 +31,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     // Execute runnable to get people data
     ArrayList<PotentialContact> contactsFromPeople = new ArrayList<PotentialContact>();
     Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(credential, contactsFromPeople));
-    Thread contactInfo = new Thread(new CalendarDataForPositiveUser(credential));
+    Thread contactInfo = new Thread(new CalendarDataForPositiveUser(ofy(), userId, credential));
 
     peopleInfo.start();
     contactInfo.start();

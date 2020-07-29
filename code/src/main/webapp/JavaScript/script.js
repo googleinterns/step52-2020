@@ -179,27 +179,20 @@ function attachSignin(element, negativeUser) {
     localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
+    var servlet = "";
+    if (negativeUser) {
+      servlet = '/get-negative-user-info';
+    } else {
+      servlet = '/get-positive-user-info';
+    }
 
-    fetch(makeRequest(negativeUser, params))
+    fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
-    .then(url => { if (url.length < 20) {
-        handleLoginError(url);
-      } else {
-        window.location = url;
-      }
-    });
+    .then(url => window.location = url);
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
-}
-
-function makeRequest(negativeUser, params) {    
-  if (negativeUser) {
-    return new Request('/get-negative-user-info', {method: 'POST', body: params})
-  } else {
-    return new Request('/get-positive-user-info', {method: 'POST', body: params})
-  }
 }
 
 function handleLoginError(error) {

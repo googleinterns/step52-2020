@@ -20,6 +20,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
+import com.google.api.services.calendar.CalendarScopes;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
@@ -39,9 +40,9 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   abstract String getServletURIName();
   // Update the userId with the newly created credential
   abstract void updateUser(String userId, String email);
-
+  
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
+  private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
@@ -114,10 +115,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   }
   
   private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
-    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     
     // Make verifier to get payload
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
     .setAudience(Collections.singletonList(CLIENT_ID))
     .build();
     GoogleIdToken idToken = verifier.verify(idTokenString);
@@ -128,13 +129,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   *  This method returns an GoogleAuthorizationCodeFlow object.
   */
   private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
-    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
     // Create flow object using credentials file
     InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
 
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
     return flow;
   }
 }
