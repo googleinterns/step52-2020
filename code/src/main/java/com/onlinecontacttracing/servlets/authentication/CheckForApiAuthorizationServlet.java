@@ -126,7 +126,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
       // Create flow object using credentials file
       InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
-
+      
       GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
       GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
       return flow;
