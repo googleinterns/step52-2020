@@ -40,7 +40,7 @@ class CalendarDataForNegativeUser implements Runnable {
       // Query events between now and the last two weeks
       long currentTime = System.currentTimeMillis();
       DateTime now = new DateTime(currentTime);
-      DateTime twoWeeksAgo = new DateTime(currentTime-Constants.CONTACTS_QUERY_TIME);
+      DateTime twoWeeksAgo = new DateTime(currentTime-1209600L*1000);
       Events events = service.events().list("primary")
         .setTimeMin(twoWeeksAgo)
         .setTimeMax(now)
@@ -49,8 +49,10 @@ class CalendarDataForNegativeUser implements Runnable {
 
       // Iterate through events to extract contacts and places
       for (Event event : items) {
-
-        System.out.println(event.getStart().getDate().getValue()/1000);
+        Optional<String> location = Optional.ofNullable(event.getLocation());
+        
+        location.ifPresent(locationString -> System.out.println(locationString));
+        // System.out.println(event.getStart().getDate().getValue()/1000);
         //NegativeUserPlace NegativeUserPlace = new NegativeUserPlace(userId, "oh no")
       }
 
