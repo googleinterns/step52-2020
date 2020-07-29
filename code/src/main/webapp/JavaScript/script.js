@@ -180,14 +180,16 @@ function attachSignin(element, negativeUser) {
     localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    fetch(new Request('/authentication-test', {method: 'POST', body: params}))
+    var servlet = "";
+    if (negativeUser) {
+      servlet = '/get-negative-user-info';
+    } else {
+      servlet = '/get-positive-user-info';
+    }
+
+    fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
-    .then(url => { if (url.length < 20) {
-        handleLoginError(url);
-      } else {
-        window.location = url;
-      }
-    });
+    .then(url => window.location = url);
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
@@ -195,9 +197,29 @@ function attachSignin(element, negativeUser) {
 }
 
 function handleLoginError(error) {
-  if (error == "TransportError") {
+  if (error == "GeneralError") {
     alert("something went wrong, please try again");
   } else if (error == "FileError") {
     alert("We have encountered issues, please try again later");
   }
+}
+function addEmailBoxes() {
+    var labelForEmailBoxes = document.createElement("label");
+    labelForEmailBoxes.setAttribute("for", "Emails");
+    labelForEmailBoxes.innerHTML = "Input email addresses below:";
+    document.getElementById("list-of-emails").appendChild(labelForEmailBoxes);
+    document.getElementById("list-of-emails").appendChild(document.createElement("br"));
+    var numberOfEmails = document.getElementById("number-of-recipients-box").value;
+    for(var i = 0; i < numberOfEmails; i++) {
+      var emailBox = document.createElement("input");
+      emailBox.setAttribute("type","text");
+      emailBox.setAttribute("name","email-box-" + (i + 1));
+      emailBox.setAttribute("id","email-box-" + (i + 1));
+      document.getElementById("list-of-emails").appendChild(emailBox);
+      document.getElementById("list-of-emails").appendChild(document.createElement("br"));
+    }
+}
+
+function redirectManualInput() {
+    window.location = "../html/customizeMessage.html";
 }
