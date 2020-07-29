@@ -7,11 +7,10 @@ import java.util.UUID;
  */
 public class GeneratedUserId {
   private String userId;
-  private UUID uuid = new UUID(123456789, 987654321);
-  private String randomized = uuid.randomUUID().toString();
+  private String uuidString = UUID.randomUUID().toString();
 
   public GeneratedUserId(String prefix) {
-      userId = prefix + randomized;
+      userId = prefix + uuidString;
   }
 
   public String getIdString() {
