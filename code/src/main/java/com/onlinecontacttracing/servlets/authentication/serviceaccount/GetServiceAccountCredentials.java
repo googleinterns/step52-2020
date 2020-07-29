@@ -31,10 +31,6 @@ import java.io.FileInputStream;
 import java.security.GeneralSecurityException;
 import com.google.api.client.util.SecurityUtils;
 import java.security.PrivateKey;
-// import javax.servlet.ServletContext;
-// import javax.servlet.http.HttpSession;
-// import javax.servlet;
-
 
 /**
  * Demonstrate various ways to authenticate requests using Cloud Storage as an example call.
@@ -42,36 +38,13 @@ import java.security.PrivateKey;
 public class GetServiceAccountCredentials {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String serviceAccountId = "online-contact-tracing-email@covid-catchers-fixed-gcp.iam.gserviceaccount.com";
-    private static final String CREDENTIALS_FILE_PATH = "WEB-INF/covid-catchers-fixed-gcp-4270ee645eb8.p12";
-    private static final String CREDENTIALS_FILE_PATH2 = "WEB-INF/covid-catchers-fixed-gcp-cb8d9192a84a.json";
+    private static final String CREDENTIALS_FILE_PATH = "covid-catchers-fixed-gcp-4270ee645eb8.p12";
 
   public static GoogleCredential getServiceAccountCredentials() {
-    File f = new File(CREDENTIALS_FILE_PATH);
-    File f1 = new File("WEB-INF");
-    System.out.println(f1.exists());
-    System.out.println(f1.getName());
-      // Get the absolute path of file f 
-      String absolute = f1.getAbsolutePath(); 
-      // String absoluteDiskPath = servletContext.getRealPath(CREDENTIALS_FILE_PATH);
-      // Display the file path of the file object 
-      // and also the file path of absolute file 
-      System.out.println("Original path: " + f.getPath()); 
-      System.out.println("Absolute path: " + absolute); 
-      
-      // System.out.println("Absolute disk path: " + absoluteDiskPath); 
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-      // ServletContext s = getServletContext();
-    // InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH2));
-    // InputStream in = Thread.currentThread().getContextClassLoader()
-    // .getResourceAsStream(CREDENTIALS_FILE_PATH);
-    InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream("covid-catchers-fixed-gcp-4270ee645eb8.p12");
-    // InputStream in = GetServiceAccountCredentials.class.getClassLoader().getResourceAsStream("covid-catchers-fixed-gcp-4270ee645eb8.p12");
-  //  InputStream in = GetServiceAccountCredentials.class.getResourceAsStream("covid-catchers-fixed-gcp-4270ee645eb8.p12");
-      // InputStream in = s.getResourceAsStream("/WEB-INF/covid-catchers-fixed-gcp-4270ee645eb8.p12");
+    InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
     System.out.println(in);
-    
-    
     GoogleCredential credential = (new GoogleCredential.Builder())
     .setTransport(HTTP_TRANSPORT)
     .setJsonFactory(JSON_FACTORY)
@@ -81,7 +54,6 @@ public class GetServiceAccountCredentials {
     .setServiceAccountUser(serviceAccountId)
     .build();
 
-    
     System.out.println("YAYYYYYYY");
     System.out.println(credential);
     return credential;

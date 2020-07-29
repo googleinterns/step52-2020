@@ -53,7 +53,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try{
       // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow();
+      GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
       if (flow == null) {
         response.getWriter().println("Error");
       }
@@ -62,7 +62,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String idTokenString = request.getParameter("state");
     
       // Get userId
-      String userId = getUserId(idTokenString, flow);
+      String userId = CheckForApiAuthorizationServlet.getUserId(idTokenString, flow);
       if (userId.equals("")) {
         response.getWriter().println("Error");
       }
@@ -83,7 +83,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     // Get token to pass into redirect
     String idToken = request.getParameter("idToken");
     // Get flow to build url redirect
-    GoogleAuthorizationCodeFlow flow = getFlow();
+    GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
 
     if (flow == null) {
       response.getWriter().println("Error");
@@ -95,7 +95,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     response.getWriter().println(url);
   }
 
-  public String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow) {
+  public static String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow) {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       // Get flow for token response
@@ -120,7 +120,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
 
-  public GoogleAuthorizationCodeFlow getFlow() {
+  public static GoogleAuthorizationCodeFlow getFlow() {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
