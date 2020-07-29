@@ -43,7 +43,7 @@ public class MessageSendingServlet extends HttpServlet {
     CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
 
     CompiledMessage compiledMessage = new CompiledMessage(SystemMessage.VERSION_1, LocalityResource.NEW_YORK, customizableMessage, positiveUser);//fix the enum resources
-    EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); //should change that messaage header
+    EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); 
     emailSender.sendEmailsOut(messageLanguage);
 
   }

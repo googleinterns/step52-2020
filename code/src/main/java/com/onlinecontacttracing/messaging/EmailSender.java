@@ -40,12 +40,12 @@ public class EmailSender {
   private String emailSubject;
   private ArrayList<PotentialContact> contactsList;
   private Gmail service;
-  private PositiveUser user; //consider removing
   private CompiledMessage compiledMessage;
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
   private static final String APPLICATION_NAME = "Online Contact Tracing";
+  private static final String SERVICE_ACCOUNT_EMAIL = "onlinecontacttracing@gmail.com";
   
   public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList, CompiledMessage compiledMessage) {
     try{
@@ -57,11 +57,10 @@ public class EmailSender {
       service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
                   .build();
-      this.user = user;
     } catch (GeneralSecurityException e) {
-      //do something
+      log.warning("http transport failed, security error");
     } catch (Exception e) {
-      //do something
+      log.warning("general exception");
     }
   }
 
@@ -73,12 +72,12 @@ public class EmailSender {
     MimeMessage email;
     for(PotentialContact contactName : this.contactsList) {
       try{ 
-        email = MessagingSetup.createEmail(contactName.getEmail(), user.getUserEmail()/*Switch email*/, this.emailSubject, emailBody);
-        MessagingSetup.sendMessage(service, user.getUserId(), email);//fix
+        email = MessagingSetup.createEmail(contactName.getEmail(), SERVICE_ACCOUNT_EMAIL, this.emailSubject, emailBody);
+        MessagingSetup.sendMessage(service, SERVICE_ACCOUNT_EMAIL, email);
       } catch (MessagingException e) {
-        //do something
+        log.warning("error in sending emails out");
       } catch (Exception e) {
-        //do something
+        log.warning("general exception");
       }
     }
   }
