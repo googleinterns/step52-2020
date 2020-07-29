@@ -103,7 +103,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
         return "";
       }
 
-      
       // Make verifier to get payload
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
         .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
