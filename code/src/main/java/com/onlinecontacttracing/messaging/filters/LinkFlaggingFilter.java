@@ -7,20 +7,28 @@ import com.onlinecontacttracing.messaging.filters.FileReader;
 import java.lang.Exception;
 import java.util.ArrayList;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+
 //Checks if message contains any links/URLs
 public class LinkFlaggingFilter implements FlaggingFilter{
-  private static final ArrayList<String> LIST_OF_LINK_INDICATORS = FileReader.getListFromFile("link-indicators.txt");
+  private static final String[] LIST_OF_LINK_INDICATORS = FileReader.getListFromFile("link-indicators.txt");
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-    int numOfLinkIndicators = this.LIST_OF_LINK_INDICATORS.size();
-    String linkIndicator;
-    for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
-      linkIndicator = this.LIST_OF_LINK_INDICATORS.get(linkIndicatorIndex);
-      if (message.indexOf(linkIndicator) > -1) {
-        return false;
+   
+      int numOfLinkIndicators = this.LIST_OF_LINK_INDICATORS.length;
+      String linkIndicator;
+      for (int linkIndicatorIndex = 0; linkIndicatorIndex < numOfLinkIndicators; linkIndicatorIndex++) {
+        linkIndicator = this.LIST_OF_LINK_INDICATORS[linkIndicatorIndex];
+        if (message.indexOf(linkIndicator) > -1) {
+          return false;
+        }
       }
-    }
-    return true;
+      return true;
+   
   }
 
   public String errorMessageToUser() {

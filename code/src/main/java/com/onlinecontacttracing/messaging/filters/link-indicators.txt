@@ -1,9 +1,0 @@
-https://
-http://
-.com
-.org
-.gov
-.net
-.co
-.us
-www.
