@@ -25,7 +25,8 @@ public class PotentialContact {
   }
 
   /*
-  *  I added equals and hashCode so that we can use a hashSet when adding PotentialContacts
+  *  Potential contacts are considered the same if they have the same email.
+  *  Override equals and hashCode to reflect this principal.
   */
   @Override
   public boolean equals(Object o) {
