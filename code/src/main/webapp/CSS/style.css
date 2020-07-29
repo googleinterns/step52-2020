@@ -1,6 +1,9 @@
-body, html {
+html {
   color: #222;
   height: 100%;
+}
+
+body {
   margin: 0;
 }
 
@@ -49,14 +52,6 @@ div {
   width: 50%;
 }
 
-.general-background {
-  background-image: url("images/background-login-blue.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 100%;
-}
-
 .hidden {
   display: none;
 }
@@ -64,10 +59,6 @@ div {
 .landing {
   position: absolute;
   text-align: center;
-}
-
-.landing-background {
-  background-image: url("images/background-landing-blue.svg");
 }
 
 .landing-background #blue-buttons-to-procede {
@@ -87,11 +78,19 @@ div {
   background: #3293d3;
 }
 
+.landing-background .line-horizontal, .notification .line-horizontal  {
+  width: 0;
+}
+
 .line-horizontal {
   height: 1rem;
   position: fixed;
   transition: 1s width linear;
   width: 100%;
+}
+
+.landing-background .line-vertical, .notification .line-vertical  {
+  height: 0;
 }
 
 .line-vertical {
@@ -106,9 +105,6 @@ div {
   top: 30%;
 }
 
-.login-background {
-  background-image: url("images/background-login-blue.svg");
-}
 
 #blue-buttons-to-procede button {
   background: #025696;
@@ -185,6 +181,12 @@ div {
   background-size: 100% 100%;
   height: 100%;
   text-align: center;
+  background-image: url("images/background-login-blue.svg");
+}
+
+
+.landing-background#wrapper-background {
+  background-image: url("images/background-landing-blue.svg");
 }
 
 @font-face {
