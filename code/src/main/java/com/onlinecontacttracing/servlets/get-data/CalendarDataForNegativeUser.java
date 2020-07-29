@@ -10,19 +10,29 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.onlinecontacttracing.storage.Constants;
+import com.onlinecontacttracing.storage.NegativeUserPlace;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.logging.Logger;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.model.PlacesSearchResult;
+import com.googlecode.objectify.Objectify;
 
 class CalendarDataForNegativeUser implements Runnable {
 
-  private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+  private static final String APPLICATION_NAME = "Get Calendar Data From Negative User";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+  private static final String calendarType = "primary";
+  static final Logger log = Logger.getLogger(CalendarDataForNegativeUser.class.getName());
 
+  private final Objectify ofy;
   private final String userId;
   private final Credential credential;
 
-  public CalendarDataForNegativeUser(String userId, Credential credential) {
+  public CalendarDataForNegativeUser(Objectify ofy, String userId, Credential credential) {
+    this.ofy = ofy;
     this.userId = userId;
     this.credential = credential;
   }
@@ -30,35 +40,48 @@ class CalendarDataForNegativeUser implements Runnable {
   @Override
   public void run() {
     try {
-      final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+      final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
       // Get user's calendar
-      Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+      Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
+        .build();
+
+      GeoApiContext context = new GeoApiContext.Builder()
+        .apiKey("AIzaSyBMrfBNGcVEtoRsoduXvYSjd9piD36W7Qg")
         .build();
 
       // Query events between now and the last two weeks
       long currentTime = System.currentTimeMillis();
       DateTime now = new DateTime(currentTime);
-      DateTime twoWeeksAgo = new DateTime(currentTime-1209600L*1000);
+      DateTime twoWeeksAgo = new DateTime(currentTime - Constants.API_QUERY_TIME);
       Events events = service.events().list("primary")
         .setTimeMin(twoWeeksAgo)
         .setTimeMax(now)
         .execute();
-      List<Event> items = events.getItems();
 
       // Iterate through events to extract contacts and places
-      for (Event event : items) {
-        Optional<String> location = Optional.ofNullable(event.getLocation());
+      for (Event event : events.getItems()) {
+        Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
         
-        location.ifPresent(locationString -> System.out.println(locationString));
-        // System.out.println(event.getStart().getDate().getValue()/1000);
+        if (addressOptional.isPresent()) {
+          String address = addressOptional.get();
+          PlacesSearchResult[] results = PlacesApi.textSearchQuery(context, address).await().results;
+          if (results.length != 0) {
+            String placeId = results[0].placeId;
+            long startTimeSeconds = event.getStart().getDateTime().getValue()/1000;
+            long endTimeSeconds = event.getEnd().getDateTime().getValue()/1000;
+            ofy.save().entity(new NegativeUserPlace(userId, placeId, address, startTimeSeconds, endTimeSeconds)).now();
+          }
+        }
+
+        // 
         //NegativeUserPlace NegativeUserPlace = new NegativeUserPlace(userId, "oh no")
       }
 
     } catch (Exception e) {
       e.printStackTrace();
-      // Not sure what to do here, I tried throwing the exception but then run() isn't overwritten
+      log.warning("An exception occurred: " + e.toString());
     }
   }
 }
