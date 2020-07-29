@@ -10,6 +10,7 @@
 
   <resource-files>
     <include path="/**.json" />
+    <include path="/**.p12" />
   </resource-files>
 
 </appengine-web-app>
