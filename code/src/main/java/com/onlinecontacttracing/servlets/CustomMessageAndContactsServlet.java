@@ -40,23 +40,18 @@ public class CustomMessageAndContactsServlet extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println(request.getParameterMap().toString());
-
     int numberOfRecipients = 0;
     try {
       numberOfRecipients = Integer.parseInt(request.getParameter("number-of-recipients-box"));
     } catch(NumberFormatException e) {
-        System.err.println("Not a number");
+        System.err.println("Parsed value from number-of-recipients-box is not a number");
         numberOfRecipients = -1;
     }
     ArrayList<String> emailAddresses = new ArrayList<String>();
-    for(int i  = 0; i < numberOfRecipients; i++) {
-      emailAddresses.add(request.getParameter("email-box-" + (i + 1)));
-    }
 
+    Map<String, String[]> params = request.getParameterMap();
     String userId = new GeneratedUserId("anon-").getIdString();
-    CustomizableMessage customMessage = new CustomizableMessage(userId, request.getParameter("custom-message-box"));
-    PositiveUserWithMessage positiveUserWithMessage = new PositiveUserWithMessage(emailAddresses, customMessage);
+    PositiveUserWithMessage positiveUserWithMessage = new PositiveUserWithMessage(params, numberOfRecipients, userId);
 
     ofy().save().entity(positiveUserWithMessage).now();
     response.sendRedirect("/index.html");

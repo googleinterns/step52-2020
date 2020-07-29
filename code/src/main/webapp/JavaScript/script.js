@@ -157,11 +157,11 @@ function addEmailBoxes() {
     for(var i = 0; i < numberOfEmails; i++) {
       var emailBox = document.createElement("input");
       emailBox.setAttribute("type","text");
+      emailBox.setAttribute("name","email-box-" + (i + 1));
       emailBox.setAttribute("id","email-box-" + (i + 1));
       document.getElementById("list-of-emails").appendChild(emailBox);
       document.getElementById("list-of-emails").appendChild(document.createElement("br"));
     }
-    console.log(document.getElementById("email-box-1"));
 }
 
 function redirectManualInput() {
