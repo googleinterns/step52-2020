@@ -28,20 +28,6 @@ class LoginPage {
   }
 }
 
-class ScopesPage {
-  constructor() {
-    this.background = document.getElementById("wrapper-background");
-  }
-
-  show() {
-    // Nothing for now
-  }
-
-  hide() {
-    // Nothing for now
-  }
-}
-
 class NegativeLoginPage {
   constructor() {
     this.background = document.getElementById("wrapper-background");
@@ -72,13 +58,12 @@ class NotificationPage {
   }
 }
 
-var listOfClassesHiddenStatus = {"landing" : true, "login" : true, "scopes" : true, "negative-login" : true, "notification" : true};
+var listOfClassesHiddenStatus = {"landing" : true, "login" : true, "negative-login" : true, "notification" : true};
 
 class PageController {
   constructor() {
     this.landingPage = new LandingPage();
     this.loginPage = new LoginPage();
-    this.scopesPage = new ScopesPage();
     this.negativePage = new NegativeLoginPage();
     this.notificationPage = new NotificationPage();
     this.currentlyShown = undefined;
@@ -100,9 +85,6 @@ class PageController {
         break;
       case "login":
         this.setPageState(pageToShow, 'Login', this.loginPage);
-        break;
-      case "scopes":
-        this.setPageState(pageToShow, 'Thank You', this.scopesPage);
         break;
       case "negative-login":
         this.setPageState(pageToShow, 'Login', this.negativePage);
