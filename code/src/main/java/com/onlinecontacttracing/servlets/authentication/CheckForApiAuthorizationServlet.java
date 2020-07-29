@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -21,6 +22,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.auth.oauth2.AuthorizationRequestUrl;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.people.v1.PeopleServiceScopes;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
@@ -42,7 +44,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   abstract void updateUser(String userId, String email);
   
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+  private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, PeopleServiceScopes.CONTACTS_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
