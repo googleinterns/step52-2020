@@ -115,10 +115,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   }
   
   private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
-    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     
     // Make verifier to get payload
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
     .setAudience(Collections.singletonList(CLIENT_ID))
     .build();
     GoogleIdToken idToken = verifier.verify(idTokenString);
@@ -129,13 +129,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   *  This method returns an GoogleAuthorizationCodeFlow object.
   */
   private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
-    NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
     // Create flow object using credentials file
     InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
 
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
     return flow;
   }
 }

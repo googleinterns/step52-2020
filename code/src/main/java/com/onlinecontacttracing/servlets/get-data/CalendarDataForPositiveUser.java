@@ -38,10 +38,10 @@ class CalendarDataForPositiveUser implements Runnable {
   @Override
   public void run() {
     try {
-      final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+      final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
       // Get user's calendar
-      Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+      Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
         .build();
 
@@ -66,7 +66,9 @@ class CalendarDataForPositiveUser implements Runnable {
         }
       }
 
+      // Store data or replace old data with newer data.
       ofy.save().entity(positiveUserContacts).now();
+
       // TODO: add positiveUserLocations
       
     } catch (Exception e) {
