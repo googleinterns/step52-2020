@@ -5,8 +5,11 @@ package com.onlinecontacttracing.storage;
 */
 public class PotentialContact {
 
-  private final String nameOfPerson;
-  private final String emailOfPerson;
+  private String nameOfPerson;
+  private String emailOfPerson;
+
+  // Objecify requires one constructor with no parameters
+  private PotentialContact() {}
 
   public PotentialContact(String name, String email) {
     nameOfPerson = name;
