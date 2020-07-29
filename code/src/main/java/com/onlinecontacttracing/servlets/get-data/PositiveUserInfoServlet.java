@@ -40,7 +40,6 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     peopleInfo.join();
     contactInfo.join();
 
-    System.out.println(contactsFromCalendar);
     // TODO Load PositiveUserContacts from objectify
     // TODO call mergeContactListsFromPeopleAPI(contactsFromPeople)
   }
