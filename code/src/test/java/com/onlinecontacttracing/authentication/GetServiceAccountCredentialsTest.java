@@ -12,7 +12,7 @@ public final class GetServiceAccountCredentialsTest {
 
   @Test
   public void CheckCreationOfCredentials() {
-    GetServiceAccountCredentials.authImplicit();
+    GetServiceAccountCredentials.getServiceAccountCredentials();
     assertTrue(true);
   }
 
