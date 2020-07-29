@@ -19,6 +19,10 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.model.PlacesSearchResult;
 import com.googlecode.objectify.Objectify;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.File;
 import java.util.ArrayList;
 
 class CalendarDataForNegativeUser implements Runnable {
@@ -27,6 +31,8 @@ class CalendarDataForNegativeUser implements Runnable {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String calendarType = "primary";
   static final Logger log = Logger.getLogger(CalendarDataForNegativeUser.class.getName());
+  private static final String CREDENTIALS_FILE_PATH = "WEB-INF/apiKey.txt";
+  private static final int apiKeyLength = 39;
 
   private final Objectify ofy;
   private final String userId;
@@ -47,10 +53,16 @@ class CalendarDataForNegativeUser implements Runnable {
       Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
         .build();
+    
+      // Get apiKey
+      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+      byte[] apiKeyBytes = new byte[apiKeyLength];
+      in.read(apiKeyBytes);
+      in.close();
 
       // Set up Places API
       GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey("AIzaSyBMrfBNGcVEtoRsoduXvYSjd9piD36W7Qg")
+        .apiKey(new String(apiKeyBytes))
         .build();
 
       // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
