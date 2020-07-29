@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Unindex;
 @Index
 public class Place {
 
-  @Id String placeId;
+  String placeId;
   @Unindex String nameOfPlace;
   TimeInterval timeInterval;
 
