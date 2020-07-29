@@ -47,6 +47,7 @@ class CalendarDataForNegativeUser implements Runnable {
         .setApplicationName(APPLICATION_NAME)
         .build();
 
+      // Set up Places API
       GeoApiContext context = new GeoApiContext.Builder()
         .apiKey("AIzaSyBMrfBNGcVEtoRsoduXvYSjd9piD36W7Qg")
         .build();
@@ -60,7 +61,7 @@ class CalendarDataForNegativeUser implements Runnable {
         .setTimeMax(now)
         .execute();
 
-      // Iterate through events to extract contacts and places
+      // Iterate through events to extract places
       for (Event event : events.getItems()) {
         Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
         
@@ -71,12 +72,11 @@ class CalendarDataForNegativeUser implements Runnable {
             String placeId = results[0].placeId;
             long startTimeSeconds = event.getStart().getDateTime().getValue()/1000;
             long endTimeSeconds = event.getEnd().getDateTime().getValue()/1000;
+
+            // Save/replace negative user place from event
             ofy.save().entity(new NegativeUserPlace(userId, placeId, address, startTimeSeconds, endTimeSeconds)).now();
           }
         }
-
-        // 
-        //NegativeUserPlace NegativeUserPlace = new NegativeUserPlace(userId, "oh no")
       }
 
     } catch (Exception e) {
