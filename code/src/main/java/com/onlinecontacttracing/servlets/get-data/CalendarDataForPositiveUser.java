@@ -10,13 +10,14 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.onlinecontacttracing.storage.Constants;
-import com.onlinecontacttracing.storage.PositiveUserContacts;
 import com.google.api.services.calendar.model.EventAttendee;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
 import com.googlecode.objectify.Objectify;
 import java.util.logging.Logger;
+import java.util.Set;
+import com.onlinecontacttracing.storage.PotentialContact;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -28,11 +29,13 @@ class CalendarDataForPositiveUser implements Runnable {
   private final Objectify ofy;
   private final String userId;
   private final Credential credential;
+  Set<PotentialContact> contacts;
 
-  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential) {
+  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential, Set<PotentialContact> contacts) {
     this.ofy = ofy;
     this.userId = userId;
     this.credential = credential;
+    this.contacts = contacts;
   }
 
   @Override
@@ -53,21 +56,15 @@ class CalendarDataForPositiveUser implements Runnable {
         .setTimeMin(startOfContactsQueryWindow)
         .setTimeMax(now)
         .execute();
-
-      // Initiate objects to store information
-      PositiveUserContacts positiveUserContacts = new PositiveUserContacts(userId);
       
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
         List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
 
         for (EventAttendee attendee : attendees) {
-          positiveUserContacts.add(attendee.getDisplayName(), attendee.getEmail());
+          contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
         }
       }
-
-      // Store data or replace old data with newer data.
-      ofy.save().entity(positiveUserContacts).now();
 
       // TODO: add positiveUserLocations
       
