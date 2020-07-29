@@ -45,10 +45,10 @@ class CalendarDataForPositiveUser implements Runnable {
         .setApplicationName(APPLICATION_NAME)
         .build();
 
-      // Query events between now and the API_QUERY_TIME
+      // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
       long currentTime = System.currentTimeMillis();
       DateTime now = new DateTime(currentTime);
-      DateTime startOfContactsQueryWindow = new DateTime(currentTime - Constants.API_QUERY_TIME);
+      DateTime startOfContactsQueryWindow = new DateTime(currentTime - Constants.SPAN_OF_TIME_TO_COLLECT_DATA);
       Events events = service.events().list(calendarType)
         .setTimeMin(startOfContactsQueryWindow)
         .setTimeMax(now)
