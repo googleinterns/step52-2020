@@ -31,9 +31,11 @@ public class MessageSendingServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idToken = request.getParameter("idToken");
-    String systemMessage = request.getParameter("systemMessage");
-    String localityResource = request.getParameter("localityResource");
+    String systemMessageName = request.getParameter("systemMessage");
+    String localityResourceName = request.getParameter("localityResource");
     String messageLanguage = request.getParameter("messageLanguage");
+    SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
+    LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
 
     GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
     String userId = CheckForApiAuthorizationServlet.getUserId(idToken, flow);
@@ -42,7 +44,7 @@ public class MessageSendingServlet extends HttpServlet {
     PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
     CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
 
-    CompiledMessage compiledMessage = new CompiledMessage(SystemMessage.VERSION_1, LocalityResource.NEW_YORK, customizableMessage, positiveUser);//fix the enum resources
+    CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
     EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); 
     emailSender.sendEmailsOut(messageLanguage);
 

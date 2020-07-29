@@ -56,7 +56,8 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   private String helpLink;
   private final String englishTranslation;
   private final String spanishTranslation;
-  
+
+
   LocalityResource(String helpLink, String englishTranslation, String spanishTranslation) {
     this.helpLink = helpLink;
     this.englishTranslation = englishTranslation;
@@ -67,5 +68,14 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   }
   public String getSpanishTranslation() {
     return this.spanishTranslation.concat(helpLink);
+  }
+
+  public static LocalityResource getLocalityResourceFromString (String localityResourceName) {
+    for (LocalityResource localityResource : LocalityResource.values()) { 
+      if (localityResource.toString().equals(localityResourceName)) {
+        return localityResource;
+      }
+    }
+    return LocalityResource.US;
   }
 }

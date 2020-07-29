@@ -20,4 +20,14 @@ public enum SystemMessage implements HasEnglishTranslation, HasSpanishTranslatio
     return this.spanishTranslation;
   }
 
+  public static SystemMessage getSystemMessageFromString (String systemMessageName) {
+    for (SystemMessage systemMessage : SystemMessage.values()) { 
+      if (systemMessage.toString().equals(systemMessageName)) {
+        return systemMessage;
+      }
+    }
+    return SystemMessage.VERSION_1;
+  }
 }
+
+
