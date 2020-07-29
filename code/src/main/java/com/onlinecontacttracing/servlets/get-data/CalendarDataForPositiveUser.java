@@ -15,7 +15,7 @@ import com.google.api.services.calendar.model.EventAttendee;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
-import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.googlecode.objectify.Objectify;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -24,10 +24,12 @@ class CalendarDataForPositiveUser implements Runnable {
 
   private final String userId;
   private final Credential credential;
+  private final Objectify ofy;
 
-  public CalendarDataForPositiveUser(String userId, Credential credential) {
+  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential) {
     this.userId = userId;
     this.credential = credential;
+    this.ofy = ofy;
   }
 
   @Override
@@ -61,7 +63,8 @@ class CalendarDataForPositiveUser implements Runnable {
           positiveUserContacts.add(attendee.getDisplayName(), attendee.getEmail());
         }
       }
-      ofy().save().entity(positiveUserContacts).now();
+
+      ofy.save().entity(positiveUserContacts).now();
       
     } catch (Exception e) {
       e.printStackTrace();
