@@ -10,8 +10,6 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.onlinecontacttracing.storage.Constants;
-import com.onlinecontacttracing.storage.PositiveUserContacts;
-import com.google.api.services.calendar.model.EventAttendee;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
@@ -49,18 +47,12 @@ class CalendarDataForNegativeUser implements Runnable {
         .execute();
       List<Event> items = events.getItems();
 
-      // Initiate objects to store information
-      PositiveUserContacts positiveUserContacts = new PositiveUserContacts(userId);
-
       // Iterate through events to extract contacts and places
       for (Event event : items) {
-        Optional<List<EventAttendee>> attendees = Optional.ofNullable(event.getAttendees());
 
-        for (EventAttendee attendee : attendees.orElse(Collections.emptyList())) {
-          positiveUserContacts.add(attendee.getDisplayName(), attendee.getEmail());
-        }
+        System.out.println(event.getStart().getDate().getValue()/1000);
+        //NegativeUserPlace NegativeUserPlace = new NegativeUserPlace(userId, "oh no")
       }
-      System.out.println(positiveUserContacts);
 
     } catch (Exception e) {
       e.printStackTrace();
