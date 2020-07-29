@@ -1,6 +1,5 @@
 package com.onlinecontacttracing.messaging;
 
-import com.onlinecontacttracing.messaging.CompileMessageServlet;
 import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.messaging.MessagingSetup;
@@ -34,6 +33,7 @@ import com.google.cloud.auth.samples.GetServiceAccountCredentials;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.onlinecontacttracing.messaging.MessagingSetup;
 import javax.mail.MessagingException;
+import java.util.logging.Logger;
 
 public class EmailSender {
 
@@ -46,6 +46,7 @@ public class EmailSender {
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
   private static final String APPLICATION_NAME = "Online Contact Tracing";
   private static final String SERVICE_ACCOUNT_EMAIL = "onlinecontacttracing@gmail.com";
+  static final Logger log = Logger.getLogger(EmailSender.class.getName());
   
   public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList, CompiledMessage compiledMessage) {
     try{
