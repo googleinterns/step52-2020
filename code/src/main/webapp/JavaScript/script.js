@@ -182,12 +182,7 @@ function attachSignin(element, negativeUser) {
 
     fetch(makeRequest(negativeUser, params))
     .then(response => response.text())
-    .then(url => { if (url.length < 20) {
-        handleLoginError(url);
-      } else {
-        window.location = url;
-      }
-    });
+    .then(url => window.location = url);
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
