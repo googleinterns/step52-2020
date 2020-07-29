@@ -174,8 +174,6 @@ var startApp = negativeUser => {
 function attachSignin(element, negativeUser) {
   auth2.attachClickHandler(element, {}, googleUser => {
 
-    document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
-
     const idToken = googleUser.getAuthResponse().id_token;
     localStorage.setItem('idToken', idToken.toString());
     const params = new URLSearchParams()

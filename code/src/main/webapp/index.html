@@ -47,21 +47,23 @@
           we are allowed to use:
       </p>
     </div>
-    <label class="switch">
-      <input class="hidden" type="checkbox" checked>
-      <span class="login hidden slider round"> </span>
-    </label>
-    <p> Calendar <p>
-    <br><br>
-    <label class="switch">
-      <input class="hidden" type="checkbox" checked>
-      <span class="login hidden slider round"> Contacts </span>
-    </label>
-    <p> Contacts <p>
-    <br><br>
+    <div class="login hidden switch-container">
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider round"> </span>
+      </label>
+      <p> Calendar <p>
+    </div>
+    <div class="login hidden switch-container">
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider round"> Contacts </span>
+      </label>
+      <p> Contacts <p>
+    </div>
     <div class="login hidden blue-buttons-to-procede">
       <button id="login-button-left-or-top" onclick="startApp()"> Google Sign-In </button>
-      <button id="login-button-right-or-bot onClick="redirectManualInput()"> Guest </button>
+      <button id="login-button-right-or-bot" onClick="redirectManualInput()"> Guest </button>
     </div>
     <div class="negative-login hidden welcome">
       <h1> Log In </h1>
