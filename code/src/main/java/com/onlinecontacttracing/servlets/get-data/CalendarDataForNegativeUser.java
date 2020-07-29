@@ -19,6 +19,7 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.model.PlacesSearchResult;
 import com.googlecode.objectify.Objectify;
+import java.util.ArrayList;
 
 class CalendarDataForNegativeUser implements Runnable {
 
@@ -52,15 +53,16 @@ class CalendarDataForNegativeUser implements Runnable {
         .apiKey("AIzaSyBMrfBNGcVEtoRsoduXvYSjd9piD36W7Qg")
         .build();
 
-      // Query events between now and the last two weeks
+      // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
       long currentTime = System.currentTimeMillis();
       DateTime now = new DateTime(currentTime);
-      DateTime twoWeeksAgo = new DateTime(currentTime - Constants.API_QUERY_TIME);
+      DateTime startOfContactsQueryWindow = new DateTime(currentTime - Constants.SPAN_OF_TIME_TO_COLLECT_DATA);
       Events events = service.events().list("primary")
-        .setTimeMin(twoWeeksAgo)
+        .setTimeMin(startOfContactsQueryWindow)
         .setTimeMax(now)
         .execute();
 
+      List<NegativeUserPlace> negativeUserPlaces = new ArrayList<NegativeUserPlace>();
       // Iterate through events to extract places
       for (Event event : events.getItems()) {
         Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
@@ -70,14 +72,16 @@ class CalendarDataForNegativeUser implements Runnable {
           PlacesSearchResult[] results = PlacesApi.textSearchQuery(context, address).await().results;
           if (results.length != 0) {
             String placeId = results[0].placeId;
-            long startTimeSeconds = event.getStart().getDateTime().getValue()/1000;
-            long endTimeSeconds = event.getEnd().getDateTime().getValue()/1000;
+            long startTimeSeconds = event.getStart().getDateTime().getValue() / 1000;
+            long endTimeSeconds = event.getEnd().getDateTime().getValue() / 1000;
 
-            // Save/replace negative user place from event
-            ofy.save().entity(new NegativeUserPlace(userId, placeId, address, startTimeSeconds, endTimeSeconds)).now();
+            negativeUserPlaces.add(new NegativeUserPlace(userId, placeId, address, startTimeSeconds, endTimeSeconds));
           }
         }
       }
+
+      // Store data or replace old data with newer data.
+      ofy.save().entities(negativeUserPlaces).now();
 
     } catch (Exception e) {
       e.printStackTrace();
