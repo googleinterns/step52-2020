@@ -99,14 +99,14 @@ class CalendarDataForPositiveUser implements Runnable {
     }
   }
 
-  private List<PotentialContact> getContactsFromEvent(Event event) {
+  private static List<PotentialContact> getContactsFromEvent(Event event) {
     List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
     return attendees.stream()
       .map(attendee -> new PotentialContact(attendee.getDisplayName(), attendee.getEmail()))
       .collect(Collectors.toList());
   }
 
-  private void getPlacesFromEvent(PositiveUserPlaces positiveUserPlaces, Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
+  private static void getPlacesFromEvent(PositiveUserPlaces positiveUserPlaces, Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
     Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
     
     if (addressOptional.isPresent()) {
