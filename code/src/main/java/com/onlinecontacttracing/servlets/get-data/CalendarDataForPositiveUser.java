@@ -87,7 +87,7 @@ class CalendarDataForPositiveUser implements Runnable {
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
         contacts.addAll(getContactsFromEvent(event));
-        getPlacesFromEvent(event, context);
+        getPlacesFromEvent(positiveUserPlaces, event, context);
       }
 
       // Store data or replace old data with newer data.
