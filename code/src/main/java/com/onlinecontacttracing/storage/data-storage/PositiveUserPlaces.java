@@ -43,6 +43,6 @@ public class PositiveUserPlaces {
 
   @Override
   public String toString() {
-    return listOfPlaces.toString();
+    return String.format("The user (%s) has been to %s", userId, listOfPlaces.toString());
   }
 }
