@@ -32,6 +32,7 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
+import java.util.HashSet;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -44,13 +45,13 @@ class CalendarDataForPositiveUser implements Runnable {
   private final Objectify ofy;
   private final String userId;
   private final Credential credential;
-  Set<PotentialContact> contacts;
+  private final Set<PotentialContact> contacts;
 
-  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential, Set<PotentialContact> contacts) {
+  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential) {
     this.ofy = ofy;
     this.userId = userId;
     this.credential = credential;
-    this.contacts = contacts;
+    contacts = new HashSet<PotentialContact>();
   }
 
   @Override
@@ -87,7 +88,7 @@ class CalendarDataForPositiveUser implements Runnable {
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
         contacts.addAll(getContactsFromEvent(event));
-        getPlacesFromEvent(positiveUserPlaces, event, context);
+        positiveUserPlaces.addPlaceFromEvent(event, context);
       }
 
       // Store data or replace old data with newer data.
@@ -99,6 +100,10 @@ class CalendarDataForPositiveUser implements Runnable {
     }
   }
 
+  public Set<PotentialContact> getContacts() {
+    return contacts;
+  }
+
   private static List<PotentialContact> getContactsFromEvent(Event event) {
     List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
     return attendees.stream()
@@ -106,19 +111,5 @@ class CalendarDataForPositiveUser implements Runnable {
       .collect(Collectors.toList());
   }
 
-  private static void getPlacesFromEvent(PositiveUserPlaces positiveUserPlaces, Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
-    Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
-    
-    if (addressOptional.isPresent()) {
-      String address = addressOptional.get();
-      PlacesSearchResult[] results = PlacesApi.textSearchQuery(context, address).await().results;
-      if (results.length != 0) {
-        String placeId = results[0].placeId;
-        long startTimeSeconds = event.getStart().getDateTime().getValue() / 1000;
-        long endTimeSeconds = event.getEnd().getDateTime().getValue() / 1000;
 
-        positiveUserPlaces.add(placeId, address, startTimeSeconds, endTimeSeconds);
-      }
-    }
-  }
 }
