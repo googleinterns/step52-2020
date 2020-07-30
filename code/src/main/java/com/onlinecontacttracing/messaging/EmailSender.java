@@ -61,7 +61,7 @@ public class EmailSender {
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
     } catch (Exception e) {
-      log.warning("general exception");
+      log.warning("general exception1");
       e.printStackTrace();
     }
   }
@@ -79,7 +79,7 @@ public class EmailSender {
       } catch (MessagingException e) {
         log.warning("error in sending emails out");
       } catch (Exception e) {
-        log.warning("general exception");
+        log.warning("general exception2");
         e.printStackTrace();
       }
     }
