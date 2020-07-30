@@ -29,6 +29,8 @@ import com.onlinecontacttracing.storage.PositiveUserPlaces;
 import com.google.maps.errors.ApiException;
 import java.lang.InterruptedException;
 import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+import java.nio.charset.StandardCharsets;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -62,16 +64,14 @@ class CalendarDataForPositiveUser implements Runnable {
       Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
         .build();
-    
-      // Get apiKey
-      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
-      byte[] apiKeyBytes = new byte[apiKeyLength];
-      in.read(apiKeyBytes);
-      in.close();
+        
+      InputStream apiKeyStream = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+      String apiKey = IOUtils.toString(apiKeyStream, StandardCharsets.UTF_8);
+      apiKeyStream.close();
 
       // Set up Places API
       GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey(new String(apiKeyBytes))
+        .apiKey(apiKey)
         .build();
 
       // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
