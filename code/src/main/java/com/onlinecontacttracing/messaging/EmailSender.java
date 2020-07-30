@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import javax.mail.internet.MimeMessage;
-import com.google.cloud.auth.samples.GetServiceAccountCredentials;
+import com.google.cloud.authentication.serviceaccount.GetServiceAccountCredentials;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.onlinecontacttracing.messaging.MessagingSetup;
 import javax.mail.MessagingException;
@@ -55,7 +55,7 @@ public class EmailSender {
       this.contactsList = contactsList;
       this.compiledMessage = compiledMessage;
       GoogleCredential serviceAccountCredential = GetServiceAccountCredentials.getServiceAccountCredentials();
-      service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
+      this.service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
                   .build();
     } catch (GeneralSecurityException e) {

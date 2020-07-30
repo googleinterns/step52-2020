@@ -17,6 +17,18 @@
   </properties>
 
   <dependencies>
+  <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+<!-- <dependency>
+    <groupId>javax.activation</groupId>
+    <artifactId>activation</artifactId>
+    <version>1.1.1</version>
+</dependency> -->
+<dependency>
+  <groupId>com.sun.activation</groupId>
+  <artifactId>javax.activation</artifactId>
+  <version>1.2.0</version>
+</dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -78,6 +90,7 @@
         <artifactId>google-cloud-storage</artifactId>
         <version>1.35.0</version>
     </dependency>
+
   </dependencies>
 
   <build>

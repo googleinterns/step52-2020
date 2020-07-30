@@ -1,5 +1,5 @@
 
-package com.google.cloud.auth.samples;
+package com.google.cloud.authentication.serviceaccount;
 
 import com.google.api.gax.paging.Page;
 import com.google.auth.appengine.AppEngineCredentials;
@@ -43,23 +43,19 @@ public class GetServiceAccountCredentials {
   public static GoogleCredential getServiceAccountCredentials() {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
-    System.out.println(in);
-    GoogleCredential credential = (new GoogleCredential.Builder())
-    .setTransport(HTTP_TRANSPORT)
-    .setJsonFactory(JSON_FACTORY)
-    .setServiceAccountId(serviceAccountId)
-    .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
-    .setServiceAccountPrivateKey(getServiceAccountPrivateKeyFromP12File2(in))
-    .setServiceAccountUser(serviceAccountId)
-    .build();
+      InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
+      System.out.println(in);
+      GoogleCredential credential = (new GoogleCredential.Builder())
+      .setTransport(HTTP_TRANSPORT)
+      .setJsonFactory(JSON_FACTORY)
+      .setServiceAccountId(serviceAccountId)
+      .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
+      .setServiceAccountPrivateKey(getServiceAccountPrivateKeyFromP12File2(in))
+      .setServiceAccountUser(serviceAccountId)
+      .build();
 
-    System.out.println("YAYYYYYYY");
-    System.out.println(credential);
     return credential;
     } catch (Exception e) {
-      System.out.println("yikes yikes");
-      // System.out.println(e);
       e.printStackTrace();
       return null;//not sure what to return here
     }

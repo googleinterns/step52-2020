@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import com.google.cloud.auth.samples.GetServiceAccountCredentials;
+import com.google.cloud.authentication.serviceaccount.GetServiceAccountCredentials;
  
 @RunWith(JUnit4.class)
 public final class GetServiceAccountCredentialsTest {

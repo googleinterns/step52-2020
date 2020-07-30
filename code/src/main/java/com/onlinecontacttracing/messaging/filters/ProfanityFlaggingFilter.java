@@ -26,8 +26,6 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
   private static final String[]  LIST_OF_PROFANITY_INDICATORS =  FileReader.getListFromFile("profanity-indicators.txt");;// = FileReader.getListFromFile(new File("profanity-indicators.txt"));
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
-    System.out.println("PROFANITY");
-    
       int numOfProfanityIndicators = LIST_OF_PROFANITY_INDICATORS.length;
       String profanityIndicatorWord;
       int messageLength = message.length();
@@ -39,7 +37,6 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
         //check existence of profane word
         if (message.indexOf(profanityIndicatorWord) > -1) {//profane word exists
           isSelfContainedWord = checkIfWordIsSelfContained(message, profanityIndicatorWord, messageLength);
-          System.out.println("SCW" + isSelfContainedWord);
           if (isSelfContainedWord) {
             //profane word exists and is its own word => does not pass filter
             return false;
