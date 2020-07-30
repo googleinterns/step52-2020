@@ -39,6 +39,7 @@ public class AuthenticationTestServlet extends CheckForApiAuthorizationServlet{
 
   public void useCredential(String userId, Credential credential, HttpServletResponse response) {
     //replace with whichever API want to test access to
+    System.out.println("SUCCESSFUL USER AUTH");
   }
   
   public String getServletURIName() {

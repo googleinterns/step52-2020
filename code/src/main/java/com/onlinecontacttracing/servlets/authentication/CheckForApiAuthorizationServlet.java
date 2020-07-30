@@ -58,18 +58,34 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
       // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow(response);
+// <<<<<<< HEAD
+//       GoogleAuthorizationCodeFlow flow = getFlow(response);
+//       String code = request.getParameter("code");
+//       String idTokenString = request.getParameter("state");
+
+//       // Get payload containing user info
+//       Payload payload = getPayload(idTokenString, flow, response);
+
+//       // Get userId form payload and retrieve credential
+//       String userId = payload.getSubject();
+//       String email = payload.getEmail();
+      
+//       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
+// =======
+      GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
+      if (flow == null) {
+        response.getWriter().println("Error");
+      }
+      
       String code = request.getParameter("code");
       String idTokenString = request.getParameter("state");
-
-      // Get payload containing user info
-      Payload payload = getPayload(idTokenString, flow, response);
-
-      // Get userId form payload and retrieve credential
-      String userId = payload.getSubject();
-      String email = payload.getEmail();
-      
-      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
+    
+      // Get userId
+      String userId = CheckForApiAuthorizationServlet.getUserId(idTokenString, flow);
+      if (userId.equals("")) {
+        response.getWriter().println("Error");
+      }
+      TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url+getServletURIName()).execute();
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
       updateUser(userId, email);
       useCredential(userId, credential, response);
@@ -93,21 +109,50 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get token to pass into redirect
+    String idToken = request.getParameter("idToken");
+    // Get flow to build url redirect
+    GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
+
+    if (flow == null) {
+      response.getWriter().println("Error");
+    }
+    
+
+    AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
+    String url = authUrlRequestProperties.build();
+    // Send url back to client
+    response.getWriter().println(url);
+  }
+
+  public static String getUserId(String idTokenString, GoogleAuthorizationCodeFlow flow) {
     try {
       // Get token to pass into redirect
       String idToken = request.getParameter("idToken");
       // Get flow to build url redirect
       GoogleAuthorizationCodeFlow flow = getFlow(response);
 
-      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
-      String url = authUrlRequestProperties.build();
-      // Send url back to client
-      response.getWriter().println(url);
+//       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
+//       String url = authUrlRequestProperties.build();
+//       // Send url back to client
+//       response.getWriter().println(url);
 
-    } catch (FileNotFoundException e) {
-      log.warning("credentials.json not found");
-      response.sendRedirect("/?page=login&error=FileError");
-    } catch (GeneralSecurityException e) {
+//     } catch (FileNotFoundException e) {
+//       log.warning("credentials.json not found");
+//       response.sendRedirect("/?page=login&error=FileError");
+//     } catch (GeneralSecurityException e) {
+// =======
+      // Make verifier to get payload
+      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+        .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
+        .build();
+      GoogleIdToken idToken = verifier.verify(idTokenString);
+      Payload payload = idToken.getPayload();
+      // Get userId form payload and retrieve credential
+      String userId = payload.getSubject();
+      return userId;
+      
+    } catch (Exception e) {
       log.warning("http transport failed, security error");
       response.sendRedirect("/?page=login&error=TransportError");
     } catch(Exception e) { //don't expect any other error
@@ -127,17 +172,37 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     return idToken.getPayload();
   }
 
-  /**
-  *  This method returns an GoogleAuthorizationCodeFlow object.
-  */
-  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
-    NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+// <<<<<<< HEAD
+//   /**
+//   *  This method returns an GoogleAuthorizationCodeFlow object.
+//   */
+//   private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
+//     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
-    // Create flow object using credentials file
-    InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+//     // Create flow object using credentials file
+//     InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
 
-    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
-    return flow;
+//     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+//     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
+//     return flow;
+// =======
+  public static GoogleAuthorizationCodeFlow getFlow() {
+    try {
+      NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+
+      // Create flow object using credentials file
+      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+      
+      GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+      GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).build();
+      return flow;
+    } catch (Exception e) {
+      if (e instanceof FileNotFoundException) {
+        log.warning("credentials.json not found");
+      } else if (e instanceof GeneralSecurityException) {
+        log.warning("http transport failed, security error");
+      }
+      return null;
+    }
   }
 }
