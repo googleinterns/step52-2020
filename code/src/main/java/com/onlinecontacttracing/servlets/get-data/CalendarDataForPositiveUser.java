@@ -45,14 +45,12 @@ class CalendarDataForPositiveUser implements Runnable {
   private final String userId;
   private final Credential credential;
   Set<PotentialContact> contacts;
-  private final PositiveUserPlaces positiveUserPlaces;
 
   public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential, Set<PotentialContact> contacts) {
     this.ofy = ofy;
     this.userId = userId;
     this.credential = credential;
     this.contacts = contacts;
-    this.positiveUserPlaces = new PositiveUserPlaces(userId);
   }
 
   @Override
@@ -83,6 +81,9 @@ class CalendarDataForPositiveUser implements Runnable {
         .setTimeMax(now)
         .execute();
       
+      // Used to store places found in events
+      PositiveUserPlaces positiveUserPlaces = new PositiveUserPlaces(userId);
+
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
         contacts.addAll(getContactsFromEvent(event));
@@ -105,7 +106,7 @@ class CalendarDataForPositiveUser implements Runnable {
       .collect(Collectors.toList());
   }
 
-  private void getPlacesFromEvent(Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
+  private void getPlacesFromEvent(PositiveUserPlaces positiveUserPlaces, Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
     Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
     
     if (addressOptional.isPresent()) {
