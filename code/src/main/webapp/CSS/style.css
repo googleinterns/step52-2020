@@ -339,7 +339,7 @@ div {
 
 .switch-container {
   position: relative;
-  display: inline-block;
+  left: 40%;
   top: 35rem;
   width: 30rem;
   font-size: 1.5vmin;
