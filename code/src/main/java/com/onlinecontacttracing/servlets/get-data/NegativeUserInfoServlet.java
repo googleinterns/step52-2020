@@ -21,7 +21,7 @@ public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
   
   @Override
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
-    Thread contactInfo = new Thread(new CalendarDataForNegativeUser(credential));
+    Thread contactInfo = new Thread(new CalendarDataForNegativeUser(ofy(), userId, credential));
 
     contactInfo.run();
 

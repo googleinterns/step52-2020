@@ -9,5 +9,6 @@
   </static-files>
   <resource-files>
     <include path="/**.json" />
+    <include path="/**.txt" />
   </resource-files>
 </appengine-web-app>
