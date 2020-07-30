@@ -31,6 +31,7 @@ import java.io.File;
 import java.security.GeneralSecurityException;
 import java.io.FileNotFoundException;
 import java.util.logging.Logger;
+import com.google.gson.Gson;
 
 /**
 *  This class directs the creation of user Credentials for accessing APIs.
@@ -45,9 +46,8 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   abstract void updateUser(String userId, String email);
   
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-  private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, PeopleServiceScopes.CONTACTS_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev";
+  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
@@ -58,13 +58,20 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
-      // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow(response);
+      // Get parameters from request
       String code = request.getParameter("code");
-      String idTokenString = request.getParameter("state");
+      String stateAsJson = request.getParameter("state");
+
+      // Parse state parameter from Json string to State class
+      Gson gson = new Gson();
+      State state = gson.fromJson(stateAsJson, State.class);
+      List<String> SCOPES = getScopes(state.calendar, state.contacts);
+
+      // Get flow for token response
+      GoogleAuthorizationCodeFlow flow = getFlow(response, SCOPES);
 
       // Get payload containing user info
-      Payload payload = getPayload(idTokenString, flow, response);
+      Payload payload = getPayload(state.idToken, flow, response);
 
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
@@ -97,15 +104,17 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     try {
       // Get token to pass into redirect
       String idToken = request.getParameter("idToken");
+      boolean calendar = Boolean.parseBoolean(request.getParameter("calendar"));
+      boolean contacts = Boolean.parseBoolean(request.getParameter("contacts"));
+
+      List<String> SCOPES = getScopes(calendar, contacts);
+      State state = new State(idToken, calendar, contacts);
 
       // Get flow to build url redirect
-      GoogleAuthorizationCodeFlow flow = getFlow(response);
+      GoogleAuthorizationCodeFlow flow = getFlow(response, SCOPES);
 
-      List<String> SCOPES = new ArrayList<String>();
-
-      getScopes(SCOPES, Boolean.parseBoolean(request.getParameter("calendar")), Boolean.parseBoolean(request.getParameter("contacts")));
-
-      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
+      Gson gson = new Gson();
+      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(gson.toJson(state));
       String url = authUrlRequestProperties.build();
       // Send url back to client
       response.getWriter().println(url);
@@ -123,13 +132,17 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
 
-  private void getScopes(List<String> SCOPES, boolean calendar, boolean contacts) {
+  private List<String> getScopes(boolean calendar, boolean contacts) {
+    List<String> SCOPES = new ArrayList<String>();
+
     if (calendar) {
       SCOPES.add(CalendarScopes.CALENDAR_READONLY);
     }
     if (contacts){
       SCOPES.add(PeopleServiceScopes.CONTACTS_READONLY);
     }
+
+    return SCOPES;
   }
   
   private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
@@ -146,7 +159,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   /**
   *  This method returns an GoogleAuthorizationCodeFlow object.
   */
-  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
+  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response, List<String> SCOPES) throws IOException, FileNotFoundException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
     // Create flow object using credentials file
@@ -155,5 +168,17 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
     return flow;
+  }
+
+  private class State {
+    String idToken;
+    boolean calendar;
+    boolean contacts;
+
+    public State(String idToken, boolean calendar, boolean contacts) {
+      this.idToken = idToken;
+      this.calendar = calendar;
+      this.contacts = contacts;
+    }  
   }
 }

@@ -181,12 +181,13 @@ function attachSignin(element, negativeUser) {
     var servlet = "";
     if (negativeUser) {
       servlet = '/get-negative-user-info';
+      params.append('calendar', true);
+      params.append('contacts', false);
     } else {
       servlet = '/get-positive-user-info';
       params.append('calendar', document.getElementById('calendar').checked);
       params.append('contacts', document.getElementById('contacts').checked);
     }
-    console.log(params);
 
     fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
