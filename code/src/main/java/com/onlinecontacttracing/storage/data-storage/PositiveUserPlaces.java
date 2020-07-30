@@ -19,10 +19,10 @@ public class PositiveUserPlaces {
   // Objecify requires one constructor with no parameters
   private PositiveUserPlaces() {}
 
-  public PositiveUserPlaces(String id, ArrayList<Place> places) {
+  public PositiveUserPlaces(String id) {
     userId = id;
     timeCreatedSeconds = Instant.now().getEpochSecond();
-    listOfPlaces = places;
+    listOfPlaces = new ArrayList<Place>();
   }
 
   public String getUserId() {
@@ -37,4 +37,12 @@ public class PositiveUserPlaces {
     return timeCreatedSeconds;
   }
 
+  public void add(String placeId, String name, long intervalStart, long intervalEnd) {
+    listOfPlaces.add(new Place(placeId, name, intervalStart, intervalEnd));
+  }
+
+  @Override
+  public String toString() {
+    return listOfPlaces.toString();
+  }
 }

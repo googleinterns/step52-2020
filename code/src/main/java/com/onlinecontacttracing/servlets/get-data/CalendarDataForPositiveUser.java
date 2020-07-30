@@ -14,10 +14,21 @@ import com.google.api.services.calendar.model.EventAttendee;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.model.PlacesSearchResult;
 import com.googlecode.objectify.Objectify;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.File;
 import java.util.logging.Logger;
 import java.util.Set;
 import com.onlinecontacttracing.storage.PotentialContact;
+import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.google.maps.errors.ApiException;
+import java.lang.InterruptedException;
+import java.io.IOException;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -25,17 +36,21 @@ class CalendarDataForPositiveUser implements Runnable {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String calendarType = "primary";
   static final Logger log = Logger.getLogger(CalendarDataForPositiveUser.class.getName());
+  private static final String CREDENTIALS_FILE_PATH = "WEB-INF/apiKey.txt";
+  private static final int apiKeyLength = 39;
 
   private final Objectify ofy;
   private final String userId;
   private final Credential credential;
   Set<PotentialContact> contacts;
+  private final PositiveUserPlaces positiveUserPlaces;
 
   public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential, Set<PotentialContact> contacts) {
     this.ofy = ofy;
     this.userId = userId;
     this.credential = credential;
     this.contacts = contacts;
+    this.positiveUserPlaces = new PositiveUserPlaces(userId);
   }
 
   @Override
@@ -46,6 +61,17 @@ class CalendarDataForPositiveUser implements Runnable {
       // Get user's calendar
       Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
+        .build();
+    
+      // Get apiKey
+      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+      byte[] apiKeyBytes = new byte[apiKeyLength];
+      in.read(apiKeyBytes);
+      in.close();
+
+      // Set up Places API
+      GeoApiContext context = new GeoApiContext.Builder()
+        .apiKey(new String(apiKeyBytes))
         .build();
 
       // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
@@ -59,18 +85,40 @@ class CalendarDataForPositiveUser implements Runnable {
       
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
-        List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
-
-        for (EventAttendee attendee : attendees) {
-          contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
-        }
+        getContactsFromEvent(event);
+        getPlacesFromEvent(event, context);
       }
 
-      // TODO: add positiveUserLocations
+      // Store data or replace old data with newer data.
+      ofy.save().entity(positiveUserPlaces).now();
       
     } catch (Exception e) {
       e.printStackTrace();
       log.warning("An exception occurred: " + e.toString());
+    }
+  }
+
+  private void getContactsFromEvent(Event event) {
+    List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
+
+    for (EventAttendee attendee : attendees) {
+      contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
+    }
+  }
+
+  private void getPlacesFromEvent(Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
+    Optional<String> addressOptional = Optional.ofNullable(event.getLocation());
+    
+    if (addressOptional.isPresent()) {
+      String address = addressOptional.get();
+      PlacesSearchResult[] results = PlacesApi.textSearchQuery(context, address).await().results;
+      if (results.length != 0) {
+        String placeId = results[0].placeId;
+        long startTimeSeconds = event.getStart().getDateTime().getValue() / 1000;
+        long endTimeSeconds = event.getEnd().getDateTime().getValue() / 1000;
+
+        positiveUserPlaces.add(placeId, address, startTimeSeconds, endTimeSeconds);
+      }
     }
   }
 }
