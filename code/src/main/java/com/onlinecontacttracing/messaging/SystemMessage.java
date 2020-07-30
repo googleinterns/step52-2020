@@ -22,7 +22,7 @@ public enum SystemMessage implements HasEnglishTranslation, HasSpanishTranslatio
 
   public static SystemMessage getSystemMessageFromString (String systemMessageName) {
     for (SystemMessage systemMessage : SystemMessage.values()) { 
-      if (systemMessage.toString().equals(systemMessageName)) {
+      if (systemMessage.name().equals(systemMessageName)) {
         return systemMessage;
       }
     }

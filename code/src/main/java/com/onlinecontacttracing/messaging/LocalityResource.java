@@ -72,7 +72,7 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
 
   public static LocalityResource getLocalityResourceFromString (String localityResourceName) {
     for (LocalityResource localityResource : LocalityResource.values()) { 
-      if (localityResource.toString().equals(localityResourceName)) {
+      if (localityResource.name().equals(localityResourceName)) {
         return localityResource;
       }
     }

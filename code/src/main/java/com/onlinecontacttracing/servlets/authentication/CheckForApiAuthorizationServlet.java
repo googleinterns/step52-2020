@@ -88,6 +88,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     if (flow == null) {
       response.getWriter().println("Error");
     }
+    
 
     AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
     String url = authUrlRequestProperties.build();
