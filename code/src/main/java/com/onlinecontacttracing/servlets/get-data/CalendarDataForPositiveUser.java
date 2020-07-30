@@ -31,6 +31,7 @@ import java.lang.InterruptedException;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -39,7 +40,6 @@ class CalendarDataForPositiveUser implements Runnable {
   private static final String calendarType = "primary";
   static final Logger log = Logger.getLogger(CalendarDataForPositiveUser.class.getName());
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/apiKey.txt";
-  private static final int apiKeyLength = 39;
 
   private final Objectify ofy;
   private final String userId;
@@ -85,7 +85,7 @@ class CalendarDataForPositiveUser implements Runnable {
       
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
-        getContactsFromEvent(event);
+        contacts.addAll(getContactsFromEvent(event));
         getPlacesFromEvent(event, context);
       }
 
@@ -98,12 +98,11 @@ class CalendarDataForPositiveUser implements Runnable {
     }
   }
 
-  private void getContactsFromEvent(Event event) {
+  private List<PotentialContact> getContactsFromEvent(Event event) {
     List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
-
-    for (EventAttendee attendee : attendees) {
-      contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
-    }
+    return attendees.stream()
+      .map(attendee -> new PotentialContact(attendee.getDisplayName(), attendee.getEmail()))
+      .collect(Collectors.toList());
   }
 
   private void getPlacesFromEvent(Event event, GeoApiContext context) throws ApiException, InterruptedException, IOException {
