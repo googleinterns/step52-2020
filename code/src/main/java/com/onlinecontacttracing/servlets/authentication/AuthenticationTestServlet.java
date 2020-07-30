@@ -37,8 +37,9 @@ import java.util.logging.Logger;
 @WebServlet("/authentication-test")
 public class AuthenticationTestServlet extends CheckForApiAuthorizationServlet{
 
-  public void useCredential(String userId, Credential credential, HttpServletResponse response) {
+  public void useCredential(Credential credential) {
     //replace with whichever API want to test access to
+    System.out.println("SUCCESSFUL USER AUTH");
   }
   
   public String getServletURIName() {
@@ -46,6 +47,6 @@ public class AuthenticationTestServlet extends CheckForApiAuthorizationServlet{
   }
   
   //Update the userId with the newly created credential
-  public void updateUser(String userId, String email) {
+  public void updateUser(String userId) {
   }
 }

@@ -4,9 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import java.time.Instant;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
+import java.util.ArrayList;
 
 /**
 * This class keeps track of a positive user's list of contacts from People and Calendar API
@@ -16,22 +14,22 @@ public class PositiveUserContacts {
 
   @Id private String userId;
   @Index private long timeCreatedSeconds;
-  private Set<PotentialContact> listOfContacts;
+  private ArrayList<PotentialContact> listOfContacts;
 
   // Objecify requires one constructor with no parameters
   private PositiveUserContacts() {}
 
-  public PositiveUserContacts(String id) {
+  public PositiveUserContacts(String id, ArrayList<PotentialContact> contactsFromCalendar) {
     userId = id;
     timeCreatedSeconds = Instant.now().getEpochSecond();
-    listOfContacts = new HashSet<PotentialContact>();
+    listOfContacts = contactsFromCalendar;
   }
 
   public String getUserId() {
     return userId;
   }
 
-  public Set<PotentialContact> getListOfContacts() {
+  public ArrayList<PotentialContact> getListOfContacts() {
     return listOfContacts;
   }
 
@@ -39,19 +37,7 @@ public class PositiveUserContacts {
     return timeCreatedSeconds;
   }
 
-  /*
-  *  This method will take in the name and email of someone to contact
-  *  and create a PotentialContact to add to the set.
-  */
-  public void add(String name, String email) {
-    listOfContacts.add(new PotentialContact(name, email));
-  }
-
   //TODO
-  public void mergeContactListsFromPeopleAPI(Set<PotentialContact> contactsFromPeople) {}
+  public void mergeContactListsFromPeopleAPI(ArrayList<PotentialContact> contactsFromPeople) {}
 
-  @Override
-  public String toString() {
-    return listOfContacts.toString();
-  }
 }
