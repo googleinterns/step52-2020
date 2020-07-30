@@ -39,6 +39,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
         //check existence of profane word
         if (message.indexOf(profanityIndicatorWord) > -1) {//profane word exists
           isSelfContainedWord = checkIfWordIsSelfContained(message, profanityIndicatorWord, messageLength);
+          System.out.println("SCW" + isSelfContainedWord);
           if (isSelfContainedWord) {
             //profane word exists and is its own word => does not pass filter
             return false;
@@ -59,13 +60,13 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       //i.e. only spaces/punctuation on either end of the word
       if (startOfWordIndex > 0) {
         characterBeforeWord = message.substring(startOfWordIndex-1, startOfWordIndex);
-        if (characterBeforeWord.equals(" ") || !checkIfCharIsPunctuation(characterBeforeWord)) {
+        if (!characterBeforeWord.equals(" ") && !checkIfCharIsPunctuation(characterBeforeWord)) {
           return false;
         }
       }
       if (endOfWordIndex < messageLength-1) {
         characterAfterWord = message.substring(endOfWordIndex+1, endOfWordIndex+2);
-        if (characterAfterWord.equals(" ") || !checkIfCharIsPunctuation(characterAfterWord)) {
+        if (!characterAfterWord.equals(" ") && !checkIfCharIsPunctuation(characterAfterWord)) {
           return false;
         }
       }

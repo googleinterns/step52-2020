@@ -18,20 +18,20 @@ public class CheckMessagesForFlags {
   }};
 
   private final ArrayList<String> listOfErrorMessages = new ArrayList<String> ();
-  public static ArrayList<String> findTriggeredFlags (CheckMessagesForFlags flagChecker, PositiveUser user, String userMessage) {
+  public ArrayList<String> findTriggeredFlags (PositiveUser user, String userMessage) {
     CustomizeMessageTriesFlaggingFilter checkNumberOfTries= new CustomizeMessageTriesFlaggingFilter();
     
     //Want to just return if user has exceeded submission limit
     if (!checkNumberOfTries.passesFilter(user, userMessage)) {
-      flagChecker.listOfErrorMessages.add(checkNumberOfTries.errorMessageToUser());
-      return flagChecker.listOfErrorMessages;
+      this.listOfErrorMessages.add(checkNumberOfTries.errorMessageToUser());
+      return this.listOfErrorMessages;
     }
     for (FlaggingFilter filter : listOfFilters) {
       if (!filter.passesFilter(user, userMessage)) {
-        flagChecker.listOfErrorMessages.add(filter.errorMessageToUser());
+        this.listOfErrorMessages.add(filter.errorMessageToUser());
       }
     }
-    return flagChecker.listOfErrorMessages;
+    return this.listOfErrorMessages;
   }
 
 }

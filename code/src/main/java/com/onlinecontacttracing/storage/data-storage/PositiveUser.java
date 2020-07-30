@@ -25,7 +25,7 @@ public class PositiveUser {
   public PositiveUser(String id, String email) {
     userId = id;
     userEmail = email;
-    attemptedEmailDrafts = Constants.NUMBER_OF_DRAFTS_ALLOWED;
+    attemptedEmailDrafts = 0;
     emailsSent = 0;
     firstLoginSeconds = lastLoginSeconds = Instant.now().getEpochSecond();
   }

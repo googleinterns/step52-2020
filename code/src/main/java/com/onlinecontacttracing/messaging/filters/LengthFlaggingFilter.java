@@ -10,6 +10,8 @@ public class LengthFlaggingFilter implements FlaggingFilter{
   private static final int LIMIT_NUMBER_OF_CHARACTERS = 500;
   
   public boolean passesFilter(PositiveUser positiveUser, String message) {
+    // System.out.println(message);
+    System.out.println("LENGTH: " + message.length());
     return message.length() <= this.LIMIT_NUMBER_OF_CHARACTERS;
   };
   public String errorMessageToUser() {
