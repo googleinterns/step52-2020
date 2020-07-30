@@ -66,7 +66,7 @@ div {
 }
 
 .login-background .blue-buttons-to-procede {
-  top: 60%;
+  top: 65%;
 }
 
 .landing-background .line {
@@ -143,12 +143,12 @@ div {
 }
 
 #line-horizontal-bottom {
-  top: 84%;
+  top: 88%;
   transition-delay: 1.2s
 }
 
 #line-horizontal-top {
-  top: 80%;
+  top: 84%;
   transition-delay: 1s
 }
 
@@ -166,12 +166,12 @@ div {
   font-size: 4vmin;
   margin-left: auto;
   margin-right: auto;
-  top: 29%;
+  top: 25%;
 }
 
 .welcome {
   font-size: 7vmin;
-  top: 10%;
+  top: 5%;
 }
 
 #wrapper-background {
@@ -337,12 +337,21 @@ div {
 
 /* Toggle */
 
+.switch-container {
+  position: relative;
+  display: inline-block;
+  top: 35rem;
+  width: 30rem;
+  font-size: 1.5vmin;
+}
+
 .switch {
   position: relative;
   display: inline-block;
   width: 100px;
   height: 60px;
-  margin-top: 1rem;
+  float:left;
+  right: 1rem;
 }
 
 .slider {

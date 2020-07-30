@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -46,7 +47,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, PeopleServiceScopes.CONTACTS_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  private static final String url = "https://8080-49ecfd50-1d05-462f-af38-ebb02e752a59.us-central1.cloudshell.dev";
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
@@ -96,8 +97,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     try {
       // Get token to pass into redirect
       String idToken = request.getParameter("idToken");
+
       // Get flow to build url redirect
       GoogleAuthorizationCodeFlow flow = getFlow(response);
+
+      List<String> SCOPES = new ArrayList<String>();
+
+      getScopes(SCOPES, Boolean.parseBoolean(request.getParameter("calendar")), Boolean.parseBoolean(request.getParameter("contacts")));
 
       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
       String url = authUrlRequestProperties.build();
@@ -111,8 +117,18 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       log.warning("http transport failed, security error");
       response.sendRedirect("/?page=login&error=TransportError");
     } catch(Exception e) { //don't expect any other error
-      log.warning("exception occurred");
+      e.printStackTrace();
+      log.warning("exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
+    }
+  }
+
+  private void getScopes(List<String> SCOPES, boolean calendar, boolean contacts) {
+    if (calendar) {
+      SCOPES.add(CalendarScopes.CALENDAR_READONLY);
+    }
+    if (contacts){
+      SCOPES.add(PeopleServiceScopes.CONTACTS_READONLY);
     }
   }
   
