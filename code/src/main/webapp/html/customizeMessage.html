@@ -1,0 +1,30 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+   <title>Customize Message</title>
+   <link rel="stylesheet" href="../CSS/style.css">
+   <script src="../JavaScript/script.js"></script>
+</head>
+<body>
+  <div class="general-background">
+    <div class="custom-message">
+      <!--Button is above form because if placed in the form it will
+       submit the whole thing when we just want it associated with the first part-->
+      <button onclick="addEmailBoxes()">Provide Emails</button>
+      <form action="/customMessage" method="POST">
+        <label>How many people are you alerting?</label><br>
+        <input type="number" name ="number-of-recipients-box" id="number-of-recipients-box" min="0">
+        <div id="list-of-emails">
+          <!--Populates with the indicated number of text input boxes each box to have one email-->
+        <br>
+        </div>
+        <br>
+        <textarea name="custom-message-box" style="width:310px;height:100px">Hello, apologies for the inconvenience but someone you had contact with has tested positive for COVID-19, for your safety and the safety of those around you we ask that you get tested yourself and self quarentine for two weeks. Thank you for your patience and cooperation.  
+        </textarea>
+        <input type="submit">
+      </form>
+    </div>
+  </div>
+</body>
+</html>

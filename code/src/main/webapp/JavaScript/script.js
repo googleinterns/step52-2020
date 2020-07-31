@@ -143,6 +143,12 @@ function LoadPage() {
   } else {
     PAGE_CONTROLLER.show(page);
   }
+
+  const error = urlParams.get('error');
+  if (error != null) {
+    handleLoginError(error);
+  }
+
   window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
@@ -160,7 +166,7 @@ var startApp = negativeUser => {
       client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
-    // attachSignin(document.getElementById('negative-login-button'), true);
+    attachSignin(document.getElementById('negative-login-button'), true);
   });
 };
 
@@ -173,12 +179,53 @@ function attachSignin(element, negativeUser) {
 
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    params.append('systemMessage', 'VERSION_1');
-    params.append('localityResource', 'US');
-    params.append('messageLanguage', 'SP');
-    
-    fetch(new Request('/send-messages', {method: 'POST', body: params})).then(response => response.text());
+
+//     params.append('systemMessage', 'VERSION_1');
+//     params.append('localityResource', 'US');
+//     params.append('messageLanguage', 'SP');
+
+    var servlet = "";
+    if (negativeUser) {
+      servlet = '/get-negative-user-info';
+    } else {
+      servlet = '/get-positive-user-info';
+    }
+
+    fetch(new Request(servlet, {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => window.location = url);
+
+
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
+}
+
+
+function handleLoginError(error) {
+  if (error == "GeneralError") {
+    alert("something went wrong, please try again");
+  } else if (error == "FileError") {
+    alert("We have encountered issues, please try again later");
+  }
+}
+function addEmailBoxes() {
+    var labelForEmailBoxes = document.createElement("label");
+    labelForEmailBoxes.setAttribute("for", "Emails");
+    labelForEmailBoxes.innerHTML = "Input email addresses below:";
+    document.getElementById("list-of-emails").appendChild(labelForEmailBoxes);
+    document.getElementById("list-of-emails").appendChild(document.createElement("br"));
+    var numberOfEmails = document.getElementById("number-of-recipients-box").value;
+    for(var i = 0; i < numberOfEmails; i++) {
+      var emailBox = document.createElement("input");
+      emailBox.setAttribute("type","text");
+      emailBox.setAttribute("name","email-box-" + (i + 1));
+      emailBox.setAttribute("id","email-box-" + (i + 1));
+      document.getElementById("list-of-emails").appendChild(emailBox);
+      document.getElementById("list-of-emails").appendChild(document.createElement("br"));
+    }
+}
+
+function redirectManualInput() {
+    window.location = "../html/customizeMessage.html";
 }
