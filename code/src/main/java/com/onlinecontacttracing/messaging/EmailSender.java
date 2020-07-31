@@ -74,7 +74,11 @@ public class EmailSender {
     MimeMessage email;
     for(PotentialContact contactName : this.contactsList) {
       try{ 
+        
         email = MessagingSetup.createEmail(contactName.getEmail(), SERVICE_ACCOUNT_EMAIL, this.emailSubject, emailBody);
+        System.out.println("service!!: " + service);
+        System.out.println("service account email!!: " + SERVICE_ACCOUNT_EMAIL);
+        System.out.println("email!!: " + email);
         MessagingSetup.sendMessage(service, SERVICE_ACCOUNT_EMAIL, email);
       } catch (MessagingException e) {
         log.warning("error in sending emails out");
