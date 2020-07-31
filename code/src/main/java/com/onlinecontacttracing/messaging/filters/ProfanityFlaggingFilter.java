@@ -1,24 +1,24 @@
 package com.onlinecontacttracing.messaging.filters;
 
+import com.onlinecontacttracing.messaging.filters.FileReader;
 import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
-import com.onlinecontacttracing.messaging.filters.FileReader;
 import java.lang.Exception;
-import java.util.ArrayList;
-import java.io.File;
-import java.util.List;
-import java.util.stream.Stream;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
-import java.nio.file.Files;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 //Checks if message contains any profanity
 //assumes all profanity in language is not included in longer words, e.g. "ass" will trigger the flag, "bass" will not

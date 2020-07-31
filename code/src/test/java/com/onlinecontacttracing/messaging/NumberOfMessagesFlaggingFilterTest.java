@@ -1,9 +1,9 @@
 package com.onlinecontacttracing.messaging.filters;
 
 import com.onlinecontacttracing.storage.PositiveUser;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 import org.junit.runners.JUnit4;
 import org.junit.runner.RunWith;
 import org.junit.Test;
