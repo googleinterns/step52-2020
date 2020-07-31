@@ -46,11 +46,10 @@ public class GetServiceAccountCredentials {
       .setJsonFactory(JSON_FACTORY)
       .setServiceAccountId(serviceAccountId)
       .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
-      .setServiceAccountPrivateKey(getServiceAccountPrivateKeyFromP12File2(in))
-      .setServiceAccountUser(serviceAccountId)
+      .setServiceAccountPrivateKeyFromP12File(in)
       .build();
 
-    return credential;
+      return credential;
     } catch (Exception e) {
       e.printStackTrace();
       return null;//not sure what to return here
