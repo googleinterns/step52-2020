@@ -46,7 +46,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       return true;
   }
 
-  public boolean checkIfWordIsSelfContained (String message, String word, int messageLength) {
+  private boolean checkIfWordIsSelfContained (String message, String word, int messageLength) {
     int startOfWordIndex = message.indexOf(word);
     int endOfWordIndex = startOfWordIndex + word.length()-1;
     String characterBeforeWord;
@@ -68,7 +68,7 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
     return true;
   }
 
-  public boolean checkIfCharIsPunctuation(String character) {
+  private boolean checkIfCharIsPunctuation(String character) {
     String[] listOfPunctuation = FileReader.getListFromFile("punctuation-list.txt");
     int numberOfPunctuation = listOfPunctuation.length;
     for (int index = 0; index < numberOfPunctuation; index++) {
@@ -79,13 +79,13 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
     return false;
   }
 
-  String prepMessageForCheck(String message) {
+  private String prepMessageForCheck(String message) {
     message = replaceSymbolsWithLetters(message);
     message = message.toLowerCase();
     return message;
   }
 
-  String replaceSymbolsWithLetters(String message) {
+  private String replaceSymbolsWithLetters(String message) {
     message = message.replaceAll("0","o");
     message = message.replaceAll("1","i");
     message = message.replaceAll("3","e");
