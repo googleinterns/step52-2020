@@ -1,5 +1,6 @@
 package com.onlinecontacttracing.messaging.filters;
 
+<<<<<<< HEAD
 import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
@@ -34,6 +35,46 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
 
       for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
         profanityIndicatorWord = LIST_OF_PROFANITY_INDICATORS[profanityIndicatorIndex];
+=======
+import com.onlinecontacttracing.messaging.filters.FileReader;
+import com.onlinecontacttracing.messaging.filters.FlaggingFilter;
+import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PotentialContact;
+import java.lang.Exception;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
+/*
+* Checker for profanity. Assumes all profanity is not included in longer words, e.g. "ass" will trigger the flag, but "bass" will not.
+*/
+public class ProfanityFlaggingFilter implements FlaggingFilter{
+  private static final String[]  LIST_OF_PROFANITY_INDICATORS =  FileReader.getListFromFile("profanity-indicators.txt");
+  
+  /*
+  * Returns whether or not a message contains profanity.
+  */
+  public boolean passesFilter(PositiveUser positiveUser, String message) {
+    int numOfProfanityIndicators = LIST_OF_PROFANITY_INDICATORS.length;
+    String profanityIndicatorWord;
+    int messageLength = message.length();
+    boolean isSelfContainedWord;   
+    message = prepMessageForCheck(message);
+
+    for (int profanityIndicatorIndex = 0; profanityIndicatorIndex < numOfProfanityIndicators; profanityIndicatorIndex++) {
+      profanityIndicatorWord = LIST_OF_PROFANITY_INDICATORS[profanityIndicatorIndex];
+>>>>>>> master
         //check existence of profane word
         if (message.indexOf(profanityIndicatorWord) > -1) {//profane word exists
           isSelfContainedWord = checkIfWordIsSelfContained(message, profanityIndicatorWord, messageLength);
@@ -44,15 +85,25 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
         }
       }
       return true;
+<<<<<<< HEAD
     
     
   }
 
   public boolean checkIfWordIsSelfContained (String message, String word, int messageLength) {
+=======
+  }
+
+  /*
+  * Returns an error message to be used if the message contains profanity.
+  */
+  private boolean checkIfWordIsSelfContained (String message, String word, int messageLength) {
+>>>>>>> master
     int startOfWordIndex = message.indexOf(word);
     int endOfWordIndex = startOfWordIndex + word.length()-1;
     String characterBeforeWord;
     String characterAfterWord;
+<<<<<<< HEAD
       //check is self-contained/not within another, larger, word
       //i.e. only spaces/punctuation on either end of the word
       if (startOfWordIndex > 0) {
@@ -84,12 +135,47 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
   }
 
   String prepMessageForCheck(String message) {
+=======
+    //check is self-contained/not within another, larger, word
+    //i.e. only spaces/punctuation on either end of the word
+    if (startOfWordIndex > 0) {
+      characterBeforeWord = message.substring(startOfWordIndex-1, startOfWordIndex);
+      if (!characterBeforeWord.equals(" ") && !checkIfCharIsPunctuation(characterBeforeWord)) {
+        return false;
+      }
+    }
+    if (endOfWordIndex < messageLength-1) {
+      characterAfterWord = message.substring(endOfWordIndex+1, endOfWordIndex+2);
+      if (!characterAfterWord.equals(" ") && !checkIfCharIsPunctuation(characterAfterWord)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean checkIfCharIsPunctuation(String character) {
+    String[] listOfPunctuation = FileReader.getListFromFile("punctuation-list.txt");
+    int numberOfPunctuation = listOfPunctuation.length;
+    for (int index = 0; index < numberOfPunctuation; index++) {
+      if (listOfPunctuation[index].equals(character)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private String prepMessageForCheck(String message) {
+>>>>>>> master
     message = replaceSymbolsWithLetters(message);
     message = message.toLowerCase();
     return message;
   }
 
+<<<<<<< HEAD
   String replaceSymbolsWithLetters(String message) {
+=======
+  private String replaceSymbolsWithLetters(String message) {
+>>>>>>> master
     message = message.replaceAll("0","o");
     message = message.replaceAll("1","i");
     message = message.replaceAll("3","e");
@@ -101,7 +187,10 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
     message = message.replaceAll("9","g");
     message = message.replaceAll("@","a");
     message = message.replaceAll("!","i");
+<<<<<<< HEAD
     message = message.replaceAll("!","i");
+=======
+>>>>>>> master
     return message;
   }
   

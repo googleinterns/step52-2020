@@ -172,25 +172,36 @@ var startApp = negativeUser => {
 
 function attachSignin(element, negativeUser) {
   auth2.attachClickHandler(element, {}, googleUser => {
-
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
     localStorage.setItem('idToken', idToken.toString());
+
     const params = new URLSearchParams()
     params.append('idToken', idToken);
-    params.append('systemMessage', 'VERSION_1');
-    params.append('localityResource', 'US');
-    params.append('messageLanguage', 'SP');
-    console.log("here");
-    console.log(params);
-    fetch(new Request('/send-messages', {method: 'POST', body: params})).then(console.log("cool"));
-    // url => window.location = url
-    console.log("cool2");
+
+//     params.append('systemMessage', 'VERSION_1');
+//     params.append('localityResource', 'US');
+//     params.append('messageLanguage', 'SP');
+
+    var servlet = "";
+    if (negativeUser) {
+      servlet = '/get-negative-user-info';
+    } else {
+      servlet = '/get-positive-user-info';
+    }
+
+    // for testing
+    servlet = send-messages
+
+    fetch(new Request(servlet, {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => /*window.location = url*/);
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
 }
+
 
 function handleLoginError(error) {
   if (error == "GeneralError") {
