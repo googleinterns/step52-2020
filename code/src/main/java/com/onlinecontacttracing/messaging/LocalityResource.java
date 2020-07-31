@@ -1,5 +1,8 @@
 package com.onlinecontacttracing.messaging;
 
+/*
+* State and national coronavirus help links.
+*/
 public enum LocalityResource implements HasEnglishTranslation, HasSpanishTranslation{
   US("https://www.cdc.gov/coronavirus/2019-ncov/index.html"),
   ALABAMA("http://www.alabamapublichealth.gov/covid19/index.html"),
@@ -60,12 +63,14 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   LocalityResource(String helpLink) {
     this.helpLink = helpLink;
   }
+
   public String getEnglishTranslation() {
     if (this == LocalityResource.US) {
         return "Here's the national help link: ".concat(this.helpLink);
     }
     return this.englishTranslation.concat(this.helpLink);
   }
+  
   public String getSpanishTranslation() {
     if (this == LocalityResource.US) {
         return "Aquí está el enlace de ayuda nacional: ".concat(this.helpLink);
@@ -73,6 +78,9 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
     return this.spanishTranslation.concat(this.helpLink);
   }
 
+  /*
+  * Returns a Locality Resource from a name. Returns the national Locality Resource as default.
+  */
   public static LocalityResource getLocalityResourceFromString (String localityResourceName) {
     for (LocalityResource localityResource : LocalityResource.values()) { 
       if (localityResource.name().equals(localityResourceName)) {

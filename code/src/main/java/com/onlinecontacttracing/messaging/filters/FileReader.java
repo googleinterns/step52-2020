@@ -11,7 +11,13 @@ import java.io.FileInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+* A file reader.
+*/
 public class FileReader {
+  /**
+  * Gets a list of values from a file. 
+  */
   public static String[] getListFromFile(String fileName) {
     try{
       InputStream in = (new FileReader()).getClass().getClassLoader().getResourceAsStream(fileName);

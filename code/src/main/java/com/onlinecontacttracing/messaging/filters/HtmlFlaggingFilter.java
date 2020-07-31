@@ -12,23 +12,31 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-//Checks if the message contains HTML code
-public class HtmlFlaggingFilter implements FlaggingFilter{
+/*
+* Checker for HTML code.
+*/
+public class HtmlFlaggingFilter implements FlaggingFilter {
   private static final String[] LIST_OF_HTML_INDICATORS = FileReader.getListFromFile("html-indicators.txt");
 
-    public boolean passesFilter(PositiveUser positiveUser, String message) {
-      int numOfHtmlIndicators = this.LIST_OF_HTML_INDICATORS.length;
-      String htmlIndicator;
-      for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
-        htmlIndicator = this.LIST_OF_HTML_INDICATORS[htmlIndicatorIndex];
-        if (message.indexOf(htmlIndicator) > -1) {
-          return false;
-        }
+  /*
+  * Returns whether or not a message contains HTML code.
+  */
+  public boolean passesFilter(PositiveUser positiveUser, String message) {
+    int numOfHtmlIndicators = this.LIST_OF_HTML_INDICATORS.length;
+    String htmlIndicator;
+    for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
+      htmlIndicator = this.LIST_OF_HTML_INDICATORS[htmlIndicatorIndex];
+      if (message.indexOf(htmlIndicator) > -1) {
+        return false;
       }
-      return true;
     }
-    
-    public String errorMessageToUser() {
-      return "We think there might be some HTML code in your message. Please remove it and try again!";
-    }
+    return true;
+  }
+
+  /*
+  * Returns an error message to be used if the message contains HTML code.
+  */
+  public String errorMessageToUser() {
+    return "We think there might be some HTML code in your message. Please remove it and try again!";
+  }
 }

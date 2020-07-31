@@ -20,11 +20,15 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
-//Checks if message contains any profanity
-//assumes all profanity in language is not included in longer words, e.g. "ass" will trigger the flag, "bass" will not
+/*
+* Checker for profanity. Assumes all profanity is not included in longer words, e.g. "ass" will trigger the flag, but "bass" will not.
+*/
 public class ProfanityFlaggingFilter implements FlaggingFilter{
-  private static final String[]  LIST_OF_PROFANITY_INDICATORS =  FileReader.getListFromFile("profanity-indicators.txt");;// = FileReader.getListFromFile(new File("profanity-indicators.txt"));
+  private static final String[]  LIST_OF_PROFANITY_INDICATORS =  FileReader.getListFromFile("profanity-indicators.txt");
   
+  /*
+  * Returns whether or not a message contains profanity.
+  */
   public boolean passesFilter(PositiveUser positiveUser, String message) {
     int numOfProfanityIndicators = LIST_OF_PROFANITY_INDICATORS.length;
     String profanityIndicatorWord;
@@ -46,6 +50,9 @@ public class ProfanityFlaggingFilter implements FlaggingFilter{
       return true;
   }
 
+  /*
+  * Returns an error message to be used if the message contains profanity.
+  */
   private boolean checkIfWordIsSelfContained (String message, String word, int messageLength) {
     int startOfWordIndex = message.indexOf(word);
     int endOfWordIndex = startOfWordIndex + word.length()-1;
