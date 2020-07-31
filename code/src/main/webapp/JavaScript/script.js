@@ -177,7 +177,7 @@ function attachSignin(element, negativeUser) {
     params.append('localityResource', 'US');
     params.append('messageLanguage', 'SP');
     
-    fetch(new Request('/send-messages', {method: 'POST', body: params})).then(console.log("request satisfied"));
+    fetch(new Request('/send-messages', {method: 'POST', body: params})).then(response => response.text());
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
