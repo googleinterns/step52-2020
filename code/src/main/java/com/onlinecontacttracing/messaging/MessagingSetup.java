@@ -42,6 +42,9 @@ import javax.activation.DataContentHandler;
 
 /** Source Code: https://developers.google.com/gmail/api/guides/sending*/
 public class MessagingSetup {
+
+    private static final String serviceAccountId = "covid-catchers-fixed-gcp@appspot.gserviceaccount.com";
+  
   /**
      * Create a MimeMessage using the parameters provided.
      *
@@ -96,7 +99,7 @@ public class MessagingSetup {
      */
     public static Message sendMessage(Gmail service, String userId, MimeMessage emailContent) throws MessagingException, IOException {
         Message message = createMessageWithEmail(emailContent);
-        message = service.users().messages().send(userId, message).execute();
+        message = service.users().messages().send(serviceAccountId, message).execute();
         return message;
     }
 

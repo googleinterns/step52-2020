@@ -180,9 +180,9 @@ function attachSignin(element, negativeUser) {
     const params = new URLSearchParams()
     params.append('idToken', idToken);
 
-//     params.append('systemMessage', 'VERSION_1');
-//     params.append('localityResource', 'US');
-//     params.append('messageLanguage', 'SP');
+    params.append('systemMessage', 'VERSION_1');
+    params.append('localityResource', 'US');
+    params.append('messageLanguage', 'SP');
 
     var servlet = "";
     if (negativeUser) {
@@ -192,11 +192,11 @@ function attachSignin(element, negativeUser) {
     }
 
     // for testing
-    servlet = send-messages
+    servlet = "/send-messages";
 
     fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
-    .then(url => /*window.location = url*/);
+    .then(url => "window.location = url");
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });

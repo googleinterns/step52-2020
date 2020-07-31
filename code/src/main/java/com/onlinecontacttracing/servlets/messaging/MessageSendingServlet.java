@@ -49,40 +49,37 @@ public class MessageSendingServlet extends HttpServlet {
 
     System.out.println("systemMessage: " + systemMessage);
     System.out.println("LocalityResource: " + localityResource);
-
-    GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
-    String userId = CheckForApiAuthorizationServlet.getUserId(idToken, flow);
-
-
-    System.out.println("flow: " + flow);
-    System.out.println("userID: " + userId);
-
-    PotentialContact cynthia = new PotentialContact("cynthia ma", "cynthiama@google.com");
-    ArrayList<PotentialContact> contacts = new ArrayList<PotentialContact> (){{
-      add(cynthia);
-    }};
-     ofy().save().entity(new PositiveUser(userId, "cynthiama@google.com")).now();
-    ofy().save().entity(new PositiveUserContacts(userId, contacts)).now();
-     ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
-
-    PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-    PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
-    CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
+    try {
+        GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
+        String userId = CheckForApiAuthorizationServlet.getPayload(idToken, flow).getSubject();
 
 
-    System.out.println("posUser: " + positiveUser);
-    System.out.println("posUserContacts: " + positiveUserContacts);
-    System.out.println("customizable Msg " + customizableMessage);
+        System.out.println("flow: " + flow);
+        System.out.println("userID: " + userId);
+
+        ofy().save().entity(new PositiveUser(userId, "cynthiama@google.com")).now();
+        ofy().save().entity(new PositiveUserContacts(userId)).now();
+        ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
+
+        PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
+        PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
+        CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
+
+        positiveUserContacts.add("cynthia ma", "cynthiama@google.com");
+        positiveUserContacts.add("nico", "nvergel@google.com");
 
 
-   
-    CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-    System.out.println("compiledMsg: " + compiledMessage);
-    EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); 
-    System.out.println("email Sender: " + emailSender);
-    emailSender.sendEmailsOut(messageLanguage);
-    System.out.println("emails Sent");
-    response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
 
+    
+        CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
+        System.out.println("compiledMsg: " + compiledMessage);
+        EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); 
+        System.out.println("email Sender: " + emailSender);
+        emailSender.sendEmailsOut(messageLanguage);
+        System.out.println("emails Sent");
+        response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
   }
 }

@@ -27,7 +27,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
 import javax.mail.internet.MimeMessage;
 import com.google.cloud.authentication.serviceaccount.GetServiceAccountCredentials;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class EmailSender {
 
   private String emailSubject;
-  private ArrayList<PotentialContact> contactsList;
+  private Set<PotentialContact> contactsList;
   private Gmail service;
   private CompiledMessage compiledMessage;
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -48,7 +48,7 @@ public class EmailSender {
   private static final String SERVICE_ACCOUNT_EMAIL = "onlinecontacttracing@gmail.com";
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
   
-  public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList, CompiledMessage compiledMessage) {
+  public EmailSender(String emailSubject, Set<PotentialContact> contactsList, CompiledMessage compiledMessage) {
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       this.emailSubject= emailSubject;

@@ -34,7 +34,7 @@ import java.security.PrivateKey;
  */
 public class GetServiceAccountCredentials {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String serviceAccountId = "online-contact-tracing-email@covid-catchers-fixed-gcp.iam.gserviceaccount.com";
+    private static final String serviceAccountId = "covid-catchers-fixed-gcp@appspot.gserviceaccount.com";
     private static final String CREDENTIALS_FILE_PATH = "covid-catchers-fixed-gcp-4270ee645eb8.p12";
 
   public static GoogleCredential getServiceAccountCredentials() {
@@ -42,7 +42,7 @@ public class GetServiceAccountCredentials {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
       System.out.println(in);
-      GoogleCredential credential = (new GoogleCredential.Builder())
+      GoogleCredential credential = new GoogleCredential.Builder()
       .setTransport(HTTP_TRANSPORT)
       .setJsonFactory(JSON_FACTORY)
       .setServiceAccountId(serviceAccountId)

@@ -4,11 +4,6 @@ import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.lang.Exception;
 
-<<<<<<< HEAD
-//tracks whether a user's message triggers any of our filter flags
-interface FlaggingFilter {
-  boolean passesFilter(PositiveUser positiveUser, String message);
-=======
 /**
 * Checker for flag violations.
 */
@@ -21,6 +16,5 @@ interface FlaggingFilter {
   /*
   * Returns an error message to be used if the flag is triggered
   */
->>>>>>> master
   String errorMessageToUser();
 }

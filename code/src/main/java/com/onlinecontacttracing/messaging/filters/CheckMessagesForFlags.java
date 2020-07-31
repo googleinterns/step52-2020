@@ -8,13 +8,9 @@ import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-//checks all the filters
-=======
 /**
 * Checks whether a message violates any of the flags.
 */
->>>>>>> master
 public class CheckMessagesForFlags {
   private final static ArrayList<FlaggingFilter> listOfFilters = new ArrayList<FlaggingFilter> () {{
     add(new HtmlFlaggingFilter());
@@ -24,13 +20,10 @@ public class CheckMessagesForFlags {
   }};
 
   private final ArrayList<String> listOfErrorMessages = new ArrayList<String> ();
-<<<<<<< HEAD
-=======
 
   /**
   * Returns a list of messages from any violated flags.
   */
->>>>>>> master
   public ArrayList<String> findTriggeredFlags (PositiveUser user, String userMessage) {
     CustomizeMessageTriesFlaggingFilter checkNumberOfTries= new CustomizeMessageTriesFlaggingFilter();
     
@@ -46,8 +39,4 @@ public class CheckMessagesForFlags {
     }
     return this.listOfErrorMessages;
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 }
