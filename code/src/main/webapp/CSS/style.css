@@ -348,8 +348,8 @@ div {
 .switch {
   position: relative;
   display: inline-block;
-  width: 100px;
-  height: 60px;
+  width: 6vw;
+  height: 3.6vw;
   float:left;
   right: 1rem;
 }
@@ -369,10 +369,10 @@ div {
 .slider:before {
   position: absolute;
   content: "";
-  height: 52px;
-  width: 52px;
-  left: 4px;
-  bottom: 4px;
+  height: 3vw;
+  width: 3vw;
+  left: .3vw;
+  bottom: .3vw;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -383,11 +383,11 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(40px);
+  transform: translateX(2.4vw);
 }
 
 .slider.round {
-  border-radius: 34px;
+  border-radius: 2vw;
 }
 
 .slider.round:before {
