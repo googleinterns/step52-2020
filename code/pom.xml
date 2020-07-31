@@ -58,6 +58,26 @@
       <artifactId>google-api-services-people</artifactId>
       <version>v1-rev537-1.25.0</version>
     </dependency>
+
+    <!-- For binary base 64 encoding -->
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-appengine</artifactId>
+      <version>0.21.1</version>
+    </dependency>
+    <!-- For IAM -->
+    <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-iam -->
+    <dependency>
+        <groupId>com.google.apis</groupId>
+        <artifactId>google-api-services-iam</artifactId>
+        <version>v1-rev316-1.25.0</version>
+    </dependency> 
+     <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+    <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1</version>
+    </dependency>
     <dependency>
     <groupId>com.google.maps</groupId>
       <artifactId>google-maps-services</artifactId>
@@ -90,6 +110,21 @@
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
+
+         <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>
