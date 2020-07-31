@@ -39,7 +39,7 @@ import com.google.gson.Gson;
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
-  abstract void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
+  abstract void useCredential(State state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
   // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
   // Update the userId with the newly created credential
@@ -74,13 +74,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       Payload payload = getPayload(state.idToken, flow, response);
 
       // Get userId form payload and retrieve credential
-      String userId = payload.getSubject();
+      state.userId = payload.getSubject();
       String email = payload.getEmail();
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
-      Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
-      updateUser(userId, email);
-      useCredential(userId, credential, response);
+      Credential credential = flow.createAndStoreCredential(tokenResponse, state.userId);
+      updateUser(state.userId, email);
+      useCredential(state, credential, response);
 
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
@@ -168,17 +168,5 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
     return flow;
-  }
-
-  private class State {
-    String idToken;
-    boolean calendar;
-    boolean contacts;
-
-    public State(String idToken, boolean calendar, boolean contacts) {
-      this.idToken = idToken;
-      this.calendar = calendar;
-      this.contacts = contacts;
-    }  
   }
 }

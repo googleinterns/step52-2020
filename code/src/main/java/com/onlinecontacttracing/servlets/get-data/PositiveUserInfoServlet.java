@@ -28,17 +28,22 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   * Once both are done, the servlet will merge contact data sets
   */
   @Override
-  void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+  void useCredential(State state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
-    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), userId, credential);
-    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), userId, credential));
-    Thread contactInfo = new Thread(calendarDataForPositiveUser);
+    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), state.userId, credential);
+    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), state.userId, credential));
+    Thread calendarInfo = new Thread(calendarDataForPositiveUser);
 
-    peopleInfo.start();
-    contactInfo.start();
+    if (state.calendar) {
+      calendarInfo.start();
+    }
+
+    if (state.contacts) {
+      peopleInfo.start();
+    }
     
     peopleInfo.join();
-    contactInfo.join();
+    calendarInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
     // TODO call mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts())
