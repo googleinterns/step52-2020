@@ -14,10 +14,25 @@ import com.google.api.services.calendar.model.EventAttendee;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.model.PlacesSearchResult;
 import com.googlecode.objectify.Objectify;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.File;
 import java.util.logging.Logger;
 import java.util.Set;
 import com.onlinecontacttracing.storage.PotentialContact;
+import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.google.maps.errors.ApiException;
+import java.lang.InterruptedException;
+import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
+import java.util.HashSet;
 
 class CalendarDataForPositiveUser implements Runnable {
 
@@ -25,17 +40,18 @@ class CalendarDataForPositiveUser implements Runnable {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String calendarType = "primary";
   static final Logger log = Logger.getLogger(CalendarDataForPositiveUser.class.getName());
+  private static final String CREDENTIALS_FILE_PATH = "WEB-INF/apiKey.txt";
 
   private final Objectify ofy;
   private final String userId;
   private final Credential credential;
-  Set<PotentialContact> contacts;
+  private final Set<PotentialContact> contacts;
 
-  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential, Set<PotentialContact> contacts) {
+  public CalendarDataForPositiveUser(Objectify ofy, String userId, Credential credential) {
     this.ofy = ofy;
     this.userId = userId;
     this.credential = credential;
-    this.contacts = contacts;
+    contacts = new HashSet<PotentialContact>();
   }
 
   @Override
@@ -47,6 +63,15 @@ class CalendarDataForPositiveUser implements Runnable {
       Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
         .build();
+        
+      InputStream apiKeyStream = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+      String apiKey = IOUtils.toString(apiKeyStream, StandardCharsets.UTF_8);
+      apiKeyStream.close();
+
+      // Set up Places API
+      GeoApiContext context = new GeoApiContext.Builder()
+        .apiKey(apiKey)
+        .build();
 
       // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
       long currentTime = System.currentTimeMillis();
@@ -57,20 +82,34 @@ class CalendarDataForPositiveUser implements Runnable {
         .setTimeMax(now)
         .execute();
       
+      // Used to store places found in events
+      PositiveUserPlaces positiveUserPlaces = new PositiveUserPlaces(userId);
+
       // Iterate through events to extract contacts and places
       for (Event event : events.getItems()) {
-        List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
-
-        for (EventAttendee attendee : attendees) {
-          contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
-        }
+        contacts.addAll(getContactsFromEvent(event));
+        positiveUserPlaces.addPlaceFromEvent(event, context);
       }
 
-      // TODO: add positiveUserLocations
+      // Store data or replace old data with newer data.
+      ofy.save().entity(positiveUserPlaces).now();
       
     } catch (Exception e) {
       e.printStackTrace();
       log.warning("An exception occurred: " + e.toString());
     }
   }
+
+  public Set<PotentialContact> getContacts() {
+    return contacts;
+  }
+
+  private static List<PotentialContact> getContactsFromEvent(Event event) {
+    List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
+    return attendees.stream()
+      .map(attendee -> new PotentialContact(attendee.getDisplayName(), attendee.getEmail()))
+      .collect(Collectors.toList());
+  }
+
+
 }

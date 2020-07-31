@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.onlinecontacttracing.storage.PotentialContact;
+import com.onlinecontacttracing.storage.PositiveUserPlaces;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
 import java.util.Set;
-import java.util.HashSet;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -30,9 +30,9 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   @Override
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
-    Set<PotentialContact> contactsFromCalendar = new HashSet<PotentialContact>();
+    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), userId, credential);
     Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), userId, credential));
-    Thread contactInfo = new Thread(new CalendarDataForPositiveUser(ofy(), userId, credential, contactsFromCalendar));
+    Thread contactInfo = new Thread(calendarDataForPositiveUser);
 
     peopleInfo.start();
     contactInfo.start();
@@ -41,7 +41,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     contactInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
-    // TODO call mergeContactListsFromPeopleAPI(contactsFromPeople)
+    // TODO call mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts())
   }
 
   @Override
