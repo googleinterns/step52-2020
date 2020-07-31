@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 /**
 *  This class directs the creation of user Credentials for accessing APIs.
 */
+
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
@@ -47,7 +48,9 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, PeopleServiceScopes.CONTACTS_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
+
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   /**
@@ -70,6 +73,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String email = payload.getEmail();
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
+
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
       updateUser(userId, email);
       useCredential(userId, credential, response);
@@ -84,7 +88,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       log.warning("An exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
     }
-    
   }
   
   /**
@@ -139,5 +142,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).build();
     return flow;
+
   }
 }
