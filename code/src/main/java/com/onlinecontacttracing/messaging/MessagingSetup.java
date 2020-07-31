@@ -43,25 +43,24 @@ import javax.activation.DataContentHandler;
 /** Source Code: https://developers.google.com/gmail/api/guides/sending*/
 public class MessagingSetup {
 
-    private static final String serviceAccountId = "covid-catchers-fixed-gcp@appspot.gserviceaccount.com";
+  private static final String serviceAccountId = "covid-catchers-fixed-gcp@appspot.gserviceaccount.com";
   
   /**
      * Create a MimeMessage using the parameters provided.
      *
      * @param to email address of the receiver
-     * @param from email address of the sender, the mailbox account
      * @param subject subject of the email
      * @param bodyText body text of the email
      * @return the MimeMessage to be used to send email
      * @throws MessagingException
      */
-  public static MimeMessage createEmail(String to, String from, String emailSubject, String emailContent) throws MessagingException {
+  public static MimeMessage createEmail(String to, String emailSubject, String emailContent) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
 
         MimeMessage email = new MimeMessage(session);
 
-        email.setFrom(new InternetAddress(from));
+        email.setFrom(new InternetAddress(serviceAccountId));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(emailSubject);
         email.setText(emailContent);
@@ -97,7 +96,7 @@ public class MessagingSetup {
      * @throws MessagingException
      * @throws IOException
      */
-    public static Message sendMessage(Gmail service, String userId, MimeMessage emailContent) throws MessagingException, IOException {
+    public static Message sendMessage(Gmail service, MimeMessage emailContent) throws MessagingException, IOException {
         Message message = createMessageWithEmail(emailContent);
         message = service.users().messages().send(serviceAccountId, message).execute();
         return message;

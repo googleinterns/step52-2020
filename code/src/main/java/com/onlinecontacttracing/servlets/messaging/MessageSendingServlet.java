@@ -37,25 +37,14 @@ public class MessageSendingServlet extends HttpServlet {
     String systemMessageName = request.getParameter("systemMessage");
     String localityResourceName = request.getParameter("localityResource");
     String messageLanguage = request.getParameter("messageLanguage");
-    System.out.println("idToken: " + idToken);
-    System.out.println("systemMessageName: " + systemMessageName);
-    System.out.println("LocalityResourceName: " + localityResourceName);
-    System.out.println("MessageLanguage: " + messageLanguage);
-
 
     // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
 
-    System.out.println("systemMessage: " + systemMessage);
-    System.out.println("LocalityResource: " + localityResource);
     try {
         GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
         String userId = CheckForApiAuthorizationServlet.getPayload(idToken, flow).getSubject();
-
-
-        System.out.println("flow: " + flow);
-        System.out.println("userID: " + userId);
 
         ofy().save().entity(new PositiveUser(userId, "cynthiama@google.com")).now();
         ofy().save().entity(new PositiveUserContacts(userId)).now();
@@ -68,16 +57,10 @@ public class MessageSendingServlet extends HttpServlet {
         positiveUserContacts.add("cynthia ma", "cynthiama@google.com");
         positiveUserContacts.add("nico", "nvergel@google.com");
 
-
-
-    
         CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-        System.out.println("compiledMsg: " + compiledMessage);
-        EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); 
-        System.out.println("email Sender: " + emailSender);
+        EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage);
         emailSender.sendEmailsOut(messageLanguage);
-        System.out.println("emails Sent");
-        response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
+        // response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
     } catch(Exception e) {
         e.printStackTrace();
     }

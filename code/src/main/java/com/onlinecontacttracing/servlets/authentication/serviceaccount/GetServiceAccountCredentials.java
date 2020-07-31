@@ -41,7 +41,6 @@ public class GetServiceAccountCredentials {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
-      System.out.println(in);
       GoogleCredential credential = new GoogleCredential.Builder()
       .setTransport(HTTP_TRANSPORT)
       .setJsonFactory(JSON_FACTORY)

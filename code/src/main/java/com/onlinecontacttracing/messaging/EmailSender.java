@@ -45,7 +45,6 @@ public class EmailSender {
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
   private static final String APPLICATION_NAME = "Online Contact Tracing";
-  private static final String SERVICE_ACCOUNT_EMAIL = "onlinecontacttracing@gmail.com";
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
   
   public EmailSender(String emailSubject, Set<PotentialContact> contactsList, CompiledMessage compiledMessage) {
@@ -61,7 +60,7 @@ public class EmailSender {
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
     } catch (Exception e) {
-      log.warning("general exception1");
+      log.warning("general exception");
       e.printStackTrace();
     }
   }
@@ -72,16 +71,16 @@ public class EmailSender {
     String emailBody = compiledMessage.getCompiledBackendMessage();
     PotentialContact contact;
     MimeMessage email;
-    for(PotentialContact contactName : this.contactsList) {
-      try{ 
-        email = MessagingSetup.createEmail(contactName.getEmail(), SERVICE_ACCOUNT_EMAIL, this.emailSubject, emailBody);
-        MessagingSetup.sendMessage(service, SERVICE_ACCOUNT_EMAIL, email);
-      } catch (MessagingException e) {
-        log.warning("error in sending emails out");
-      } catch (Exception e) {
-        log.warning("general exception2");
-        e.printStackTrace();
+    try { 
+      for(PotentialContact contactName : this.contactsList) {
+        email = MessagingSetup.createEmail(contactName.getEmail(), this.emailSubject, emailBody);
+        MessagingSetup.sendMessage(service, email);
       }
+    } catch (MessagingException e) {
+      log.warning("error in sending emails out");
+    } catch (Exception e) {
+      log.warning("general exception");
+      e.printStackTrace();
     }
   }
 
