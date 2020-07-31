@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.onlinecontacttracing.storage.PotentialContact;
-import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.onlinecontacttracing.storage.PositiveUserContacts;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
@@ -41,7 +41,11 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     contactInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
-    // TODO call mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts())
+    PositiveUserContacts p = new PositiveUserContacts(userId);
+    p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
+    ofy().save().entity(p).now();
+
+    // TODO response.sendRedirect("/JSP/test.jsp?idToken=" + idTokenString);
   }
 
   @Override
