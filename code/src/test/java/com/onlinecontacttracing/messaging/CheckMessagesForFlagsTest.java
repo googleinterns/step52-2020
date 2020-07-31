@@ -1,15 +1,14 @@
 package com.onlinecontacttracing.messaging.filters;
 
-import org.junit.Test;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.ArrayList;
 import java.util.HashSet;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+import org.junit.runner.RunWith;
+import org.junit.Test;
  
 @RunWith(JUnit4.class)
 public final class CheckMessagesForFlagsTest {
@@ -20,7 +19,6 @@ public final class CheckMessagesForFlagsTest {
   ProfanityFlaggingFilter profanityFlaggingFilter = new ProfanityFlaggingFilter();
   LengthFlaggingFilter lengthFlaggingFilter = new LengthFlaggingFilter();
   CustomizeMessageTriesFlaggingFilter customizeMessageTriesFlaggingFilter = new CustomizeMessageTriesFlaggingFilter();
-  
   
   @Test
   public void containsNoFlagsTriggered() {
@@ -37,6 +35,7 @@ public final class CheckMessagesForFlagsTest {
     HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
       add(htmlFlaggingFilter.errorMessageToUser());
     }};
+
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 
@@ -50,6 +49,7 @@ public final class CheckMessagesForFlagsTest {
       add(htmlFlaggingFilter.errorMessageToUser());
       add(linkFlaggingFilter.errorMessageToUser());
     }};
+
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 
@@ -64,6 +64,7 @@ public final class CheckMessagesForFlagsTest {
       add(linkFlaggingFilter.errorMessageToUser());
       add(profanityFlaggingFilter.errorMessageToUser());
     }};
+
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 
@@ -83,6 +84,7 @@ public final class CheckMessagesForFlagsTest {
       add(profanityFlaggingFilter.errorMessageToUser());
       add(lengthFlaggingFilter.errorMessageToUser());
     }};
+
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 
@@ -104,13 +106,13 @@ public final class CheckMessagesForFlagsTest {
     HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
       add(customizeMessageTriesFlaggingFilter.errorMessageToUser());
     }};
+
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 
   @Test
   public void exceededAttemptsAndVAlidMessage() {
     String message = "hello";
-    
     user.incrementAttemptedEmailDrafts();
     user.incrementAttemptedEmailDrafts();
     user.incrementAttemptedEmailDrafts();
@@ -123,8 +125,7 @@ public final class CheckMessagesForFlagsTest {
     HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
       add(customizeMessageTriesFlaggingFilter.errorMessageToUser());
     }};
+
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
-
-
 }

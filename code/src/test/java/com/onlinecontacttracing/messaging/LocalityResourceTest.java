@@ -1,12 +1,12 @@
 package com.onlinecontacttracing.messaging;
 
-import org.junit.Test;
+import com.onlinecontacttracing.storage.PositiveUser;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
+import org.junit.runner.RunWith;
+import org.junit.Test;
  
 @RunWith(JUnit4.class)
 public final class LocalityResourceTest {

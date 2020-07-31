@@ -1,17 +1,17 @@
 package com.onlinecontacttracing.messaging.filters;
 
-import org.junit.Test;
+import com.onlinecontacttracing.storage.PositiveUser;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 import org.junit.runners.JUnit4;
-import com.onlinecontacttracing.storage.PositiveUser;
-
+import org.junit.runner.RunWith;
+import org.junit.Test;
  
 @RunWith(JUnit4.class)
 public final class LengthFlaggingFilterTest {
   PositiveUser user = new PositiveUser("Test", "test@google.com");
-  LengthFlaggingFilter lengthFlaggingFilter = new LengthFlaggingFilter ();
+  LengthFlaggingFilter lengthFlaggingFilter = new LengthFlaggingFilter();
   
   @Test
   public void emptyStringPasses() {
@@ -24,6 +24,7 @@ public final class LengthFlaggingFilterTest {
     for (int numberOfCharacters = 0; numberOfCharacters < 499; numberOfCharacters++) {
       message = message.concat("a");
     }
+
     assertTrue(lengthFlaggingFilter.passesFilter(user, message));
   }
 
@@ -33,6 +34,7 @@ public final class LengthFlaggingFilterTest {
     for (int numberOfCharacters = 0; numberOfCharacters < 500; numberOfCharacters++) {
       message = message.concat("a");
     }
+
     assertTrue(lengthFlaggingFilter.passesFilter(user, message));
   }
 
@@ -42,6 +44,7 @@ public final class LengthFlaggingFilterTest {
     for (int numberOfCharacters = 0; numberOfCharacters < 501; numberOfCharacters++) {
       message = message.concat("a");
     }
+
     assertFalse(lengthFlaggingFilter.passesFilter(user, message));
   }
 

@@ -33,5 +33,4 @@ public class CheckMessagesForFlags {
     }
     return this.listOfErrorMessages;
   }
-
 }

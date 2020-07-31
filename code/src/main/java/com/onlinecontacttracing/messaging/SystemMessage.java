@@ -18,7 +18,7 @@ public enum SystemMessage implements HasEnglishTranslation, HasSpanishTranslatio
 
   public String getSpanishTranslation() {
     return this.spanishTranslation;
-  }
+  } 
 
   public static SystemMessage getSystemMessageFromString (String systemMessageName) {
     for (SystemMessage systemMessage : SystemMessage.values()) { 

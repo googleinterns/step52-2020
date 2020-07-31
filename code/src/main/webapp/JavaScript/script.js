@@ -166,22 +166,18 @@ var startApp = negativeUser => {
 
 function attachSignin(element, negativeUser) {
   auth2.attachClickHandler(element, {}, googleUser => {
-
     document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
-    console.log(idToken.toString());
     localStorage.setItem('idToken', idToken.toString());
+
     const params = new URLSearchParams()
     params.append('idToken', idToken);
     params.append('systemMessage', 'VERSION_1');
     params.append('localityResource', 'US');
     params.append('messageLanguage', 'SP');
-    console.log("here");
-    console.log(params);
-    fetch(new Request('/send-messages', {method: 'POST', body: params})).then(console.log("cool"));
-    // url => window.location = url
-    console.log("cool2");
+    
+    fetch(new Request('/send-messages', {method: 'POST', body: params})).then(console.log("request satisfied"));
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });

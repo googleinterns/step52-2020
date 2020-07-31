@@ -57,7 +57,6 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
   private final String englishTranslation = "Here's your state's help link: ";
   private final String spanishTranslation = "Aquí está el enlace de ayuda de su estado: ";
 
-
   LocalityResource(String helpLink) {
     this.helpLink = helpLink;
   }

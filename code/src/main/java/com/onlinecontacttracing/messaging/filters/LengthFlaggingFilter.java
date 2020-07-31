@@ -12,6 +12,7 @@ public class LengthFlaggingFilter implements FlaggingFilter{
   public boolean passesFilter(PositiveUser positiveUser, String message) {
     return message.length() <= this.LIMIT_NUMBER_OF_CHARACTERS;
   };
+  
   public String errorMessageToUser() {
     return "You've exceed the character limit!\n Please shorten your message and Try again!";
   };

@@ -44,8 +44,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/contacts.readonly");
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  // private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
-  private static final String url = "https://8080-ac896ae1-5f0c-45b5-8dfe-19fa4d3d8699.us-east1.cloudshell.dev";
+  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
   //Creates the user's credential
@@ -74,7 +73,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       log.warning("http transport failed, security error");
       response.getWriter().println("Error");
     }
-     
   }
   
   //Creates the url for authorizing the user
@@ -89,7 +87,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       response.getWriter().println("Error");
     }
     
-
     AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url+getServletURIName()).setState(idToken);
     String url = authUrlRequestProperties.build();
     // Send url back to client
@@ -113,7 +110,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
       return userId;
-      
     } catch (Exception e) {
       log.warning("http transport failed, security error");
       return "";

@@ -11,6 +11,7 @@ public class NumberOfMessagesFlaggingFilter implements FlaggingFilter{
   public boolean passesFilter(PositiveUser positiveUser, String message) {
     return positiveUser.getNumberOfEmailsSent() <= this.LIMIT_NUMBER_OF_MESSAGES;
   }
+  
   public String errorMessageToUser() {
     return "You have exceeded the max. number of messages you can send.";
   }

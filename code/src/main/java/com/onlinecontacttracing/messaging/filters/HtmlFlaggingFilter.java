@@ -18,17 +18,15 @@ public class HtmlFlaggingFilter implements FlaggingFilter{
   private static final String[] LIST_OF_HTML_INDICATORS = FileReader.getListFromFile("html-indicators.txt");
 
     public boolean passesFilter(PositiveUser positiveUser, String message) {
-      
-        int numOfHtmlIndicators = this.LIST_OF_HTML_INDICATORS.length;
-        String htmlIndicator;
-        for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
-          htmlIndicator = this.LIST_OF_HTML_INDICATORS[htmlIndicatorIndex];
-          if (message.indexOf(htmlIndicator) > -1) {
-            return false;
-          }
+      int numOfHtmlIndicators = this.LIST_OF_HTML_INDICATORS.length;
+      String htmlIndicator;
+      for (int htmlIndicatorIndex = 0; htmlIndicatorIndex < numOfHtmlIndicators; htmlIndicatorIndex++) {
+        htmlIndicator = this.LIST_OF_HTML_INDICATORS[htmlIndicatorIndex];
+        if (message.indexOf(htmlIndicator) > -1) {
+          return false;
         }
-        return true;
-      
+      }
+      return true;
     }
     
     public String errorMessageToUser() {
