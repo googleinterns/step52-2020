@@ -39,7 +39,7 @@ import com.google.gson.Gson;
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
-  abstract void useCredential(State state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
+  abstract void useCredential(State roundTripState, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
   // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
   // Update the userId with the newly created credential
@@ -60,27 +60,27 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     try {
       // Get parameters from request
       String code = request.getParameter("code");
-      String stateAsJson = request.getParameter("state");
+      String roundTripStateAsJson = request.getParameter("state");
 
       // Parse state parameter from Json string to State class
       Gson gson = new Gson();
-      State state = gson.fromJson(stateAsJson, State.class);
-      List<String> SCOPES = getScopes(state.calendar, state.contacts);
+      State roundTripState = gson.fromJson(roundTripStateAsJson, State.class);
+      List<String> SCOPES = getScopes(roundTripState.calendar, roundTripState.contacts);
 
       // Get flow for token response
       GoogleAuthorizationCodeFlow flow = getFlow(response, SCOPES);
 
       // Get payload containing user info
-      Payload payload = getPayload(state.idToken, flow, response);
+      Payload payload = getPayload(roundTripState.idToken, flow, response);
 
       // Get userId form payload and retrieve credential
-      state.userId = payload.getSubject();
+      roundTripState.userId = payload.getSubject();
       String email = payload.getEmail();
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
-      Credential credential = flow.createAndStoreCredential(tokenResponse, state.userId);
-      updateUser(state.userId, email);
-      useCredential(state, credential, response);
+      Credential credential = flow.createAndStoreCredential(tokenResponse, roundTripState.userId);
+      updateUser(roundTripState.userId, email);
+      useCredential(roundTripState, credential, response);
 
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
@@ -108,13 +108,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       boolean contacts = Boolean.parseBoolean(request.getParameter("contacts"));
 
       List<String> SCOPES = getScopes(calendar, contacts);
-      State state = new State(idToken, calendar, contacts);
+      State roundTripState = new State(idToken, calendar, contacts);
 
       // Get flow to build url redirect
       GoogleAuthorizationCodeFlow flow = getFlow(response, SCOPES);
 
       Gson gson = new Gson();
-      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(gson.toJson(state));
+      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(gson.toJson(roundTripState));
       String url = authUrlRequestProperties.build();
       // Send url back to client
       response.getWriter().println(url);
