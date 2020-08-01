@@ -59,7 +59,7 @@ public class MessageSender extends HttpServlet {
       for (String email : emails) {
         notificationBatch.addPersonEmail(email);
       }
-      for (PersonEmail p : notificationBatch.getPersonEmails()) Sytem.out.println(p.getEmail());
+      for (PersonEmail p : notificationBatch.getPersonEmails()) System.out.println(p.getEmail());
       ofy().save().entity(notificationBatch).now();
 
     } catch (Exception e) {

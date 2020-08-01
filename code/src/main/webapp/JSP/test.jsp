@@ -51,9 +51,9 @@ com.onlinecontacttracing.storage.Place" %>
       for (PotentialContact contact : contacts.getListOfContacts()) {
   %>
       <div class="picker contact">
-        <input type="checkbox" checked>
         <p> <%= contact.getName() %> </p>
         <p class="email"> <%= contact.getEmail() %> </p>
+        <input type="checkbox" checked>
       </div>
   <%
       }
@@ -62,13 +62,18 @@ com.onlinecontacttracing.storage.Place" %>
     PositiveUserPlaces places = ofy().load().type(PositiveUserPlaces.class).id(userId).now();
     if (places != null) {
   %>
-      <p class="mission-statement"> Here are the places you have been to. Please confirm: </p>
+      <p class="mission-statement"> Please confirm the places you have been to: </p>
+      <div class="picker place">
+        <p> Place </p>
+        <p> Time </p>
+      </div>
   <%
       for (Place place : places.getListOfPlaces()) {
   %>
       <div class="picker place">
         <input type="checkbox" checked>
-        <p> <%= place.getName() %> on <%= new java.util.Date(place.getIntervalStartSeconds() * 1000)%> </p>
+        <p> <%= place.getName() %> </p>
+        <p> <%= new java.util.Date(place.getIntervalStartSeconds() * 1000)%> </p>
       </div>
   <%
       }
