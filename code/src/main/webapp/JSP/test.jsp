@@ -43,12 +43,17 @@ com.onlinecontacttracing.storage.Place" %>
     if (contacts != null) {
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with: </p>
+      <div class="picker">
+        <p> Name </p>
+        <p class="email"> Email </p>
+      </div>
   <% 
       for (PotentialContact contact : contacts.getListOfContacts()) {
   %>
       <div class="picker contact">
         <input type="checkbox" checked>
-        <p> <%= contact %> </p>
+        <p> <%= contact.getName() %> </p>
+        <p class="email"> <%= contact.getEmail() %> </p>
       </div>
   <%
       }

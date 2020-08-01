@@ -20,10 +20,10 @@ public class NotificationBatch {
   // Objecify requires one constructor with no parameters
   private NotificationBatch() {}
 
-  public NotificationBatch(String userId, ArrayList<PersonEmail> personEmails, ArrayList<BusinessNumber> businessNumbers) {
+  public NotificationBatch(String userId) {
     this.userId = userId;
-    this.personEmails = personEmails;
-    this.businessNumbers = businessNumbers;
+    personEmails = new ArrayList<PersonEmail>();
+    businessNumbers = new ArrayList<BusinessNumber>();
     timeCreatedSeconds = Instant.now().getEpochSecond();
   }
 
@@ -41,6 +41,10 @@ public class NotificationBatch {
 
   public ArrayList<BusinessNumber> getBusinessNumbers() {
     return businessNumbers;
+  }
+
+  public void addPersonEmail(String email) {
+    personEmails.add(new PersonEmail(email));
   }
   
 }

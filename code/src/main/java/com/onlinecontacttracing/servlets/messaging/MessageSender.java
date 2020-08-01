@@ -28,6 +28,9 @@ import java.io.FileInputStream;
 import java.io.File;
 import java.security.GeneralSecurityException;
 import java.io.FileNotFoundException;
+import com.onlinecontacttracing.storage.NotificationBatch;
+import com.onlinecontacttracing.storage.PersonEmail;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 @WebServlet("/message-sender")
 public class MessageSender extends HttpServlet {
@@ -50,7 +53,15 @@ public class MessageSender extends HttpServlet {
       Payload payload = idToken.getPayload();
       String userId = payload.getSubject();
 
-      System.out.println(userId);
+      NotificationBatch notificationBatch = new NotificationBatch(userId);
+
+      String[] emails = request.getParameter("emails").split(",");
+      for (String email : emails) {
+        notificationBatch.addPersonEmail(email);
+      }
+      for (PersonEmail p : notificationBatch.getPersonEmails()) Sytem.out.println(p.getEmail());
+      ofy().save().entity(notificationBatch).now();
+
     } catch (Exception e) {
       e.printStackTrace();
     }

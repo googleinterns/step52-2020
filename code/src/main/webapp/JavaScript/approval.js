@@ -5,12 +5,16 @@ function removeLines() {
 function suPeRCooLFuNcTiONGoEsHerE() {
   const params = new URLSearchParams();
   params.append('idToken', localStorage.idToken);
-  fetch(new Request('/message-sender', {method: 'POST', body: params}));
 
+  let emails = [];
   for (let contact of document.getElementsByClassName('contact')) {
-   if (contact.getElementsByTagName("input")[0].checked) {
-       //do stuff
-       console.log(contact.getElementsByTagName("p")[0])
-   }
+    const input = contact.getElementsByTagName("input")[0];
+    if (input.checked) {
+       emails.push(contact.getElementsByClassName("email")[0].innerText);
+    }
   }
+  
+  params.append('emails', emails);
+
+  fetch(new Request('/message-sender', {method: 'POST', body: params}));
 }
