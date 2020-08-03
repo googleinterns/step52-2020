@@ -65,7 +65,7 @@ class CalendarDataForPositiveUser implements Runnable {
           contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
         }
       }
-
+      ofy().save().entity(contacts).now();
       // TODO: add positiveUserLocations
       
     } catch (Exception e) {

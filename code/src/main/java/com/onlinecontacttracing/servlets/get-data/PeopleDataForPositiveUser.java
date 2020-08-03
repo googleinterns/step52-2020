@@ -9,23 +9,36 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import com.onlinecontacttracing.storage.Constants;
 import com.google.api.services.calendar.model.EventAttendee;
+import com.google.api.services.people.v1.PeopleService;
+import com.google.api.services.people.v1.PeopleServiceScopes;
+import com.google.api.services.people.v1.model.ListConnectionsResponse;
+import com.google.api.services.people.v1.model.Name;
+import com.google.api.services.people.v1.model.Person;
+import com.googlecode.objectify.Objectify;
+
+import com.onlinecontacttracing.storage.Constants;
+import com.onlinecontacttracing.storage.PotentialContact;
+
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
-import com.googlecode.objectify.Objectify;
 import java.util.logging.Logger;
 import java.util.Set;
-import com.onlinecontacttracing.storage.PotentialContact;
 
 class PeopleDataForPositiveUser implements Runnable {
   private static final String APPLICATION_NAME = "Get People Data From Positive User";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
+  private static final String TOKENS_DIRECTORY_PATH = "tokens";
+
   private final Objectify ofy;
   private final String userId;
   private final Credential credential;
   static final Logger log = Logger.getLogger(PeopleDataForPositiveUser.class.getName());
+
+  private static final List<String> SCOPES = Arrays.asList(PeopleServiceScopes.CONTACTS_READONLY);
 
   public PeopleDataForPositiveUser(Objectify ofy, String userId, Credential credential) {
     this.ofy = ofy;
@@ -38,8 +51,6 @@ class PeopleDataForPositiveUser implements Runnable {
     // Initiate objects to store information
     PositiveUserContacts positiveUserContacts = new PositiveUserContacts(userId);
 
-    // TODO: add people api
-
     // Store data or replace old data with newer data.
     // ofy.save().entity(positiveUserContacts).now();
 
@@ -47,30 +58,33 @@ class PeopleDataForPositiveUser implements Runnable {
       final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
       // Get user's calendar
-      Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
+      PeopleService service = new PeopleService.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
         .build();
 
-      // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
-      long currentTime = System.currentTimeMillis();
-      DateTime now = new DateTime(currentTime);
-      DateTime startOfContactsQueryWindow = new DateTime(currentTime - Constants.SPAN_OF_TIME_TO_COLLECT_DATA);
-      Events events = service.events().list(calendarType)
-        .setTimeMin(startOfContactsQueryWindow)
-        .setTimeMax(now)
+      // Request All connections.
+      ListConnectionsResponse response = service.people().connections()
+        .list("people/me")
+        .setPersonFields("names,emailAddresses")
         .execute();
-      
-      // Iterate through events to extract contacts and places
-      for (Event event : events.getItems()) {
-        List<EventAttendee> attendees = Optional.ofNullable(event.getAttendees()).orElse(Collections.emptyList());
 
-        for (EventAttendee attendee : attendees) {
-          contacts.add(new PotentialContact(attendee.getDisplayName(), attendee.getEmail()));
+      // Store all connections available.
+      List<Person> connections = response.getConnections();
+      List<PotentialContact> peopleContacts;
+      if (connections != null && connections.size() > 0) {
+        for (Person person : connections) {
+            List<Name> names = person.getNames();
+            if (names != null && names.size() > 0) {
+                peopleContacts.add(new PotentialContact(person.getNames().get(0).getDisplayName()
+                , person.getEmailAddresses().get(0).getDisplayName()));
+            } else {
+                System.out.println("No names available for connection.");
+            }
         }
+      } else {
+        System.out.println("No connections found.");
       }
-
-      // TODO: add positiveUserLocations
-      
+      ofy().save().entity(peopleContacts).now();
     } catch (Exception e) {
       e.printStackTrace();
       log.warning("An exception occurred: " + e.toString());
