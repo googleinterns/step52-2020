@@ -1,17 +1,39 @@
 package com.onlinecontacttracing.authentication;
-
+import com.onlinecontacttracing.authentication.AuthenticationScope;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 /*
  * Helper class to pass along state information in URL and servlets
  */
 class State {
   final String idToken;
   String userId;
-  final boolean calendar;
-  final boolean contacts;
+  List<AuthenticationScope> authenticationScopes;
 
-  public State(String idToken, boolean calendar, boolean contacts) {
+  public State(String idToken, List<AuthenticationScope> authenticationScopes) {
     this.idToken = idToken;
-    this.calendar = calendar;
-    this.contacts = contacts;
+    this.authenticationScopes = authenticationScopes;
+  }
+  public static List<String> getScopeNames(List<AuthenticationScope> scopes) {
+    List<String> scopeNames = new ArrayList<String> ();
+    for (AuthenticationScope scope : scopes) {
+      scopeNames.add(AuthenticationScope.getScopeName(scope));
+           
+    }
+    return scopeNames;
+  }
+  public static List<AuthenticationScope> getScopes(HashMap<String, Boolean> scopeAuthenticationStatus) {
+    List<AuthenticationScope> scopes = new ArrayList<AuthenticationScope> ();
+    for (String scope : scopeAuthenticationStatus.keySet()) {
+      if (scopeAuthenticationStatus.get(scope)) {
+        scopes.add(AuthenticationScope.getScope(scope));   
+      }
+    }
+    return scopes;
+  }
+
+  public List<AuthenticationScope> getAuthenticationScopes() {
+    return authenticationScopes;
   }
 }

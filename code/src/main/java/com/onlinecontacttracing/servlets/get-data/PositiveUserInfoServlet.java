@@ -13,6 +13,8 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
 import java.util.Set;
+import java.util.List;
+import com.onlinecontacttracing.authentication.AuthenticationScope;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -33,12 +35,13 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), state.userId, credential);
     Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), state.userId, credential));
     Thread calendarInfo = new Thread(calendarDataForPositiveUser);
+    List<AuthenticationScope> scopes = state.getAuthenticationScopes();
 
-    if (state.calendar) {
+    if (scopes.contains(AuthenticationScope.CALENDAR)) {
       calendarInfo.start();
     }
 
-    if (state.contacts) {
+    if (scopes.contains(AuthenticationScope.CONTACTS)) {
       peopleInfo.start();
     }
     

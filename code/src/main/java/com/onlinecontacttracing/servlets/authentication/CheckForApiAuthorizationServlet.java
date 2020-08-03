@@ -31,6 +31,7 @@ import java.io.File;
 import java.security.GeneralSecurityException;
 import java.io.FileNotFoundException;
 import java.util.logging.Logger;
+import java.util.HashMap;
 import com.google.gson.Gson;
 
 /**
@@ -69,10 +70,11 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       Gson gson = new Gson();
 
       State authorizationRoundTripState = gson.fromJson(authorizationRoundTripStateAsJson, State.class);
-      List<String> SCOPES = getScopes(authorizationRoundTripState.calendar, authorizationRoundTripState.contacts);
+      System.out.println(authorizationRoundTripState);
+      List<String> SCOPES = State.getScopeNames(authorizationRoundTripState.getAuthenticationScopes());
 
       // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow(response, scopes);
+      GoogleAuthorizationCodeFlow flow = getFlow(response, SCOPES);
 
       // Get payload containing user info
       Payload payload = getPayload(authorizationRoundTripState.idToken, flow, response);
@@ -109,14 +111,19 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String idToken = request.getParameter("idToken");
       boolean calendar = Boolean.parseBoolean(request.getParameter("calendar"));
       boolean contacts = Boolean.parseBoolean(request.getParameter("contacts"));
-
-      List<String> SCOPES = getScopes(calendar, contacts);
-      State authorizationRoundTripState = new State(idToken, calendar, contacts);
-
+      HashMap<String, Boolean> scopeAuthenticationStatus = new HashMap<String, Boolean> () {{
+        put("CALENDAR", calendar);
+        put("CONTACTS", contacts);
+      }};
+      
+      List<AuthenticationScope> SCOPES = State.getScopes(scopeAuthenticationStatus);
+      List<String> scopeNames = State.getScopeNames(SCOPES);
+      State authorizationRoundTripState = new State(idToken, SCOPES);
       // Get flow to build url redirect
-      GoogleAuthorizationCodeFlow flow = getFlow(response, scopes);
+      GoogleAuthorizationCodeFlow flow = getFlow(response, scopeNames);
 
-      Gson gson = new Gson();AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(gson.toJson(authorizationRoundTripState));
+      Gson gson = new Gson();
+      AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(scopeNames).setRedirectUri(url + getServletURIName()).setState(gson.toJson(authorizationRoundTripState));
       String url = authUrlRequestProperties.build();
       // Send url back to client
       response.getWriter().println(url);
@@ -134,16 +141,16 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
 
-  private List<String> getScopes(boolean calendar, boolean contacts) {
-    List<String> scopes = new ArrayList<String>();
-    if (calendar) {
-      scopes.add(CalendarScopes.CALENDAR_READONLY);
-    }
-    if (contacts){
-      scopes.add(PeopleServiceScopes.CONTACTS_READONLY);
-    }
-    return scopes;
-  }
+  // private List<String> getScopes(boolean calendar, boolean contacts) {
+  //   List<String> scopes = new ArrayList<String>();
+  //   if (calendar) {
+  //     scopes.add(CalendarScopes.CALENDAR_READONLY);
+  //   }
+  //   if (contacts){
+  //     scopes.add(PeopleServiceScopes.CONTACTS_READONLY);
+  //   }
+  //   return scopes;
+  // }
   
   private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
