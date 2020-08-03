@@ -4,6 +4,8 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import java.time.Instant;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
@@ -31,8 +33,10 @@ public class PositiveUserContacts {
     return userId;
   }
 
-  public Set<PotentialContact> getListOfContacts() {
-    return listOfContacts;
+  public List<PotentialContact> getListOfContacts() {
+    List<PotentialContact> sortedContacts = new ArrayList(listOfContacts);
+    Collections.sort(sortedContacts);
+    return sortedContacts;
   }
 
   public long getTimeCreatedSeconds() {
