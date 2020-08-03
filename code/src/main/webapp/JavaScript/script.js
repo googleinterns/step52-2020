@@ -163,7 +163,7 @@ var startApp = negativeUser => {
   gapi.load('auth2', () => {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
-      client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
+      client_id: '83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
     attachSignin(document.getElementById('negative-login-button'), true);
