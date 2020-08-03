@@ -24,8 +24,10 @@ public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
     Thread contactInfo = new Thread(new CalendarDataForNegativeUser(ofy(), userId, credential));
 
     contactInfo.run();
+    NegativeUser negativeUser = ofy().load().type(NegativeUser.class).id(userId).now();
+    response.getWriter().println(negativeUser.getUserEmail());
 
-    response.sendRedirect("/?page=notification");
+    // response.sendRedirect("/?page=notification");
   }
 
   @Override
