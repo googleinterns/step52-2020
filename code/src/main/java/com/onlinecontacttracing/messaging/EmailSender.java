@@ -27,28 +27,33 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
 import javax.mail.internet.MimeMessage;
 import com.google.cloud.authentication.serviceaccount.GetServiceAccountCredentials;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.onlinecontacttracing.messaging.MessagingSetup;
 import javax.mail.MessagingException;
 import java.util.logging.Logger;
+import com.onlinecontacttracing.storage.PersonEmail;
+import java.util.ArrayList;
 
 public class EmailSender {
 
   private String emailSubject;
-  private ArrayList<PotentialContact> contactsList;
+
+  private ArrayList<PersonEmail> contactsList;
+
   private Gmail service;
   private CompiledMessage compiledMessage;
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
   private static final String APPLICATION_NAME = "Online Contact Tracing";
-  private static final String SERVICE_ACCOUNT_EMAIL = "onlinecontacttracing@gmail.com";
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
   
-  public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList, CompiledMessage compiledMessage) {
+
+  public EmailSender(String emailSubject, ArrayList<PersonEmail> contactsList, CompiledMessage compiledMessage) {
+
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       this.emailSubject= emailSubject;
@@ -62,6 +67,7 @@ public class EmailSender {
       log.warning("http transport failed, security error");
     } catch (Exception e) {
       log.warning("general exception");
+      e.printStackTrace();
     }
   }
 
@@ -69,18 +75,22 @@ public class EmailSender {
   public void sendEmailsOut(String messageLanguage) {
     this.compiledMessage.compileMessages(messageLanguage);
     String emailBody = compiledMessage.getCompiledBackendMessage();
-    PotentialContact contact;
+    PersonEmail contact;
     MimeMessage email;
-    try { 
+
+   
+      try { 
          for(PersonEmail contactName : this.contactsList) {
-        email = MessagingSetup.createEmail(contactName.getEmail(), SERVICE_ACCOUNT_EMAIL, this.emailSubject, emailBody);
-        MessagingSetup.sendMessage(service, SERVICE_ACCOUNT_EMAIL, email);
+          email = MessagingSetup.createEmail(contactName.getEmail(), this.emailSubject, emailBody);
+          MessagingSetup.sendMessage(service, email);
+        }
       } catch (MessagingException e) {
         log.warning("error in sending emails out");
       } catch (Exception e) {
         log.warning("general exception");
+        e.printStackTrace();
       }
     }
-  }
 
+  
 }
