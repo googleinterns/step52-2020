@@ -34,6 +34,7 @@ import java.security.PrivateKey;
  */
 public class GetServiceAccountCredentials {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
     private static final String serviceAccountId = "online-contact-tracing@appspot.gserviceaccount.com";
     private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-d231b0b3bf47.p12";
 
@@ -41,17 +42,15 @@ public class GetServiceAccountCredentials {
     try {
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       InputStream in = (new GetServiceAccountCredentials()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
-      System.out.println(in);
-      GoogleCredential credential = (new GoogleCredential.Builder())
+      GoogleCredential credential = new GoogleCredential.Builder()
       .setTransport(HTTP_TRANSPORT)
       .setJsonFactory(JSON_FACTORY)
       .setServiceAccountId(serviceAccountId)
       .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
-      .setServiceAccountPrivateKey(getServiceAccountPrivateKeyFromP12File2(in))
-      .setServiceAccountUser(serviceAccountId)
+      .setServiceAccountPrivateKeyFromP12File(in)
       .build();
 
-    return credential;
+      return credential;
     } catch (Exception e) {
       e.printStackTrace();
       return null;//not sure what to return here

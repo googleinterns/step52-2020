@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import com.google.cloud.authentication.serviceaccount.CreateServiceAccountKey;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import com.onlinecontacttracing.storage.PersonEmail;
+import com.onlinecontacttracing.storage.BusinessNumber;
 
 
 @WebServlet("/send-messages")
@@ -39,55 +40,35 @@ public class MessageSendingServlet extends HttpServlet {
     String systemMessageName = request.getParameter("systemMessage");
     String localityResourceName = request.getParameter("localityResource");
     String messageLanguage = request.getParameter("messageLanguage");
-    System.out.println("idToken: " + idToken);
-    System.out.println("systemMessageName: " + systemMessageName);
-    System.out.println("LocalityResourceName: " + localityResourceName);
-    System.out.println("MessageLanguage: " + messageLanguage);
-
 
     // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
 
-    System.out.println("systemMessage: " + systemMessage);
-    System.out.println("LocalityResource: " + localityResource);
+    try {
+        GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
+        String userId = CheckForApiAuthorizationServlet.getPayload(idToken, flow).getSubject();
+        ArrayList<PersonEmail> contacts = new ArrayList<PersonEmail> () {{
+          add(new PersonEmail("Cynthia", "cynthiama@google.com"));
+        }};
+        ofy().save().entity(new NotificationBatch(userId, contacts, new ArrayList<BusinessNumber>())).now();
+        // ofy().save().entity(new PositiveUserContacts(userId)).now();
+        ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
 
-    GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
-    String userId = CheckForApiAuthorizationServlet.getUserId(idToken, flow);
 
+        PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
+        // PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
 
-    System.out.println("flow: " + flow);
-    System.out.println("userID: " + userId);
-
-    PotentialContact cynthia = new PotentialContact("cynthia ma", "cynthiama@google.com");
-    ArrayList<PotentialContact> contacts = new ArrayList<PotentialContact> (){{
-      add(cynthia);
-    }};
-     ofy().save().entity(new PositiveUser(userId, "cynthiama@google.com")).now();
-    ofy().save().entity(new PositiveUserContacts(userId, contacts)).now();
-     ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
-
-    PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-    // PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
     NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(userId).now();
     ArrayList<PersonEmail> contactsList = notificationInfo.getPersonEmails();
-    CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
+        CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
 
-
-    System.out.println("posUser: " + positiveUser);
-    // System.out.println("posUserContacts: " + positiveUserContacts);
-    System.out.println("contactsList " + contactsList);
-    System.out.println("customizable Msg " + customizableMessage);
-
-
-   
-    CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-    System.out.println("compiledMsg: " + compiledMessage);
-    EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
-    System.out.println("email Sender: " + emailSender);
-    emailSender.sendEmailsOut(messageLanguage);
-    System.out.println("emails Sent");
-    response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
-
+        CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
+         EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
+        emailSender.sendEmailsOut(messageLanguage);
+        // response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
   }
 }
