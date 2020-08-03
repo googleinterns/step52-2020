@@ -71,8 +71,8 @@ public class EmailSender {
     String emailBody = compiledMessage.getCompiledBackendMessage();
     PotentialContact contact;
     MimeMessage email;
-    for(PotentialContact contactName : this.contactsList) {
-      try{ 
+    try { 
+         for(PersonEmail contactName : this.contactsList) {
         email = MessagingSetup.createEmail(contactName.getEmail(), SERVICE_ACCOUNT_EMAIL, this.emailSubject, emailBody);
         MessagingSetup.sendMessage(service, SERVICE_ACCOUNT_EMAIL, email);
       } catch (MessagingException e) {
