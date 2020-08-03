@@ -24,6 +24,8 @@ import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
 import com.google.cloud.authentication.serviceaccount.CreateServiceAccountKey;
+import com.onlinecontacttracing.storage.NotificationBatch;
+import com.onlinecontacttracing.storage.PersonEmail;
 
 
 @WebServlet("/send-messages")
@@ -66,19 +68,22 @@ public class MessageSendingServlet extends HttpServlet {
      ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
 
     PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-    PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
+    // PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
+    NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(userId).now();
+    ArrayList<PersonEmail> contactsList = notificationInfo.getPersonEmails();
     CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
 
 
     System.out.println("posUser: " + positiveUser);
-    System.out.println("posUserContacts: " + positiveUserContacts);
+    // System.out.println("posUserContacts: " + positiveUserContacts);
+    System.out.println("contactsList " + contactsList);
     System.out.println("customizable Msg " + customizableMessage);
 
 
    
     CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
     System.out.println("compiledMsg: " + compiledMessage);
-    EmailSender emailSender = new EmailSender("COVID-19 Updates", positiveUserContacts.getListOfContacts(), compiledMessage); 
+    EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
     System.out.println("email Sender: " + emailSender);
     emailSender.sendEmailsOut(messageLanguage);
     System.out.println("emails Sent");

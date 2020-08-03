@@ -34,11 +34,12 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.onlinecontacttracing.messaging.MessagingSetup;
 import javax.mail.MessagingException;
 import java.util.logging.Logger;
+import com.onlinecontacttracing.storage.PersonEmail;
 
 public class EmailSender {
 
   private String emailSubject;
-  private ArrayList<PotentialContact> contactsList;
+  private ArrayList<PersonEmail> contactsList;
   private Gmail service;
   private CompiledMessage compiledMessage;
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -48,7 +49,7 @@ public class EmailSender {
   private static final String SERVICE_ACCOUNT_EMAIL = "onlinecontacttracing@gmail.com";
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
   
-  public EmailSender(String emailSubject, ArrayList<PotentialContact> contactsList, CompiledMessage compiledMessage) {
+  public EmailSender(String emailSubject, ArrayList<PersonEmail> contactsList, CompiledMessage compiledMessage) {
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       this.emailSubject= emailSubject;
@@ -70,9 +71,9 @@ public class EmailSender {
   public void sendEmailsOut(String messageLanguage) {
     this.compiledMessage.compileMessages(messageLanguage);
     String emailBody = compiledMessage.getCompiledBackendMessage();
-    PotentialContact contact;
+    PersonEmail contact;
     MimeMessage email;
-    for(PotentialContact contactName : this.contactsList) {
+    for(PersonEmail contactName : this.contactsList) {
       try{ 
         
         email = MessagingSetup.createEmail(contactName.getEmail(), SERVICE_ACCOUNT_EMAIL, this.emailSubject, emailBody);
