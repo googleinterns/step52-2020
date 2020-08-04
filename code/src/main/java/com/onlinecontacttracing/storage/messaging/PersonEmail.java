@@ -8,13 +8,11 @@ import java.util.Optional;
 */
 public class PersonEmail implements ContactStatus{
 
-  private final String nameOfSender;
   private final String email;
   private Optional<Long> getTimeWhenEmailedSeconds;
   private boolean personHasBeenEmailed;
 
-  public PersonEmail(String nameOfSender, String email) {
-    this.nameOfSender = nameOfSender;
+  public PersonEmail(String email) {
     this.email = email;
     getTimeWhenEmailedSeconds = Optional.empty();
     personHasBeenEmailed = false;
@@ -34,10 +32,6 @@ public class PersonEmail implements ContactStatus{
   @Override
   public Optional<Long> getTimeWhenContactedSeconds() {
     return getTimeWhenEmailedSeconds;
-  }
-
-  public String getName() {
-    return nameOfSender;
   }
 
   public String getEmail() {

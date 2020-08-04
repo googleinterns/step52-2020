@@ -49,7 +49,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://online-contact-tracing.ue.r.appspot.com/landing";
+  private static final String url = "https://online-contact-tracing.ue.r.appspot.com";
 
   private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
@@ -73,20 +73,21 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       List<String> scopes = authorizationRoundTripState.getScopeNames();
  
       // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow(response, scopes);
+      GoogleAuthorizationCodeFlow flow = getFlow(scopes);
  
       // Get payload containing user info
-      Payload payload = getPayload(authorizationRoundTripState.idToken, flow, response);
+      Payload payload = getPayload(authorizationRoundTripState.idToken, flow);
  
       // Get userId form payload and retrieve credential
       authorizationRoundTripState.userId = payload.getSubject();
       String email = payload.getEmail();
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
+      
       Credential credential = flow.createAndStoreCredential(tokenResponse, authorizationRoundTripState.userId);
       updateUser(authorizationRoundTripState.userId, email);
       useCredential(authorizationRoundTripState, credential, response);
- 
+
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
       response.sendRedirect("/?page=login&error=FileError");
@@ -108,21 +109,23 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     try {
       // Get token to pass into redirect
       String idToken = request.getParameter("idToken");
+      String timeZoneOffset = request.getParameter("timeZoneOffset");
       boolean calendar = Boolean.parseBoolean(request.getParameter("calendar"));
       boolean contacts = Boolean.parseBoolean(request.getParameter("contacts"));
       
-      AuthorizationRoundTripState authorizationRoundTripState = new AuthorizationRoundTripState(idToken);
+      AuthorizationRoundTripState authorizationRoundTripState = new AuthorizationRoundTripState(idToken, timeZoneOffset);
       authorizationRoundTripState.addScope(calendar, AuthenticationScope.CALENDAR);
       authorizationRoundTripState.addScope(contacts, AuthenticationScope.CONTACTS);
    
       List<String> scopes = authorizationRoundTripState.getScopeNames();
  
       // Get flow to build url redirect
-      GoogleAuthorizationCodeFlow flow = getFlow(response, scopes);
+      GoogleAuthorizationCodeFlow flow = getFlow(scopes);
  
       Gson gson = new Gson();
       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(scopes).setRedirectUri(url + getServletURIName()).setState(gson.toJson(authorizationRoundTripState));
       String url = authUrlRequestProperties.build();
+
       // Send url back to client
       response.getWriter().println(url);
  
@@ -139,7 +142,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
   
-  private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
+  private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow) throws IOException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     
     // Make verifier to get payload
@@ -153,7 +156,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   /**
   *  This method returns an GoogleAuthorizationCodeFlow object.
   */
-  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response, List<String> scopes) throws IOException, FileNotFoundException, GeneralSecurityException {
+  private GoogleAuthorizationCodeFlow getFlow(List<String> scopes) throws IOException, FileNotFoundException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
  
     // Create flow object using credentials file

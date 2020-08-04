@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.onlinecontacttracing.storage.PotentialContact;
-import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.onlinecontacttracing.storage.PositiveUserContacts;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
 import java.util.Set;
 import java.util.List;
 import com.onlinecontacttracing.authentication.AuthenticationScope;
+import com.google.gson.Gson;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -48,7 +49,12 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     calendarInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
-    // TODO call mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts())
+    PositiveUserContacts p = new PositiveUserContacts(state.userId);
+    p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
+    ofy().save().entity(p).now();
+ 
+    Gson gson = new Gson();
+    response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(state));
   }
 
   @Override
