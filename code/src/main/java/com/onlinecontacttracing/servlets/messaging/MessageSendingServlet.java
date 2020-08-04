@@ -35,6 +35,7 @@ import com.onlinecontacttracing.storage.NotificationBatch;
 import com.onlinecontacttracing.storage.PersonEmail;
 import com.onlinecontacttracing.storage.BusinessNumber;
 import java.util.Collections;
+import java.security.GeneralSecurityException;
 
 
 @WebServlet("/send-messages")
@@ -73,16 +74,51 @@ public class MessageSendingServlet extends HttpServlet {
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
 
       ArrayList<PersonEmail> contactsList = notificationInfo.getPersonEmails();
-      System.out.println(contactsList);
       
+      // TODO: replace with saved email
       CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
 
-        CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-        EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
-        emailSender.sendEmailsOut(messageLanguage);
-        // response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
+      CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
+      EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
+      emailSender.sendEmailsOut(messageLanguage);
+
     } catch(Exception e) {
         e.printStackTrace();
+    }
+  }
+
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+      // Set up
+      NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
+        .setAudience(Collections.singletonList(CLIENT_ID))
+        .build();
+
+      // Get payload with userId
+      String idTokenString = request.getParameter("idToken");
+      GoogleIdToken idToken = verifier.verify(idTokenString);
+      Payload payload = idToken.getPayload();
+      String userId = payload.getSubject();
+
+      // Get emails to populate notificationBatch
+      String[] emails = request.getParameter("emails").split(",");
+
+      NotificationBatch notificationBatch = new NotificationBatch(userId);
+      for (String email : emails) {
+        notificationBatch.addPersonEmail(email);
+      }
+      
+      // Store notification batch
+      ObjectifyService.ofy().save().entity(notificationBatch).now();
+
+      response.sendRedirect("/send-messages?idToken=" + idTokenString);
+      
+    } catch (GeneralSecurityException e) {
+      log.warning("http transport failed, security error");
+      response.sendRedirect("/?page=login&error=GeneralError");
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }
