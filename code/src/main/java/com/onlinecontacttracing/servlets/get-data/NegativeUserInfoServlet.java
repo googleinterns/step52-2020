@@ -25,9 +25,7 @@ public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
     
     contactInfo.run();
     NegativeUser negativeUser = ofy().load().type(NegativeUser.class).id(userId).now();
-    System.out.println(negativeUser.getUserEmail());
-    response.getWriter().println(negativeUser.getUserEmail());
-    // response.sendRedirect("/?page=notification");
+    response.sendRedirect("/?page=confirmNegativeUserEmail.html&negative-user-email="+negativeUser.getUserEmail());
   }
 
   @Override

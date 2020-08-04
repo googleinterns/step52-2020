@@ -72,13 +72,14 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
       String email = payload.getEmail();
-      System.out.println(email);
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
 
       Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
+      
       updateUser(userId, email);
       useCredential(userId, credential, response);
+      response.getWriter().println(email);
 
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");
