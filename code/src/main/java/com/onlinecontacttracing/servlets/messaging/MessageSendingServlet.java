@@ -55,7 +55,7 @@ public class MessageSendingServlet extends HttpServlet {
         // ofy().save().entity(new PositiveUserContacts(userId)).now();
         ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
 
-
+        ofy().save().entity(new PositiveUser(userId, "cynthima@onlinecontacttracing.com")).now();
         PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
         // PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
 
