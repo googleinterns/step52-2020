@@ -39,6 +39,10 @@ public class Place {
     return timeInterval.intervalEndSeconds;
   }
 
+  public String displayTimeIntervalAsDate(int timeZoneOffsetMinutes) {
+    return timeInterval.displayTimeIntervalAsDate(timeZoneOffsetMinutes);
+  }
+
   @Override  
   public String toString() {
     return nameOfPlace + " (" + placeId + ") at " + timeInterval;

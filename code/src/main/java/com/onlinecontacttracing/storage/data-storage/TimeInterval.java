@@ -20,6 +20,15 @@ public class TimeInterval {
     intervalEndSeconds = intervalEnd;
   }
 
+  public String displayTimeIntervalAsDate(int timeZoneOffsetMinutes) {
+    return String.format("%s to %s", convertToDate(intervalStartSeconds), convertToDate(intervalEndSeconds));
+  }
+
+  private static String convertToDate(long timeInSeconds, int timeZoneOffsetMinutes) {
+    long offsetTimeInMillis = (timeInSeconds - timeZoneOffsetMinutes * 60) * 1000;
+    return new Date(offsetTimeInMillis).toLocaleString();
+  }
+
   @Override  
   public String toString() {
     Date start = new java.util.Date(intervalStartSeconds * 1000);
