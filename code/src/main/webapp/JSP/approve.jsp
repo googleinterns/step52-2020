@@ -99,7 +99,7 @@ com.onlinecontacttracing.storage.Place" %>
     }
   %>
     <div id="blue-buttons-to-procede">
-      <button id="login-button-left-or-top" onclick="suPeRCooLFuNcTiONGoEsHerE()"> Submit </button>
+      <button id="login-button-left-or-top" onclick="sendListToServlet()"> Submit </button>
     </div>
   </div>
 </body>

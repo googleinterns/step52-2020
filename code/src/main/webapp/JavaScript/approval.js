@@ -2,7 +2,7 @@ function removeLines() {
   document.getElementById("wrapper-background").classList.add("remove")
 }
 
-function suPeRCooLFuNcTiONGoEsHerE() {
+function sendListToServlet() {
   const params = new URLSearchParams();
   params.append('idToken', localStorage.idToken);
 
