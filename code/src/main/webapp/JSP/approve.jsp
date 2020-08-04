@@ -32,7 +32,7 @@ com.onlinecontacttracing.storage.Place" %>
   <% 
     String idTokenString = request.getParameter("idToken");
     int timeZoneOffset = Integer.parseInt(request.getParameter("timeZoneOffset"));
-    ZoneOffset zoneOffset = ZoneOffset.ofHours(360/60)
+    ZoneOffset zoneOffset = ZoneOffset.ofHours(360 / 60);
     JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
