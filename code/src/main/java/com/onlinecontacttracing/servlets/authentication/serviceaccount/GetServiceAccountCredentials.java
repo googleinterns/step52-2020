@@ -36,6 +36,7 @@ public class GetServiceAccountCredentials {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private static final String serviceAccountId = "online-contact-tracing@appspot.gserviceaccount.com";
+    private static final String emailToSendWith = "cccoders@onlinecontacttracing.com";
     private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-d231b0b3bf47.p12";
 
   public static GoogleCredential getServiceAccountCredentials() {
@@ -46,6 +47,7 @@ public class GetServiceAccountCredentials {
       .setTransport(HTTP_TRANSPORT)
       .setJsonFactory(JSON_FACTORY)
       .setServiceAccountId(serviceAccountId)
+      .setServiceAccountUser(emailToSendWith)
       .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
       .setServiceAccountPrivateKeyFromP12File(in)
       .build();
