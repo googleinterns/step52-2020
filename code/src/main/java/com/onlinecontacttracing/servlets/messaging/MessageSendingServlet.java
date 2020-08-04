@@ -30,7 +30,6 @@ import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
-import com.google.cloud.authentication.serviceaccount.CreateServiceAccountKey;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import com.onlinecontacttracing.storage.PersonEmail;
 import com.onlinecontacttracing.storage.BusinessNumber;

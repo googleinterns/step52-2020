@@ -124,7 +124,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
  
       Gson gson = new Gson();
       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(scopes).setRedirectUri(url + getServletURIName()).setState(gson.toJson(authorizationRoundTripState));
-
       String url = authUrlRequestProperties.build();
 
       // Send url back to client

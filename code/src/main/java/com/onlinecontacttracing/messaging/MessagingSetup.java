@@ -55,6 +55,7 @@ public class MessagingSetup {
      * @throws MessagingException
      */
   public static MimeMessage createEmail(String to, String emailSubject, String emailContent) throws MessagingException {
+        System.out.println(to);
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
 
