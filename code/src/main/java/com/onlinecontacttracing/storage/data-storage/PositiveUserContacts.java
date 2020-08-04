@@ -34,9 +34,14 @@ public class PositiveUserContacts {
   }
 
   public List<PotentialContact> getListOfContacts() {
-    List<PotentialContact> sortedContacts = new ArrayList(listOfContacts);
-    Collections.sort(sortedContacts);
-    return sortedContacts;
+    if (listOfContacts != null) {
+      List<PotentialContact> sortedContacts = new ArrayList(listOfContacts);
+      // Sort contacts by name. Null names are sorted by email.
+      Collections.sort(sortedContacts);
+      return sortedContacts;
+    } else {
+      return Collections.emptyList();
+    }
   }
 
   public long getTimeCreatedSeconds() {

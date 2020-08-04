@@ -51,17 +51,21 @@ public class PotentialContact implements Comparable<PotentialContact> {
   } 
 
   /*
-   * Make class sortable
+   *  This class will be sorted by name. If no name is found then it is sorted by email.
    */
   @Override
   public int compareTo(PotentialContact other) {
     if (nameOfPerson == null && other.nameOfPerson == null) {
+      // sort by email when neither have a name
       return emailOfPerson.compareTo(other.emailOfPerson);
+
+      // Prioritize contacts with names
     } else if (nameOfPerson == null) {
       return 1;
     } else if (other.nameOfPerson == null) {
       return -1;
     } else {
+      // If both have name, sort by name
 	  return nameOfPerson.compareTo(other.nameOfPerson);
     }
   }
