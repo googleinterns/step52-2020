@@ -67,6 +67,7 @@ class PageController {
     this.negativePage = new NegativeLoginPage();
     this.notificationPage = new NotificationPage();
     this.currentlyShown = undefined;
+    this.idToken = undefined;
   }
 
   hideCurrentPage() {
@@ -163,7 +164,7 @@ var startApp = negativeUser => {
   gapi.load('auth2', () => {
     // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
-      client_id: '1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com',
+      client_id: '83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com',
     });
     attachSignin(document.getElementById('login-button-left-or-top'), false);
     attachSignin(document.getElementById('negative-login-button'), true);
@@ -172,7 +173,6 @@ var startApp = negativeUser => {
 
 function attachSignin(element, negativeUser) {
   auth2.attachClickHandler(element, {}, googleUser => {
-    document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
     localStorage.setItem('idToken', idToken.toString());
@@ -187,8 +187,12 @@ function attachSignin(element, negativeUser) {
     var servlet = "";
     if (negativeUser) {
       servlet = '/get-negative-user-info';
+      params.append('calendar', true);
+      params.append('contacts', false);
     } else {
       servlet = '/get-positive-user-info';
+      params.append('calendar', document.getElementById('calendar').checked);
+      params.append('contacts', document.getElementById('contacts').checked);
     }
 
     fetch(new Request(servlet, {method: 'POST', body: params}))

@@ -13,6 +13,8 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
 import java.util.Set;
+import java.util.List;
+import com.onlinecontacttracing.authentication.AuthenticationScope;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -28,17 +30,22 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   * Once both are done, the servlet will merge contact data sets
   */
   @Override
-  void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+  void useCredential(AuthorizationRoundTripState state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
-    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), userId, credential);
-    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), userId, credential));
-    Thread contactInfo = new Thread(calendarDataForPositiveUser);
+    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), state.userId, credential);
+    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), state.userId, credential));
+    Thread calendarInfo = new Thread(calendarDataForPositiveUser);
 
-    peopleInfo.start();
-    contactInfo.start();
+    if (state.authenticationScopes.contains(AuthenticationScope.CALENDAR)) {
+      calendarInfo.start();
+    }
+
+    if (state.authenticationScopes.contains(AuthenticationScope.CONTACTS)) {
+      peopleInfo.start();
+    }
     
     peopleInfo.join();
-    contactInfo.join();
+    calendarInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
     PositiveUserContacts p = new PositiveUserContacts(userId);

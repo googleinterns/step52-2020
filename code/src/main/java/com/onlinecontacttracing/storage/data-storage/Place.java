@@ -3,6 +3,7 @@ package com.onlinecontacttracing.storage;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
+import java.time.ZoneOffset; 
 
 /**
 * This class keeps track of a place's name and id
@@ -39,7 +40,7 @@ public class Place {
     return timeInterval.intervalEndSeconds;
   }
 
-  public String displayTimeIntervalAsDate(int timeZoneOffsetMinutes) {
+  public String displayTimeIntervalAsDate(ZoneOffset zoneOffset) {
     return timeInterval.displayTimeIntervalAsDate(timeZoneOffsetMinutes);
   }
 
