@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import javax.mail.internet.MimeMessage;
-import com.google.cloud.authentication.serviceaccount.GetServiceAccountCredentials;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.onlinecontacttracing.messaging.MessagingSetup;
 import javax.mail.MessagingException;
@@ -39,10 +38,11 @@ import java.util.ArrayList;
 
 public class EmailSender {
 
+  private static final String serviceAccountId = "online-contact-tracing@appspot.gserviceaccount.com";
+  private static final String emailToSendWith = "cccoders@onlinecontacttracing.com";
+  private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-f798898872f4.p12";
   private String emailSubject;
-
   private ArrayList<PersonEmail> contactsList;
-
   private Gmail service;
   private CompiledMessage compiledMessage;
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -59,7 +59,7 @@ public class EmailSender {
       this.emailSubject= emailSubject;
       this.contactsList = contactsList;
       this.compiledMessage = compiledMessage;
-      GoogleCredential serviceAccountCredential = GetServiceAccountCredentials.getServiceAccountCredentials();
+      GoogleCredential serviceAccountCredential = getServiceAccountCredentials();
       this.service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
                   .build();
@@ -71,6 +71,26 @@ public class EmailSender {
       e.printStackTrace();
     }
   }
+
+  private GoogleCredential getServiceAccountCredentials() {
+    try {
+      NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+      InputStream in = this.getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
+      GoogleCredential credential = new GoogleCredential.Builder()
+      .setTransport(HTTP_TRANSPORT)
+      .setJsonFactory(JSON_FACTORY)
+      .setServiceAccountId(serviceAccountId)
+      .setServiceAccountUser(emailToSendWith)
+      .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
+      .setServiceAccountPrivateKeyFromP12File(in)
+      .build();
+
+      return credential;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;//not sure what to return here
+    }
+  }  
 
 
   public void sendEmailsOut(String messageLanguage) {
@@ -92,6 +112,4 @@ public class EmailSender {
         e.printStackTrace();
       }
     }
-
-  
 }
