@@ -31,40 +31,34 @@ public final class CheckMessagesForFlagsTest {
   @Test
   public void containsOneFlag() {
     ArrayList<String> errorMessages = checkMessagesForFlags.findTriggeredFlags(user, "<html>");
-    HashSet<String> errorMessagesSet = new HashSet<String> () {{
-      addAll(errorMessages);
-    }};
-    HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
-      add(htmlFlaggingFilter.errorMessageToUser());
-    }};
-    assertEquals(errorMessagesSet, expectedErrorMessagesSet);
+    HashSet<String> errorMessagesSet = new HashSet<String> ();
+      errorMessagesSet.addAll(errorMessages);
+    HashSet<String> expectedErrorMessagesSet = new HashSet<String> ();
+      expectedErrorMessagesSet.add(htmlFlaggingFilter.errorMessageToUser());
+    assertEquals(expectedErrorMessagesSet, errorMessagesSet);
   }
 
   @Test
   public void containsTwoFlags() {
     ArrayList<String> errorMessages = checkMessagesForFlags.findTriggeredFlags(user, "<html>   www.");
-    HashSet<String> errorMessagesSet = new HashSet<String> () {{
-      addAll(errorMessages);
-    }};
-    HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
-      add(htmlFlaggingFilter.errorMessageToUser());
-      add(linkFlaggingFilter.errorMessageToUser());
-    }};
-    assertEquals(errorMessagesSet, expectedErrorMessagesSet);
+    HashSet<String> errorMessagesSet = new HashSet<String> ();
+      errorMessagesSet.addAll(errorMessages);
+    HashSet<String> expectedErrorMessagesSet = new HashSet<String> ();
+      expectedErrorMessagesSet.add(htmlFlaggingFilter.errorMessageToUser());
+      expectedErrorMessagesSet.add(linkFlaggingFilter.errorMessageToUser());
+    assertEquals(expectedErrorMessagesSet, errorMessagesSet);
   }
 
   @Test
   public void containsThreeFlags() {
     ArrayList<String> errorMessages = checkMessagesForFlags.findTriggeredFlags(user, "<html>   www. fuck");
-    HashSet<String> errorMessagesSet = new HashSet<String> () {{
-      addAll(errorMessages);
-    }};
-    HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
-      add(htmlFlaggingFilter.errorMessageToUser());
-      add(linkFlaggingFilter.errorMessageToUser());
-      add(profanityFlaggingFilter.errorMessageToUser());
-    }};
-    assertEquals(errorMessagesSet, expectedErrorMessagesSet);
+    HashSet<String> errorMessagesSet = new HashSet<String> ();
+      errorMessagesSet.addAll(errorMessages);
+    HashSet<String> expectedErrorMessagesSet = new HashSet<String> ();
+      expectedErrorMessagesSet.add(htmlFlaggingFilter.errorMessageToUser());
+      expectedErrorMessagesSet.add(linkFlaggingFilter.errorMessageToUser());
+      expectedErrorMessagesSet.add(profanityFlaggingFilter.errorMessageToUser());
+    assertEquals(expectedErrorMessagesSet, errorMessagesSet);
   }
 
   @Test
@@ -74,16 +68,14 @@ public final class CheckMessagesForFlagsTest {
       message = message.concat("a");
     }
     ArrayList<String> errorMessages = checkMessagesForFlags.findTriggeredFlags(user, message);
-    HashSet<String> errorMessagesSet = new HashSet<String> () {{
-      addAll(errorMessages);
-    }};
-    HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
-      add(htmlFlaggingFilter.errorMessageToUser());
-      add(linkFlaggingFilter.errorMessageToUser());
-      add(profanityFlaggingFilter.errorMessageToUser());
-      add(lengthFlaggingFilter.errorMessageToUser());
-    }};
-    assertEquals(errorMessagesSet, expectedErrorMessagesSet);
+    HashSet<String> errorMessagesSet = new HashSet<String> ();
+      errorMessagesSet.addAll(errorMessages);
+    HashSet<String> expectedErrorMessagesSet = new HashSet<String> ();
+      expectedErrorMessagesSet.add(htmlFlaggingFilter.errorMessageToUser());
+      expectedErrorMessagesSet.add(linkFlaggingFilter.errorMessageToUser());
+      expectedErrorMessagesSet.add(profanityFlaggingFilter.errorMessageToUser());
+      expectedErrorMessagesSet.add(lengthFlaggingFilter.errorMessageToUser());
+    assertEquals(expectedErrorMessagesSet, errorMessagesSet);
   }
 
   @Test
@@ -98,12 +90,10 @@ public final class CheckMessagesForFlagsTest {
     user.incrementAttemptedEmailDrafts();
 
     ArrayList<String> errorMessages = checkMessagesForFlags.findTriggeredFlags(user, message);
-    HashSet<String> errorMessagesSet = new HashSet<String> () {{
-      addAll(errorMessages);
-    }};
-    HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
-      add(customizeMessageTriesFlaggingFilter.errorMessageToUser());
-    }};
+    HashSet<String> errorMessagesSet = new HashSet<String> ();
+      errorMessagesSet.addAll(errorMessages);
+    HashSet<String> expectedErrorMessagesSet = new HashSet<String> ();
+      expectedErrorMessagesSet.add(customizeMessageTriesFlaggingFilter.errorMessageToUser());
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 
@@ -117,12 +107,10 @@ public final class CheckMessagesForFlagsTest {
     user.incrementAttemptedEmailDrafts();
 
     ArrayList<String> errorMessages = checkMessagesForFlags.findTriggeredFlags(user, message);
-    HashSet<String> errorMessagesSet = new HashSet<String> () {{
-      addAll(errorMessages);
-    }};
-    HashSet<String> expectedErrorMessagesSet = new HashSet<String> (){{
-      add(customizeMessageTriesFlaggingFilter.errorMessageToUser());
-    }};
+    HashSet<String> errorMessagesSet = new HashSet<String> ();
+      errorMessagesSet.addAll(errorMessages);
+    HashSet<String> expectedErrorMessagesSet = new HashSet<String> ();
+      expectedErrorMessagesSet.add(customizeMessageTriesFlaggingFilter.errorMessageToUser());
     assertEquals(errorMessagesSet, expectedErrorMessagesSet);
   }
 

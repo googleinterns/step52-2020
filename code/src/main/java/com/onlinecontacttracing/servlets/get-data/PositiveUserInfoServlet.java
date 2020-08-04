@@ -31,7 +31,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
     CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), userId, credential);
-    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), userId, credential));
+    Thread peopleInfo = new Thread(peopleDataForPositiveUser);
     Thread contactInfo = new Thread(calendarDataForPositiveUser);
 
     peopleInfo.start();
@@ -41,7 +41,10 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     contactInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
-    // TODO call mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts())
+    PositiveUserContacts fullContacts = ofy.load().type(PositiveUserContacts.class).id(userId).now();
+    // Merge contacts from Calendar and People APIs
+    fullContacts.mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts());
+    ofy.save().entity(fullContacts).now();
   }
 
   @Override

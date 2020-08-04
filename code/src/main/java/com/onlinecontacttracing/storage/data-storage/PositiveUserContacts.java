@@ -48,7 +48,11 @@ public class PositiveUserContacts {
   }
 
   //TODO
-  public void mergeContactListsFromPeopleAPI(Set<PotentialContact> contactsFromPeople) {}
+  public void mergeContactListsFromPeopleAPI(Set<PotentialContact> contactsFromPeople) {
+      for(PotentialContact contact: contactsFromPeople) {
+          listOfContacts.add(contact.getName(), contact.getEmail());
+      }
+  }
 
   @Override
   public String toString() {
