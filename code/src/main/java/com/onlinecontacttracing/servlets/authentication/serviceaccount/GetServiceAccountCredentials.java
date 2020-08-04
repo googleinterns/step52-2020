@@ -37,7 +37,7 @@ public class GetServiceAccountCredentials {
 
     private static final String serviceAccountId = "online-contact-tracing@appspot.gserviceaccount.com";
     private static final String emailToSendWith = "cccoders@onlinecontacttracing.com";
-    private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-d231b0b3bf47.p12";
+    private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-f798898872f4.p12";
 
   public static GoogleCredential getServiceAccountCredentials() {
     try {
@@ -57,16 +57,5 @@ public class GetServiceAccountCredentials {
       e.printStackTrace();
       return null;//not sure what to return here
     }
-
   }
-
-  public static PrivateKey getServiceAccountPrivateKeyFromP12File2(InputStream p12File)
-    throws GeneralSecurityException, IOException {
-    PrivateKey serviceAccountPrivateKey = SecurityUtils.loadPrivateKeyFromKeyStore(
-    SecurityUtils.getPkcs12KeyStore(), p12File, "notasecret",
-    "privatekey", "notasecret");
-    return serviceAccountPrivateKey;
-  }
-
-
 }
