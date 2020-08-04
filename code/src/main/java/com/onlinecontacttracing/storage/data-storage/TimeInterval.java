@@ -2,6 +2,7 @@ package com.onlinecontacttracing.storage;
 
 import com.googlecode.objectify.annotation.Index;
 import java.util.Date;
+import java.time.ZoneOffset; 
 
 /**
 * This class stores a timeinterval to be used in the Locationa and Place class
@@ -18,6 +19,15 @@ public class TimeInterval {
   public TimeInterval(long intervalStart, long intervalEnd) {
     intervalStartSeconds = intervalStart;
     intervalEndSeconds = intervalEnd;
+  }
+
+  public String displayTimeIntervalAsDate(ZoneOffset zoneOffset) {
+    return String.format("%s to %s", convertToDate(intervalStartSeconds, zoneOffset), convertToDate(intervalEndSeconds, zoneOffset));
+  }
+
+  private static String convertToDate(long timeInSeconds, ZoneOffset zoneOffset) {
+    long offsetTimeInMillis = (timeInSeconds - zoneOffset.getTotalSeconds()) * 1000;
+    return new Date(offsetTimeInMillis).toLocaleString();
   }
 
   @Override  

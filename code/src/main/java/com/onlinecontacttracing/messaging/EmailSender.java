@@ -63,6 +63,7 @@ public class EmailSender {
       this.service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
                   .build();
+                  
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
     } catch (Exception e) {

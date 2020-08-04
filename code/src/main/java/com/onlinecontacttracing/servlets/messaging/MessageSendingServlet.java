@@ -8,6 +8,13 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import com.onlinecontacttracing.authentication.CheckForApiAuthorizationServlet;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.onlinecontacttracing.storage.PositiveUser;
 
 import com.googlecode.objectify.Objectify; 
@@ -27,44 +34,51 @@ import com.google.cloud.authentication.serviceaccount.CreateServiceAccountKey;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import com.onlinecontacttracing.storage.PersonEmail;
 import com.onlinecontacttracing.storage.BusinessNumber;
+import java.util.Collections;
 
 
 @WebServlet("/send-messages")
 public class MessageSendingServlet extends HttpServlet {
 
   static final Logger log = Logger.getLogger(DeleteNegativeUserLocationsServlet.class.getName());
+  private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
+  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String idToken = request.getParameter("idToken");
-    String systemMessageName = request.getParameter("systemMessage");
-    String localityResourceName = request.getParameter("localityResource");
-    String messageLanguage = request.getParameter("messageLanguage");
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String idTokenString = request.getParameter("idToken");
+    // String systemMessageName = request.getParameter("systemMessage");
+    // String localityResourceName = request.getParameter("localityResource");
+    // String messageLanguage = request.getParameter("messageLanguage");
+    String systemMessageName = "VERSION_1";
+    String localityResourceName = "US";
+    String messageLanguage = "SP";
 
     // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
 
     try {
-        GoogleAuthorizationCodeFlow flow = CheckForApiAuthorizationServlet.getFlow();
-        String userId = CheckForApiAuthorizationServlet.getPayload(idToken, flow).getSubject();
-        ArrayList<PersonEmail> contacts = new ArrayList<PersonEmail> () {{
-          add(new PersonEmail("Cynthia", "cynthiama@google.com"));
-        }};
-        ofy().save().entity(new NotificationBatch(userId, contacts, new ArrayList<BusinessNumber>())).now();
-        // ofy().save().entity(new PositiveUserContacts(userId)).now();
-        ofy().save().entity(new CustomizableMessage(userId, "hi cynthia!!!")).now();
+      NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
-        ofy().save().entity(new PositiveUser(userId, "cynthima@onlinecontacttracing.com")).now();
-        PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-        // PositiveUserContacts positiveUserContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
+      // Make verifier to get payload
+      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
+        .setAudience(Collections.singletonList(CLIENT_ID))
+        .build();
+      GoogleIdToken idToken = verifier.verify(idTokenString);
+      Payload payload = idToken.getPayload();
+      String userId = payload.getSubject();
 
-    NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(userId).now();
-    ArrayList<PersonEmail> contactsList = notificationInfo.getPersonEmails();
-        CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
+      NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(userId).now();
+      PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
+
+      ArrayList<PersonEmail> contactsList = notificationInfo.getPersonEmails();
+      System.out.println(contactsList);
+      
+      CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
 
         CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-         EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
+        EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
         emailSender.sendEmailsOut(messageLanguage);
         // response.getWriter().println(compiledMessage.getCompiledFrontendDisplayMessage());
     } catch(Exception e) {

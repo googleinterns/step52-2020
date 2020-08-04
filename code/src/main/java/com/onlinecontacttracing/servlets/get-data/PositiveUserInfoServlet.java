@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.onlinecontacttracing.storage.PotentialContact;
-import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.onlinecontacttracing.storage.PositiveUserContacts;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PositiveUser;
 import java.util.Optional;
 import java.util.Set;
+import java.util.List;
+import com.onlinecontacttracing.authentication.AuthenticationScope;
+import com.google.gson.Gson;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -28,20 +31,30 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   * Once both are done, the servlet will merge contact data sets
   */
   @Override
-  void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+  void useCredential(AuthorizationRoundTripState state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
-    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), userId, credential);
-    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), userId, credential));
-    Thread contactInfo = new Thread(calendarDataForPositiveUser);
+    CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), state.userId, credential);
+    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), state.userId, credential));
+    Thread calendarInfo = new Thread(calendarDataForPositiveUser);
 
-    peopleInfo.start();
-    contactInfo.start();
+    if (state.authenticationScopes.contains(AuthenticationScope.CALENDAR)) {
+      calendarInfo.start();
+    }
+
+    if (state.authenticationScopes.contains(AuthenticationScope.CONTACTS)) {
+      peopleInfo.start();
+    }
     
     peopleInfo.join();
-    contactInfo.join();
+    calendarInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
-    // TODO call mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts())
+    PositiveUserContacts p = new PositiveUserContacts(state.userId);
+    p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
+    ofy().save().entity(p).now();
+ 
+    Gson gson = new Gson();
+    response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(state));
   }
 
   @Override
