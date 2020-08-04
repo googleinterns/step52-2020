@@ -194,7 +194,7 @@ function attachSignin(element, negativeUser) {
     .then(response => {
       console.log("HELOOOO")
       console.log(response);
-        window.location = "../html/confirmNegativeUserEmail.html";
+        // window.location.replace("../html/confirmNegativeUserEmail.html");
         console.log("WOO");
         console.log(response);
         // document.getElementById("negative-user-email").innerText = response;

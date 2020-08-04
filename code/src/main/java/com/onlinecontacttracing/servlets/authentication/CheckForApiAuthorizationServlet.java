@@ -47,7 +47,8 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, PeopleServiceScopes.CONTACTS_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  // private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
+  private static final String url = "https://8080-ac896ae1-5f0c-45b5-8dfe-19fa4d3d8699.us-east1.cloudshell.dev/";
 
   private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
 
@@ -71,6 +72,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
       String email = payload.getEmail();
+      System.out.println(email);
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
 

@@ -22,11 +22,11 @@ public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
   @Override
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     Thread contactInfo = new Thread(new CalendarDataForNegativeUser(ofy(), userId, credential));
-
+    
     contactInfo.run();
     NegativeUser negativeUser = ofy().load().type(NegativeUser.class).id(userId).now();
+    System.out.println(negativeUser.getUserEmail());
     response.getWriter().println(negativeUser.getUserEmail());
-
     // response.sendRedirect("/?page=notification");
   }
 
