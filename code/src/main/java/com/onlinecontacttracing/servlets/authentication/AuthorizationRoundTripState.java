@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
 /*
  * Helper class to pass along state information in URL and servlets
  */
-class AuthorizationRoundTripState {
+public class AuthorizationRoundTripState {
   final String idToken;
   final ZoneOffset zoneOffset;
   String userId;
@@ -18,9 +18,17 @@ class AuthorizationRoundTripState {
     this.idToken = idToken;
 
     int timeZoneOffsetMinutes = Integer.parseInt(timeZoneOffset);
-    ZoneOffset zoneOffset = ZoneOffset.ofHours(timeZoneOffsetMinutes / 60); // Convert offset to hours
+    zoneOffset = ZoneOffset.ofHours(timeZoneOffsetMinutes / 60); // Convert offset to hours
 
     authenticationScopes = new ArrayList<AuthenticationScope>();
+  }
+
+  public String getIdToken() {
+    return idToken;
+  }
+
+  public ZoneOffset getZoneOffset() {
+    return zoneOffset;
   }
 
   public List<String> getScopeNames() {

@@ -43,7 +43,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
     .setAudience(Collections.singletonList("83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com"))
     .build();
-    GoogleIdToken idToken = verifier.verify(authorizationRoundTripState.idToken);
+    GoogleIdToken idToken = verifier.verify(authorizationRoundTripState.getIdToken());
     Payload payload = idToken.getPayload();
     String userId = payload.getSubject();
     PositiveUserContacts contacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
@@ -90,7 +90,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
   %>
       <div class="picker place">
         <p> <%= place.getName() %> </p>
-        <p> <%= place.displayTimeIntervalAsDate(authorizationRoundTripState.zoneOffset)%></p>
+        <p> <%= place.displayTimeIntervalAsDate(authorizationRoundTripState.getZoneOffset())%></p>
         <label class="container">
           <input type="checkbox">
           <span class="checkmark"></span>

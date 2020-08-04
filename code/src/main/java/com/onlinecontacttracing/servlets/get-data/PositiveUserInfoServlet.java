@@ -53,8 +53,8 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
     ofy().save().entity(p).now();
  
-      Gson gson = new Gson();
-    response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(authorizationRoundTripState));
+    Gson gson = new Gson();
+    response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(state));
   }
 
   @Override
