@@ -179,6 +179,7 @@ function attachSignin(element, negativeUser) {
 
     const params = new URLSearchParams()
     params.append('idToken', idToken);
+    params.append('timeZoneOffset', new Date().getTimezoneOffset());
 
 //     params.append('systemMessage', 'VERSION_1');
 //     params.append('localityResource', 'US');

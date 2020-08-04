@@ -4,6 +4,7 @@ com.google.api.client.http.javanet.NetHttpTransport,
 com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier,
 java.util.Collections,
 java.util.Optional,
+java.time.ZoneOffset,
 com.google.api.client.json.JsonFactory,
 com.google.api.client.json.jackson2.JacksonFactory,
 com.google.api.client.googleapis.auth.oauth2.GoogleIdToken,
@@ -30,19 +31,20 @@ com.onlinecontacttracing.storage.Place" %>
     <div id="line-horizontal-bottom" class="line line-horizontal"></div>
   <% 
     String idTokenString = request.getParameter("idToken");
-    int timeZoneOffset = Integer.parseInt("360");
+    int timeZoneOffset = Integer.parseInt(request.getParameter("timeZoneOffset"));
+    ZoneOffset zoneOffset = ZoneOffset.ofHours(360/60)
     JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
     // Make verifier to get payload
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
-    .setAudience(Collections.singletonList("1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com"))
+    .setAudience(Collections.singletonList("83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com"))
     .build();
     GoogleIdToken idToken = verifier.verify(idTokenString);
     Payload payload = idToken.getPayload();
     String userId = payload.getSubject();
     PositiveUserContacts contacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
-    if (contacts != null && contacts.getListOfContacts() != null) {
+    if (contacts != null && !contacts.getListOfContacts().isEmpty()) {
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with so that we can email them: </p>
       <div class="picker header">
@@ -85,7 +87,7 @@ com.onlinecontacttracing.storage.Place" %>
   %>
       <div class="picker place">
         <p> <%= place.getName() %> </p>
-        <p> <%= place.displayTimeIntervalAsDate(timeZoneOffset)%></p>
+        <p> <%= place.displayTimeIntervalAsDate(zoneOffset)%></p>
         <label class="container">
           <input type="checkbox">
           <span class="checkmark"></span>

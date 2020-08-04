@@ -48,11 +48,11 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     calendarInfo.join();
 
     // TODO Load PositiveUserContacts from objectify
-    PositiveUserContacts p = new PositiveUserContacts(userId);
+    PositiveUserContacts p = new PositiveUserContacts(state.userId);
     p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
     ofy().save().entity(p).now();
-
-    // TODO response.sendRedirect("/JSP/test.jsp?idToken=" + idTokenString);
+ 
+    response.sendRedirect("/JSP/approve.jsp?idToken=" + state.idToken + "&timeZoneOffset=" + state.timeZoneOffset);
   }
 
   @Override

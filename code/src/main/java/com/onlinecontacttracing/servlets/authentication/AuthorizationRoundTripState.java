@@ -8,11 +8,13 @@ import java.util.ArrayList;
  */
 class AuthorizationRoundTripState {
   final String idToken;
+  final String timeZoneOffset;
   String userId;
   List<AuthenticationScope> authenticationScopes;
 
-  public AuthorizationRoundTripState(String idToken) {
+  public AuthorizationRoundTripState(String idToken, String timeZoneOffset) {
     this.idToken = idToken;
+    this.timeZoneOffset = timeZoneOffset;
     this.authenticationScopes = new ArrayList<AuthenticationScope>();
   }
 
