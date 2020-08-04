@@ -55,7 +55,7 @@ public class MessageSender extends HttpServlet {
       // Store notification batch
       ObjectifyService.ofy().save().entity(notificationBatch).now();
 
-      request.sendRedirect("/send-messages?idToken=" + idTokenString);
+      response.sendRedirect("/send-messages?idToken=" + idTokenString);
       
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");
