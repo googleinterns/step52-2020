@@ -41,7 +41,7 @@ public class Place {
   }
 
   public String displayTimeIntervalAsDate(ZoneOffset zoneOffset) {
-    return timeInterval.displayTimeIntervalAsDate(timeZoneOffsetMinutes);
+    return timeInterval.displayTimeIntervalAsDate(zoneOffset);
   }
 
   @Override  
