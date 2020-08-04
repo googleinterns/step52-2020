@@ -21,7 +21,7 @@ public class TimeInterval {
   }
 
   public String displayTimeIntervalAsDate(int timeZoneOffsetMinutes) {
-    return String.format("%s to %s", convertToDate(intervalStartSeconds), convertToDate(intervalEndSeconds));
+    return String.format("%s to %s", convertToDate(intervalStartSeconds, timeZoneOffsetMinutes), convertToDate(intervalEndSeconds, timeZoneOffsetMinutes));
   }
 
   private static String convertToDate(long timeInSeconds, int timeZoneOffsetMinutes) {
