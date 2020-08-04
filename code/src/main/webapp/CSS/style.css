@@ -33,7 +33,7 @@ div {
   -ms-animation: fadeOut ease 1s;
 }
 
-.faq {
+.content {
     margin-left: 10%;
     position: absolute;
     top: 10%;
@@ -121,6 +121,10 @@ div {
 
 #blue-buttons-to-procede button:hover {
   box-shadow: 0 0 2rem #C6C6C6;
+}
+
+#confirm-negative-user-email {
+  font-size: 30px;
 }
 
 #faq-button {

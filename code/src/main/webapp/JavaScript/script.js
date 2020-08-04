@@ -135,18 +135,27 @@ class PageController {
 
 }
 
+
 function LoadPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get('page');
   if (page == null) {
     PAGE_CONTROLLER.show('landing');
+  } else if (page.includes(".html")) {
+    window.location = "../html/" + page;
   } else {
     PAGE_CONTROLLER.show(page);
   }
+  
 
   const error = urlParams.get('error');
   if (error != null) {
     handleLoginError(error);
+  }
+
+  const negativeUserEmail = urlParams.get('negative-user-email');
+  if (negativeUserEmail != null) {
+    localStorage.setItem("negative-user-email", negativeUserEmail);
   }
 
   window.onpopstate = event => {
@@ -172,7 +181,6 @@ var startApp = negativeUser => {
 
 function attachSignin(element, negativeUser) {
   auth2.attachClickHandler(element, {}, googleUser => {
-    document.getElementById('name').innerText = "Signed in: " + googleUser.getBasicProfile().getName();
 
     const idToken = googleUser.getAuthResponse().id_token;
     localStorage.setItem('idToken', idToken.toString());
@@ -186,28 +194,21 @@ function attachSignin(element, negativeUser) {
 
     var servlet = "";
     if (negativeUser) {
-      console.log("1");
       servlet = '/get-negative-user-info';
-      console.log("2");
-      fetch(new Request(servlet, {method: 'POST', body: params}))
-      .then(response => response.text())
-    .then(response => {
-      console.log("HELOOOO")
-      console.log(response);
-        // window.location.replace("../html/confirmNegativeUserEmail.html");
-        console.log("WOO");
-        console.log(response);
-        // document.getElementById("negative-user-email").innerText = response;
-        console.log("hohohoh");
-    }).then(response => console.log("helli"));
+      params.append('calendar', true);
+      params.append('contacts', false);
     } else {
       servlet = '/get-positive-user-info';
-      fetch(new Request(servlet, {method: 'POST', body: params}))
-    .then(response => response.text())
-    .then(url => window.location = url);
+      params.append('calendar', document.getElementById('calendar').checked);
+      params.append('contacts', document.getElementById('contacts').checked);
     }
 
-    
+    fetch(new Request(servlet, {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => {
+      alert(url);
+      window.location = url;
+      });
 
 
   }, error => {
@@ -238,6 +239,10 @@ function addEmailBoxes() {
       document.getElementById("list-of-emails").appendChild(emailBox);
       document.getElementById("list-of-emails").appendChild(document.createElement("br"));
     }
+}
+
+function getNegativeUserEmail() {
+  document.getElementById("negative-user-email").innerText = localStorage.getItem("negative-user-email");
 }
 
 function redirectManualInput() {
