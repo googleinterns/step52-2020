@@ -77,7 +77,6 @@ public class EmailSender {
     String emailBody = compiledMessage.getCompiledBackendMessage();
     PersonEmail contact;
     MimeMessage email;
-
    
       try { 
          for(PersonEmail contactName : this.contactsList) {
@@ -87,7 +86,7 @@ public class EmailSender {
       } catch (MessagingException e) {
         log.warning("error in sending emails out");
       } catch (Exception e) {
-        log.warning("general exception");
+        log.warning("general exception send emails");
         e.printStackTrace();
       }
     }
