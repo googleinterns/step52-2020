@@ -17,10 +17,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.onlinecontacttracing.storage.PositiveUser;
 
-import com.googlecode.objectify.Objectify; 
-import com.googlecode.objectify.ObjectifyFactory; 
-import com.googlecode.objectify.ObjectifyService; 
-import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.onlinecontacttracing.storage.PotentialContact;
 import com.onlinecontacttracing.messaging.EmailSender;
 import com.onlinecontacttracing.storage.PositiveUserContacts;
@@ -30,11 +26,12 @@ import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.PotentialContact;
 import java.util.ArrayList;
-import com.onlinecontacttracing.storage.NotificationBatch;
 import com.onlinecontacttracing.storage.PersonEmail;
 import com.onlinecontacttracing.storage.BusinessNumber;
 import java.util.Collections;
 import java.security.GeneralSecurityException;
+import com.onlinecontacttracing.storage.NotificationBatch;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 
 @WebServlet("/send-messages")
@@ -69,17 +66,14 @@ public class MessageSendingServlet extends HttpServlet {
       Payload payload = idToken.getPayload();
       String userId = payload.getSubject();
 
-      NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(userId).now();
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-
-      ArrayList<PersonEmail> contactsList = notificationInfo.getPersonEmails();
       
       // TODO: replace with saved email
       CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
 
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-      EmailSender emailSender = new EmailSender("COVID-19 Updates", contactsList, compiledMessage); 
-      emailSender.sendEmailsOut(messageLanguage);
+
+      EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, messageLanguage);
 
     } catch(Exception e) {
         e.printStackTrace();
@@ -109,7 +103,7 @@ public class MessageSendingServlet extends HttpServlet {
       }
       
       // Store notification batch
-      ObjectifyService.ofy().save().entity(notificationBatch).now();
+      ofy().save().entity(notificationBatch).now();
 
       response.sendRedirect("/send-messages?idToken=" + idTokenString);
       

@@ -82,4 +82,8 @@ public class CompiledMessage {
   public ArrayList<String> getCompiledFrontendDisplayMessage() {
     return this.messagesForFrontendDisplay;
   }
+
+  public String getUserId() {
+    return user.getUserId();
+  }
 }
