@@ -73,15 +73,10 @@ class PeopleDataForPositiveUser implements Runnable {
         for (Person person : connections) {
             List<Name> names = person.getNames();
             if (names != null && names.size() > 0) {
-                positiveUserContacts.add(person.getNames().get(0).getDisplayName()
-                , person.getEmailAddresses().get(0).getDisplayName());
-            } else {
-                System.out.println("No names available for connection.");
+                positiveUserContacts.add(person.getNames().get(0).getDisplayName(),
+                 person.getEmailAddresses().get(0).getDisplayName());
             }
         }
-      } else {
-        System.out.println("No connections found.");
-      }
       // Store data or replace old data with newer data.
       if(!positiveUserContacts.getListOfContacts().isEmpty()) {
         ofy.save().entity(positiveUserContacts).now();
