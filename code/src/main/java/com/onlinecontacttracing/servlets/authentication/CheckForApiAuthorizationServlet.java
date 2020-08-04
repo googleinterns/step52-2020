@@ -47,9 +47,9 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, PeopleServiceScopes.CONTACTS_READONLY);
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
-  private static final String url = "https://online-contact-tracing.ue.r.appspot.com/landing";
+  private static final String url = "https://covid-catchers-fixed-gcp.ue.r.appspot.com";
 
-  private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
+  private static final String CLIENT_ID = "1080865471187-u1vse3ccv9te949244t9rngma01r226m.apps.googleusercontent.com";
 
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
 
@@ -61,12 +61,12 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
       // Get flow for token response
-      GoogleAuthorizationCodeFlow flow = getFlow();
+      GoogleAuthorizationCodeFlow flow = getFlow(response);
       String code = request.getParameter("code");
       String idTokenString = request.getParameter("state");
 
       // Get payload containing user info
-      Payload payload = getPayload(idTokenString, flow);
+      Payload payload = getPayload(idTokenString, flow, response);
 
       // Get userId form payload and retrieve credential
       String userId = payload.getSubject();
@@ -100,7 +100,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       // Get token to pass into redirect
       String idToken = request.getParameter("idToken");
       // Get flow to build url redirect
-      GoogleAuthorizationCodeFlow flow = getFlow();
+      GoogleAuthorizationCodeFlow flow = getFlow(response);
 
       AuthorizationRequestUrl authUrlRequestProperties = flow.newAuthorizationUrl().setScopes(SCOPES).setRedirectUri(url + getServletURIName()).setState(idToken);
       String url = authUrlRequestProperties.build();
@@ -119,7 +119,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     }
   }
   
-  public static Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow) throws IOException, GeneralSecurityException {
+  private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     
     // Make verifier to get payload
@@ -133,7 +133,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   /**
   *  This method returns an GoogleAuthorizationCodeFlow object.
   */
-  public static GoogleAuthorizationCodeFlow getFlow() throws IOException, FileNotFoundException, GeneralSecurityException {
+  private GoogleAuthorizationCodeFlow getFlow(HttpServletResponse response) throws IOException, FileNotFoundException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
     // Create flow object using credentials file

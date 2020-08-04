@@ -2,15 +2,20 @@ package com.onlinecontacttracing.authentication;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.googlecode.objectify.Objectify;
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import com.onlinecontacttracing.storage.PotentialContact;
-import com.onlinecontacttracing.storage.PositiveUserPlaces;
-import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PositiveUserContacts;
+import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.onlinecontacttracing.storage.PotentialContact;
+
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -42,7 +47,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
 
     
     PositiveUserContacts fullContacts = ofy.load().type(PositiveUserContacts.class).id(userId).now();
-    if(fullContacts.getContacts().isEmpty()) {
+    if(fullContacts.getListOfContacts().isEmpty()) {
         fullContacts = new PositiveUserContacts(userId);
     }  
     // Merge contacts from Calendar and People APIs

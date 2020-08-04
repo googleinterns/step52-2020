@@ -83,7 +83,9 @@ class PeopleDataForPositiveUser implements Runnable {
         System.out.println("No connections found.");
       }
       // Store data or replace old data with newer data.
-      if(!positiveUserContacts.getContacts().isEmpty()) ofy.save().entity(positiveUserContacts).now();
+      if(!positiveUserContacts.getListOfContacts().isEmpty()) {
+        ofy.save().entity(positiveUserContacts).now();
+      } 
     } catch (Exception e) {
       e.printStackTrace();
       log.warning("An exception occurred: " + e.toString());
