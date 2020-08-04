@@ -240,3 +240,7 @@ function addEmailBoxes() {
 function redirectManualInput() {
     window.location = "../html/customizeMessage.html";
 }
+
+function getFAQ() {
+    window.location = "../html/faq.html";
+}
