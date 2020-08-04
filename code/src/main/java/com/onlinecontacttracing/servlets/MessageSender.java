@@ -27,6 +27,7 @@ public class MessageSender extends HttpServlet {
 
   private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+  private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
 
   static final Logger log = Logger.getLogger(MessageSender.class.getName());
     
@@ -35,7 +36,7 @@ public class MessageSender extends HttpServlet {
       // Set up
       NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
-        .setAudience(Collections.singletonList("83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com"))
+        .setAudience(Collections.singletonList(CLIENT_ID))
         .build();
 
       // Get payload with userId
