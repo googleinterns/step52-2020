@@ -196,7 +196,7 @@ function attachSignin(element, negativeUser) {
 
     fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
-    .then(url => "window.location = url");
+    .then(url => console.log("WHATUPPP"));
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
@@ -228,5 +228,9 @@ function addEmailBoxes() {
 }
 
 function redirectManualInput() {
-    window.location = "../html/customizeMessage.html";
+  window.location = "../html/customizeMessage.html";
+}
+
+function getFAQ() {
+  window.location = "../html/faq.html";
 }
