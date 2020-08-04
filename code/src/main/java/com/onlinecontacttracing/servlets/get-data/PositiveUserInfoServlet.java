@@ -35,13 +35,12 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), state.userId, credential);
     Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), state.userId, credential));
     Thread calendarInfo = new Thread(calendarDataForPositiveUser);
-    List<AuthenticationScope> scopes = state.getAuthenticationScopes();
 
-    if (scopes.contains(AuthenticationScope.CALENDAR)) {
+    if (state.authenticationScopes.contains(AuthenticationScope.CALENDAR)) {
       calendarInfo.start();
     }
 
-    if (scopes.contains(AuthenticationScope.CONTACTS)) {
+    if (state.authenticationScopes.contains(AuthenticationScope.CONTACTS)) {
       peopleInfo.start();
     }
     

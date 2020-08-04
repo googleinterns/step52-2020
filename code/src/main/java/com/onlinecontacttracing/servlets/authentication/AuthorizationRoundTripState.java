@@ -11,31 +11,22 @@ class AuthorizationRoundTripState {
   String userId;
   List<AuthenticationScope> authenticationScopes;
 
-  public AuthorizationRoundTripState(String idToken, List<AuthenticationScope> authenticationScopes) {
+  public AuthorizationRoundTripState(String idToken) {
     this.idToken = idToken;
-    this.authenticationScopes = authenticationScopes;
+    this.authenticationScopes = new ArrayList<AuthenticationScope>();
   }
 
-  public static List<String> getScopeNames(List<AuthenticationScope> scopes) {
+  public List<String> getScopeNames() {
     List<String> scopeNames = new ArrayList<String> ();
-    for (AuthenticationScope scope : scopes) {
-      scopeNames.add(AuthenticationScope.getScopeName(scope));
-           
+    for (AuthenticationScope scope : authenticationScopes) {
+      scopeNames.add(scope.getScopeName());
     }
     return scopeNames;
   }
 
-  public static List<AuthenticationScope> getScopes(HashMap<String, Boolean> scopeAuthenticationStatus) {
-    List<AuthenticationScope> scopes = new ArrayList<AuthenticationScope> ();
-    for (String scope : scopeAuthenticationStatus.keySet()) {
-      if (scopeAuthenticationStatus.get(scope)) {
-        scopes.add(AuthenticationScope.getScope(scope));   
-      }
+  public void addScope(boolean scopeRequested, AuthenticationScope scope) {
+    if (scopeRequested) {
+      authenticationScopes.add(scope);
     }
-    return scopes;
-  }
-
-  public List<AuthenticationScope> getAuthenticationScopes() {
-    return authenticationScopes;
   }
 }

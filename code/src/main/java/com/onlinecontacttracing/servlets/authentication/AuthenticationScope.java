@@ -15,15 +15,4 @@ public enum AuthenticationScope {
   public String getScopeName() {
     return this.scopeName;
   }
-
-  public static AuthenticationScope getScope(String scopeStringName) {
-    for (AuthenticationScope scope : AuthenticationScope.values()) { 
-      if (scope.name().equals(scopeStringName)) {
-        return scope;
-      }
-    }
-    return AuthenticationScope.CALENDAR;
-  }
-
-
 }
