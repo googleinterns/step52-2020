@@ -31,7 +31,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
     CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), userId, credential);
-    Thread peopleInfo = new Thread(peopleDataForPositiveUser);
+    Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), userId, credential));
     Thread contactInfo = new Thread(calendarDataForPositiveUser);
 
     peopleInfo.start();
