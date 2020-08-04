@@ -30,7 +30,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
   * Once both are done, the servlet will merge contact data sets
   */
   @Override
-  void useCredential(State state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+  void useCredential(AuthorizationRoundTripState state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
     // Execute runnable to get people data
     CalendarDataForPositiveUser calendarDataForPositiveUser = new CalendarDataForPositiveUser(ofy(), state.userId, credential);
     Thread peopleInfo = new Thread(new PeopleDataForPositiveUser(ofy(), state.userId, credential));

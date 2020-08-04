@@ -41,7 +41,7 @@ import com.google.gson.Gson;
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
 
   // access API with the created credential
-  abstract void useCredential(State authorizationRoundTripState, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
+  abstract void useCredential(AuthorizationRoundTripState authorizationRoundTripState, Credential credential, HttpServletResponse response) throws IOException, InterruptedException;
   // URI pointing to redirect to the servlet that implements this class
   abstract String getServletURIName();
   // Update the userId with the newly created credential
@@ -66,12 +66,12 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String code = request.getParameter("code");
       String authorizationRoundTripStateAsJson = request.getParameter("state");
 
-      // Parse state parameter from Json string to State class
+      // Parse state parameter from Json string to AuthorizationRoundTripState class
       Gson gson = new Gson();
 
-      State authorizationRoundTripState = gson.fromJson(authorizationRoundTripStateAsJson, State.class);
+      AuthorizationRoundTripState authorizationRoundTripState = gson.fromJson(authorizationRoundTripStateAsJson, AuthorizationRoundTripState.class);
       System.out.println(authorizationRoundTripState);
-      List<String> SCOPES = State.getScopeNames(authorizationRoundTripState.getAuthenticationScopes());
+      List<String> SCOPES = AuthorizationRoundTripState.getScopeNames(authorizationRoundTripState.getAuthenticationScopes());
 
       // Get flow for token response
       GoogleAuthorizationCodeFlow flow = getFlow(response, SCOPES);
@@ -116,9 +116,9 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
         put("CONTACTS", contacts);
       }};
       
-      List<AuthenticationScope> SCOPES = State.getScopes(scopeAuthenticationStatus);
-      List<String> scopeNames = State.getScopeNames(SCOPES);
-      State authorizationRoundTripState = new State(idToken, SCOPES);
+      List<AuthenticationScope> SCOPES = AuthorizationRoundTripState.getScopes(scopeAuthenticationStatus);
+      List<String> scopeNames = AuthorizationRoundTripState.getScopeNames(SCOPES);
+      AuthorizationRoundTripState authorizationRoundTripState = new AuthorizationRoundTripState(idToken, SCOPES);
       // Get flow to build url redirect
       GoogleAuthorizationCodeFlow flow = getFlow(response, scopeNames);
 
@@ -140,17 +140,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       response.sendRedirect("/?page=login&error=GeneralError");
     }
   }
-
-  // private List<String> getScopes(boolean calendar, boolean contacts) {
-  //   List<String> scopes = new ArrayList<String>();
-  //   if (calendar) {
-  //     scopes.add(CalendarScopes.CALENDAR_READONLY);
-  //   }
-  //   if (contacts){
-  //     scopes.add(PeopleServiceScopes.CONTACTS_READONLY);
-  //   }
-  //   return scopes;
-  // }
   
   private Payload getPayload(String idTokenString, GoogleAuthorizationCodeFlow flow, HttpServletResponse response) throws IOException, GeneralSecurityException {
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();

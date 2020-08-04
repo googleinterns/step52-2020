@@ -7,17 +7,13 @@ public enum AuthenticationScope {
   CALENDAR(CalendarScopes.CALENDAR_READONLY), CONTACTS(PeopleServiceScopes.CONTACTS_READONLY);
 
   private String scopeName;
+
   AuthenticationScope(String scopeName) {
     this.scopeName = scopeName;
   }
 
-  public static String getScopeName(AuthenticationScope scope) {
-    for (AuthenticationScope authenticationScope : AuthenticationScope.values()) { 
-      if (authenticationScope.equals(scope)) {
-        return scope.scopeName;
-      }
-    }
-    return AuthenticationScope.CALENDAR.scopeName;
+  public String getScopeName() {
+    return this.scopeName;
   }
 
   public static AuthenticationScope getScope(String scopeStringName) {
