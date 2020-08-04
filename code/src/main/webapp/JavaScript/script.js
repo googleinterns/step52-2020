@@ -186,7 +186,9 @@ function attachSignin(element, negativeUser) {
 
     var servlet = "";
     if (negativeUser) {
+      console.log("1");
       servlet = '/get-negative-user-info';
+      console.log("2");
       fetch(new Request(servlet, {method: 'POST', body: params}))
       .then(response => response.text())
     .then(response => {
@@ -195,8 +197,9 @@ function attachSignin(element, negativeUser) {
         window.location = "../html/confirmNegativeUserEmail.html";
         console.log("WOO");
         console.log(response);
-        document.getElementById("negative-user-email").innerText = response;
-    });
+        // document.getElementById("negative-user-email").innerText = response;
+        console.log("hohohoh");
+    }).then(response => console.log("helli"));
     } else {
       servlet = '/get-positive-user-info';
       fetch(new Request(servlet, {method: 'POST', body: params}))
