@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.List;
 import com.onlinecontacttracing.authentication.AuthenticationScope;
+import com.google.gson.Gson;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -52,7 +53,8 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
     ofy().save().entity(p).now();
  
-    response.sendRedirect("/JSP/approve.jsp?idToken=" + state.idToken + "&timeZoneOffset=" + state.timeZoneOffset);
+      Gson gson = new Gson();
+    response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(authorizationRoundTripState));
   }
 
   @Override

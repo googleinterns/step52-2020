@@ -1,21 +1,26 @@
 package com.onlinecontacttracing.authentication;
+
 import com.onlinecontacttracing.authentication.AuthenticationScope;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.time.ZoneOffset;
 /*
  * Helper class to pass along state information in URL and servlets
  */
 class AuthorizationRoundTripState {
   final String idToken;
-  final String timeZoneOffset;
+  final ZoneOffset zoneOffset;
   String userId;
   List<AuthenticationScope> authenticationScopes;
 
   public AuthorizationRoundTripState(String idToken, String timeZoneOffset) {
     this.idToken = idToken;
-    this.timeZoneOffset = timeZoneOffset;
-    this.authenticationScopes = new ArrayList<AuthenticationScope>();
+
+    int timeZoneOffsetMinutes = Integer.parseInt(timeZoneOffset);
+    ZoneOffset zoneOffset = ZoneOffset.ofHours(timeZoneOffsetMinutes / 60); // Convert offset to hours
+
+    authenticationScopes = new ArrayList<AuthenticationScope>();
   }
 
   public List<String> getScopeNames() {

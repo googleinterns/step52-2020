@@ -4,7 +4,7 @@ com.google.api.client.http.javanet.NetHttpTransport,
 com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier,
 java.util.Collections,
 java.util.Optional,
-java.time.ZoneOffset,
+com.google.gson.Gson,
 com.google.api.client.json.JsonFactory,
 com.google.api.client.json.jackson2.JacksonFactory,
 com.google.api.client.googleapis.auth.oauth2.GoogleIdToken,
@@ -13,7 +13,8 @@ static com.googlecode.objectify.ObjectifyService.ofy,
 com.onlinecontacttracing.storage.PositiveUserContacts,
 com.onlinecontacttracing.storage.PotentialContact,
 com.onlinecontacttracing.storage.PositiveUserPlaces,
-com.onlinecontacttracing.storage.Place" %>
+com.onlinecontacttracing.storage.Place,
+com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,9 +31,11 @@ com.onlinecontacttracing.storage.Place" %>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
     <div id="line-horizontal-bottom" class="line line-horizontal"></div>
   <% 
-    String idTokenString = request.getParameter("idToken");
-    int timeZoneOffset = Integer.parseInt(request.getParameter("timeZoneOffset"));
-    ZoneOffset zoneOffset = ZoneOffset.ofHours(360 / 60);
+    // Parse state parameter from Json string to AuthorizationRoundTripState class
+    Gson gson = new Gson();
+    String authorizationRoundTripStateAsJson = request.getParameter("authState");
+    AuthorizationRoundTripState authorizationRoundTripState = gson.fromJson(authorizationRoundTripStateAsJson, AuthorizationRoundTripState.class);
+
     JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -40,7 +43,7 @@ com.onlinecontacttracing.storage.Place" %>
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
     .setAudience(Collections.singletonList("83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com"))
     .build();
-    GoogleIdToken idToken = verifier.verify(idTokenString);
+    GoogleIdToken idToken = verifier.verify(authorizationRoundTripState.idToken);
     Payload payload = idToken.getPayload();
     String userId = payload.getSubject();
     PositiveUserContacts contacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
@@ -87,7 +90,7 @@ com.onlinecontacttracing.storage.Place" %>
   %>
       <div class="picker place">
         <p> <%= place.getName() %> </p>
-        <p> <%= place.displayTimeIntervalAsDate(zoneOffset)%></p>
+        <p> <%= place.displayTimeIntervalAsDate(authorizationRoundTripState.zoneOffset)%></p>
         <label class="container">
           <input type="checkbox">
           <span class="checkmark"></span>
