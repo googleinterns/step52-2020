@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.File;
 import java.util.ArrayList;
+import org.apache.commons.io.IOUtils;
+import java.nio.charset.StandardCharsets;
 
 class CalendarDataForNegativeUser implements Runnable {
 
@@ -32,7 +34,6 @@ class CalendarDataForNegativeUser implements Runnable {
   private static final String calendarType = "primary";
   static final Logger log = Logger.getLogger(CalendarDataForNegativeUser.class.getName());
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/apiKey.txt";
-  private static final int apiKeyLength = 39;
 
   private final Objectify ofy;
   private final String userId;
@@ -53,16 +54,14 @@ class CalendarDataForNegativeUser implements Runnable {
       Calendar service = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)
         .setApplicationName(APPLICATION_NAME)
         .build();
-    
-      // Get apiKey
-      InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
-      byte[] apiKeyBytes = new byte[apiKeyLength];
-      in.read(apiKeyBytes);
-      in.close();
+        
+      InputStream apiKeyStream = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
+      String apiKey = IOUtils.toString(apiKeyStream, StandardCharsets.UTF_8);
+      apiKeyStream.close();
 
       // Set up Places API
       GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey(new String(apiKeyBytes))
+        .apiKey(apiKey)
         .build();
 
       // Query events between now and the SPAN_OF_TIME_TO_COLLECT_DATA
