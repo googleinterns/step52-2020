@@ -18,9 +18,11 @@ import com.google.api.services.people.v1.model.Person;
 import com.googlecode.objectify.Objectify;
 
 import com.onlinecontacttracing.storage.Constants;
+import com.onlinecontacttracing.storage.PositiveUserContacts;
 import com.onlinecontacttracing.storage.PotentialContact;
 
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 import java.util.Optional;
@@ -51,9 +53,6 @@ class PeopleDataForPositiveUser implements Runnable {
     // Initiate objects to store information
     PositiveUserContacts positiveUserContacts = new PositiveUserContacts(userId);
 
-    // Store data or replace old data with newer data.
-    // ofy.save().entity(positiveUserContacts).now();
-
     try {
       final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -70,13 +69,12 @@ class PeopleDataForPositiveUser implements Runnable {
 
       // Store all connections available.
       List<Person> connections = response.getConnections();
-      List<PotentialContact> peopleContacts;
       if (connections != null && connections.size() > 0) {
         for (Person person : connections) {
             List<Name> names = person.getNames();
             if (names != null && names.size() > 0) {
-                peopleContacts.add(new PotentialContact(person.getNames().get(0).getDisplayName()
-                , person.getEmailAddresses().get(0).getDisplayName()));
+                positiveUserContacts.add(person.getNames().get(0).getDisplayName()
+                , person.getEmailAddresses().get(0).getDisplayName());
             } else {
                 System.out.println("No names available for connection.");
             }
@@ -84,7 +82,8 @@ class PeopleDataForPositiveUser implements Runnable {
       } else {
         System.out.println("No connections found.");
       }
-      ofy().save().entity(peopleContacts).now();
+      // Store data or replace old data with newer data.
+      ofy.save().entity(positiveUserContacts).now();
     } catch (Exception e) {
       e.printStackTrace();
       log.warning("An exception occurred: " + e.toString());
