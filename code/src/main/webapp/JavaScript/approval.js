@@ -8,7 +8,7 @@ function suPeRCooLFuNcTiONGoEsHerE() {
 
   let emails = [];
   for (let contact of document.getElementsByClassName('contact')) {
-    const input = contact.getElementsByTagName("input")[0];
+    const input = contact.getElementsByTagName("div").getElementsByTagName("input")[0];
     if (input.checked) {
        emails.push(contact.getElementsByClassName("email")[0].innerText);
     }
