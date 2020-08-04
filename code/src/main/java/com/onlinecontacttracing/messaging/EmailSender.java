@@ -1,65 +1,32 @@
 package com.onlinecontacttracing.messaging;
 
-import com.onlinecontacttracing.messaging.SystemMessage;
-import com.onlinecontacttracing.messaging.LocalityResource;
-import com.onlinecontacttracing.storage.CustomizableMessage;
-import com.onlinecontacttracing.storage.PositiveUser;
-import com.onlinecontacttracing.storage.PotentialContact;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
 import com.google.api.services.gmail.model.ListLabelsResponse;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import javax.mail.internet.MimeMessage;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import javax.mail.MessagingException;
 import java.util.logging.Logger;
 import com.onlinecontacttracing.storage.PersonEmail;
-import java.util.ArrayList;
 import com.onlinecontacttracing.storage.NotificationBatch;
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
-import com.onlinecontacttracing.storage.CustomizableMessage;
-import com.onlinecontacttracing.storage.PositiveUser;
-import com.onlinecontacttracing.storage.PotentialContact;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import org.apache.commons.codec.binary.Base64;
 import com.google.api.services.gmail.model.Message;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.GmailScopes;
-import com.google.api.services.gmail.model.Label;
-import com.google.api.services.gmail.model.ListLabelsResponse;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
 import java.io.ByteArrayOutputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.util.Properties;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class EmailSender {
 
