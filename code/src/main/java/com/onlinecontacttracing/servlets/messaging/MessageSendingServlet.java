@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.security.GeneralSecurityException;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import static com.googlecode.objectify.ObjectifyService.ofy;
+import java.util.ArrayList;
 
 
 @WebServlet("/send-messages")
@@ -41,7 +42,8 @@ public class MessageSendingServlet extends HttpServlet {
     // String messageLanguage = request.getParameter("messageLanguage");
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
-    String messageLanguage = "SP";
+    String systemMessageLanguage = "SP";
+    String localityResourceLanguage = "SP";
 
     // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
@@ -65,7 +67,7 @@ public class MessageSendingServlet extends HttpServlet {
 
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
 
-      EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, messageLanguage);
+      EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, systemMessageLanguage, localityResourceLanguage);
 
     } catch(Exception e) {
         e.printStackTrace();
