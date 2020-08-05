@@ -42,10 +42,11 @@ public class MessageSendingServlet extends HttpServlet {
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
     String messageLanguage = "SP";
+    String emailSubjectName = "VERSION_1";
 
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
-
+    EmailSubject emailSubject = EmailSubject.getEmailSubjectFromString(emailSubjectName);
     try {
       NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -61,7 +62,7 @@ public class MessageSendingServlet extends HttpServlet {
       
       String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
-      String subject = EmailSubject.getTranslation(messageLanguage);
+      String subject = emailSubject.getTranslation(messageLanguage);
       EmailSender.sendEmailsOut(subject, compiledMessage, messageLanguage);
 
     } catch(Exception e) {
