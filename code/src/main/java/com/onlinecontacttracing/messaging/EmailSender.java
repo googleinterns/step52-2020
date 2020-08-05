@@ -67,8 +67,7 @@ public class EmailSender {
                   .setApplicationName(APPLICATION_NAME)
                   .build();
                   
-      compiledMessage.compileMessages(messageLanguage);
-      String emailBody = compiledMessage.getCompiledBackendMessage();
+      String emailBody = compiledMessage.compileMessages(messageLanguage);
 
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();
 

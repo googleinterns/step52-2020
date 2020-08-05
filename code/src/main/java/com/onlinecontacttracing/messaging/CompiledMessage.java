@@ -33,7 +33,6 @@ public class CompiledMessage {
   private LocalityResource localityResource;
   private String userMessage;
   private PositiveUser user;
-  private String messagesForBackendUse;
   private ArrayList<String> messagesForFrontendDisplay = new ArrayList<String> ();
   //the frontend and backend are not necessarily the same message in case the 
   //user's message triggers flags
@@ -77,16 +76,7 @@ public class CompiledMessage {
     if (messagesForFrontendDisplay.size() > 1){
       userMessage = "";
     }
-    this.messagesForBackendUse = (translatedSystemMessage.concat("\n").concat(userMessage).concat("\n").concat(translatedResourceMessage));
-  }
-
-  /**
-  * Returns the compiled message for backend use.
-  */
-  public String getCompiledBackendMessage() {
-    //returns message with no userMessage if there are errors, else return message with userMessage
-    return this.messagesForBackendUse;
-    
+    return translatedSystemMessage.concat("\n").concat(userMessage).concat("\n").concat(translatedResourceMessage);
   }
 
   /**
