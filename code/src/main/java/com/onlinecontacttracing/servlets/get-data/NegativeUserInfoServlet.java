@@ -25,7 +25,7 @@ public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
     
     contactInfo.run();
     NegativeUser negativeUser = ofy().load().type(NegativeUser.class).id(userId).now();
-    response.sendRedirect("/?page=confirmNegativeUserEmail.html&negative-user-email="+negativeUser.getUserEmail());
+    response.sendRedirect("https://8080-ac896ae1-5f0c-45b5-8dfe-19fa4d3d8699.us-east1.cloudshell.dev/?page=confirmNegativeUserEmail.html&negative-user-email="+negativeUser.getUserEmail());
   }
 
   @Override

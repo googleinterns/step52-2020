@@ -190,6 +190,7 @@ function attachSignin(element, negativeUser) {
 
     var servlet = "";
     if (negativeUser) {
+      console.log("ok");
       servlet = '/get-negative-user-info';
       params.append('calendar', true);
       params.append('contacts', false);
