@@ -2,20 +2,25 @@ package com.onlinecontacttracing.authentication;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.gson.Gson;
+import com.googlecode.objectify.Objectify;
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import com.onlinecontacttracing.storage.PotentialContact;
-import com.onlinecontacttracing.storage.PositiveUserContacts;
-import static com.googlecode.objectify.ObjectifyService.ofy;
+
+import com.onlinecontacttracing.authentication.AuthenticationScope;
 import com.onlinecontacttracing.storage.PositiveUser;
+import com.onlinecontacttracing.storage.PositiveUserContacts;
+import com.onlinecontacttracing.storage.PositiveUserPlaces;
+import com.onlinecontacttracing.storage.PotentialContact;
+
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.List;
-import com.onlinecontacttracing.authentication.AuthenticationScope;
-import com.google.gson.Gson;
 
 @WebServlet("/get-positive-user-info")
 public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
@@ -48,11 +53,14 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     peopleInfo.join();
     calendarInfo.join();
 
-    // TODO Load PositiveUserContacts from objectify
-    PositiveUserContacts p = new PositiveUserContacts(state.userId);
-    p.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
-    ofy().save().entity(p).now();
- 
+    PositiveUserContacts fullContacts = ofy().load().type(PositiveUserContacts.class).id(state.userId).now();
+    if(fullContacts.getListOfContacts().isEmpty()) {
+        fullContacts = new PositiveUserContacts(state.userId);
+    }  
+    // Merge contacts from Calendar and People APIs
+    fullContacts.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
+    ofy().save().entity(fullContacts).now();
+
     Gson gson = new Gson();
     response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(state));
   }

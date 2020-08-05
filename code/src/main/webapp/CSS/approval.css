@@ -87,7 +87,7 @@ div {
 #wrapper-background {
   position: absolute;
   background-position: center;
-  background-repeat: repeat-y;
+  height: 100%;
   background-size: 100% 100%;
   text-align: center;
   background-image: url("images/background-login-blue.svg");

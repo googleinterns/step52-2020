@@ -1,5 +1,5 @@
 code/target/
-code/src/main/resources/covid-catchers-fixed-gcp-4270ee645eb8.p12
+code/src/main/resources/*.p12
 code/src/main/webapp/WEB-INF/credentials.json
 code/src/main/webapp/WEB-INF/apiKey.txt
 

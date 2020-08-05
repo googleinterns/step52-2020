@@ -185,9 +185,9 @@ function attachSignin(element, negativeUser) {
     params.append('idToken', idToken);
     params.append('timeZoneOffset', new Date().getTimezoneOffset());
 
-//     params.append('systemMessage', 'VERSION_1');
-//     params.append('localityResource', 'US');
-//     params.append('messageLanguage', 'SP');
+    // params.append('systemMessage', 'VERSION_1');
+    // params.append('localityResource', 'US');
+    // params.append('messageLanguage', 'SP');
 
     var servlet = "";
     if (negativeUser) {
@@ -203,7 +203,6 @@ function attachSignin(element, negativeUser) {
     fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
     .then(url => window.location = url);
-
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
@@ -241,5 +240,9 @@ function addEmailBoxes() {
 }
 
 function redirectManualInput() {
-    window.location = "../html/customizeMessage.html";
+  window.location = "../html/customizeMessage.html";
+}
+
+function getFAQ() {
+  window.location = "../html/faq.html";
 }
