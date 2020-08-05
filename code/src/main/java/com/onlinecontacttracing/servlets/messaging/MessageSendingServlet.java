@@ -25,12 +25,10 @@ import java.security.GeneralSecurityException;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-
-@WebServlet("/send-messages")
-
 /**
 * This servlet will send out messages to all the user's approved contacts.
 */
+@WebServlet("/send-messages")
 public class MessageSendingServlet extends HttpServlet {
 
   static final Logger log = Logger.getLogger(DeleteNegativeUserLocationsServlet.class.getName());
