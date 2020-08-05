@@ -30,12 +30,14 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
     <div id="line-vertical-right" class="line line-vertical"></div>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
     <div id="line-horizontal-bottom" class="line line-horizontal"></div>
+    <!-- <div><h1>HELEEEEEWFGFA </P1 <div> -->
   <% 
+    System.out.println("in");
     // Parse state parameter from Json string to AuthorizationRoundTripState class
     Gson gson = new Gson();
     String authorizationRoundTripStateAsJson = request.getParameter("authState");
     AuthorizationRoundTripState authorizationRoundTripState = gson.fromJson(authorizationRoundTripStateAsJson, AuthorizationRoundTripState.class);
-
+    
     JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -47,6 +49,8 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
     Payload payload = idToken.getPayload();
     String userId = payload.getSubject();
     PositiveUserContacts contacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
+    System.out.println(contacts == null);
+    System.out.println(contacts.getListOfContacts().isEmpty());
     if (contacts != null && !contacts.getListOfContacts().isEmpty()) {
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with so that we can email them: </p>
@@ -56,7 +60,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
         <label class="container"> Contact Y/N </label>
       </div>
       <div class="list">
-  <% 
+   <% 
       for (PotentialContact contact : contacts.getListOfContacts()) {
         String name = Optional.ofNullable(contact.getName()).orElse("No name found");
   %>
@@ -105,7 +109,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
   %>
     <div id="blue-buttons-to-procede">
       <button id="login-button-left-or-top" onclick="sendListToServlet()"> Submit </button>
-    </div>
+    </div> 
   </div>
 </body>
 </html>
