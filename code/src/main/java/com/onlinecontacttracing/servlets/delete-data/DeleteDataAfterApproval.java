@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.logging.Logger;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 @WebServlet("/delete-data-after-approval")
 public class DeleteDataAfterApproval extends HttpServlet {
@@ -40,11 +41,16 @@ public class DeleteDataAfterApproval extends HttpServlet {
       Payload payload = idToken.getPayload();
       String userId = payload.getSubject();
 
-      DeletePositiveUserData.execute(userId);
+      execute(userId);
 
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error" + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
     }
+  }
+
+  public static void execute(String userId) {
+    ofy().delete().type(PositiveUserContacts.class).id(userId).now();
+    ofy().delete().type(PositiveUserPlaces.class).id(userId).now();
   }
 }
