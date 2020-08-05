@@ -56,7 +56,7 @@ public class CompiledMessage {
   * This method compiles the messages for frontend and backend user. They will differ if the
   * message has triggered any flags.
   */
-  public void compileMessages(String messageLanguage) {
+  public String compileMessages(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     this.user.incrementAttemptedEmailDrafts();
