@@ -6,7 +6,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class DeletePositiveUserData {
 
-  public static execute(String userId) {
+  public static void execute(String userId) {
     ofy().delete().type(PositiveUserContacts.class).id(userId).now();
     ofy().delete().type(PositiveUserPlaces.class).id(userId).now();
   }
