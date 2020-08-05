@@ -27,14 +27,14 @@ public final class ContactStatusTest {
 
   @Test
   public void falsePersonStatus() {
-    PersonEmail person = new PersonEmail("Test", "test@google.com");
+    PersonEmail person = new PersonEmail("test@google.com");
 
     assertFalse(person.hasBeenContactedSuccessfully());
   }
 
   @Test
   public void truePersonStatus() {
-    PersonEmail person = new PersonEmail("Test", "test@google.com");
+    PersonEmail person = new PersonEmail("test@google.com");
 
     person.markContactedSuccessfully();
 

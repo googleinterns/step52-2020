@@ -67,6 +67,7 @@ class PageController {
     this.negativePage = new NegativeLoginPage();
     this.notificationPage = new NotificationPage();
     this.currentlyShown = undefined;
+    this.idToken = undefined;
   }
 
   hideCurrentPage() {
@@ -187,6 +188,7 @@ function attachSignin(element, negativeUser) {
 
     const params = new URLSearchParams()
     params.append('idToken', idToken);
+    params.append('timeZoneOffset', new Date().getTimezoneOffset());
 
     var servlet = "";
     if (negativeUser) {

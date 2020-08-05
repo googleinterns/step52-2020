@@ -20,9 +20,10 @@ public class NegativeUserInfoServlet extends CheckForApiAuthorizationServlet {
   }
   
   @Override
-  void useCredential(String userId, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
-    Thread contactInfo = new Thread(new CalendarDataForNegativeUser(ofy(), userId, credential));
-    
+
+  void useCredential(AuthorizationRoundTripState state, Credential credential, HttpServletResponse response) throws IOException, InterruptedException {
+    Thread contactInfo = new Thread(new CalendarDataForNegativeUser(ofy(), state.userId, credential));
+
     contactInfo.run();
     NegativeUser negativeUser = ofy().load().type(NegativeUser.class).id(userId).now();
     response.sendRedirect("/?page=confirmNegativeUserEmail.html&negative-user-email="+negativeUser.getUserEmail());
