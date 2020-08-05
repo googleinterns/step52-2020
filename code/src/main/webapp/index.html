@@ -15,7 +15,7 @@
     <div id="line-vertical-right" class="line line-vertical"></div>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
     <div id="line-horizontal-bottom" class="line line-horizontal"></div>
-    <div>
+    <div class="landing hidden" >
       <button id="faq-button" onclick=getFAQ() > FAQ </button>
     </div>
     <div class="landing hidden" id="welcome">
@@ -62,8 +62,12 @@
     <div class="negative-login hidden" id="blue-buttons-to-procede">
       <button id="negative-login-button" onclick="startApp()"> Google Sign-In </button>
     </div>
+    <div class="notification hidden">
+      <button id="faq-button" onclick=getFAQ() > FAQ </button>
+    </div>
     <div class="notification hidden" id="mission-statement">
-      <p> Thank you for signing up. You will be notified if we think
+      <p class="header-content"> Thank you for signing up. </p>
+      <p class="body-content"> You will be notified if we think
           you may have come in contact with someone who tested positive.
       </p>
     </div>

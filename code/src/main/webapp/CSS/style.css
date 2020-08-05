@@ -18,6 +18,10 @@ div {
   width: 100%;
 }
 
+.body-content {
+  font-size: 60px;
+}
+
 .fade-in {
   animation: fadeIn ease 1s;
   -webkit-animation: fadeIn ease 1s;
@@ -51,6 +55,11 @@ div {
   display: inline-block;
   font-size: 2vw;
   width: 50%;
+}
+
+.header-content {
+  font-size: 80px;
+  margin-top: 5%;
 }
 
 .hidden {
@@ -106,9 +115,7 @@ div {
   top: 30%;
 }
 
-.negative-user-email-confirmation {
-  font-size: 60px;
-}
+
 
 
 #blue-buttons-to-procede button {
@@ -196,6 +203,7 @@ div {
   background-color: rgba(255, 255, 255, 0.5);
   margin-top: 5%;
 }
+
 
 #welcome {
   font-size: 7vmin;
