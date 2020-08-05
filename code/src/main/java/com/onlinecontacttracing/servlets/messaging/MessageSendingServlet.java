@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.security.GeneralSecurityException;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.onlinecontacttracing.messaging.EmailSubject;
 
 
 @WebServlet("/send-messages")
@@ -62,8 +63,8 @@ public class MessageSendingServlet extends HttpServlet {
       
       String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
-
-      EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, messageLanguage);
+      String subject = EmailSubject.getTranslation(messageLanguage);
+      EmailSender.sendEmailsOut(subject, compiledMessage, messageLanguage);
 
     } catch(Exception e) {
         e.printStackTrace();
