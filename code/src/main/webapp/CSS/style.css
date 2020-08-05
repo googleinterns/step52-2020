@@ -25,6 +25,7 @@ div {
   -o-animation: fadeIn ease 1s;
   -ms-animation: fadeIn ease 1s;
 }
+
 .fade-out {
   animation: fadeOut ease 1s;
   -webkit-animation: fadeOut ease 1s;
@@ -105,6 +106,10 @@ div {
   top: 30%;
 }
 
+.negative-user-email-confirmation {
+  font-size: 60px;
+}
+
 
 #blue-buttons-to-procede button {
   background: #025696;
@@ -124,7 +129,21 @@ div {
 }
 
 #confirm-negative-user-email {
-  font-size: 30px;
+  margin-top: 5%;
+}
+
+#confirm-negative-user-email-button button{
+  background: #025696;
+  border: none;
+  border-radius: 3rem;
+  color: #ffffff;
+  font-family: Muli;
+  font-size: 1vw;
+  margin: 1rem;
+  padding: 1rem;
+  text-decoration: none;
+  margin-top: 5%;
+  /* top: 60%; */
 }
 
 #faq-button {
@@ -141,7 +160,7 @@ div {
 }
 
 #faq-q1 {
-  text-align:center;
+  text-align: center;
   display: inline-block;
   top: 10%;
 }
@@ -171,6 +190,11 @@ div {
   margin-left: auto;
   margin-right: auto;
   top: 29%;
+}
+
+#negative-user-email {
+  background-color: rgba(255, 255, 255, 0.5);
+  margin-top: 5%;
 }
 
 #welcome {
