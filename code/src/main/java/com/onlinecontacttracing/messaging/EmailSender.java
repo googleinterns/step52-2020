@@ -41,7 +41,7 @@ public class EmailSender {
 
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
 
-  public static void sendEmailsOut(String emailSubject, CompiledMessage compiledMessage, String messageLanguage) {
+  public static void sendEmailsOut(String emailSubject, CompiledMessage compiledMessage, String systemMessageLanguage, String localityResourceLanguage) {
 
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -61,7 +61,7 @@ public class EmailSender {
                   .setApplicationName(APPLICATION_NAME)
                   .build();
                   
-      compiledMessage.compileMessages(messageLanguage);
+      compiledMessage.compileMessages(systemMessageLanguage, localityResourceLanguage);
       String emailBody = compiledMessage.getCompiledBackendMessage();
 
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();

@@ -50,20 +50,14 @@ public class CompiledMessage {
   }
 
   //if flags are triggered, returns message and list of errors, else returns message
-  public void compileMessages(String messageLanguage) {
+  public void compileMessages(String systemMessageLanguage, String localityResourceLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     this.user.incrementAttemptedEmailDrafts();
     checkForFlags();
+    translatedSystemMessage = systemMessage.getTranslation(systemMessageLanguage);
+    translatedResourceMessage = localityResource.getTranslation(localityResourceLanguage);
     
-    if (messageLanguage.equals("SP")) {
-      translatedResourceMessage = localityResource.getEnglishTranslation();
-      translatedSystemMessage = systemMessage.getEnglishTranslation();
-    }
-    else {
-      translatedResourceMessage = localityResource.getEnglishTranslation();
-      translatedSystemMessage = systemMessage.getEnglishTranslation();
-    }
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
     this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
