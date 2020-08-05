@@ -37,13 +37,12 @@ public class MessageSendingServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idTokenString = request.getParameter("idToken");
-    // String systemMessageName = request.getParameter("systemMessage");
-    // String localityResourceName = request.getParameter("localityResource");
-    // String messageLanguage = request.getParameter("messageLanguage");
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
-    String systemMessageLanguage = "SP";
-    String localityResourceLanguage = "SP";
+    String systemMessageLanguage = request.getParameter("systemMessageLanguage");
+      String localityResourceLanguage = request.getParameter("localityResourceLanguage");
+    String customMessage = request.getParameter("customMessage");
+
 
     // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
@@ -99,7 +98,8 @@ public class MessageSendingServlet extends HttpServlet {
       // Store notification batch
       ofy().save().entity(notificationBatch).now();
 
-      response.sendRedirect("/send-messages?idToken=" + idTokenString);
+      // response.sendRedirect("/send-messages?idToken=" + idTokenString);
+      response.sendRedirect("/html/getCustomizableMessage.html")
       
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error");

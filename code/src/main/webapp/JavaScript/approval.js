@@ -2,8 +2,26 @@ function removeLines() {
   document.getElementById("wrapper-background").classList.add("remove")
 }
 
-function sendListToServlet() {
+// function sendListToServlet() {
   
+
+//   let emails = [];
+//   for (let contact of document.getElementsByClassName('contact')) {
+//     const input = contact.getElementsByClassName("container")[0].getElementsByTagName("input")[0];
+//     if (input.checked) {
+//        emails.push(contact.getElementsByClassName("email")[0].innerText);
+//     }
+//   }
+  
+  
+//   localStorage.setItem("email-addresses", emails);
+//   window.location = "../html/getCustomizableMessage.html";
+//   // getCustomizableMessage();
+//   // fetch(new Request('/send-messages', {method: 'POST', body: params}));
+// }
+function sendListToServlet() {
+  const params = new URLSearchParams();
+  params.append('idToken', localStorage.idToken);
 
   let emails = [];
   for (let contact of document.getElementsByClassName('contact')) {
@@ -13,11 +31,8 @@ function sendListToServlet() {
     }
   }
   
-  
-  localStorage.setItem("email-addresses", emails);
-  window.location = "../html/getCustomizableMessage.html";
-  // getCustomizableMessage();
-  // fetch(new Request('/send-messages', {method: 'POST', body: params}));
+  params.append('emails', emails);
+  fetch(new Request('/send-messages', {method: 'POST', body: params}));
 }
 
 function getCustomizableMessage() {
@@ -67,6 +82,16 @@ function getFormData() {
    .then(response => response.text())
    .then(response => {
      document.getElementById("full-message").innerHTML = response;
-     console.log(response);
+     console.log(typeof(response));
      });
+
+  
+}
+
+function sendEmailsOut() {
+  params.append('idToken', localStorage.idToken);
+  params.append('systemMessageLanguage', localStorage.systemMessageLangauge);
+  params.append('localityResourceLanguage', localStorage.localityResourceLangauge);
+  params.append('customMessage', localStorage.customMessage);
+   fetch(new Request('/send-message', {method: 'GET', body: params}))
 }
