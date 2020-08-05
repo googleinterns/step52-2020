@@ -3,7 +3,6 @@ package com.onlinecontacttracing.authentication;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.gson.Gson;
-import com.googlecode.objectify.Objectify;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import javax.servlet.annotation.WebServlet;
@@ -54,11 +53,13 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     calendarInfo.join();
 
     PositiveUserContacts fullContacts = ofy().load().type(PositiveUserContacts.class).id(state.userId).now();
-    if(fullContacts.getListOfContacts().isEmpty()) {
+    if(fullContacts == null) {
         fullContacts = new PositiveUserContacts(state.userId);
-    }  
+    }
+
     // Merge contacts from Calendar and People APIs
     fullContacts.mergeContactListsFromCalendarAPI(calendarDataForPositiveUser.getContacts());
+
     ofy().save().entity(fullContacts).now();
 
     Gson gson = new Gson();
