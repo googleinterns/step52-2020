@@ -43,8 +43,7 @@ function getFormData() {
   localStorage.setItem("systemMessageLangauge", formElements["system-message-language"].value)
   localStorage.setItem("localityResourceLangauge", formElements["locality-resource-language"].value)
   localStorage.setItem("customMessage", formElements["custom-message-box"].value)
-  var text = "";
-  var i;
+  var text;
   
   text +=  formElements["system-message-language"].value+ "<br>";
   text +=  formElements["locality-resource-language"].value+ "<br>";
@@ -52,11 +51,15 @@ function getFormData() {
 
   const params = new URLSearchParams();
   params.append('idToken', localStorage.idToken);
+  var emails = localStorage.getItem("email-addresses");
   params.append('emails', emails);
   params.append('systemMessageLangauge', localStorage.systemMessageLangauge);
   params.append('localityResourceLangauge', localStorage.localityResourceLangauge);
   params.append('customMessage', localStorage.customMessage);
    fetch(new Request('/compile-user-email', {method: 'POST', body: params}))
    .then(response => respone.text())
-   .then(response => document.getElementById("full-message").innerHTML = response);
+   .then(response => {
+     document.getElementById("full-message").innerHTML = response;
+     console.log(response);
+     });
 }
