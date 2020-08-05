@@ -38,7 +38,7 @@ public class EmailSender {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
   private static final String SERVICE_ACCOUNT_ID = "online-contact-tracing@appspot.gserviceaccount.com";
-  private static final String emailToSendWith = "cccoders@onlinecontacttracing.com";
+  private static final String EMAIL_TO_SEND_WITH = "cccoders@onlinecontacttracing.com";
   private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-f798898872f4.p12";
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final String APPLICATION_NAME = "Online Contact Tracing";
@@ -58,7 +58,7 @@ public class EmailSender {
         .setTransport(HTTP_TRANSPORT)
         .setJsonFactory(JSON_FACTORY)
         .setServiceAccountId(SERVICE_ACCOUNT_ID)
-        .setServiceAccountUser(emailToSendWith)
+        .setServiceAccountUser(EMAIL_TO_SEND_WITH)
         .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
         .setServiceAccountPrivateKeyFromP12File(in)
         .build();
@@ -96,7 +96,7 @@ public class EmailSender {
     MimeMessage email = new MimeMessage(session);
 
     // Define MimeMessage entries
-    email.setFrom(new InternetAddress(emailToSendWith));
+    email.setFrom(new InternetAddress(EMAIL_TO_SEND_WITH));
     email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
     email.setSubject(emailSubject);
     email.setText(emailContent);
@@ -110,6 +110,6 @@ public class EmailSender {
     message.setRaw(encodedEmail);
 
     // Send Message
-    message = service.users().messages().send(emailToSendWith, message).execute();
+    message = service.users().messages().send(EMAIL_TO_SEND_WITH, message).execute();
   }
 }
