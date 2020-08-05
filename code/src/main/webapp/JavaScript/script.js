@@ -188,10 +188,6 @@ function attachSignin(element, negativeUser) {
     const params = new URLSearchParams()
     params.append('idToken', idToken);
 
-//     params.append('systemMessage', 'VERSION_1');
-//     params.append('localityResource', 'US');
-//     params.append('messageLanguage', 'SP');
-
     var servlet = "";
     if (negativeUser) {
       servlet = '/get-negative-user-info';
