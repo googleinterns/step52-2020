@@ -51,7 +51,7 @@ public class CompileUserEmailServlet extends HttpServlet {
 
       String systemMessageLanguage = request.getParameter("systemMessageLanguage");
       String localityResourceLanguage = request.getParameter("localityResourceMessage");
-      String customMessage = request.getParameter("systemMessageLanguage");
+      String customMessage = request.getParameter("customMessage");
 
       ofy().save().entity(new CustomizableMessage(userId, customMessage)).now();
       SystemMessage systemMessage = SystemMessage.getSystemMessageFromString("VERSION_1");
