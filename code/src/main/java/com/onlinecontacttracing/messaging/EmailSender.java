@@ -29,13 +29,15 @@ import javax.mail.internet.InternetAddress;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 /**
-* Email sender for sending emails to user's contacts.
-*/
+ * The email sender will load a list of emails from the notification batch
+ * and compile messages to send to each person. They will receive an email
+ * from cccoders@onlinecontacttracing.com.
+ */
 public class EmailSender {
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
-  private static final String serviceAccountId = "online-contact-tracing@appspot.gserviceaccount.com";
+  private static final String SERVICE_ACCOUNT_ID = "online-contact-tracing@appspot.gserviceaccount.com";
   private static final String emailToSendWith = "cccoders@onlinecontacttracing.com";
   private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-f798898872f4.p12";
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -55,7 +57,7 @@ public class EmailSender {
       GoogleCredential serviceAccountCredential = new GoogleCredential.Builder()
         .setTransport(HTTP_TRANSPORT)
         .setJsonFactory(JSON_FACTORY)
-        .setServiceAccountId(serviceAccountId)
+        .setServiceAccountId(SERVICE_ACCOUNT_ID)
         .setServiceAccountUser(emailToSendWith)
         .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
         .setServiceAccountPrivateKeyFromP12File(in)
@@ -76,12 +78,11 @@ public class EmailSender {
       }
                   
     } catch (MessagingException e) {
-        log.warning("error in sending emails out");
+        log.warning("error in sending emails out" + e.toString());
     } catch (GeneralSecurityException e) {
-      log.warning("http transport failed, security error");
+      log.warning("http transport failed, security error" + e.toString());
     } catch (Exception e) {
-      log.warning("general exception");
-      e.printStackTrace();
+      log.warning("general exception" + e.toString());
     }
   }
 
@@ -89,8 +90,6 @@ public class EmailSender {
   * Sends out messages to a specific contact.
   */
   private static void sendMessage(String to, String emailSubject, String emailContent, Gmail service) throws MessagingException, IOException {
-    System.out.println(to);
-
     // Set up MimeMessage
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
