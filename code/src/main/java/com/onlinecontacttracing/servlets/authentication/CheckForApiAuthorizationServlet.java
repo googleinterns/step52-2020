@@ -37,7 +37,7 @@ import com.google.gson.Gson;
 /**
 *  This class directs the creation of user Credentials for accessing APIs.
 */
- 
+
 public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
  
   // access API with the created credential
@@ -50,7 +50,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
   private static final String url = "https://online-contact-tracing.ue.r.appspot.com";
-
   private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
  
@@ -165,5 +164,6 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, scopes).build();
     return flow;
+
   }
 }

@@ -56,7 +56,6 @@ public class PositiveUserContacts {
     listOfContacts.add(new PotentialContact(name, email));
   }
 
-  //TODO
   public void mergeContactListsFromCalendarAPI(Set<PotentialContact> contactsFromCalendar) {
     listOfContacts.addAll(contactsFromCalendar);
   }
