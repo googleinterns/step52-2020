@@ -25,13 +25,13 @@ public class PositiveUser {
   public PositiveUser(String id, String email) {
     userId = id;
     userEmail = email;
-    attemptedEmailDrafts = Constants.NUMBER_OF_DRAFTS_ALLOWED;
+    attemptedEmailDrafts = 0;
     emailsSent = 0;
     firstLoginSeconds = lastLoginSeconds = Instant.now().getEpochSecond();
   }
 
   public void setLastLogin() {
-    firstLoginSeconds = Instant.now().getEpochSecond();
+    lastLoginSeconds = Instant.now().getEpochSecond();
   }
   
   public String getUserId() {
@@ -42,7 +42,7 @@ public class PositiveUser {
     return userEmail;
   }
   
-  public long getNumberOfEmailsSent() {
+  public int getNumberOfEmailsSent() {
     return emailsSent;
   }
 
@@ -54,6 +54,14 @@ public class PositiveUser {
     return lastLoginSeconds;
   }
 
+  public int getAttemptedEmailDrafts() {
+    return attemptedEmailDrafts;
+  }
+
+  public void incrementAttemptedEmailDrafts() {
+    attemptedEmailDrafts++;
+  }
+
   public void incrementEmailsSent() {
     emailsSent++;
   }
@@ -62,25 +70,16 @@ public class PositiveUser {
     return emailsSent < Constants.EMAILING_THRESHOLD;
   }
 
-  public boolean userCanMakeMoreDraftsAfterBeingFlagged() {
-    if (attemptedEmailDrafts > 0) {
-      attemptedEmailDrafts--;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   @Override
   public String toString() {
-    String person = "Negative User- ID:" + userId + ", email:" + userEmail + "\n";
-    String hasNumberOfAttemptsLeft = "  number of attempted drafts left: " + (Constants.NUMBER_OF_DRAFTS_ALLOWED - attemptedEmailDrafts) + "\n";
-    String hasSentThisManyEmails = "  number of emails sent: " + emailsSent + "\n";
+    String person = String.format("(Positive User) ID: %s, email: %s\n", userId, userEmail);
+    String hasNumberOfAttemptsLeft = String.format("  number of attempted drafts left: %s\n", (Constants.NUMBER_OF_DRAFTS_ALLOWED - attemptedEmailDrafts));
+    String hasSentThisManyEmails = String.format("  number of emails sent: %s\n", emailsSent);
 
     Date firstLogin = new java.util.Date(firstLoginSeconds * 1000);
     Date lastLogin = new java.util.Date(lastLoginSeconds * 1000);
-    String loginInformation = "  first login: " + firstLogin + ", last login: " + lastLogin;
+    String loginInformation = String.format("  first login: %s, last login: %s", firstLogin, lastLogin);
 
-    return person + hasNumberOfAttemptsLeft + hasSentThisManyEmails + loginInformation;
+    return String.format("%s%s%s%s", person, hasNumberOfAttemptsLeft, hasSentThisManyEmails, loginInformation);
   }
 }
