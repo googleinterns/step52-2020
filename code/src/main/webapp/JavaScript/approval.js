@@ -16,5 +16,5 @@ function sendListToServlet() {
   
   params.append('emails', emails);
 
-  fetch(new Request('/message-sender', {method: 'POST', body: params}));
+  fetch(new Request('/send-messages', {method: 'POST', body: params}));
 }
