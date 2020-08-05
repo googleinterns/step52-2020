@@ -3,18 +3,18 @@ package com.onlinecontacttracing.messaging;
 /*
 * System's opening message.
 */
-public class EmailSubject implements HasEnglishTranslation, HasSpanishTranslation  {
+public class EmailSubject {
  
-  private String englishTranslation = "COVID-19 Potential Exposure Alert";
-  private String spanishTranslation = "Alerta de Exposición Potencial de COVID-19";
+  private static final String ENGLISH_TRANSLATION = "COVID-19 Potential Exposure Alert";
+  private static final String SPANISH_TRANSLATION = "Alerta de Exposición Potencial de COVID-19";
 
 
   public static String getEnglishTranslation() {
-    return this.englishTranslation;
+    return ENGLISH_TRANSLATION;
   }
 
   public static String getSpanishTranslation() {
-    return this.spanishTranslation;
+    return SPANISH_TRANSLATION;
   } 
 
   public static String getTranslation(String language) {
