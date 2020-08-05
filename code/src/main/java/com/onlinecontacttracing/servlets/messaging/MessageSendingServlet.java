@@ -27,6 +27,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 
 @WebServlet("/send-messages")
+
+/**
+* This servlet will send out messages to all the user's approved contacts.
+*/
 public class MessageSendingServlet extends HttpServlet {
 
   static final Logger log = Logger.getLogger(DeleteNegativeUserLocationsServlet.class.getName());
@@ -36,14 +40,10 @@ public class MessageSendingServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idTokenString = request.getParameter("idToken");
-    // String systemMessageName = request.getParameter("systemMessage");
-    // String localityResourceName = request.getParameter("localityResource");
-    // String messageLanguage = request.getParameter("messageLanguage");
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
     String messageLanguage = "SP";
 
-    // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
 
@@ -59,10 +59,7 @@ public class MessageSendingServlet extends HttpServlet {
       String userId = payload.getSubject();
 
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-      
-      // TODO: replace with saved email
-      CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
-
+      CustomizableMessage customizableMessage = new CustomizableMessage(userId, "Hello!");
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
 
       EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, messageLanguage);

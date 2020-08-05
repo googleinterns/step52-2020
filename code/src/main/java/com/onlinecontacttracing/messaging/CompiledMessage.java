@@ -5,10 +5,7 @@ import com.onlinecontacttracing.storage.CustomizableMessage;
 import com.onlinecontacttracing.storage.PositiveUser;
 import com.onlinecontacttracing.storage.PotentialContact;
 import com.onlinecontacttracing.messaging.filters.CheckMessagesForFlags;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -18,23 +15,29 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Projection;
+
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+/**
+* Compiled message including the opening System Message, user's custom message, and the loacality resources.
+*/
 public class CompiledMessage {
   private SystemMessage systemMessage;
   private LocalityResource localityResource;
   private CustomizableMessage customizableMessage;
   private String userMessage;
   private PositiveUser user;
-  //for backend use
   private String messagesForBackendUse;
-  //for frontend display
   private ArrayList<String> messagesForFrontendDisplay = new ArrayList<String> ();
   //the frontend and backend are not necessarily the same message in case the 
-  //user's message triggered flags
+  //user's message triggers flags
 
   public CompiledMessage(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser positiveUser) {
     this.systemMessage = systemMessage;
@@ -44,12 +47,18 @@ public class CompiledMessage {
     this.user = positiveUser;
   }
 
+  /**
+  * This method checks whether a user's message violates any of the flags and stores these flags.
+  */
   public void checkForFlags() {
     CheckMessagesForFlags flagChecker = new CheckMessagesForFlags();
     this.messagesForFrontendDisplay = flagChecker.findTriggeredFlags(this.user, this.userMessage);
   }
 
-  //if flags are triggered, returns message and list of errors, else returns message
+  /**
+  * This method compiles the messages for frontend and backend user. They will differ if the
+  * message has triggered any flags.
+  */
   public void compileMessages(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
@@ -70,19 +79,28 @@ public class CompiledMessage {
     if (messagesForFrontendDisplay.size() > 1){
       userMessage = "";
     }
-    this.messagesForBackendUse = (translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    this.messagesForBackendUse = (translatedSystemMessage.concat("\n").concat(userMessage).concat("\n").concat(translatedResourceMessage));
   }
 
+  /**
+  * Returns the compiled message for backend use.
+  */
   public String getCompiledBackendMessage() {
     //returns message with no userMessage if there are errors, else return message with userMessage
     return this.messagesForBackendUse;
     
   }
 
+  /**
+  * Returns the compiled message for frontend use.
+  */
   public ArrayList<String> getCompiledFrontendDisplayMessage() {
     return this.messagesForFrontendDisplay;
   }
 
+  /**
+  * Returns the user's id.
+  */  
   public String getUserId() {
     return user.getUserId();
   }

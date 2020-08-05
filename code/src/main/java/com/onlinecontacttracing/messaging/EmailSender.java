@@ -28,19 +28,23 @@ import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+/**
+* Email sender for sending emails to user's contacts.
+*/
 public class EmailSender {
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);
-
   private static final String serviceAccountId = "online-contact-tracing@appspot.gserviceaccount.com";
   private static final String emailToSendWith = "cccoders@onlinecontacttracing.com";
   private static final String CREDENTIALS_FILE_PATH = "online-contact-tracing-f798898872f4.p12";
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final String APPLICATION_NAME = "Online Contact Tracing";
-
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
 
+  /**
+  * Sends emails with a email subject and a message to a list of contacts.
+  */
   public static void sendEmailsOut(String emailSubject, CompiledMessage compiledMessage, String messageLanguage) {
 
     try{
@@ -70,7 +74,6 @@ public class EmailSender {
         sendMessage(contact.getEmail(), emailSubject, emailBody, service);
         contact.markContactedSuccessfully();
       }
-
                   
     } catch (MessagingException e) {
         log.warning("error in sending emails out");
@@ -82,6 +85,9 @@ public class EmailSender {
     }
   }
 
+  /**
+  * Sends out messages to a specific contact.
+  */
   private static void sendMessage(String to, String emailSubject, String emailContent, Gmail service) throws MessagingException, IOException {
     System.out.println(to);
 
