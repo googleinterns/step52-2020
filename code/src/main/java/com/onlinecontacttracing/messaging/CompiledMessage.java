@@ -26,7 +26,6 @@ import java.io.IOException;
 public class CompiledMessage {
   private SystemMessage systemMessage;
   private LocalityResource localityResource;
-  private CustomizableMessage customizableMessage;
   private String userMessage;
   private PositiveUser user;
   //for backend use
@@ -36,11 +35,10 @@ public class CompiledMessage {
   //the frontend and backend are not necessarily the same message in case the 
   //user's message triggered flags
 
-  public CompiledMessage(SystemMessage systemMessage, LocalityResource localityResource, CustomizableMessage customizableMessage, PositiveUser positiveUser) {
+  public CompiledMessage(SystemMessage systemMessage, LocalityResource localityResource, String message, PositiveUser positiveUser) {
     this.systemMessage = systemMessage;
     this.localityResource = localityResource;
-    this.customizableMessage = customizableMessage;
-    this.userMessage = this.customizableMessage.getMessage();
+    this.userMessage = message;
     this.user = positiveUser;
   }
 

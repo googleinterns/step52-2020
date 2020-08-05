@@ -12,8 +12,8 @@ public class PersonEmail implements ContactStatus{
   private Optional<Long> getTimeWhenEmailedSeconds;
   private boolean personHasBeenEmailed;
 
-  private PersonEmail() {
-  }
+  // Empty constructor for Objectify
+  private PersonEmail() {}
 
   public PersonEmail(String email) {
     this.email = email;

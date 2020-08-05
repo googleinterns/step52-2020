@@ -60,10 +60,8 @@ public class MessageSendingServlet extends HttpServlet {
 
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
       
-      // TODO: replace with saved email
-      CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
-
-      CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
+      String message = "custom message will be retrieved from params";
+      CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);//fix the enum resources
 
       EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, messageLanguage);
 
