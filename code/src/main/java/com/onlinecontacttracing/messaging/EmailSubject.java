@@ -8,14 +8,14 @@ public enum EmailSubject implements HasSpanishTranslation, HasEnglishTranslation
   private String englishTranslation;
   private String spanishTranslation;
 
-  public EmailSubject(String spanishTranslation, String englishTranslation) {
+  EmailSubject(String spanishTranslation, String englishTranslation) {
     this.englishTranslation = englishTranslation;
     this.spanishTranslation = spanishTranslation;
   }
 
   @Override
   public String getEnglishTranslation() {
-    return this.englishTranslation
+    return this.englishTranslation;
   }
 
   @Override
