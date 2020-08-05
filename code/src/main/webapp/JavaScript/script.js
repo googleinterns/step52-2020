@@ -252,3 +252,12 @@ function redirectManualInput() {
 function getFAQ() {
     window.location = "../html/faq.html";
 }
+
+
+function confirmNegativeUserEmail() {
+  localStorage.removeItem('negative-user-email');
+  var negativeUserEmail = document.getElementById("negative-user-email").innerText;
+  localStorage.setItem('negative-user-email', negativeUserEmail);
+  // console.log(negativeUserEmail);
+  window.location = "/?page=notification";
+}
