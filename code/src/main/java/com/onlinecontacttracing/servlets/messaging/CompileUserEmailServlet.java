@@ -27,7 +27,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 
 
-@WebServlet("/send-messages")
+@WebServlet("/compile-user-email")
 public class CompileUserEmailServlet extends HttpServlet {
 
   static final Logger log = Logger.getLogger(DeleteNegativeUserLocationsServlet.class.getName());
