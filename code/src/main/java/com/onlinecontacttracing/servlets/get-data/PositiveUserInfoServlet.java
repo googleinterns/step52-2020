@@ -46,13 +46,13 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     contactInfo.join();
 
     
-    PositiveUserContacts fullContacts = ofy.load().type(PositiveUserContacts.class).id(userId).now();
+    PositiveUserContacts fullContacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
     if(fullContacts.getListOfContacts().isEmpty()) {
         fullContacts = new PositiveUserContacts(userId);
     }  
     // Merge contacts from Calendar and People APIs
     fullContacts.mergeContactListsFromPeopleAPI(calendarDataForPositiveUser.getContacts());
-    ofy.save().entity(fullContacts).now();
+    ofy().save().entity(fullContacts).now();
   }
 
   @Override

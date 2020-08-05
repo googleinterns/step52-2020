@@ -77,6 +77,7 @@ class PeopleDataForPositiveUser implements Runnable {
                  person.getEmailAddresses().get(0).getDisplayName());
             }
         }
+      }
       // Store data or replace old data with newer data.
       if(!positiveUserContacts.getListOfContacts().isEmpty()) {
         ofy.save().entity(positiveUserContacts).now();
