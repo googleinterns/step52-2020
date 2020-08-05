@@ -53,7 +53,7 @@ public class DeleteAllNegativeUserDataServlet extends HttpServlet {
         .filter("userId", userId).keys();
       ofy().delete().keys(negativeUserLocations).now();
 
-      response.sendRedirect("/?page=landing&deleted");
+      response.getWriter().println("/?page=landing&deleted");
 
     } catch (GeneralSecurityException e) {
       log.warning("http transport failed, security error" + e.toString());

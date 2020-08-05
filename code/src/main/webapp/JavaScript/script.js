@@ -212,7 +212,9 @@ function attachSignin(element, negativeUser) {
 function deleteNegativeUserData() {
   const params = new URLSearchParams();
   params.append('idToken', localStorage.idToken);
-  fetch(new Request('/delete-all-negative-user-data', {method: 'POST', body: params}));
+  fetch(new Request('/delete-all-negative-user-data', {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => window.location = url);
 }
 
 function handleLoginError(error) {
