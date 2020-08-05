@@ -8,9 +8,12 @@ import java.util.Optional;
 */
 public class PersonEmail implements ContactStatus{
 
-  private final String email;
+  private String email;
   private Optional<Long> getTimeWhenEmailedSeconds;
   private boolean personHasBeenEmailed;
+
+  // Empty constructor for Objectify
+  private PersonEmail() {}
 
   public PersonEmail(String email) {
     this.email = email;
