@@ -62,8 +62,7 @@ public class MessageSendingServlet extends HttpServlet {
       
       String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
-      String subject = emailSubject.getTranslation(messageLanguage);
-      EmailSender.sendEmailsOut(subject, compiledMessage, messageLanguage);
+      EmailSender.sendEmailsOut(emailSubject, compiledMessage, messageLanguage);
 
     } catch(Exception e) {
         e.printStackTrace();
