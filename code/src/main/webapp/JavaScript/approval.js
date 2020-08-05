@@ -42,22 +42,29 @@ function getFormData() {
   var formElements = document.getElementById("user-message-form").elements;
   localStorage.setItem("systemMessageLangauge", formElements["system-message-language"].value)
   localStorage.setItem("localityResourceLangauge", formElements["locality-resource-language"].value)
+  console.log("1" + formElements["system-message-language"].value);
+  console.log("2"+ formElements["locality-resource-language"].value);
   localStorage.setItem("customMessage", formElements["custom-message-box"].value)
   var text;
   
   text +=  formElements["system-message-language"].value+ "<br>";
   text +=  formElements["locality-resource-language"].value+ "<br>";
   text +=  formElements["custom-message-box"].value+ "<br>";
-
+  console.log(text);
   const params = new URLSearchParams();
-  params.append('idToken', localStorage.idToken);
+  
   var emails = localStorage.getItem("email-addresses");
+  
+  console.log("3"+ localStorage.systemMessageLangauge);
+  console.log("4"+ localStorage.localityResourceLangauge);
+  params.append('idToken', localStorage.idToken);
   params.append('emails', emails);
-  params.append('systemMessageLangauge', localStorage.systemMessageLangauge);
-  params.append('localityResourceLangauge', localStorage.localityResourceLangauge);
+  params.append('systemMessageLanguage', localStorage.systemMessageLangauge);
+  params.append('localityResourceLanguage', localStorage.localityResourceLangauge);
   params.append('customMessage', localStorage.customMessage);
+
    fetch(new Request('/compile-user-email', {method: 'POST', body: params}))
-   .then(response => respone.text())
+   .then(response => response.text())
    .then(response => {
      document.getElementById("full-message").innerHTML = response;
      console.log(response);

@@ -42,16 +42,20 @@ public class CompileUserEmailServlet extends HttpServlet {
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
         .setAudience(Collections.singletonList(CLIENT_ID))
         .build();
-
+      System.out.println("...........................here");
       // Get payload with userId
       String idTokenString = request.getParameter("idToken");
       GoogleIdToken idToken = verifier.verify(idTokenString);
       Payload payload = idToken.getPayload();
       String userId = payload.getSubject();
-
+      
       String systemMessageLanguage = request.getParameter("systemMessageLanguage");
-      String localityResourceLanguage = request.getParameter("localityResourceMessage");
+      String localityResourceLanguage = request.getParameter("localityResourceLanguage");
       String customMessage = request.getParameter("customMessage");
+      System.out.println(systemMessageLanguage);
+      System.out.println(localityResourceLanguage);
+      System.out.println(customMessage);
+
 
       ofy().save().entity(new CustomizableMessage(userId, customMessage)).now();
       SystemMessage systemMessage = SystemMessage.getSystemMessageFromString("VERSION_1");
