@@ -96,6 +96,7 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
     } catch(Exception e) { // don't expect any other error
       log.warning("An exception occurred: " + e.toString());
       response.sendRedirect("/?page=login&error=GeneralError");
+      e.printStackTrace();
     }
   }
   

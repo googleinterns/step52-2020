@@ -13,6 +13,11 @@ p {
   font-size: 2vmin;
 }
 
+h1 {
+  position: absolute;
+  top: 50%;
+}
+
 input {
   margin-top: auto;
   margin-bottom: auto;
