@@ -49,19 +49,14 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
       <div class="picker header">
         <p class="email"> Email </p>
         <p> Status </p>
-        <label class="container"> Contact Y/N </label>
       </div>
       <div class="list">
   <% 
       for (PersonEmail email : batch.getPersonEmails()) {
   %>
       <div class="picker contact">
-        <p class="email"> <%= email.getEmail() %> </p>
         <p> <%=  email.hasBeenContactedSuccessfully()%> </p>
-        <label class="container">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-        </label>
+        <p class="email"> <%= email.getEmail() %> </p>
       </div>
   <%
       }
@@ -70,7 +65,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
   <%
     } else {
   %>
-    <h1> We do not have any data </h1>
+    <h1> We found no one to email </h1>
   <%
     }
   %>
