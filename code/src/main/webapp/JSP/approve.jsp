@@ -21,6 +21,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="stylesheet" href="../CSS/approval.css">
    <script src="../JavaScript/approval.js"></script>
+   <link rel="shortcut icon" type="image/svg" href="image/favicon.svg"/>
    <title>Approve Contacts</title>
 </head>
    

@@ -19,6 +19,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="stylesheet" href="../CSS/approval.css">
    <script src="../JavaScript/approval.js"></script>
+   <link rel="shortcut icon" type="image/svg" href="image/favicon.svg"/>
    <title>Approve Contacts</title>
 </head>
    
@@ -36,8 +37,8 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
 
     // Make verifier to get payload
     GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
-    .setAudience(Collections.singletonList("83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com"))
-    .build();
+      .setAudience(Collections.singletonList("83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com"))
+      .build();
     GoogleIdToken idToken = verifier.verify(idTokenString);
     Payload payload = idToken.getPayload();
     String userId = payload.getSubject();
@@ -45,7 +46,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
     NotificationBatch batch = ofy().load().type(NotificationBatch.class).id(userId).now();
     if (batch != null && batch.getPersonEmails() != null) {
   %>
-      <p class="mission-statement"> The following is the status of the emails: </p>
+      <p class="mission-statement"> Email Status: </p>
       <div class="picker header">
         <p class="email"> Email </p>
         <p> Status </p>
@@ -65,7 +66,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
   <%
     } else {
   %>
-    <h1> We found no one to email </h1>
+    <p> We found no one to email </p>
   <%
     }
   %>
