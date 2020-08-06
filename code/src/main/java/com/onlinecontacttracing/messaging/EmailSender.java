@@ -66,14 +66,14 @@ public class EmailSender {
       Gmail service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
                   .build();
-                  
-      String emailBody = compiledMessage.compileMessages(messageLanguage);
 
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();
 
       for (PersonEmail contact : notificationInfo.getPersonEmails()) {
+        String emailBody = compiledMessage.compileMessages(contact.getLanguage());
         sendMessage(contact.getEmail(), emailSubject.getTranslation(messageLanguage), emailBody, service);
         contact.markContactedSuccessfully();
+        ofy().save().entity(contact).now();
       }
                   
     } catch (MessagingException e) {
