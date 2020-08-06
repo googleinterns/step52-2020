@@ -67,6 +67,7 @@ class PageController {
     this.negativePage = new NegativeLoginPage();
     this.notificationPage = new NotificationPage();
     this.currentlyShown = undefined;
+    this.idToken = undefined;
   }
 
   hideCurrentPage() {
@@ -187,6 +188,7 @@ function attachSignin(element, negativeUser) {
 
     const params = new URLSearchParams()
     params.append('idToken', idToken);
+    params.append('timeZoneOffset', new Date().getTimezoneOffset());
 
     var servlet = "";
     if (negativeUser) {
@@ -257,4 +259,21 @@ function confirmNegativeUserEmail() {
   localStorage.setItem('negative-user-email', negativeUserEmail);
   // console.log(negativeUserEmail);
   window.location = "/?page=notification";
+}
+
+function dropdown(divName, btnName) {
+  
+  document.getElementById(divName).classList.remove("hidden");
+  // document.getElementById(btnName).setAttribute('onclick', 'closeDropdown(divName,btnName)');
+  // document.getElementById(divName).style.height = 0;
+  document.getElementById(btnName).onclick = function(){ return closeDropdown(divName,btnName)};
+  console.log(document.getElementById(btnName).onclick);
+}
+
+function closeDropdown(divName, btnName) {
+  console.log('sup');
+  document.getElementById(divName).classList.add("hidden");
+  // document.getElementById(divName).style.height = auto;
+  // document.getElementById(btnName).setAttribute('onclick', 'dropdown(divName,btnName)');
+  document.getElementById(btnName).onclick = function(){ return dropdown(divName,btnName)};
 }

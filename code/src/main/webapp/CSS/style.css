@@ -41,20 +41,56 @@ div {
 .content {
     margin-left: 10%;
     position: absolute;
+    background-repeat: repeat-y;
+    top: 10%;
+    width: 80%;
+    background-image: url("images/background-login-blue.svg");
+}
+
+#wrapper-background {
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  text-align: center;
+  background-image: url("images/background-login-blue.svg");
+}
+
+
+
+.dropbtn {
+    background: rgba(255,255,255,0.5);
+    border: 5px solid #025696;
+    border-radius: 2rem;
+    font-color: :#025696;
+    font-family: Muli;
+    font-size: 1.5vw;
+    margin: 0.75rem;
+    padding: 0.75rem;
+    text-decoration: none;
+    /* background-image: url("images/background-login-blue.svg"); */
+}
+
+
+#faq {
+    margin-left: 10%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
     top: 10%;
     width: 80%;
 }
 
 .faq-answers {
-  display: inline-block;
-  font-size: 1vw;
-  width: 60%;
+    display: inline-block;
+    font-size: 1.25vw;
+    width: 85%;
 }
 
 .faq-questions {
   display: inline-block;
-  font-size: 2vw;
-  width: 50%;
+  font-size: 2.5vw;
+  width: 60%;
 }
 
 .header-content {
@@ -71,12 +107,12 @@ div {
   text-align: center;
 }
 
-.landing-background #blue-buttons-to-procede {
+.landing-background .blue-buttons-to-procede {
   top: 60%;
 }
 
-.login-background #blue-buttons-to-procede {
-  top: 60%;
+.login-background .blue-buttons-to-procede {
+  top: 65%;
 }
 
 .landing-background .line {
@@ -115,10 +151,19 @@ div {
   top: 30%;
 }
 
+#add-emails-button {
+    position: relative;
+    bottom: 50px;
+}
+/* #faq-question-block {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color:#ffffff;
+  height: fit-content;
+  border-radius: 8px;
+} */
 
-
-
-#blue-buttons-to-procede button {
+.blue-buttons-to-procede button {
   background: #025696;
   border: 8px solid #025696;
   border-radius: 5rem;
@@ -131,7 +176,7 @@ div {
   top: 60%;
 }
 
-#blue-buttons-to-procede button:hover {
+.blue-buttons-to-procede button:hover {
   box-shadow: 0 0 2rem #C6C6C6;
 }
 
@@ -153,6 +198,14 @@ div {
   /* top: 60%; */
 }
 
+#faq {
+    margin-left: 10%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    top: 10%;
+    width: 80%;
+}
+
 #faq-button {
   background: #ffffff;
   border: none;
@@ -166,19 +219,14 @@ div {
   margin-left: 95%;
 }
 
-#faq-q1 {
-  text-align: center;
-  display: inline-block;
-  top: 10%;
-}
 
 #line-horizontal-bottom {
-  top: 84%;
+  top: 88%;
   transition-delay: 1.2s
 }
 
 #line-horizontal-top {
-  top: 80%;
+  top: 84%;
   transition-delay: 1s
 }
 
@@ -192,11 +240,11 @@ div {
   transition-delay: 1s
 }
 
-#mission-statement {
+.mission-statement {
   font-size: 4vmin;
   margin-left: auto;
   margin-right: auto;
-  top: 29%;
+  top: 25%;
 }
 
 #negative-user-email {
@@ -204,10 +252,9 @@ div {
   margin-top: 5%;
 }
 
-
-#welcome {
+.welcome {
   font-size: 7vmin;
-  top: 10%;
+  top: 5%;
 }
 
 #wrapper-background {
@@ -253,27 +300,27 @@ div {
 }
 
 @media only screen and (max-width: 900px) {
-  #mission-statement {
+  .mission-statement {
    left: 2.5%;
    width: 95%; 
   }
 } 
 @media only screen and (max-width: 1400px) and (min-width: 900px) {
-  #mission-statement {
+  .mission-statement {
    left: 7.5%;
    width: 85%;
   }
 }
 
 @media only screen and (max-width: 1900px) and (min-width: 1400px) {
-  #mission-statement {
+  .mission-statement {
    left: 10%;
    width: 80%;
   }
 }
 
 @media only screen and (min-width: 1900px) {
-  #mission-statement {
+  .mission-statement {
    left: 15%;
    width: 70%;
   }
@@ -369,4 +416,63 @@ div {
   100% {
     opacity:1;
   }
+}
+
+/* Toggle */
+
+.switch-container {
+  position: relative;
+  left: 40%;
+  top: 35rem;
+  width: 30rem;
+  font-size: 1.5vmin;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 6vw;
+  height: 3.6vw;
+  float:left;
+  right: 1rem;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #608fab;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 3vw;
+  width: 3vw;
+  left: .3vw;
+  bottom: .3vw;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #025696;
+}
+
+input:checked + .slider:before {
+  transform: translateX(2.4vw);
+}
+
+.slider.round {
+  border-radius: 2vw;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

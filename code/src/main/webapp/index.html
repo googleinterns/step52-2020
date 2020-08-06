@@ -18,10 +18,10 @@
     <div class="landing hidden" >
       <button id="faq-button" onclick=getFAQ() > FAQ </button>
     </div>
-    <div class="landing hidden" id="welcome">
+    <div class="landing hidden welcome">
       <h1> Welcome </h1>
     </div>
-    <div class="landing hidden" id="mission-statement">
+    <div class="landing hidden mission-statement">
       <p> We are here to help with contact tracing!
           If you have tested positive, we can help identify people
           and places that you could have come in contact with.
@@ -29,7 +29,7 @@
           with someone who has tested positive.
       </p>
     </div>
-    <div class="landing hidden" id="blue-buttons-to-procede">
+    <div class="landing hidden blue-buttons-to-procede">
       <button id="landing-button-left-or-top" onClick="PAGE_CONTROLLER.show('login')">
         I’ve tested positive
       </button>
@@ -37,31 +37,49 @@
         I’d like to be alerted
       </button>
     </div>
-    <div id="name"></div>
-    <div class="login hidden" id="welcome">
+    <div class="login hidden welcome">
       <h1> Log In </h1>
     </div>
-    <div class="login hidden" id="mission-statement">
+    <div class="login hidden mission-statement">
       <p> In order for us to perform contact tracing, we'll need some data!
           You can provide that data by signing in with Google
-          or by proceeding as a guest. Please choose below
+          or by proceeding as a guest. If you decide to login through Google, please choose what data
+          we are allowed to use:
       </p>
     </div>
-    <div class="login hidden" id="blue-buttons-to-procede">
+    <div class="login hidden switch-container">
+      <label class="switch">
+        <input type="checkbox" id="calendar" checked>
+        <span class="slider round"> </span>
+      </label>
+      <p> Calendar: access events in calendar to see who attended and where they happened <p>
+    </div>
+    <br></br>
+    <div class="login hidden switch-container">
+      <label class="switch">
+        <input type="checkbox" id="contacts" checked>
+        <span class="slider round"> </span>
+      </label>
+      <p> Contacts: access contacts to help find people you know and may have come in contact with <p>
+    </div>
+    <div class="login hidden blue-buttons-to-procede">
       <button id="login-button-left-or-top" onclick="startApp()"> Google Sign-In </button>
       <button id="login-button-right-or-bot" onClick="redirectManualInput()"> Guest </button>
     </div>
-    <div class="negative-login hidden" id="welcome">
+    <div class="negative-login hidden welcome">
       <h1> Log In </h1>
     </div>
-    <div class="negative-login hidden" id="mission-statement">
-      <p> In order in order to keep you safe, we'll need some data! 
-          If you sign in with Google we can cross reference your data with other users who have tested positive.
+
+    <div class="negative-login hidden mission-statement">
+      <p> In order in order to keep you safe, we will request access to your calendar data. 
+          If you sign in with Google we can cross reference you data with other users who have tested positive.
+
       </p>
     </div>
-    <div class="negative-login hidden" id="blue-buttons-to-procede">
+    <div class="negative-login hidden blue-buttons-to-procede">
       <button id="negative-login-button" onclick="startApp()"> Google Sign-In </button>
     </div>
+
     <div class="notification hidden">
       <button id="faq-button" onclick=getFAQ() > FAQ </button>
     </div>
