@@ -14,9 +14,9 @@ public class NegativeUserLocation {
     
   // The Id is needed for objectify but not the implementation of this class
   @Id private Long key;
+  @Index private String userId;
   // Location History provides geographic coordinates multiplied by 10^7 for more accuracy
   private Location location;
-  private String  userId;
 
   // Objecify requires one constructor with no parameters
   private NegativeUserLocation() {}

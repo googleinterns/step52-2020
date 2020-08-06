@@ -150,6 +150,10 @@ function LoadPage() {
     handleLoginError(error);
   }
 
+  if (urlParams.get('deleted') != null) {
+    window.alert("All the data was deleted. Thank you for using our services.")
+  }
+
   window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
   }
@@ -205,6 +209,13 @@ function attachSignin(element, negativeUser) {
   });
 }
 
+function deleteNegativeUserData() {
+  const params = new URLSearchParams();
+  params.append('idToken', localStorage.idToken);
+  fetch(new Request('/delete-all-negative-user-data', {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => window.location = url);
+}
 
 function handleLoginError(error) {
   if (error == "GeneralError") {
