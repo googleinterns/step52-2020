@@ -429,19 +429,20 @@ div {
 
 .switch-container {
   position: relative;
-  left: 40%;
+  text-align: center;
   top: 50%;
-  width: 30rem;
-  font-size: 1.5vmin;
+  width: 50%;
+  left: 25%;
+  font-size: 2vmin;
+  height: 3vw;
 }
 
 .switch {
   position: relative;
-  display: inline-block;
   width: 6vw;
   height: 3.6vw;
   float:left;
-  right: 1rem;
+  left: 0%;
 }
 
 .slider {
@@ -454,6 +455,7 @@ div {
   background-color: #608fab;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 2vw;
 }
 
 .slider:before {
@@ -466,6 +468,7 @@ div {
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 50%;
 }
 
 input:checked + .slider {
@@ -474,14 +477,6 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(2.4vw);
-}
-
-.slider.round {
-  border-radius: 2vw;
-}
-
-.slider.round:before {
-  border-radius: 50%;
 }
 
 #add-emails-button {
