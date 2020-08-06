@@ -11,6 +11,7 @@ public class NotificationServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.sendRedirect("/?page=notification");
+    // If user tries to acces notification page they have to login first
+    response.sendRedirect("/?page=negative-login");
   }
 }
