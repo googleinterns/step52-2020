@@ -62,7 +62,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     ofy().save().entity(fullContacts).now();
 
     Gson gson = new Gson();
-    response.sendRedirect("/approve.jsp?authState=" + gson.toJson(state));
+    response.sendRedirect("/JSP/approve.jsp?authState=" + gson.toJson(state));
   }
 
   @Override
