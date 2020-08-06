@@ -72,14 +72,7 @@ class PeopleDataForPositiveUser implements Runnable {
       if (connections != null && connections.size() > 0) {
         for (Person person : connections) {
             List<Name> names = person.getNames();
-            System.out.println("woo");
-            System.out.println(names.size());
             if (names != null && names.size() > 0) {
-                System.out.println("hello");
-                System.out.println(person.getNames().get(0).getDisplayName());
-                System.out.println(positiveUserContacts);
-                System.out.println(person.getEmailAddresses().size());
-                System.out.println(person.getEmailAddresses().get(0));
                 positiveUserContacts.add(person.getNames().get(0).getDisplayName(),
                  person.getEmailAddresses().get(0).getValue());
             }

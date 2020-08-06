@@ -42,7 +42,6 @@ public class CompileUserEmailServlet extends HttpServlet {
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, JSON_FACTORY)
         .setAudience(Collections.singletonList(CLIENT_ID))
         .build();
-      System.out.println("...........................here");
       // Get payload with userId
       String idTokenString = request.getParameter("idToken");
       GoogleIdToken idToken = verifier.verify(idTokenString);
@@ -52,9 +51,6 @@ public class CompileUserEmailServlet extends HttpServlet {
       String systemMessageLanguage = request.getParameter("systemMessageLanguage");
       String localityResourceLanguage = request.getParameter("localityResourceLanguage");
       String customMessage = request.getParameter("customMessage");
-      System.out.println(systemMessageLanguage);
-      System.out.println(localityResourceLanguage);
-      System.out.println(customMessage);
 
 
       ofy().save().entity(new CustomizableMessage(userId, customMessage)).now();
@@ -64,9 +60,7 @@ public class CompileUserEmailServlet extends HttpServlet {
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
 
       CompiledMessage compiledMessageObject = new CompiledMessage(systemMessage,localityResource, customMessage, positiveUser);
-      
       compiledMessageObject.compileMessages(systemMessageLanguage, localityResourceLanguage);
-
       ArrayList<String> compiledMessage = compiledMessageObject.getCompiledFrontendDisplayMessage();
  
       response.getWriter().println(compiledMessage);
