@@ -73,6 +73,7 @@ public class EmailSender {
         String emailBody = compiledMessage.compileMessages(contact.getLanguage());
         sendMessage(contact.getEmail(), emailSubject.getTranslation(messageLanguage), emailBody, service);
         contact.markContactedSuccessfully();
+        ofy().save().entity(contact).now();
       }
                   
     } catch (MessagingException e) {
