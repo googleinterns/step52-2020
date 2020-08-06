@@ -15,6 +15,7 @@ import com.google.api.services.people.v1.PeopleServiceScopes;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 import com.google.api.services.people.v1.model.Name;
 import com.google.api.services.people.v1.model.Person;
+import com.google.api.services.people.v1.model.EmailAddress;
 import com.googlecode.objectify.Objectify;
 
 import com.onlinecontacttracing.storage.Constants;
@@ -71,11 +72,12 @@ class PeopleDataForPositiveUser implements Runnable {
       List<Person> connections = response.getConnections();
       if (connections != null && connections.size() > 0) {
         for (Person person : connections) {
-            List<Name> names = person.getNames();
-            if (names != null && names.size() > 0) {
-                positiveUserContacts.add(person.getNames().get(0).getDisplayName(),
-                 person.getEmailAddresses().get(0).getDisplayName());
-            }
+          Optional<List<Name>> namesOptional = Optional.ofNullable(person.getNames());
+          String displayName = namesOptional.map(names -> names.get(0)).map(name -> name.getDisplayName()).orElse(null);
+          List<EmailAddress> emails = person.getEmailAddresses();
+          if (emails != null && emails.size() > 0) {
+            positiveUserContacts.add(displayName, emails.get(0).getValue());
+          }
         }
       }
       // Store data or replace old data with newer data.
