@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 /**
 * This class keeps track of a positive user's list of contacts from People and Calendar API
@@ -56,9 +57,13 @@ public class PositiveUserContacts {
     listOfContacts.add(new PotentialContact(name, email));
   }
 
-  //TODO
   public void mergeContactListsFromCalendarAPI(Set<PotentialContact> contactsFromCalendar) {
     listOfContacts.addAll(contactsFromCalendar);
+
+    PositiveUser self = ofy().load().type(PositiveUser.class).id(userId).now();
+
+    // Create a potential contact with user's email to delete from hashset
+    listOfContacts.remove(new PotentialContact(null, self.getUserEmail()));
   }
 
   @Override

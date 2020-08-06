@@ -5,6 +5,8 @@ function removeLines() {
 function sendListToServlet() {
   
 
+  fetch(new Request('/delete-data-after-approval', {method: 'POST', body: params}));
+
   let emails = [];
   for (let contact of document.getElementsByClassName('contact')) {
     const input = contact.getElementsByClassName("container")[0].getElementsByTagName("input")[0];

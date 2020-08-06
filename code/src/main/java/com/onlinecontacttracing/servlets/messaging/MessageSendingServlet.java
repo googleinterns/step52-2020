@@ -25,8 +25,11 @@ import java.security.GeneralSecurityException;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
+import com.onlinecontacttracing.messaging.EmailSubject;
 
-
+/**
+* This servlet will send out messages to all the user's approved contacts.
+*/
 @WebServlet("/send-messages")
 public class MessageSendingServlet extends HttpServlet {
 
@@ -37,18 +40,19 @@ public class MessageSendingServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idTokenString = request.getParameter("idToken");
-    // String systemMessageName = request.getParameter("systemMessage");
-    // String localityResourceName = request.getParameter("localityResource");
-    // String messageLanguage = request.getParameter("messageLanguage");
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
+<<<<<<< HEAD
     String systemMessageLanguage = "SP";
     String localityResourceLanguage = "SP";
+=======
+    String messageLanguage = "SP";
+    String emailSubjectName = "VERSION_1";
+>>>>>>> 4fcf932a728800e5acc539bc6f7d23bbc04edc1b
 
-    // CreateServiceAccountKey.createKey("covid-catchers-fixed-gcp");
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
-
+    EmailSubject emailSubject = EmailSubject.getEmailSubjectFromString(emailSubjectName);
     try {
       NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -62,12 +66,18 @@ public class MessageSendingServlet extends HttpServlet {
 
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
       
+
       // TODO: replace with saved email
-      CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
+      // CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
 
-      CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
+      // CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
 
-      EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, systemMessageLanguage, localityResourceLanguage);
+      // EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, systemMessageLanguage, localityResourceLanguage);
+
+      String message = "custom message will be retrieved from params";
+      CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
+      EmailSender.sendEmailsOut(emailSubject, compiledMessage, messageLanguage);
+
 
     } catch(Exception e) {
         e.printStackTrace();
