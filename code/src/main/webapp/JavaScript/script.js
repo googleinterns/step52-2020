@@ -286,3 +286,7 @@ function closeDropdown(divName, btnName) {
   document.getElementById(btnName).onclick = function(){ return dropdown(divName,btnName)};
 
 }
+
+function goHome() {
+  window.location = "/landing";
+}

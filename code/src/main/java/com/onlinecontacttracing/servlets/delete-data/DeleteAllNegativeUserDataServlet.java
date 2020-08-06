@@ -27,15 +27,11 @@ import com.google.common.collect.Iterables;
 public class DeleteAllNegativeUserDataServlet extends HttpServlet {
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-<<<<<<< HEAD:code/src/main/java/com/onlinecontacttracing/servlets/MessageSender.java
-  static final Logger log = Logger.getLogger(MessageSender.class.getName());
-    
-=======
+
   private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(DeleteAllNegativeUserDataServlet.class.getName());
 
   @Override
->>>>>>> b5c3cadfb9dc01cbf6d2bfb015cb580d8d05ed26:code/src/main/java/com/onlinecontacttracing/servlets/delete-data/DeleteAllNegativeUserDataServlet.java
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
       // Set up

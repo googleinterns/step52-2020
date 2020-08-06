@@ -19,7 +19,10 @@ div {
 }
 
 .body-content {
-  font-size: 60px;
+  font-size: 25px;
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 3%
 }
 
 .fade-in {
@@ -73,8 +76,8 @@ div {
 }
 
 .header-content {
-  font-size: 80px;
-  margin-top: 5%;
+  font-size: 70px;
+  margin-top: 3%;
 }
 
 .hidden {
@@ -152,8 +155,12 @@ div {
   box-shadow: 0 0 2rem #C6C6C6;
 }
 
-#confirm-negative-user-email {
-  margin-top: 5%;
+.content-confirm {
+  font-size: 50px;
+}
+
+.confirm-negative-user-email {
+  margin-top: 10%;
 }
 
 #confirm-negative-user-email-button button{
@@ -166,6 +173,20 @@ div {
   margin: 1rem;
   padding: 1rem;
   text-decoration: none;
+  margin-top: 5%;
+}
+
+#data-wipe-out {
+  background: #025696;
+  border: 8px solid #025696;
+  border-radius: 5rem;
+  color: #ffffff;
+  font-family: Muli;
+  font-size: 2vw;
+  margin: 2rem;
+  padding: 0.5rem;
+  text-decoration: none;
+  top: 60%;
   margin-top: 5%;
 }
 
@@ -189,6 +210,20 @@ div {
   padding: 1rem;
   text-decoration: none;
   margin-left: 95%;
+}
+
+#goHomeBtn {
+  background: #025696;
+  border: 8px solid #025696;
+  border-radius: 5rem;
+  color: #ffffff;
+  font-family: Muli;
+  font-size: 1vw;
+  margin: 2rem;
+  padding: 0.4rem;
+  text-decoration: none;
+  top: 60%;
+  margin-top: 5%;
 }
 
 #line-horizontal-bottom {
@@ -220,7 +255,7 @@ div {
 
 #negative-user-email {
   background-color: rgba(255, 255, 255, 0.5);
-  margin-top: 5%;
+  margin-top: 3%;
   width: 80%;    
   margin-left: 10%;
 }
