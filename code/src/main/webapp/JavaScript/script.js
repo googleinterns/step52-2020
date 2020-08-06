@@ -205,7 +205,6 @@ function attachSignin(element, negativeUser) {
     fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
     .then(url => {
-      alert(url);
       window.location = url;
       });
 
