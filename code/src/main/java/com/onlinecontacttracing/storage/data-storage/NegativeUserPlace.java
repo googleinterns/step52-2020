@@ -14,7 +14,7 @@ public class NegativeUserPlace {
 
   // The Id is needed for objectify but not the implementation of this class
   @Id private Long key;
-  private String userId;
+  @Index private String userId;
   private Place place;
 
   // Objecify requires one constructor with no parameters

@@ -158,6 +158,9 @@ function LoadPage() {
   if (negativeUserEmail != null) {
     localStorage.setItem("negative-user-email", negativeUserEmail);
   }
+  if (urlParams.get('deleted') != null) {
+    window.alert("All the data was deleted. Thank you for using our services.")
+  }
 
   window.onpopstate = event => {
     PAGE_CONTROLLER.show(event.state.page);
@@ -208,12 +211,18 @@ function attachSignin(element, negativeUser) {
       window.location = url;
       });
 
-
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
   });
 }
 
+function deleteNegativeUserData() {
+  const params = new URLSearchParams();
+  params.append('idToken', localStorage.idToken);
+  fetch(new Request('/delete-all-negative-user-data', {method: 'POST', body: params}))
+    .then(response => response.text())
+    .then(url => window.location = url);
+}
 
 function handleLoginError(error) {
   if (error == "GeneralError") {
@@ -244,7 +253,7 @@ function getNegativeUserEmail() {
 }
 
 function redirectManualInput() {
-    window.location = "../html/customizeMessage.html";
+  window.location = "../html/customizeMessage.html";
 }
 
 function getFAQ() {
@@ -275,4 +284,5 @@ function closeDropdown(divName, btnName) {
   // document.getElementById(divName).style.height = auto;
   // document.getElementById(btnName).setAttribute('onclick', 'dropdown(divName,btnName)');
   document.getElementById(btnName).onclick = function(){ return dropdown(divName,btnName)};
+
 }

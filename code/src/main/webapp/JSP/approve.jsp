@@ -47,7 +47,9 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
     Payload payload = idToken.getPayload();
     String userId = payload.getSubject();
     PositiveUserContacts contacts = ofy().load().type(PositiveUserContacts.class).id(userId).now();
+    boolean dataToDisplayExists = false;
     if (contacts != null && !contacts.getListOfContacts().isEmpty()) {
+        dataToDisplayExists = true;
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with so that we can email them: </p>
       <div class="picker header">
@@ -77,6 +79,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
 
     PositiveUserPlaces places = ofy().load().type(PositiveUserPlaces.class).id(userId).now();
     if (places != null && places.getListOfPlaces() != null) {
+        dataToDisplayExists = true;
   %>
       <p class="mission-statement"> Please confirm the places you have been to so that we can call them: </p>
       <div class="picker header">
@@ -102,10 +105,19 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
       </div>
   <%
     }
+
+    if (dataToDisplayExists) {
   %>
     <div id="blue-buttons-to-procede">
       <button id="login-button-left-or-top" onclick="sendListToServlet()"> Submit </button>
     </div>
+  <%
+    } else {
+  %>
+    <h1> We do not have any data </h1>
+  <%
+    }
+  %>
   </div>
 </body>
 </html>
