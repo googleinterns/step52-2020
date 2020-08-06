@@ -71,11 +71,11 @@ class PeopleDataForPositiveUser implements Runnable {
       List<Person> connections = response.getConnections();
       if (connections != null && connections.size() > 0) {
         for (Person person : connections) {
-            List<Name> names = person.getNames();
-            if (names != null && names.size() > 0) {
-                positiveUserContacts.add(person.getNames().get(0).getDisplayName(),
-                 person.getEmailAddresses().get(0).getValue());
-            }
+          List<Name> names = person.getNames();
+          if (names != null && names.size() > 0) {
+            positiveUserContacts.add(person.getNames().get(0).getDisplayName(),
+            person.getEmailAddresses().get(0).getValue());
+          }
         }
       }
       // Store data or replace old data with newer data.

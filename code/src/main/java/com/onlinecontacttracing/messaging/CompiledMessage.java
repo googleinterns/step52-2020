@@ -52,7 +52,6 @@ public class CompiledMessage {
     this.messagesForFrontendDisplay = flagChecker.findTriggeredFlags(this.user, this.userMessage);
   }
 
-
   //if flags are triggered, returns message and list of errors, else returns message
   public String compileMessages(String systemMessageLanguage, String localityResourceLanguage) {
 
@@ -60,14 +59,12 @@ public class CompiledMessage {
   * This method compiles the messages for frontend and backend user. They will differ if the
   * message has triggered any flags.
   */
-  // public String compileMessages(String messageLanguage) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     this.user.incrementAttemptedEmailDrafts();
     checkForFlags();
     translatedSystemMessage = systemMessage.getTranslation(systemMessageLanguage);
     translatedResourceMessage = localityResource.getTranslation(localityResourceLanguage);
-    
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
     //Add the compiled frontend message to the front of the arraylist

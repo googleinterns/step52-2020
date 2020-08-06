@@ -68,17 +68,12 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
  
       // Parse state parameter from Json string to AuthorizationRoundTripState class
       Gson gson = new Gson();
- 
       AuthorizationRoundTripState authorizationRoundTripState = gson.fromJson(authorizationRoundTripStateAsJson, AuthorizationRoundTripState.class);
- 
       List<String> scopes = authorizationRoundTripState.getScopeNames();
- 
       // Get flow for token response
       GoogleAuthorizationCodeFlow flow = getFlow(scopes);
- 
       // Get payload containing user info
       Payload payload = getPayload(authorizationRoundTripState.idToken, flow);
- 
       // Get userId form payload and retrieve credential
       authorizationRoundTripState.userId = payload.getSubject();
       String email = payload.getEmail();

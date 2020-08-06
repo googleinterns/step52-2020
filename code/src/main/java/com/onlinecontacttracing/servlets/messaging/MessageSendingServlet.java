@@ -45,12 +45,8 @@ public class MessageSendingServlet extends HttpServlet {
     String localityResourceName = "US";
 
     String systemMessageLanguage = request.getParameter("systemMessageLanguage");
-    System.out.println(systemMessageLanguage);
     String localityResourceLanguage = request.getParameter("localityResourceLanguage");
-    System.out.println(localityResourceLanguage);
     String message = request.getParameter("customMessage");
-    System.out.println(message);
-    // String messageLanguage = "SP";
     String emailSubjectName = "VERSION_1";
 
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
@@ -68,19 +64,9 @@ public class MessageSendingServlet extends HttpServlet {
       String userId = payload.getSubject();
 
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
-      
 
-      // TODO: replace with saved email
-      // CustomizableMessage customizableMessage = new CustomizableMessage(userId, "hi cynthia!!!");
-
-      // CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, customizableMessage, positiveUser);//fix the enum resources
-
-      // EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, systemMessageLanguage, localityResourceLanguage);
-
-      // String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
       EmailSender.sendEmailsOut(emailSubject, "EN", compiledMessage, systemMessageLanguage, localityResourceLanguage);
-
 
     } catch(Exception e) {
         e.printStackTrace();

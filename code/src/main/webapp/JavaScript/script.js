@@ -185,10 +185,6 @@ function attachSignin(element, negativeUser) {
     params.append('idToken', idToken);
     params.append('timeZoneOffset', new Date().getTimezoneOffset());
 
-    // params.append('systemMessage', 'VERSION_1');
-    // params.append('localityResource', 'US');
-    // params.append('messageLanguage', 'SP');
-
     var servlet = "";
     if (negativeUser) {
       servlet = '/get-negative-user-info';

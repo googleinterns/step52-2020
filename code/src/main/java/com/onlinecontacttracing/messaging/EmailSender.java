@@ -44,9 +44,6 @@ public class EmailSender {
   private static final String APPLICATION_NAME = "Online Contact Tracing";
   static final Logger log = Logger.getLogger(EmailSender.class.getName());
 
-
-  // public static void sendEmailsOut(String emailSubject, CompiledMessage compiledMessage, String systemMessageLanguage, String localityResourceLanguage) {
-
   /**
   * Sends emails with a email subject and a message to a list of contacts.
   */
@@ -55,7 +52,6 @@ public class EmailSender {
 
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
       InputStream in = (new EmailSender()).getClass().getClassLoader().getResourceAsStream(CREDENTIALS_FILE_PATH);
 
       GoogleCredential serviceAccountCredential = new GoogleCredential.Builder()
@@ -66,17 +62,10 @@ public class EmailSender {
         .setServiceAccountScopes(Collections.singleton(GmailScopes.GMAIL_SEND))
         .setServiceAccountPrivateKeyFromP12File(in)
         .build();
-
       Gmail service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, serviceAccountCredential)
                   .setApplicationName(APPLICATION_NAME)
                   .build();
-                  
-
       String emailBody = compiledMessage.compileMessages(systemMessageLanguage, localityResourceLanguage);
-      // String emailBody = compiledMessage.getCompiledBackendMessage();
-
-      // String emailBody = compiledMessage.compileMessages(messageLanguage);
-
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();
 
       for (PersonEmail contact : notificationInfo.getPersonEmails()) {

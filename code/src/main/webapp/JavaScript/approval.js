@@ -58,11 +58,11 @@ function getFormData() {
   params.append('localityResourceLanguage', localStorage.localityResourceLangauge);
   params.append('customMessage', localStorage.customMessage);
 
-   fetch(new Request('/compile-user-email', {method: 'POST', body: params}))
-   .then(response => response.text())
-   .then(response => {
-     document.getElementById("full-message").innerHTML = response;
-     });
+  fetch(new Request('/compile-user-email', {method: 'POST', body: params}))
+  .then(response => response.text())
+  .then(response => {
+    document.getElementById("full-message").innerHTML = response;
+    });
 }
 
 function sendEmails() {
