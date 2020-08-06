@@ -9,14 +9,16 @@ import java.util.Optional;
 public class PersonEmail implements ContactStatus{
 
   private String email;
+  private String language;
   private Optional<Long> getTimeWhenEmailedSeconds;
   private boolean personHasBeenEmailed;
 
   // Empty constructor for Objectify
   private PersonEmail() {}
 
-  public PersonEmail(String email) {
+  public PersonEmail(String email, String language) {
     this.email = email;
+    this.language = language;
     getTimeWhenEmailedSeconds = Optional.empty();
     personHasBeenEmailed = false;
   }
@@ -39,5 +41,9 @@ public class PersonEmail implements ContactStatus{
 
   public String getEmail() {
     return email;
+  }
+
+  public String getLanguage() {
+    return language;
   }
 }

@@ -69,6 +69,10 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
           <input type="checkbox">
           <span class="checkmark"></span>
         </label>
+        <select class="language">
+          <option value="EN">English</option>
+          <option value="SP">Spanish</option>
+        </select>
       </div>
   <%
       }

@@ -85,12 +85,14 @@ public class MessageSendingServlet extends HttpServlet {
 
       // Get emails to populate notificationBatch
       String[] emails = request.getParameter("emails").split(",");
-
-      NotificationBatch notificationBatch = new NotificationBatch(userId);
-      for (String email : emails) {
-        notificationBatch.addPersonEmail(email);
-      }
+      String[] language = request.getParameter("language").split(",");
       
+      NotificationBatch notificationBatch = new NotificationBatch(userId);
+      for (int i = 0; i < emails.length ; i++) {
+        // Add email and language for message
+        notificationBatch.addPersonEmail(emails[i], language[i]);
+      }
+    
       // Store notification batch
       ofy().save().entity(notificationBatch).now();
 
