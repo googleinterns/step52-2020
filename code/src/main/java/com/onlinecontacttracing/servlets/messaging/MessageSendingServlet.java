@@ -40,12 +40,16 @@ public class MessageSendingServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idTokenString = request.getParameter("idToken");
+    System.out.println(idTokenString);
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
 
-    String systemMessageLanguage = "SP";
-    String localityResourceLanguage = "SP";
-
+    String systemMessageLanguage = request.getParameter("systemMessageLanguage");
+    System.out.println(systemMessageLanguage);
+    String localityResourceLanguage = request.getParameter("localityResourceLanguage");
+    System.out.println(localityResourceLanguage);
+    String message = request.getParameter("customMessage");
+    System.out.println(message);
     // String messageLanguage = "SP";
     String emailSubjectName = "VERSION_1";
 
@@ -73,9 +77,9 @@ public class MessageSendingServlet extends HttpServlet {
 
       // EmailSender.sendEmailsOut("COVID-19 Updates", compiledMessage, systemMessageLanguage, localityResourceLanguage);
 
-      String message = "custom message will be retrieved from params";
+      // String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
-      EmailSender.sendEmailsOut(emailSubject, compiledMessage, systemMessageLanguage, localityResourceLanguage);
+      EmailSender.sendEmailsOut(emailSubject, "EN", compiledMessage, systemMessageLanguage, localityResourceLanguage);
 
 
     } catch(Exception e) {

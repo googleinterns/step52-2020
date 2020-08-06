@@ -10,14 +10,14 @@
 </head>
   <body>
     <div id="wrapper-background">
-    <form id="user-message-form">
-      <h1> System Message Language</h1>
-        <label for="system-message-language">Choose a language:</label>
-          <select id="system-message-language" name="system-message-language">
-            <option value="EN">English</option>
-            <option value="SP">Spanish</option>
-          
-          </select>
+      <form id="user-message-form">
+        <h1> System Message Language</h1>
+          <label for="system-message-language">Choose a language:</label>
+            <select id="system-message-language" name="system-message-language">
+              <option value="EN">English</option>
+              <option value="SP">Spanish</option>
+            
+            </select>
           <!-- <fieldset id="group1">
             <input type="radio" value="value1" name="group1">
             <input type="radio" value="value2" name="group1">
@@ -29,22 +29,25 @@
             <option value="SP">Spanish</option>
           
           </select> -->
-      <h1> Locality Resource Language</h1>
-        <label for="locality-resource-language">Choose a language:</label>
-          <select id="locality-resource-language" name="locality-resource-language">
-            <option value="EN">English</option>
-            <option value="SP">Spanish</option>
-            
-          </select>
+        <h1> Locality Resource Language</h1>
+          <label for="locality-resource-language">Choose a language:</label>
+            <select id="locality-resource-language" name="locality-resource-language">
+              <option value="EN">English</option>
+              <option value="SP">Spanish</option>
+              
+            </select>
 
-      <h1> Your Message </h1>
-      <textarea id="custom-message-box" name="custom-message-box" style="width:310px;height:100px">Hello, apologies for the inconvenience but someone you had contact with has tested positive for COVID-19, for your safety and the safety of those around you we ask that you get tested yourself and self quarentine for two weeks. Thank you for your patience and cooperation.  
-        </textarea>
-    </form>
+        <h1> Your Message </h1>
+        <textarea id="custom-message-box" name="custom-message-box" style="width:310px;height:100px">Hello, apologies for the inconvenience but someone you had contact with has tested positive for COVID-19, for your safety and the safety of those around you we ask that you get tested yourself and self quarentine for two weeks. Thank you for your patience and cooperation.  
+          </textarea>
+      </form>
       <button onclick="getFormData()" id="get-form-data"> CLICK </button>
       <div >
         <p id="full-message"> </p>
-       </div>
+      </div>
+      <div>
+        <button onclick="sendEmails()"> Send Email! </button>
+      </div>
     </div>
   </body>
 </html>

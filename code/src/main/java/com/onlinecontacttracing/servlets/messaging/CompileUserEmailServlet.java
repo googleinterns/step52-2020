@@ -68,9 +68,7 @@ public class CompileUserEmailServlet extends HttpServlet {
       compiledMessageObject.compileMessages(systemMessageLanguage, localityResourceLanguage);
 
       ArrayList<String> compiledMessage = compiledMessageObject.getCompiledFrontendDisplayMessage();
-    
-
-
+ 
       response.getWriter().println(compiledMessage);
       
     } catch (GeneralSecurityException e) {
