@@ -136,20 +136,28 @@ class PageController {
 
 }
 
+
 function LoadPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get('page');
   if (page == null) {
     PAGE_CONTROLLER.show('landing');
+  } else if (page.includes(".html")) {
+    window.location = "../html/" + page;
   } else {
     PAGE_CONTROLLER.show(page);
   }
+  
 
   const error = urlParams.get('error');
   if (error != null) {
     handleLoginError(error);
   }
 
+  const negativeUserEmail = urlParams.get('negative-user-email');
+  if (negativeUserEmail != null) {
+    localStorage.setItem("negative-user-email", negativeUserEmail);
+  }
   if (urlParams.get('deleted') != null) {
     window.alert("All the data was deleted. Thank you for using our services.")
   }
@@ -185,12 +193,9 @@ function attachSignin(element, negativeUser) {
     params.append('idToken', idToken);
     params.append('timeZoneOffset', new Date().getTimezoneOffset());
 
-    // params.append('systemMessage', 'VERSION_1');
-    // params.append('localityResource', 'US');
-    // params.append('messageLanguage', 'SP');
-
     var servlet = "";
     if (negativeUser) {
+      console.log("ok");
       servlet = '/get-negative-user-info';
       params.append('calendar', true);
       params.append('contacts', false);
@@ -202,7 +207,9 @@ function attachSignin(element, negativeUser) {
 
     fetch(new Request(servlet, {method: 'POST', body: params}))
     .then(response => response.text())
-    .then(url => window.location = url);
+    .then(url => {
+      window.location = url;
+      });
 
   }, error => {
     alert(JSON.stringify(error, undefined, 2));
@@ -241,10 +248,45 @@ function addEmailBoxes() {
     }
 }
 
+function getNegativeUserEmail() {
+  document.getElementById("negative-user-email").innerText = localStorage.getItem("negative-user-email");
+}
+
 function redirectManualInput() {
   window.location = "../html/customizeMessage.html";
 }
 
 function getFAQ() {
-  window.location = "../html/faq.html";
+    window.location = "../html/faq.html";
+}
+
+
+function confirmNegativeUserEmail() {
+  localStorage.removeItem('negative-user-email');
+  var negativeUserEmail = document.getElementById("negative-user-email").innerText;
+  localStorage.setItem('negative-user-email', negativeUserEmail);
+  // console.log(negativeUserEmail);
+  window.location = "/?page=notification";
+}
+
+function dropdown(divName, btnName) {
+  
+  document.getElementById(divName).classList.remove("hidden");
+  // document.getElementById(btnName).setAttribute('onclick', 'closeDropdown(divName,btnName)');
+  // document.getElementById(divName).style.height = 0;
+  document.getElementById(btnName).onclick = function(){ return closeDropdown(divName,btnName)};
+  console.log(document.getElementById(btnName).onclick);
+}
+
+function closeDropdown(divName, btnName) {
+  console.log('sup');
+  document.getElementById(divName).classList.add("hidden");
+  // document.getElementById(divName).style.height = auto;
+  // document.getElementById(btnName).setAttribute('onclick', 'dropdown(divName,btnName)');
+  document.getElementById(btnName).onclick = function(){ return dropdown(divName,btnName)};
+
+}
+
+function goHome() {
+  window.location = "/landing";
 }

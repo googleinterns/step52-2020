@@ -49,8 +49,10 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
   
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
   private static final String CREDENTIALS_FILE_PATH = "WEB-INF/credentials.json";
+
   private static final String url = "https://online-contact-tracing.ue.r.appspot.com";
   private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
+
   static final Logger log = Logger.getLogger(CheckForApiAuthorizationServlet.class.getName());
  
   /**
@@ -82,10 +84,13 @@ public abstract class CheckForApiAuthorizationServlet extends HttpServlet {
       String email = payload.getEmail();
       
       TokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(url + getServletURIName()).execute();
+
       
       Credential credential = flow.createAndStoreCredential(tokenResponse, authorizationRoundTripState.userId);
       updateUser(authorizationRoundTripState.userId, email);
       useCredential(authorizationRoundTripState, credential, response);
+//       response.getWriter().println(email);
+
 
     } catch (FileNotFoundException e) {
       log.warning("credentials.json not found");

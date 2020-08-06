@@ -8,15 +8,38 @@
    <title></title>
 </head>
 <body>
-  <div class="wrapper-background">
-    <div class="faq">
-      <div id="faq-q1">
-        <h1 class="faq-questions"> What is Contact Tracing? </h1>
+
+  <div class="content">
+      <h1 id="faq"> FAQ </h1>
+      <button onclick="dropdown('faq-q1','dropbtn1')" class="dropbtn" id="dropbtn1">What is Contact Tracing?</button>
+      <div class="hidden" id="faq-q1">
         <p class="faq-answers"> Contact tracing is the process of identification of persons who may have come into contact with an infected person and subsequent collection of further information about these contacts. <p>
         <p class="faq-answers">TL;DR If you're positive for COVID-19, we help let people you've been in contact with know.<p>
       </div>
+      <br>
+      <button onclick="dropdown('faq-q2','dropbtn2')" class="dropbtn" id="dropbtn2">How is Contact Tracing performed by Online Contact Tracing Co.? </button>
+      <div class="hidden" id="faq-q2">
+        <p class="faq-answers"> We start by asking you for your data. You can either sign-in with your Google Account and grant us access to some of your data, 
+          or you can provide this info manually! Then we identify possible contacted individuals and businesses. After you've confirmed these, 
+          we'll send them an (optionally anonymous) email letting them know!</p>
+        <p class="faq-answers">TL;DR We use your data to determine a list of people and businesses to contact. Then we send them an email letting them know!<p>
+      </div>
+      <br>
+      <button onclick="dropdown('faq-q3','dropbtn3')" class="dropbtn" id="dropbtn3">Why is Contact Tracing important?</button>
+      <div class="hidden" id="faq-q3">
+        <p class="faq-answers"> Contact Tracing helps prevent outbreaks and slow down the spread of contagious diseases by attempting to warn people 
+          as soon as possible. It helps catch and control new outbreaks before they are able to grow, effectively stopping the disease in its tracks. </p>
+        <p class="faq-answers"> TL;DR Contact Tracing catches outbreaks early in the process and stops the disease's spread.</p>
+      </div>
+      <br>
+      <button onclick="dropdown('faq-q4','dropbtn4')" class="dropbtn" id="dropbtn4">Why use Online Contact Tracing to perform Contact Tracing?</button>
+      <div class="hidden" id="faq-q4">
+        <p class="faq-answers"> Online Contact Tracing helps provide a thorough and efficient method of identifying contacts that may have been infected.
+          We also provide an easy way of communicating with these contacts with customizable messages supported in different languages.  </p>
+        <p class="faq-answers"> TL;DR Online Contact Tracing provides a thorough, efficient, and secure way of performing Contact Tracing.<p>
+      </div>
+      <br>
+      <button id="goHomeBtn" onclick="goHome()"> Home </button>
     </div>
-  </div>
-  
 </body>
 </html>

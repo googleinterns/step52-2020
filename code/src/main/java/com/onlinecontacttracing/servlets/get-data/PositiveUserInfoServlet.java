@@ -53,6 +53,7 @@ public class PositiveUserInfoServlet extends CheckForApiAuthorizationServlet {
     calendarInfo.join();
 
     PositiveUserContacts fullContacts = ofy().load().type(PositiveUserContacts.class).id(state.userId).now();
+
     if(fullContacts == null) {
         fullContacts = new PositiveUserContacts(state.userId);
     }

@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 public class DeleteAllNegativeUserDataServlet extends HttpServlet {
 
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
   private static final String CLIENT_ID = "83357506440-etvnksinbmnpj8eji6dk5ss0tbk9fq4g.apps.googleusercontent.com";
   static final Logger log = Logger.getLogger(DeleteAllNegativeUserDataServlet.class.getName());
 

@@ -15,8 +15,8 @@
     <div id="line-vertical-right" class="line line-vertical"></div>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
     <div id="line-horizontal-bottom" class="line line-horizontal"></div>
-    <div>
-      <button id="faq-button" onclick="getFAQ()" > FAQ </button>
+    <div class="landing hidden" >
+      <button id="faq-button" onclick=getFAQ() > FAQ </button>
     </div>
     <div class="landing hidden welcome">
       <h1> Welcome </h1>
@@ -69,19 +69,26 @@
     <div class="negative-login hidden welcome">
       <h1> Log In </h1>
     </div>
+
     <div class="negative-login hidden mission-statement">
       <p> In order in order to keep you safe, we will request access to your calendar data. 
           If you sign in with Google we can cross reference you data with other users who have tested positive.
+
       </p>
     </div>
     <div class="negative-login hidden blue-buttons-to-procede">
       <button id="negative-login-button" onclick="startApp()"> Google Sign-In </button>
     </div>
-    <div class="notification hidden mission-statement">
-      <p> Thank you for signing up. You will be notified if we think
-          you may have come in contact with someone who tested positive.
-      </p>
-      <p> After 14 days, all the data we gathered will be delete. However, you can choose to opt-out and delete all the data we have gathered:
+
+    <div class="notification hidden">
+      <button id="faq-button" onclick=getFAQ() > FAQ </button>
+    </div>
+    <div class="notification hidden" id="mission-statement">
+      <p class="header-content"> Thank you for signing up. </p>
+      <p class="body-content"> You will be notified if we think
+          you may have come in contact with someone who tested positive. After 14 days, 
+          all the data we gathered will be delete. However, you can choose to opt-out and 
+          delete all the data we have gathered:
       </p>
     </div>
     <div class="notification hidden blue-buttons-to-procede">
