@@ -60,7 +60,7 @@ public class CompiledMessage {
     
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
-    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat(userMessage).concat("\n").concat(translatedResourceMessage));
     if (messagesForFrontendDisplay.size() > 1){
       userMessage = "";
     }
