@@ -74,6 +74,7 @@ class PeopleDataForPositiveUser implements Runnable {
         for (Person person : connections) {
           Optional<List<Name>> namesOptional = Optional.ofNullable(person.getNames());
           String displayName = namesOptional.map(names -> names.get(0)).map(name -> name.getDisplayName()).orElse(null);
+          
           List<EmailAddress> emails = person.getEmailAddresses();
           if (emails != null && emails.size() > 0) {
             positiveUserContacts.add(displayName, emails.get(0).getValue());
