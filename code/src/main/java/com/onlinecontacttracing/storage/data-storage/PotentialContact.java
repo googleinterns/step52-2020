@@ -47,6 +47,7 @@ public class PotentialContact implements Comparable<PotentialContact> {
 
   @Override
   public int hashCode() { 
+    // System.out.println("hash: " + emailOfPerson.hashCode());
     return emailOfPerson.hashCode(); 
   } 
 

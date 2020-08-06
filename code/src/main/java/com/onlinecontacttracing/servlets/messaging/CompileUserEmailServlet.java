@@ -60,10 +60,10 @@ public class CompileUserEmailServlet extends HttpServlet {
       ofy().save().entity(new CustomizableMessage(userId, customMessage)).now();
       SystemMessage systemMessage = SystemMessage.getSystemMessageFromString("VERSION_1");
       LocalityResource localityResource = LocalityResource.getLocalityResourceFromString("US");
-      CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
+      // CustomizableMessage customizableMessage = ofy().load().type(CustomizableMessage.class).id(userId).now();
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
 
-      CompiledMessage compiledMessageObject = new CompiledMessage(systemMessage,localityResource, customizableMessage, positiveUser);
+      CompiledMessage compiledMessageObject = new CompiledMessage(systemMessage,localityResource, customMessage, positiveUser);
       
       compiledMessageObject.compileMessages(systemMessageLanguage, localityResourceLanguage);
 

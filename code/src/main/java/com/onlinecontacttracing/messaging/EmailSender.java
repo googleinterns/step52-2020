@@ -50,7 +50,7 @@ public class EmailSender {
   /**
   * Sends emails with a email subject and a message to a list of contacts.
   */
-  public static void sendEmailsOut(EmailSubject emailSubject, CompiledMessage compiledMessage, String messageLanguage) {
+  public static void sendEmailsOut(EmailSubject emailSubject, CompiledMessage compiledMessage, String systemMessageLanguage, String localityResourceLanguage) {
 
 
     try{
@@ -80,7 +80,7 @@ public class EmailSender {
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();
 
       for (PersonEmail contact : notificationInfo.getPersonEmails()) {
-        sendMessage(contact.getEmail(), emailSubject.getTranslation(messageLanguage), emailBody, service);
+        sendMessage(contact.getEmail(), emailSubject.getTranslation("EN"), emailBody, service);
         contact.markContactedSuccessfully();
       }
                   

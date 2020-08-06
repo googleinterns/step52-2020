@@ -54,7 +54,7 @@ public class CompiledMessage {
 
 
   //if flags are triggered, returns message and list of errors, else returns message
-  public void compileMessages(String systemMessageLanguage, String localityResourceLanguage) {
+  public String compileMessages(String systemMessageLanguage, String localityResourceLanguage) {
 
   /**
   * This method compiles the messages for frontend and backend user. They will differ if the
@@ -70,7 +70,8 @@ public class CompiledMessage {
     
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
-    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat(userMessage).concat("\n").concat(translatedResourceMessage));
+    //Add the compiled frontend message to the front of the arraylist
+    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat("\n").concat(userMessage).concat("\n").concat(translatedResourceMessage));
     if (messagesForFrontendDisplay.size() > 1){
       userMessage = "";
     }

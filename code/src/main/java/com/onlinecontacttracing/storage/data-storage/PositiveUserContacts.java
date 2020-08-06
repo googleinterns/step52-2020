@@ -54,6 +54,7 @@ public class PositiveUserContacts {
   *  and create a PotentialContact to add to the set.
   */
   public void add(String name, String email) {
+    System.out.println("newe  "+new PotentialContact(name, email));
     listOfContacts.add(new PotentialContact(name, email));
   }
 

@@ -42,13 +42,12 @@ public class MessageSendingServlet extends HttpServlet {
     String idTokenString = request.getParameter("idToken");
     String systemMessageName = "VERSION_1";
     String localityResourceName = "US";
-<<<<<<< HEAD
+
     String systemMessageLanguage = "SP";
     String localityResourceLanguage = "SP";
-=======
-    String messageLanguage = "SP";
+
+    // String messageLanguage = "SP";
     String emailSubjectName = "VERSION_1";
->>>>>>> 4fcf932a728800e5acc539bc6f7d23bbc04edc1b
 
     SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
     LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
@@ -76,7 +75,7 @@ public class MessageSendingServlet extends HttpServlet {
 
       String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
-      EmailSender.sendEmailsOut(emailSubject, compiledMessage, messageLanguage);
+      EmailSender.sendEmailsOut(emailSubject, compiledMessage, systemMessageLanguage, localityResourceLanguage);
 
 
     } catch(Exception e) {
