@@ -39,25 +39,14 @@ div {
 }
 
 .content {
-    margin-left: 10%;
-    position: absolute;
-    background-repeat: repeat-y;
-    top: 10%;
-    width: 80%;
-    background-image: url("images/background-login-blue.svg");
-}
-
-#wrapper-background {
   position: absolute;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  height: 100%;
+  height: 110%;
   text-align: center;
   background-image: url("images/background-login-blue.svg");
 }
-
-
 
 .dropbtn {
     background: rgba(255,255,255,0.5);
@@ -69,9 +58,9 @@ div {
     margin: 0.75rem;
     padding: 0.75rem;
     text-decoration: none;
+    margin-top: 5%;
     /* background-image: url("images/background-login-blue.svg"); */
 }
-
 
 #faq {
     margin-left: 10%;
