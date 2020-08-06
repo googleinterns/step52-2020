@@ -63,6 +63,7 @@ public class MessageSendingServlet extends HttpServlet {
       String message = "custom message will be retrieved from params";
       CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
       EmailSender.sendEmailsOut(emailSubject, compiledMessage, messageLanguage);
+      response.sendRedirect("/JSP/contact-status.jsp?idToken=" + idTokenString);
 
     } catch(Exception e) {
         e.printStackTrace();
