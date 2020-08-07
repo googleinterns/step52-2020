@@ -9,17 +9,31 @@ function sendListToServlet() {
   fetch(new Request('/delete-data-after-approval', {method: 'POST', body: params}));
 
   let emails = [];
-  let language = [];
-  for (let contact of document.getElementsByClassName('contact')) {
-    const input = contact.getElementsByClassName("container")[0].getElementsByTagName("input")[0];
-    if (input.checked) {
-       emails.push(contact.getElementsByClassName("email")[0].innerText);
-       language.push(contact.getElementsByClassName("language")[0].value);
+  let systemMessageLanguage = [];
+  let localityMessageLanguage = [];
+  let emailMessageSubject = [];
+  
+  let emailIndex = 1;
+  let checkedIndex = 2;
+  let languageIndex = 3;
+  var contacts = document.getElementById("contactsTable");
+  var checkBoxesList = contacts.getElementsByTagName("INPUT");
+  var checkBoxesListLength = checkBoxesList.length;
+  var languageList = contacts.getElementsByTagName("SELECT");
+  // var emailsListLength = emailsList.cells.length;
+  var languageListLength = languageList.length;
+  console.log(checkBoxesListLength);
+
+  for(var index = 0; index < checkBoxesListLength; index++) {
+    if (checkBoxesList[index].checked) {
+      emails.push(document.getElementById("contactsTable").rows[index+1].cells[emailIndex].innerHTML);
+      systemMessageLanguage.push(languageList[index].value);
     }
   }
-  
+  console.log(emails);
+  console.log(language);
   params.append('emails', emails);
-  params.append('language', language);
+  params.append('systemMessagelanguage', systemMessageLanguage);
 
   fetch(new Request('/send-messages', {method: 'POST', body: params}));
 }

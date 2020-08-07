@@ -53,18 +53,44 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
         dataToDisplayExists = true;
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with so that we can email them: </p>
-      <div class="picker header">
-        <p> Name </p>
+      <div class="picker header contact">
+        <!-- <p> Name </p>
         <p class="email"> Email </p>
-        <label class="container"> Contact Y/N </label>
-      </div>
-      <div class="list">
+        <label class="container"> Contact Y/N </label> -->
+        <table id="contactsTable" style="width:100%">
+          <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+            <th>Age</th>
+          </tr>
+        <!-- </table> -->
+      <!-- </div> -->
+      <!-- <div class="list"> -->
   <% 
       for (PotentialContact contact : contacts.getListOfContacts()) {
         String name = Optional.ofNullable(contact.getName()).orElse("No name found");
   %>
-      <div class="picker contact">
-        <p> <%=  name%> </p>
+      <!-- <div class="picker contact"> -->
+        <!-- <table style="width:100%"> -->
+          <tr>
+            <th><%=  name%></th>
+            <th><%= contact.getEmail() %></th>
+            <th>
+              <!-- <label class="container"> -->
+                <input type="checkbox">
+                <!-- <span class="checkmark"></span> -->
+              <!-- </label> -->
+            </th>
+            <th>
+              <select class="language">
+                <option value="EN">English</option>
+                <option value="SP">Spanish</option>
+              </select>
+            </th>
+          </tr>
+        <!-- </table> -->
+        <!-- <p> <%=  name%> </p>
         <p class="email"> <%= contact.getEmail() %> </p>
         <label class="container">
           <input type="checkbox">
@@ -73,11 +99,12 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
         <select class="language">
           <option value="EN">English</option>
           <option value="SP">Spanish</option>
-        </select>
-      </div>
+        </select> -->
+      <!-- </div> -->
   <%
       }
   %>
+      </table>
       </div>
   <%
     }

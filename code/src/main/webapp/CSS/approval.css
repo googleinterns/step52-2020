@@ -125,10 +125,16 @@ div {
 }
 
 /* Checkbox container */
-.container {
+/* .container {
   position: relative;
   padding-left: 2rem;
   cursor: pointer;
+} */
+.container {
+    position: relative;
+    margin-right: 20%;
+    /* padding-left: 2rem; */
+    cursor: pointer;
 }
 
 /* Hide the browser's default checkbox */
