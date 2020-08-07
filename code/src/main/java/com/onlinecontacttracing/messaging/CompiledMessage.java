@@ -29,17 +29,15 @@ import javax.servlet.http.HttpServletResponse;
 * Compiled message including the opening System Message, user's custom message, and the loacality resources.
 */
 public class CompiledMessage {
-  private SystemMessage systemMessage;
-  private LocalityResource localityResource;
+  // private SystemMessage systemMessages;
+  // private LocalityResource localityResources;
   private String userMessage;
   private PositiveUser user;
   private ArrayList<String> messagesForFrontendDisplay = new ArrayList<String> ();
   //the frontend and backend are not necessarily the same message in case the 
   //user's message triggers flags
 
-  public CompiledMessage(SystemMessage systemMessage, LocalityResource localityResource, String message, PositiveUser positiveUser) {
-    this.systemMessage = systemMessage;
-    this.localityResource = localityResource;
+  public CompiledMessage(String message, PositiveUser positiveUser) {
     this.userMessage = message;
     this.user = positiveUser;
   }
@@ -56,23 +54,17 @@ public class CompiledMessage {
   * This method compiles the messages for frontend and backend user. They will differ if the
   * message has triggered any flags.
   */
-  public String compileMessages(String messageLanguage) {
+  public String compileMessages(String systemMessageLanguage, SystemMessage systemMessageVersion, String localityResourceLanguage, LocalityResource localityResourceVersion) {
     String translatedResourceMessage;
     String translatedSystemMessage;
     this.user.incrementAttemptedEmailDrafts();
     checkForFlags();
-    
-    if (messageLanguage.equals("SP")) {
-      translatedResourceMessage = localityResource.getEnglishTranslation();
-      translatedSystemMessage = systemMessage.getEnglishTranslation();
-    }
-    else {
-      translatedResourceMessage = localityResource.getEnglishTranslation();
-      translatedSystemMessage = systemMessage.getEnglishTranslation();
-    }
+    translatedSystemMessage = systemMessageVersion.getTranslation(systemMessageLanguage);
+    translatedResourceMessage = localityResourceVersion.getTranslation(localityResourceLanguage);
     
     //if any flags are triggered, do not want to include the user's message in the message sent to the backend
-    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat(userMessage).concat(translatedResourceMessage));
+    //Add the compiled frontend message to the front of the arraylist
+    this.messagesForFrontendDisplay.add(0, translatedSystemMessage.concat("\n").concat(userMessage).concat("\n").concat(translatedResourceMessage));
     if (messagesForFrontendDisplay.size() > 1){
       userMessage = "";
     }

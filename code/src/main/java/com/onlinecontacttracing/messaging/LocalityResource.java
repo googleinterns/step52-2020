@@ -78,6 +78,14 @@ public enum LocalityResource implements HasEnglishTranslation, HasSpanishTransla
     return this.spanishTranslation.concat(this.helpLink);
   }
 
+  public String getTranslation(String language) {
+    if (language == "SP") {
+      return getSpanishTranslation();
+    } else {
+      return getEnglishTranslation();
+    }
+  }
+
   /*
   * Returns a Locality Resource from a name. Returns the national Locality Resource as default.
   */

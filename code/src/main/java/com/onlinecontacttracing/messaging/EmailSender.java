@@ -47,7 +47,7 @@ public class EmailSender {
   /**
   * Sends emails with a email subject and a message to a list of contacts.
   */
-  public static void sendEmailsOut(EmailSubject emailSubject, CompiledMessage compiledMessage, String messageLanguage) {
+  public static void sendEmailsOut(CompiledMessage compiledMessage) {
 
     try{
       NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -68,10 +68,19 @@ public class EmailSender {
                   .build();
 
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();
-
+      SystemMessage systemMessageVersion;
+      LocalityResource localityResourceVersion;
+      EmailSubject emailSubjectVersion;
       for (PersonEmail contact : notificationInfo.getPersonEmails()) {
-        String emailBody = compiledMessage.compileMessages(contact.getLanguage());
-        sendMessage(contact.getEmail(), emailSubject.getTranslation(messageLanguage), emailBody, service);
+        systemMessageVersion = SystemMessage.getSystemMessageFromString(contact.getSystemMessageVersion());
+        localityResourceVersion = LocalityResource.getLocalityResourceFromString(contact.getLocalityResourceVersion());
+        emailSubjectVersion = EmailSubject.getEmailSubjectFromString(contact.getEmailSubjectVersion());
+        String emailBody = compiledMessage.compileMessages(contact.getSystemMessageLanguage(), 
+                                                           systemMessageVersion,
+                                                           contact.getLocalityResourceLanguage(),
+                                                           localityResourceVersion);
+        String translatedEmailSubject = emailSubjectVersion.getTranslation(contact.getEmailSubjectLanguage());
+        sendMessage(contact.getEmail(), translatedEmailSubject, emailBody, service);
         contact.markContactedSuccessfully();
         ofy().save().entity(contact).now();
       }

@@ -23,6 +23,14 @@ public enum SystemMessage implements HasEnglishTranslation, HasSpanishTranslatio
     return this.spanishTranslation;
   } 
 
+  public String getTranslation(String language) {
+    if (language == "SP") {
+      return getSpanishTranslation();
+    } else {
+      return getEnglishTranslation();
+    }
+  }
+
   /*
   * Returns an System Message from a name. Returns the first version by default.
   */
@@ -34,6 +42,7 @@ public enum SystemMessage implements HasEnglishTranslation, HasSpanishTranslatio
     }
     return SystemMessage.VERSION_1;
   }
+
 }
 
 

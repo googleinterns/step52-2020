@@ -21,6 +21,7 @@ import com.onlinecontacttracing.messaging.SystemMessage;
 import com.onlinecontacttracing.messaging.LocalityResource;
 import com.onlinecontacttracing.storage.PersonEmail;
 import java.util.Collections;
+import java.util.Arrays;
 import java.security.GeneralSecurityException;
 import com.onlinecontacttracing.storage.NotificationBatch;
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -39,14 +40,19 @@ public class MessageSendingServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String idTokenString = request.getParameter("idToken");
-    String systemMessageName = "VERSION_1";
-    String localityResourceName = "US";
-    String messageLanguage = "SP";
-    String emailSubjectName = "VERSION_1";
+    String message = request.getParameter("customMessage");
+    // String systemMessageName = "VERSION_1";
+    // String localityResourceName = "US";
+    // String messageLanguage = "SP";
+    // String emailSubjectName = "VERSION_1";
 
-    SystemMessage systemMessage = SystemMessage.getSystemMessageFromString(systemMessageName);
-    LocalityResource localityResource = LocalityResource.getLocalityResourceFromString(localityResourceName);
-    EmailSubject emailSubject = EmailSubject.getEmailSubjectFromString(emailSubjectName);
+    // String[] systemMessageLanguages = request.getParameter("systemMessageLanguages").split(",");
+    // String[] localityResourceLanguages = request.getParameter("localityResourceLanguages").split(",");
+    // String[] emailSubjectLanguages = request.getParameter("emailSubjectLanguages").split(",");
+
+    // SystemMessage systemMessageLanguages = SystemMessage.getSystemMessageFromString(systemMessageName);
+    // LocalityResource localityResourceLanguages = LocalityResource.getLocalityResourceFromString(localityResourceName);
+    // EmailSubject emailSubjectLanguages = EmailSubject.getEmailSubjectFromString(emailSubjectName);
     try {
       NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -60,9 +66,9 @@ public class MessageSendingServlet extends HttpServlet {
 
       PositiveUser positiveUser = ofy().load().type(PositiveUser.class).id(userId).now();
       
-      String message = "custom message will be retrieved from params";
-      CompiledMessage compiledMessage = new CompiledMessage(systemMessage, localityResource, message, positiveUser);
-      EmailSender.sendEmailsOut(emailSubject, compiledMessage, messageLanguage);
+      // String message = "custom message will be retrieved from params";
+      CompiledMessage compiledMessage = new CompiledMessage(message, positiveUser);
+      EmailSender.sendEmailsOut(compiledMessage);
 
     } catch(Exception e) {
         e.printStackTrace();
@@ -85,12 +91,25 @@ public class MessageSendingServlet extends HttpServlet {
 
       // Get emails to populate notificationBatch
       String[] emails = request.getParameter("emails").split(",");
-      String[] language = request.getParameter("language").split(",");
-      
+      String[] systemMessageLanguages = request.getParameter("systemMessageLanguages").split(",");
+      String[] localityResourceLanguages = request.getParameter("localityResourceLanguages").split(",");
+      String[] emailSubjectLanguages = request.getParameter("emailSubjectLanguages").split(",");
+      String[] systemMessageVersions = request.getParameter("systemMessageVersions").split(",");
+      String[] localityResourceVersions = request.getParameter("localityResourceVersions").split(",");
+      String[] emailSubjectVersions = request.getParameter("emailSubjectVersions").split(",");
+      System.out.println(Arrays.toString(emails));
+      System.out.println(Arrays.toString(systemMessageLanguages));
+      System.out.println(Arrays.toString(localityResourceLanguages));
+      System.out.println(Arrays.toString(emailSubjectLanguages));
+      System.out.println(Arrays.toString(systemMessageVersions));
+      System.out.println(Arrays.toString(localityResourceVersions));
+      System.out.println(Arrays.toString(emailSubjectVersions));
       NotificationBatch notificationBatch = new NotificationBatch(userId);
       for (int i = 0; i < emails.length ; i++) {
         // Add email and language for message
-        notificationBatch.addPersonEmail(emails[i], language[i]);
+        notificationBatch.addPersonEmail(emails[i], systemMessageLanguages[i], systemMessageVersions[i],
+                                         localityResourceLanguages[i], localityResourceVersions[i],
+                                         emailSubjectLanguages[i], emailSubjectVersions[i]);
       }
     
       // Store notification batch

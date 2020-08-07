@@ -9,15 +9,25 @@ function sendListToServlet() {
   fetch(new Request('/delete-data-after-approval', {method: 'POST', body: params}));
 
   let emails = [];
-  let systemMessageLanguage = [];
-  let localityMessageLanguage = [];
-  let emailMessageSubject = [];
+  let systemMessageLanguages = [];
+  let localityResourceLanguages = [];
+  let emailSubjectLanguages = [];
+  let systemMessageVersions = [];
+  let localityResourceVersions = [];
+  let emailSubjectVersions = [];
   
   let emailIndex = 1;
   let checkedIndex = 2;
   let languageIndex = 3;
   var contacts = document.getElementById("contactsTable");
   var checkBoxesList = contacts.getElementsByTagName("INPUT");
+  var localityResourceLanguage = contacts.getElementsByClassName("localityResourceLanguage");
+  var emailSubjectLanguage = contacts.getElementsByClassName("emailSubjectLanguage");
+  var systemMessageLanguage = contacts.getElementsByClassName("systemMessageLanguage");
+  var systemMessageVersion = contacts.getElementsByClassName("systemMessageVersion");
+  var localityResourceVersion = contacts.getElementsByClassName("localityResourceVersion");
+  var emailSubjectVersion = contacts.getElementsByClassName("emailSubjectVersion");
+  console.log(localityResourceLanguage);
   var checkBoxesListLength = checkBoxesList.length;
   var languageList = contacts.getElementsByTagName("SELECT");
   // var emailsListLength = emailsList.cells.length;
@@ -27,13 +37,48 @@ function sendListToServlet() {
   for(var index = 0; index < checkBoxesListLength; index++) {
     if (checkBoxesList[index].checked) {
       emails.push(document.getElementById("contactsTable").rows[index+1].cells[emailIndex].innerHTML);
-      systemMessageLanguage.push(languageList[index].value);
+      systemMessageLanguages.push(systemMessageLanguage[index].value);
+      // console.log("AC. "+systemMessageLanguage[index].value);
+      localityResourceLanguages.push(localityResourceLanguage[index].value);
+      // console.log("AA. "+localityResourceLanguage[index].value);
+      emailSubjectLanguages.push(emailSubjectLanguage[index].value);
+      // console.log("AB. "+emailSubjectLanguage[index].value);
+      systemMessageVersions.push(systemMessageVersion[index].value);
+      localityResourceVersions.push(localityResourceVersion[index].value);
+      emailSubjectVersions.push(emailSubjectVersion[index].value);
     }
   }
   console.log(emails);
-  console.log(language);
+  console.log(systemMessageLanguages);
+  console.log(localityResourceLanguages);
+  console.log(emailSubjectLanguages);
+  console.log(systemMessageVersions);
+  console.log(localityResourceVersions);
+  console.log(emailSubjectVersions);
   params.append('emails', emails);
-  params.append('systemMessagelanguage', systemMessageLanguage);
+  params.append('systemMessageLanguages', systemMessageLanguages);
+  params.append('localityResourceLanguages', localityResourceLanguages);
+  params.append('emailSubjectLanguages', emailSubjectLanguages);
+  params.append('systemMessageVersions', systemMessageVersions);
+  params.append('localityResourceVersions', localityResourceVersions);
+  params.append('emailSubjectVersions', emailSubjectVersions);
 
   fetch(new Request('/send-messages', {method: 'POST', body: params}));
+}
+
+function sendEmails() {
+  // const params = new URLSearchParams();
+
+  // var emails = localStorage.getItem("email-addresses");
+  
+  // params.append('idToken', localStorage.idToken);
+  // params.append('emails', emails);
+  // params.append('systemMessageLanguage', localStorage.systemMessageLangauge);
+  // params.append('localityResourceLanguage', localStorage.localityResourceLangauge);
+  // params.append('customMessage', localStorage.customMessage);
+  // var url = '/send-messages?idToken='+localStorage.idToken + "&systemMessageLanguage="+localStorage.systemMessageLangauge
+  //   +"&localityResourceLanguage="+localStorage.localityResourceLangauge+"&customMessage="+localStorage.customMessage;
+  var url = '/send-messages?idToken='+localStorage.idToken + "&customMessage="+localStorage.customMessage;
+
+  fetch(new Request(url, {method: 'GET'}));
 }

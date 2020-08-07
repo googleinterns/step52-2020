@@ -43,8 +43,10 @@ public class NotificationBatch {
     return businessNumbers;
   }
 
-  public void addPersonEmail(String email, String language) {
-    personEmails.add(new PersonEmail(email, language));
+  public void addPersonEmail(String email, String systemMessageLanguage, String systemMessageVersion,
+      String localityResourceLanguage, String localityResourceVersion, String emailSubjectLanguage, String emailSubjectVersion) {
+    personEmails.add(new PersonEmail(email, systemMessageLanguage, systemMessageVersion, localityResourceLanguage, 
+                                     localityResourceVersion, emailSubjectLanguage, emailSubjectVersion));
   }
   
 }

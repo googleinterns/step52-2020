@@ -53,54 +53,113 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
         dataToDisplayExists = true;
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with so that we can email them: </p>
-      <div class="picker header contact">
-        <!-- <p> Name </p>
-        <p class="email"> Email </p>
-        <label class="container"> Contact Y/N </label> -->
+      <div class="picker header contact" style="width:100%">
         <table id="contactsTable" style="width:100%">
           <tr>
             <th>Firstname</th>
             <th>Lastname</th>
-            <th>Age</th>
-            <th>Age</th>
+            <th>Check to Send</th>
+            <th>System Message Language</th>
+            <th>System Message Version</th>
+            <th>Locality Resource Language</th>
+            <th>Locality Resource Version</th>
+            <th>Email Subject Language</th>
+            <th>Email Subject Version</th>
           </tr>
-        <!-- </table> -->
-      <!-- </div> -->
-      <!-- <div class="list"> -->
   <% 
       for (PotentialContact contact : contacts.getListOfContacts()) {
         String name = Optional.ofNullable(contact.getName()).orElse("No name found");
   %>
-      <!-- <div class="picker contact"> -->
-        <!-- <table style="width:100%"> -->
           <tr>
             <th><%=  name%></th>
             <th><%= contact.getEmail() %></th>
             <th>
-              <!-- <label class="container"> -->
                 <input type="checkbox">
-                <!-- <span class="checkmark"></span> -->
-              <!-- </label> -->
             </th>
             <th>
-              <select class="language">
+              <select class="systemMessageLanguage">
                 <option value="EN">English</option>
                 <option value="SP">Spanish</option>
               </select>
             </th>
+            <th>
+              <select class="systemMessageVersion">
+                <option value="VERSION_1">Version 1</option>
+              </select>
+            </th>
+            <th>
+              <select class="localityResourceLanguage">
+                <option value="EN">English</option>
+                <option value="SP">Spanish</option>
+              </select>
+            </th>
+            <th>
+              <select class="localityResourceVersion">
+                <option value="US">US</option> 
+                <option value="ALABAMA">ALABAMA</option> 
+                <option value="ALASKA">ALASKA</option> 
+                <option value="ARIZONA">ARIZONA</option> 
+                <option value="ARKANSAS">ARKANSAS</option> 
+                <option value="CALIFORNIA">CALIFORNIA</option> 
+                <option value="COLORADO">COLORADO</option> 
+                <option value="CONNECTICUT">CONNECTICUT</option> 
+                <option value="DELAWARE">DELAWARE</option> 
+                <option value="FLORIDA">FLORIDA</option> 
+                <option value="GEORGIA">GEORGIA</option> 
+                <option value="HAWAII">HAWAII</option> 
+                <option value="IDAHO">IDAHO</option> 
+                <option value="ILLINOIS">ILLINOIS</option> 
+                <option value="INDIANA">INDIANA</option> 
+                <option value="IOWA">IOWA</option> 
+                <option value="KANSAS">KANSAS</option> 
+                <option value="KENTUCKY">KENTUCKY</option> 
+                <option value="LOUISIANA">LOUISIANA</option> 
+                <option value="MAINE">MAINE</option> 
+                <option value="MARYLAND">MARYLAND</option> 
+                <option value="MASSACHUSETTS">MASSACHUSETTS</option> 
+                <option value="MICHIGAN">MICHIGAN</option> 
+                <option value="MINNESOTA">MINNESOTA</option> 
+                <option value="MISSISSIPPI">MISSISSIPPI</option> 
+                <option value="MISSOURI">MISSOURI</option> 
+                <option value="MONTANA">MONTANA</option> 
+                <option value="NEBRASKA">NEBRASKA</option> 
+                <option value="NEVADA">NEVADA</option> 
+                <option value="NEW_HAMPSHIRE">NEW HAMPSHIRE</option> 
+                <option value="NEW_JERSEY">NEW JERSEY</option> 
+                <option value="NEW_MEXICO">NEW MEXICO</option> 
+                <option value="NEW_YORK">NEW YORK</option> 
+                <option value="NORTH_CAROLINA">NORTH CAROLINA</option> 
+                <option value="NORTH_DAKOTA">NORTH DAKOTA</option> 
+                <option value="OHIO">OHIO</option> 
+                <option value="OKLAHOMA">OKLAHOMA</option> 
+                <option value="OREGON">OREGON</option> 
+                <option value="PENNSYLVANIA">PENNSYLVANIA</option> 
+                <option value="RHODE_ISLAND">RHODE ISLAND</option> 
+                <option value="SOUTH_CAROLINA">SOUTH CAROLINA</option>
+                <option value="SOUTH_DAKOTA">SOUTH DAKOTA</option> 
+                <option value="TENNESSEE">TENNESSEE</option> 
+                <option value="TEXAS">TEXAS</option> 
+                <option value="UTAH">UTAH</option> 
+                <option value="VERMONT">VERMONT</option> 
+                <option value="VIRGINIA">VIRGINIA</option> 
+                <option value="WASHINGTON">WASHINGTON</option> 
+                <option value="WEST_VIRGINIA">WEST VIRGINIA</option> 
+                <option value="WISCONSIN">WISCONSIN</option> 
+                <option value="WYOMING">WYOMING</option> 
+              </select>
+            </th>
+            <th>
+              <select class="emailSubjectLanguage">
+                <option value="EN">English</option>
+                <option value="SP">Spanish</option>
+              </select>
+            </th>
+            <th>
+              <select class="emailSubjectVersion">
+                <option value="VERSION_1">Version 1</option>
+              </select>
+            </th>
           </tr>
-        <!-- </table> -->
-        <!-- <p> <%=  name%> </p>
-        <p class="email"> <%= contact.getEmail() %> </p>
-        <label class="container">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-        </label>
-        <select class="language">
-          <option value="EN">English</option>
-          <option value="SP">Spanish</option>
-        </select> -->
-      <!-- </div> -->
   <%
       }
   %>
