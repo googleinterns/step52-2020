@@ -73,17 +73,6 @@ function displayCompiledMessage() {
 }
 
 function sendEmails() {
-  // const params = new URLSearchParams();
-
-  // var emails = localStorage.getItem("email-addresses");
-  
-  // params.append('idToken', localStorage.idToken);
-  // params.append('emails', emails);
-  // params.append('systemMessageLanguage', localStorage.systemMessageLangauge);
-  // params.append('localityResourceLanguage', localStorage.localityResourceLangauge);
-  // params.append('customMessage', localStorage.customMessage);
-  // var url = '/send-messages?idToken='+localStorage.idToken + "&systemMessageLanguage="+localStorage.systemMessageLangauge
-  //   +"&localityResourceLanguage="+localStorage.localityResourceLangauge+"&customMessage="+localStorage.customMessage;
   var url = '/send-messages?idToken='+localStorage.idToken + "&customMessage="+localStorage.customMessage;
 
   fetch(new Request(url, {method: 'GET'}));
