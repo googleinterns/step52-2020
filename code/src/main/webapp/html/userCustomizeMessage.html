@@ -1,0 +1,26 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <link rel="stylesheet" href="../CSS/style.css">
+   <script src="../JavaScript/approval.js"></script>
+   <title></title>
+   <script src="https://apis.google.com/js/api:client.js"></script>
+</head>
+  <body>
+    <div id="wrapper-background">
+      <form id="user-message-form">
+        <h1> Your Message </h1>
+        <textarea id="custom-message-box" name="custom-message-box" style="width:310px;height:100px">Hello, apologies for the inconvenience but someone you had contact with has tested positive for COVID-19, for your safety and the safety of those around you we ask that you get tested yourself and self quarentine for two weeks. Thank you for your patience and cooperation.  </textarea>
+      </form>
+      <button onclick="displayCompiledMessage()" id="get-form-data"> See Email! </button>
+      <div >
+        <p id="full-message"> </p>
+      </div>
+      <div>
+        <button onclick="sendEmail()"> Send Email! </button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -68,18 +68,17 @@ public class EmailSender {
                   .build();
 
       NotificationBatch notificationInfo = ofy().load().type(NotificationBatch.class).id(compiledMessage.getUserId()).now();
-      SystemMessage systemMessageVersion;
-      LocalityResource localityResourceVersion;
+      
+      String emailSubjectLanguage;
       EmailSubject emailSubjectVersion;
+      
       for (PersonEmail contact : notificationInfo.getPersonEmails()) {
-        systemMessageVersion = SystemMessage.getSystemMessageFromString(contact.getSystemMessageVersion());
-        localityResourceVersion = LocalityResource.getLocalityResourceFromString(contact.getLocalityResourceVersion());
+        emailSubjectLanguage = contact.getEmailSubjectLanguage();
+        // systemMessageVersion = SystemMessage.getSystemMessageFromString(contact.getSystemMessageVersion());
+        // localityResourceVersion = LocalityResource.getLocalityResourceFromString(contact.getLocalityResourceVersion());
         emailSubjectVersion = EmailSubject.getEmailSubjectFromString(contact.getEmailSubjectVersion());
-        String emailBody = compiledMessage.compileMessages(contact.getSystemMessageLanguage(), 
-                                                           systemMessageVersion,
-                                                           contact.getLocalityResourceLanguage(),
-                                                           localityResourceVersion);
-        String translatedEmailSubject = emailSubjectVersion.getTranslation(contact.getEmailSubjectLanguage());
+        String emailBody = compiledMessage.compileMessages(contact);
+        String translatedEmailSubject = emailSubjectVersion.getTranslation(emailSubjectLanguage);
         sendMessage(contact.getEmail(), translatedEmailSubject, emailBody, service);
         contact.markContactedSuccessfully();
         ofy().save().entity(contact).now();

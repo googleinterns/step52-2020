@@ -24,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.onlinecontacttracing.storage.PersonEmail;
 
 /**
 * Compiled message including the opening System Message, user's custom message, and the loacality resources.
@@ -54,9 +55,16 @@ public class CompiledMessage {
   * This method compiles the messages for frontend and backend user. They will differ if the
   * message has triggered any flags.
   */
-  public String compileMessages(String systemMessageLanguage, SystemMessage systemMessageVersion, String localityResourceLanguage, LocalityResource localityResourceVersion) {
+  public String compileMessages(PersonEmail contact) {
+    String systemMessageLanguage = contact.getSystemMessageLanguage();
+    String localityResourceLanguage = contact.getLocalityResourceLanguage(); 
+    SystemMessage systemMessageVersion = SystemMessage.getSystemMessageFromString(contact.getSystemMessageVersion());;
+    LocalityResource localityResourceVersion = LocalityResource.getLocalityResourceFromString(contact.getLocalityResourceVersion());
+ 
     String translatedResourceMessage;
     String translatedSystemMessage;
+
+
     this.user.incrementAttemptedEmailDrafts();
     checkForFlags();
     translatedSystemMessage = systemMessageVersion.getTranslation(systemMessageLanguage);

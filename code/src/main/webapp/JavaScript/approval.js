@@ -17,8 +17,8 @@ function sendListToServlet() {
   let emailSubjectVersions = [];
   
   let emailIndex = 1;
-  let checkedIndex = 2;
-  let languageIndex = 3;
+  // let checkedIndex = 2;
+  // let languageIndex = 3;
   var contacts = document.getElementById("contactsTable");
   var checkBoxesList = contacts.getElementsByTagName("INPUT");
   var localityResourceLanguage = contacts.getElementsByClassName("localityResourceLanguage");
@@ -29,9 +29,9 @@ function sendListToServlet() {
   var emailSubjectVersion = contacts.getElementsByClassName("emailSubjectVersion");
   console.log(localityResourceLanguage);
   var checkBoxesListLength = checkBoxesList.length;
-  var languageList = contacts.getElementsByTagName("SELECT");
+  // var languageList = contacts.getElementsByTagName("SELECT");
   // var emailsListLength = emailsList.cells.length;
-  var languageListLength = languageList.length;
+  // var languageListLength = languageList.length;
   console.log(checkBoxesListLength);
 
   for(var index = 0; index < checkBoxesListLength; index++) {
@@ -48,13 +48,6 @@ function sendListToServlet() {
       emailSubjectVersions.push(emailSubjectVersion[index].value);
     }
   }
-  console.log(emails);
-  console.log(systemMessageLanguages);
-  console.log(localityResourceLanguages);
-  console.log(emailSubjectLanguages);
-  console.log(systemMessageVersions);
-  console.log(localityResourceVersions);
-  console.log(emailSubjectVersions);
   params.append('emails', emails);
   params.append('systemMessageLanguages', systemMessageLanguages);
   params.append('localityResourceLanguages', localityResourceLanguages);
@@ -64,6 +57,27 @@ function sendListToServlet() {
   params.append('emailSubjectVersions', emailSubjectVersions);
 
   fetch(new Request('/send-messages', {method: 'POST', body: params}));
+  window.location = "../html/userCustomizeMessage.html"
+}
+
+function displayCompiledMessage() {
+  const params = new URLSearchParams();
+  params.append('idToken', localStorage.idToken);
+
+  params.append('customMessage', localStorage.customMessage);
+  var messages;
+  fetch(new Request('/compile-user-email', {method: 'POST', body: params}))
+  .then(response => {
+    response.text();
+    console.log("woohooo");})
+  .then(response => {
+    console.log("woop");
+    messages = response;
+    console.log(messages);
+    console.log("helloeeee");
+    });
+  console.log(messages);
+  console.log(typeof(messages));
 }
 
 function sendEmails() {
