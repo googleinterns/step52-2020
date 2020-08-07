@@ -212,7 +212,7 @@ function attachSignin(element, negativeUser) {
       });
 
   }, error => {
-    alert(JSON.stringify(error, undefined, 2));
+    alert("Please choose account");
   });
 }
 
