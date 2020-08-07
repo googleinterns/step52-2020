@@ -25,10 +25,6 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
    
 <body onload="removeLines()">
   <div id="wrapper-background">
-    <div id="line-vertical-left" class="line line-vertical"></div>
-    <div id="line-vertical-right" class="line line-vertical"></div>
-    <div id="line-horizontal-top" class="line line-horizontal"></div>
-    <div id="line-horizontal-bottom" class="line line-horizontal"></div>
   <% 
     JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -48,8 +44,8 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
   %>
       <p class="mission-statement"> Email Status: </p>
       <div class="picker header">
-        <p class="email"> Email </p>
         <p> Status </p>
+        <p class="email"> Email </p>
       </div>
       <div class="list">
   <% 

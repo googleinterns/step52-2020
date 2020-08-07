@@ -87,4 +87,6 @@ function sendEmails() {
   var url = '/send-messages?idToken='+localStorage.idToken + "&customMessage="+localStorage.customMessage;
 
   fetch(new Request(url, {method: 'GET'}));
+
+  window.location = '/JSP/contact-status.jsp?idToken='+localStorage.idToken;
 }
