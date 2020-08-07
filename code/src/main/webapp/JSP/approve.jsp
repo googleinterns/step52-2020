@@ -27,10 +27,10 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
    
 <body onload="removeLines()">
   <div id="wrapper-background">
-    <div id="line-vertical-left" class="line line-vertical"></div>
+    <!-- <div id="line-vertical-left" class="line line-vertical"></div>
     <div id="line-vertical-right" class="line line-vertical"></div>
     <div id="line-horizontal-top" class="line line-horizontal"></div>
-    <div id="line-horizontal-bottom" class="line line-horizontal"></div>
+    <div id="line-horizontal-bottom" class="line line-horizontal"></div> -->
   <% 
     // Parse state parameter from Json string to AuthorizationRoundTripState class
     Gson gson = new Gson();
@@ -53,7 +53,7 @@ com.onlinecontacttracing.authentication.AuthorizationRoundTripState" %>
         dataToDisplayExists = true;
   %>
       <p class="mission-statement"> Here are the contacts we found. Please choose anyone you may have come in contact with so that we can email them: </p>
-      <div class="picker header contact" style="width:100%">
+      <div class="picker header contact" style="width:80%">
         <table id="contactsTable" style="width:100%">
           <tr>
             <th>Firstname</th>
