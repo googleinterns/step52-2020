@@ -65,19 +65,11 @@ function displayCompiledMessage() {
   params.append('idToken', localStorage.idToken);
 
   params.append('customMessage', localStorage.customMessage);
-  var messages;
   fetch(new Request('/compile-user-email', {method: 'POST', body: params}))
-  .then(response => {
-    response.text();
-    console.log("woohooo");})
-  .then(response => {
-    console.log("woop");
-    messages = response;
+  .then(response => response.text())
+  .then(messages => {
     console.log(messages);
-    console.log("helloeeee");
     });
-  console.log(messages);
-  console.log(typeof(messages));
 }
 
 function sendEmails() {
